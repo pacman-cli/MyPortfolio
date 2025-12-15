@@ -8,7 +8,8 @@ import {
     Database, 
     Code2,
     Globe,
-    Cpu
+    Cpu,
+    Palette
 } from 'lucide-react';
 import { Reveal } from '@/components/ui/reveal';
 import { getGithubRepos, getTechStackFromRepos } from '@/lib/github';
@@ -21,7 +22,8 @@ import {
   SiSpringboot, SiHibernate, SiNextdotjs, SiTypescript, 
   SiTailwindcss, SiFramer, SiRedux, SiMysql, 
   SiPostgresql, SiRedis, SiMongodb, SiJavascript, 
-  SiHtml5, SiCss3, SiPython, SiGo, SiRust 
+  SiHtml5, SiCss3, SiPython, SiGo, SiRust,
+  SiFigma, SiCanva, SiPostman, SiLinux
 } from "react-icons/si";
 import { BiLogoSpringBoot } from "react-icons/bi";
 
@@ -47,6 +49,13 @@ const SKILL_CATEGORIES = [
     icon: <Database className="w-6 h-6" />,
     description: "Data persistence & deployment",
     skills: ["MySQL", "PostgreSQL", "Docker", "AWS", "Redis", "MongoDB"]
+  },
+  {
+    id: 'design',
+    title: "Design & Tools",
+    icon: <Palette className="w-6 h-6" />,
+    description: "Crafting intuitive user experiences",
+    skills: ["Figma", "Canva", "Git", "System Design", "Postman", "Linux"]
   }
 ];
 
@@ -75,6 +84,11 @@ const getSkillIcon = (skillName: string) => {
     if (normalized.includes('redis')) return <SiRedis className="w-4 h-4 text-red-500" />;
     if (normalized.includes('mongo')) return <SiMongodb className="w-4 h-4 text-green-500" />;
 
+    if (normalized.includes('figma')) return <SiFigma className="w-4 h-4 text-purple-500" />;
+    if (normalized.includes('canva')) return <SiCanva className="w-4 h-4 text-blue-400" />;
+    if (normalized.includes('postman')) return <SiPostman className="w-4 h-4 text-orange-500" />;
+    if (normalized.includes('linux')) return <SiLinux className="w-4 h-4 text-yellow-500" />;
+
     // Generic fallback for others detected from GitHub
     if (normalized.includes('script') && !normalized.includes('type')) return <SiJavascript className="w-4 h-4 text-yellow-400" />;
     if (normalized.includes('html')) return <SiHtml5 className="w-4 h-4 text-orange-600" />;
@@ -83,7 +97,7 @@ const getSkillIcon = (skillName: string) => {
     if (normalized.includes('go')) return <SiGo className="w-4 h-4 text-cyan-500" />;
     if (normalized.includes('rust')) return <SiRust className="w-4 h-4 text-orange-400" />;
     if (normalized.includes('git')) return <FaGitAlt className="w-4 h-4 text-orange-600" />;
-
+    
     return <Code2 className="w-4 h-4 text-muted-foreground" />;
 };
 

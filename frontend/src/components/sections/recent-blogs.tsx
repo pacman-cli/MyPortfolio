@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Reveal } from '@/components/ui/reveal';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar, Clock, X, Tag } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, X, Tag, BookOpen } from 'lucide-react';
 import axios from 'axios';
 import { Blog } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -37,7 +37,7 @@ export const RecentBlogs = () => {
         setVisibleCount(prev => prev + 3);
     };
 
-    if (blogs.length === 0) return null;
+
 
     return (
         <section id="blogs" className="py-20 bg-background relative">
@@ -56,68 +56,66 @@ export const RecentBlogs = () => {
                 </Reveal>
 
                 <div className="space-y-6 max-w-5xl mx-auto mb-12">
-                    {blogs.slice(0, visibleCount).map((blog, index) => (
-                        <Reveal key={blog.id} delay={index * 0.1}>
-                            <div 
-                                className="bg-muted/30 rounded-2xl p-8 border border-border/50 hover:border-blue-500/30 transition-colors group cursor-pointer"
-                                onClick={() => setSelectedBlog(blog)}
-                            >
-                                <div className="flex flex-col md:flex-row items-center gap-6">
-                                    {/* Icon & Title - Matches Skills Left Column */}
-                                    <div className="flex items-center gap-4 md:w-1/3 w-full self-start">
-                                        <div className="p-3 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform shadow-sm shrink-0">
-                                            <Tag className="w-6 h-6" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-lg font-bold group-hover:text-primary transition-colors line-clamp-2 md:line-clamp-none">
-                                                {blog.title}
-                                            </h3>
-                                            <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
-                                                <span className="flex items-center gap-1">
-                                                    <Calendar className="w-3 h-3" />
-                                                    {new Date(blog.publishedAt).toLocaleDateString()}
-                                                </span>
-                                                <span className="flex items-center gap-1">
-                                                    <Clock className="w-3 h-3" />
-                                                    5 min
-                                                </span>
+                    {blogs.length === 0 ? (
+                        <div className="text-center py-10">
+                            <p className="text-muted-foreground animate-pulse">Loading amazing insights...</p>
+                        </div>
+                    ) : (
+                        blogs.slice(0, visibleCount).map((blog, index) => (
+                            <Reveal key={blog.id} delay={index * 0.1}>
+                                <div 
+                                    className="bg-muted/30 rounded-2xl p-8 border border-border/50 hover:border-blue-500/30 transition-colors group cursor-pointer"
+                                    onClick={() => setSelectedBlog(blog)}
+                                >
+                                    <div className="flex flex-col md:flex-row items-center gap-6">
+                                        {/* Icon & Title - Matches Skills Left Column */}
+                                        <div className="flex items-center gap-4 md:w-1/3 w-full self-start">
+                                                <div className="p-3 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform shadow-sm shrink-0">
+                                                <BookOpen className="w-6 h-6" />
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Content & Tags - Matches Skills Right Column */}
-                                    <div className="flex-1 w-full">
-                                        <p className="text-muted-foreground text-sm line-clamp-2 md:line-clamp-none mb-4 leading-relaxed">
-                                            {blog.excerpt}
-                                        </p>
-                                        
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex flex-wrap gap-2">
-                                                {blog.tags && (typeof blog.tags === 'string' ? blog.tags.split(',') : []).slice(0, 3).map(tag => (
-                                                    <span key={tag} className="text-[10px] px-2.5 py-1 bg-background border border-border/50 rounded-full font-medium text-muted-foreground hover:border-primary/30 transition-colors">
-                                                        #{tag.trim()}
+                                            <div>
+                                                <h3 className="text-lg font-bold group-hover:text-primary transition-colors line-clamp-2 md:line-clamp-none">
+                                                    {blog.title}
+                                                </h3>
+                                                <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
+                                                    <span className="flex items-center gap-1">
+                                                        <Calendar className="w-3 h-3" />
+                                                        {new Date(blog.publishedAt).toLocaleDateString()}
                                                     </span>
-                                                ))}
+                                                    <span className="flex items-center gap-1">
+                                                        <Clock className="w-3 h-3" />
+                                                        5 min
+                                                    </span>
+                                                </div>
                                             </div>
+                                        </div>
+
+                                        {/* Content & Tags - Matches Skills Right Column */}
+                                        <div className="flex-1 w-full">
+                                            <p className="text-muted-foreground text-sm line-clamp-2 md:line-clamp-none mb-4 leading-relaxed">
+                                                {blog.excerpt}
+                                            </p>
                                             
-                                            <div className="flex items-center text-primary font-medium text-sm group-hover:underline whitespace-nowrap ml-4">
-                                                Read <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex flex-wrap gap-2">
+                                                    {blog.tags && (typeof blog.tags === 'string' ? blog.tags.split(',') : []).slice(0, 3).map(tag => (
+                                                        <span key={tag} className="text-[10px] px-2.5 py-1 bg-background border border-border/50 rounded-full font-medium text-muted-foreground hover:border-primary/30 transition-colors">
+                                                            #{tag.trim()}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                                
+                                                <div className="flex items-center text-primary font-medium text-sm group-hover:underline whitespace-nowrap ml-4">
+                                                    Read <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Reveal>
-                    ))}
+                            </Reveal>
+                        ))
+                    )}
                 </div>
-
-                {visibleCount < blogs.length && (
-                    <div className="text-center">
-                        <Button variant="outline" size="lg" className="rounded-full px-8" onClick={loadMore}>
-                            Load More Articles
-                        </Button>
-                    </div>
-                )}
             </div>
 
             {/* Blog Modal */}
