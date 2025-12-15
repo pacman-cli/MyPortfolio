@@ -38,20 +38,77 @@ export const Navbar = () => {
         {/* Logo / Branding */}
         <Link href="/" className="group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth'})}>
                 <div className="flex items-center gap-2">
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-primary">
-                        <path d="M20 0C8.95431 0 0 8.95431 0 20C0 31.0457 8.95431 40 20 40C31.0457 40 40 31.0457 40 20C40 8.95431 31.0457 0 20 0Z" fill="url(#paint0_linear)" fillOpacity="0.1"/>
-                        <path d="M14 11H22C25.3137 11 28 13.6863 28 17C28 20.3137 25.3137 23 22 23H18V29H14V11Z" fill="url(#paint1_linear)"/>
+                    <motion.svg 
+                        width="40" 
+                        height="40" 
+                        viewBox="0 0 40 40" 
+                        fill="none" 
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="overflow-visible"
+                        animate={{ scale: [1, 1.05, 1] }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                    >
                         <defs>
-                            <linearGradient id="paint0_linear" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                                <stop stopColor="#2563EB"/>
-                                <stop offset="1" stopColor="#06B6D4"/>
-                            </linearGradient>
-                            <linearGradient id="paint1_linear" x1="14" y1="11" x2="28" y2="29" gradientUnits="userSpaceOnUse">
-                                <stop stopColor="#2563EB"/>
-                                <stop offset="1" stopColor="#06B6D4"/>
+                            <linearGradient id="paint_green_linear" x1="10" y1="8" x2="30" y2="32" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#4ADE80" /> {/* Soft Green */}
+                                <stop offset="1" stopColor="#2DD4BF" /> {/* Mint/Teal */}
                             </linearGradient>
                         </defs>
-                    </svg>
+
+                        {/* Tech P Design: Animated Geometric Components */}
+                        
+                        {/* Vertical Stem - Breathing Height (More Pronounced) */}
+                        <motion.rect 
+                            x="10" 
+                            y="8" 
+                            width="7" 
+                            height="24" 
+                            rx="3.5" 
+                            fill="url(#paint_green_linear)"
+                            initial={{ height: 0, y: 20 }}
+                            animate={{ height: [24, 18, 24], y: [8, 11, 8] }}
+                            transition={{ 
+                                height: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 },
+                                y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }
+                            }}
+                        />
+                        
+                        {/* Geometric Loop - Micro Rotation & Path Draw */}
+                        <motion.path 
+                            d="M20 12H24C27.3137 12 30 14.6863 30 18V18C30 21.3137 27.3137 24 24 24H20" 
+                            stroke="url(#paint_green_linear)" 
+                            strokeWidth="6" 
+                            strokeLinecap="round"
+                            initial={{ pathLength: 0, rotate: 0 }}
+                            animate={{ 
+                                pathLength: 1, 
+                                rotate: [0, 10, 0, -10, 0] 
+                            }}
+                            transition={{ 
+                                pathLength: { duration: 1.5, ease: "easeOut" },
+                                rotate: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+                            }}
+                            style={{ originX: "20px", originY: "18px" }}
+                        />
+                        
+                        {/* Data Dot - Infinite Glow Pulse with Shadow */}
+                        <motion.circle 
+                            cx="27" 
+                            cy="18" 
+                            r="2" 
+                            fill="#F0FDF4" 
+                            animate={{ 
+                                opacity: [0.6, 1, 0.6], 
+                                scale: [1, 1.5, 1],
+                                filter: [
+                                    "drop-shadow(0 0 2px rgba(74, 222, 128, 0.5))", 
+                                    "drop-shadow(0 0 8px rgba(74, 222, 128, 0.8))", 
+                                    "drop-shadow(0 0 2px rgba(74, 222, 128, 0.5))"
+                                ]
+                            }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                    </motion.svg>
                     <span className="sr-only">Home</span>
                 </div>
         </Link>
