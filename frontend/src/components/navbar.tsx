@@ -74,12 +74,49 @@ export const Navbar = () => {
                 {link.name}
              </Link>
           ))}
+          <button 
+             onClick={() => {
+                 document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+             }}
+             className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 hover:bg-green-500/20 transition-colors border border-green-500/20 group"
+             title="I am currently open for work opportunities"
+          >
+             <span className="relative flex h-2 w-2">
+               <motion.span 
+                 animate={{ scale: [1, 1.5, 1], opacity: [1, 0, 1] }}
+                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                 className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF7F] opacity-75"
+               />
+               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF7F]"></span>
+             </span>
+             <span className="text-xs md:text-sm font-semibold text-[#00FF7F] whitespace-nowrap">
+               Open for Work
+             </span>
+          </button>
           <div className="w-px h-6 bg-gray-200 dark:bg-gray-800" />
           <ThemeToggle />
         </div>
 
         {/* Mobile Menu Button */}
         <div className="flex items-center gap-4 md:hidden">
+            <button 
+                 onClick={() => {
+                     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                 }}
+                 className="flex items-center gap-2 px-2 py-1 rounded-full bg-green-500/10 border border-green-500/20"
+            >
+             <span className="relative flex h-1.5 w-1.5">
+               <motion.span 
+                 animate={{ scale: [1, 1.5, 1], opacity: [1, 0, 1] }}
+                 transition={{ duration: 2, repeat: Infinity }}
+                 className="absolute inline-flex h-full w-full rounded-full bg-[#00FF7F] opacity-75"
+               />
+               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#00FF7F]"></span>
+             </span>
+             <span className="text-[10px] font-semibold text-[#00FF7F] whitespace-nowrap">
+               Open for Work
+             </span>
+            </button>
             <ThemeToggle />
             <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X /> : <Menu />}
