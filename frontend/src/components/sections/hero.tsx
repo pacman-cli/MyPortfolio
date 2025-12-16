@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Download, ArrowRight, BookOpen } from 'lucide-react';
+import { Download, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Reveal } from '@/components/ui/reveal';
+import { TypingAnimation } from '@/components/ui/typing-animation';
 
 export const Hero = () => {
     return (
@@ -24,7 +25,7 @@ export const Hero = () => {
 
             <Reveal width="100%" delay={0.1}>
               <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-                Building <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">Digital Excellence</span>
+                Building <TypingAnimation text="Digital Excellence" />
               </h1>
             </Reveal>
             
@@ -41,11 +42,6 @@ export const Hero = () => {
                         View Projects <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full px-8 text-lg h-12" asChild>
-                    <Link href="/blog">
-                        Read Blogs <BookOpen className="ml-2 h-5 w-5" />
-                    </Link>
-                </Button>
                 <Button size="lg" variant="ghost" className="rounded-full px-8 text-lg h-12">
                   Download Resume <Download className="ml-2 h-5 w-5" />
                 </Button>
@@ -54,4 +50,4 @@ export const Hero = () => {
         </div>
       </section>
     );
-  };
+};

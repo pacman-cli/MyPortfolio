@@ -10,28 +10,13 @@ import { Blog } from '@/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 
-export const RecentBlogs = () => {
-    const [blogs, setBlogs] = useState<Blog[]>([]);
+interface RecentBlogsProps {
+    blogs: Blog[];
+}
+
+export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
     const [visibleCount, setVisibleCount] = useState(3);
     const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
-
-    useEffect(() => {
-        const fetchBlogs = async () => {
-            try {
-                const response = await axios.get('/api/v1/blogs');
-                if (response.data && Array.isArray(response.data)) {
-                    // Sort by newest
-                    const sorted = response.data.sort((a: Blog, b: Blog) => 
-                        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-                    );
-                    setBlogs(sorted);
-                }
-            } catch (error) {
-                console.error("Failed to fetch blogs", error);
-            }
-        };
-        fetchBlogs();
-    }, []);
 
     const loadMore = () => {
         setVisibleCount(prev => prev + 3);
