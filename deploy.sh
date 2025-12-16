@@ -10,7 +10,16 @@ DOMAIN="puspo.online"
 EMAIL="puspopuspo520@gmail.com" # Change this or use --register-unsafely-without-email
 read -s -p "Enter your Gmail App Password for $EMAIL: " MAIL_PASSWORD
 echo ""
-export MAIL_PASSWORD
+
+# Write to .env file to pass to Docker Compose
+echo "MAIL_PASSWORD=$MAIL_PASSWORD" > .env
+SUCCESS_ENV=$?
+if [ $SUCCESS_ENV -eq 0 ]; then
+    echo "✅ Secured environment configured."
+else
+    echo "❌ Failed to configure environment."
+    exit 1
+fi
 
 echo "🚀 Starting Deployment for $DOMAIN..."
 

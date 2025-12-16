@@ -1,0 +1,21 @@
+# Secrets
+.env
+.DS_Store
+
+# Node
+node_modules/
+dist/
+.next/
+
+# Java
+target/
+*.class
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.iml
