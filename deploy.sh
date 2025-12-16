@@ -1,11 +1,15 @@
 #!/bin/bash
 
-# Deployment Script for Ubuntu Droplet
+# Deployment Script for Ubuntu Droplet with SSL
 # Usage: ./deploy.sh
+# NOTE: Ensure you have pointed your domain (A Record) to this server's IP before running.
 
 set -e # Exit on error
 
-echo "🚀 Starting Deployment for puspo.online..."
+DOMAIN="puspo.online"
+EMAIL="puspopuspo520@gmail.com" # Change this or use --register-unsafely-without-email
+
+echo "🚀 Starting Deployment for $DOMAIN..."
 
 # 1. Update System
 echo "🔄 Updating system packages..."
@@ -43,7 +47,34 @@ if [ -d ".git" ]; then
     git pull || echo "⚠️  Git pull failed (local changes?), continuing..."
 fi
 
-# 4. Build and Run Containers
+# 4. SSL Certificate Setup (Certbot)
+echo "🔒 Checking SSL certificates..."
+
+# Install certbot if missing
+if ! command -v certbot &> /dev/null; then
+    echo "Installing Certbot..."
+    sudo apt-get install -y certbot
+fi
+
+# Check if certificates exist, if not, generate them
+if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
+    echo "⚠️  SSL Certificates not found. Generating them now..."
+    
+    # Stop any conflicting services on port 80
+    sudo docker compose down --remove-orphans || true
+    
+    # Run Certbot in standalone mode (requires port 80 to be free)
+    sudo certbot certonly --standalone -d $DOMAIN -d www.$DOMAIN \
+        --non-interactive --agree-tos -m $EMAIL
+        
+    echo "✅ Certificates generated successfully."
+else
+    echo "✅ SSL Certificates found."
+    # Attempt renewal just in case
+    sudo certbot renew --quiet
+fi
+
+# 5. Build and Run Containers
 echo "🏗️  Building and starting services..."
 sudo docker compose down --remove-orphans
 sudo docker compose build --no-cache
@@ -51,5 +82,5 @@ sudo docker compose up -d
 
 echo "---------------------------------------------------"
 echo "🎉 Deployment Complete!"
-echo "🌍 App should be live at: http://puspo.online"
+echo "🌍 App is live at: https://$DOMAIN"
 echo "---------------------------------------------------"
