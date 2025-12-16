@@ -69,7 +69,7 @@ if ! command -v certbot &> /dev/null; then
 fi
 
 # Check if certificates exist, if not, generate them
-if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
+if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
     echo "⚠️  SSL Certificates not found. Generating them now..."
     
     # Stop any conflicting services on port 80
@@ -77,7 +77,7 @@ if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
     
     # Run Certbot in standalone mode (requires port 80 to be free)
     sudo certbot certonly --standalone -d $DOMAIN -d www.$DOMAIN \
-        --non-interactive --agree-tos -m $EMAIL
+        --non-interactive --agree-tos --expand -m $EMAIL
         
     echo "✅ Certificates generated successfully."
 else

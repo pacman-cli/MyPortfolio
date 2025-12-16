@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/navbar';
 import { Hero } from '@/components/sections/hero';
+import { Highlights } from '@/components/sections/highlights';
 import { About } from '@/components/sections/about';
 import { Skills } from '@/components/sections/skills';
 import { Projects } from '@/components/sections/projects';
@@ -46,6 +47,7 @@ export default async function Home() {
       <ScrollProgress />
       <Navbar />
       <Hero />
+      <Highlights />
       <About />
       <Skills />
       <Projects />

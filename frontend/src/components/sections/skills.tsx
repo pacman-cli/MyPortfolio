@@ -16,14 +16,15 @@ import { getGithubRepos, getTechStackFromRepos } from '@/lib/github';
 
 // React Icons
 import { 
-  FaJava, FaNodeJs, FaReact, FaDocker, FaAws, FaGitAlt 
+  FaJava, FaNodeJs, FaReact, FaDocker, FaAws, FaGitAlt, FaProjectDiagram 
 } from "react-icons/fa";
 import { 
   SiSpringboot, SiHibernate, SiNextdotjs, SiTypescript, 
   SiTailwindcss, SiFramer, SiRedux, SiMysql, 
   SiPostgresql, SiRedis, SiMongodb, SiJavascript, 
   SiHtml5, SiCss3, SiPython, SiGo, SiRust,
-  SiFigma, SiCanva, SiPostman, SiLinux
+  SiFigma, SiCanva, SiPostman, SiLinux,
+  SiLua, SiCplusplus, SiC
 } from "react-icons/si";
 import { BiLogoSpringBoot } from "react-icons/bi";
 
@@ -98,6 +99,11 @@ const getSkillIcon = (skillName: string) => {
     if (normalized.includes('rust')) return <SiRust className="w-4 h-4 text-orange-400" />;
     if (normalized.includes('git')) return <FaGitAlt className="w-4 h-4 text-orange-600" />;
     
+    if (normalized.includes('lua')) return <SiLua className="w-4 h-4 text-blue-500" />;
+    if (normalized.includes('c++')) return <SiCplusplus className="w-4 h-4 text-blue-600" />;
+    if (normalized === 'c') return <SiC className="w-4 h-4 text-blue-500" />; // Strict match for C to avoid matching 'css' etc if logic changes
+    if (normalized.includes('system design')) return <FaProjectDiagram className="w-4 h-4 text-orange-500" />;
+
     return <Code2 className="w-4 h-4 text-muted-foreground" />;
 };
 
