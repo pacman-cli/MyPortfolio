@@ -8,6 +8,9 @@ set -e # Exit on error
 
 DOMAIN="puspo.online"
 EMAIL="puspopuspo520@gmail.com" # Change this or use --register-unsafely-without-email
+read -s -p "Enter your Gmail App Password for $EMAIL: " MAIL_PASSWORD
+echo ""
+export MAIL_PASSWORD
 
 echo "🚀 Starting Deployment for $DOMAIN..."
 
