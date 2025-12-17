@@ -27,14 +27,14 @@ export const Hero = () => {
             </div>
             
             {/* Main Container */}
-            <div className="container px-6 mx-auto relative z-10 w-full max-w-7xl">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="container px-4 md:px-6 mx-auto relative z-10 w-full max-w-7xl">
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                     
                     {/* LEFT SIDE: Narrative & Story */}
-                    <div className="text-center lg:text-left flex flex-col items-center lg:items-start space-y-8 lg:space-y-10">
+                    <div className="text-center lg:text-left flex flex-col items-center lg:items-start space-y-6 lg:space-y-10">
                         
-                        {/* 1. Headline - Framed & Glowing */}
-                        <div className="space-y-4 relative">
+                        {/* 1. Headline - Framed & Glowing - Mobile Optimized */}
+                        <div className="space-y-3 md:space-y-4 relative w-full">
                             {/* Subtle underlying glow for headline area */}
                             <div className="absolute -inset-x-8 -inset-y-8 bg-emerald-500/5 dark:bg-emerald-500/5 blur-3xl rounded-full opacity-50 pointer-events-none lg:block hidden" />
                             
@@ -42,18 +42,17 @@ export const Hero = () => {
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-                                className="relative text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-gray-100 leading-[1.1] lg:leading-[1.1]"
+                                className="relative text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-gray-100 leading-[1.15] sm:leading-[1.1] lg:leading-[1.1]"
                              >
-                                Designing & <br className="hidden lg:block" />
-                                Engineering <br className="hidden lg:block"/>
+                                <span className="block sm:inline">Designing & Engineering</span>
                                 <span className="relative inline-block mt-1 lg:mt-0">
                                     {/* Text Highlights */}
                                     <span className="absolute -inset-2 bg-emerald-400/20 dark:bg-emerald-500/10 blur-xl rounded-full opacity-70" />
-                                    <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-400 pb-2">
+                                    <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-400 pb-1">
                                         Digital Systems
                                     </span>
-                                </span> <br className="hidden lg:block"/>
-                                That Perform.
+                                </span> 
+                                <span className="block sm:inline"> That Perform.</span>
                              </motion.h1>
                         </div>
 
@@ -62,17 +61,17 @@ export const Hero = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.7, delay: 0.3 }}
-                            className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed font-medium"
+                            className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed font-medium mx-auto lg:mx-0 px-2 sm:px-0"
                         >
                              I build secure, scalable, high-performance web applications from idea to production using modern architecture.
                         </motion.p>
 
-                        {/* 3. Tech Chips - Solid & Clean */}
+                        {/* 3. Tech Chips - Solid & Clean - Compact Mobile */}
                         <motion.div 
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.4 }}
-                            className="flex flex-wrap justify-center lg:justify-start gap-3"
+                            className="flex flex-wrap justify-center lg:justify-start gap-2 max-w-[300px] sm:max-w-none mx-auto lg:mx-0"
                         >
                             <TechChip icon={<SiNextdotjs />} label="Next.js" />
                             <TechChip icon={<SiReact />} label="React" />
@@ -81,22 +80,22 @@ export const Hero = () => {
                             <TechChip icon={<SiMysql />} label="MySQL" />
                         </motion.div>
 
-                        {/* 4. CTAs - High Contrast & Solid */}
+                        {/* 4. CTAs - High Contrast & Solid - Full Width Mobile */}
                         <motion.div 
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.5 }}
-                            className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto"
+                            className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 pt-2 w-full sm:w-auto"
                         >
-                            <Button size="lg" className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all hover:-translate-y-0.5 h-14 px-8 text-base font-semibold">
+                            <Button size="lg" className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all hover:-translate-y-0.5 h-12 sm:h-14 px-8 text-sm sm:text-base font-semibold">
                                 <Link href="#projects">View Projects</Link>
                             </Button>
                             
-                            <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all h-14 px-8 font-semibold">
+                            <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all h-12 sm:h-14 px-8 font-semibold">
                                 <Download className="mr-2 h-4 w-4" /> Resume
                             </Button>
 
-                            <div className="flex gap-4 sm:ml-4 sm:border-l sm:pl-6 border-slate-200 dark:border-slate-800 mt-4 sm:mt-0 items-center">
+                            <div className="flex gap-4 sm:ml-4 sm:border-l sm:pl-6 border-slate-200 dark:border-slate-800 mt-2 sm:mt-0 items-center justify-center w-full sm:w-auto">
                                 <SocialLink href="https://github.com/pacman-cli" icon={<Github className="h-5 w-5" />} />
                                 <SocialLink href="https://www.linkedin.com/in/iampuspo/" icon={<Linkedin className="h-5 w-5" />} />
                             </div>
@@ -106,14 +105,14 @@ export const Hero = () => {
                     {/* RIGHT SIDE: System Architecture Optimization */}
                     <div className="relative w-full">
                         {/* 1. Mobile Vertical Stack (Visible < LG) */}
-                        <div className="flex lg:hidden flex-col items-center gap-4 py-8">
+                        <div className="flex lg:hidden flex-col items-center gap-4 py-8 w-full max-w-[320px] mx-auto">
                              <MobileNode 
                                 icon={<Smartphone className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />} 
                                 label="Frontend" 
                                 tech="Next.js"
                                 delay={0.2}
                             />
-                            <div className="h-8 w-px bg-gradient-to-b from-slate-200 to-slate-200 dark:from-slate-800 dark:to-slate-800 relative">
+                            <div className="h-6 w-px bg-gradient-to-b from-slate-200 to-slate-200 dark:from-slate-800 dark:to-slate-800 relative">
                                 <Activity className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 text-emerald-500" />
                             </div>
                             <MobileNode 
@@ -123,21 +122,23 @@ export const Hero = () => {
                                 delay={0.4}
                                 main
                             />
-                             <div className="h-8 w-px bg-gradient-to-b from-slate-200 to-slate-200 dark:from-slate-800 dark:to-slate-800 relative">
+                             <div className="h-6 w-px bg-gradient-to-b from-slate-200 to-slate-200 dark:from-slate-800 dark:to-slate-800 relative">
                                 <ArrowDown className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 text-slate-400" />
                             </div>
-                             <div className="flex gap-4">
+                             <div className="flex gap-4 w-full justify-center">
                                 <MobileNode 
-                                    icon={<Database className="w-6 h-6 text-slate-600 dark:text-slate-400" />} 
+                                    icon={<Database className="w-5 h-5 text-slate-600 dark:text-slate-400" />} 
                                     label="DB" 
                                     tech="MySQL"
                                     delay={0.6}
+                                    small
                                 />
                                 <MobileNode 
-                                    icon={<Cloud className="w-6 h-6 text-slate-600 dark:text-slate-400" />} 
+                                    icon={<Cloud className="w-5 h-5 text-slate-600 dark:text-slate-400" />} 
                                     label="Cloud" 
                                     tech="Docker"
                                     delay={0.8}
+                                    small
                                 />
                             </div>
                         </div>
@@ -222,8 +223,8 @@ export const Hero = () => {
 
 // Helper Components
 const TechChip = ({ icon, label }: { icon: any, label: string }) => (
-    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-default">
-        <span className="text-lg">{icon}</span>
+    <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-full text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-default whitespace-nowrap">
+        <span className="text-base sm:text-lg">{icon}</span>
         {label}
     </div>
 );
@@ -234,21 +235,22 @@ const SocialLink = ({ href, icon }: { href: string, icon: any }) => (
     </Link>
 );
 
-const MobileNode = ({ icon, label, tech, delay, main = false }: any) => (
+const MobileNode = ({ icon, label, tech, delay, main = false, small = false }: any) => (
     <motion.div 
          initial={{ opacity: 0, y: 10 }}
          whileInView={{ opacity: 1, y: 0 }}
          viewport={{ once: true }}
          transition={{ delay }}
-         className={`flex items-center gap-3 p-3 rounded-xl border bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm w-48 justify-center
-             ${main ? 'border-emerald-200 dark:border-emerald-900 shadow-emerald-100 dark:shadow-emerald-900/20' : 'border-slate-100 dark:border-slate-800'}
+         className={`flex items-center gap-3 p-3 rounded-xl border bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm justify-center
+             ${main ? 'border-emerald-200 dark:border-emerald-900 shadow-emerald-100 dark:shadow-emerald-900/20 w-48' : 'border-slate-100 dark:border-slate-800'}
+             ${small ? 'w-36 text-xs' : 'w-48'}
          `}
     >
         <div className={`p-2 rounded-lg ${main ? 'bg-emerald-50 dark:bg-emerald-950/50' : 'bg-slate-50 dark:bg-slate-800'}`}>
             {icon}
         </div>
         <div className="text-left">
-            <div className={`font-bold text-sm ${main ? 'text-emerald-900 dark:text-emerald-100' : 'text-slate-800 dark:text-slate-200'}`}>{label}</div>
+            <div className={`font-bold ${small ? 'text-xs' : 'text-sm'} ${main ? 'text-emerald-900 dark:text-emerald-100' : 'text-slate-800 dark:text-slate-200'}`}>{label}</div>
             <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">{tech}</div>
         </div>
     </motion.div>
