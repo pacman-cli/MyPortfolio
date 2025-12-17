@@ -188,9 +188,9 @@ export const GithubActivity = () => {
                 {/* Calendar Wrapper */}
                 <Reveal delay={0.5}>
                     <Card className="p-4 md:p-8 bg-white/5 backdrop-blur-md border border-white/10 dark:border-white/5 flex flex-col shadow-sm items-center">
-                         {/* Centered Container without overflow if possible */}
-                         <div className="flex justify-center w-full overflow-hidden">
-                             <div className="flex justify-center items-center">
+                         {/* Scrollable Container with robust centering */}
+                         <div className="w-full overflow-x-auto pt-2 pb-4 px-1 hide-scrollbar">
+                             <div className="flex min-w-full justify-center w-fit mx-auto">
                                 <ActivityCalendar 
                                     data={getDisplayData()}
                                     theme={theme}
