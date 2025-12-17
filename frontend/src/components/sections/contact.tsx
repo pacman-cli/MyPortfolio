@@ -4,6 +4,18 @@ import { useState } from 'react';
 import { Send, Loader2 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Reveal } from '@/components/ui/reveal';
+
+export const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
