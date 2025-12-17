@@ -27,10 +27,11 @@ export const GithubActivity = () => {
   const [followers, setFollowers] = useState(0);
 
   // Responsive State (Mobile First Defaults)
-  const [blockSize, setBlockSize] = useState(10); // Smaller for mobile
+  const [blockSize, setBlockSize] = useState(10); 
   const [blockRadius, setBlockRadius] = useState(2);
-  const [blockMargin, setBlockMargin] = useState(2); // Tighter gap
-  const [fontSize, setFontSize] = useState(12); // Smaller text
+  const [blockMargin, setBlockMargin] = useState(2);
+  const [fontSize, setFontSize] = useState(12);
+  const [monthsToShow, setMonthsToShow] = useState<number | null>(null); // Slicing logic
 
   const username = 'pacman-cli';
 
@@ -59,24 +60,33 @@ export const GithubActivity = () => {
     };
     fetchData();
 
-    // Responsive Handler
+    // Responsive Handler - Strict 390px Optimization
     const handleResize = () => {
         const width = window.innerWidth;
-        if (width < 640) { // Mobile (Strict Rules)
+        if (width <= 400) { // Tiny Mobile (Strict <= 390px focus)
+            setBlockSize(9); // 9px block
+            setBlockMargin(2); // 2px gap = 11px pitch
+            setBlockRadius(2); 
+            setFontSize(10);
+            setMonthsToShow(5); // Show last 5 months (~21 weeks * 11px = ~230px, fits easily in 360px-32px=328px)
+        } else if (width < 640) { // Standard Mobile
             setBlockSize(10); 
             setBlockMargin(2);
             setBlockRadius(2); 
             setFontSize(12);
+            setMonthsToShow(8); // Show more on slightly wider mobile
         } else if (width < 1024) { // Tablet
             setBlockSize(12);
             setBlockMargin(3);
             setBlockRadius(3);
             setFontSize(14);
+            setMonthsToShow(null); // Show all
         } else { // Desktop
             setBlockSize(14);
             setBlockMargin(4);
             setBlockRadius(3);
             setFontSize(14);
+            setMonthsToShow(null);
         }
     };
 
@@ -97,6 +107,17 @@ export const GithubActivity = () => {
         }
     }
     setStreak(currentStreak);
+  };
+
+  // Safe data slicing for mobile
+  const getDisplayData = () => {
+      if (!data) return [];
+      if (!monthsToShow) return data.contributions;
+      
+      const daysToShow = monthsToShow * 30; 
+      // Ensure we don't slice if data is too small, but take last N days
+      if (data.contributions.length <= daysToShow) return data.contributions;
+      return data.contributions.slice(data.contributions.length - daysToShow);
   };
 
   return (
@@ -166,19 +187,18 @@ export const GithubActivity = () => {
 
                 {/* Calendar Wrapper */}
                 <Reveal delay={0.5}>
-                    <Card className="p-3 md:p-8 bg-white/5 backdrop-blur-md border border-white/10 dark:border-white/5 flex flex-col shadow-sm">
-                         {/* Scrollable Container with Min Width */}
-                         <div className="w-full overflow-x-auto pb-2 hide-scrollbar">
-                             {/* Min-width ensures grid doesn't squash, users scroll horizontally */}
-                             <div className="min-w-[600px] md:min-w-full flex justify-center md:items-center px-1">
+                    <Card className="p-4 md:p-8 bg-white/5 backdrop-blur-md border border-white/10 dark:border-white/5 flex flex-col shadow-sm items-center">
+                         {/* Centered Container without overflow if possible */}
+                         <div className="flex justify-center w-full overflow-hidden">
+                             <div className="flex justify-center items-center">
                                 <ActivityCalendar 
-                                    data={data.contributions}
+                                    data={getDisplayData()}
                                     theme={theme}
                                     blockSize={blockSize}
                                     blockMargin={blockMargin}
                                     blockRadius={blockRadius}
                                     fontSize={fontSize}
-                                    showWeekdayLabels
+                                    showWeekdayLabels={false} // Cleaner on mobile
                                     labels={{
                                         legend: {
                                             less: 'Less',
