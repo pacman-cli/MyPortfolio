@@ -232,14 +232,14 @@ export const GithubActivity = () => {
 // Reusable Stat Card - Equal Height Enforced
 // Passing className="h-full" to Reveal to ensure the wrapper stretches
 const StatCard = ({ icon, value, label, color, bg, delay }: any) => (
-    <Reveal delay={delay} className="h-full">
-        <Card className="h-full p-3 md:p-6 flex flex-col items-center justify-center text-center gap-1.5 md:gap-2 bg-white/5 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all shadow-sm">
+    <Reveal delay={delay} width="100%" className="h-full">
+        <Card className="h-full w-full p-3 md:p-6 flex flex-col items-center justify-center text-center gap-1.5 md:gap-2 bg-white/5 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all shadow-sm">
             <div className={`p-2 md:p-3 rounded-full ${bg} ${color}`}>
                 {icon}
             </div>
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col items-center gap-0.5 w-full">
                 <p className="text-lg md:text-3xl font-bold text-foreground leading-none md:leading-normal">{value}</p>
-                <p className="text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wide leading-tight">{label}</p>
+                <p className="text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wide leading-tight px-1 truncate w-full">{label}</p>
             </div>
         </Card>
     </Reveal>
