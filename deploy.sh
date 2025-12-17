@@ -2,24 +2,23 @@
 
 # Deployment Script for Ubuntu Droplet with SSL
 # Usage: ./deploy.sh
-# NOTE: Ensure you have pointed your domain (A Record) to this server's IP before running.
+# NOTE: Ensure your domain's A Record points to this server before running.
 
 set -e # Exit on error
 
-DOMAIN="puspo.online"
-EMAIL="puspopuspo520@gmail.com" # Change this or use --register-unsafely-without-email
-read -s -p "Enter your Gmail App Password for $EMAIL: " MAIL_PASSWORD
-echo ""
-
-# Write to .env file to pass to Docker Compose
-echo "MAIL_PASSWORD='$MAIL_PASSWORD'" > .env
-SUCCESS_ENV=$?
-if [ $SUCCESS_ENV -eq 0 ]; then
-    echo "✅ Secured environment configured."
+# Load environment variables from .env
+if [ -f ".env" ]; then
+    set -a
+    source .env
+    set +a
+    echo "✅ Loaded environment variables from .env"
 else
-    echo "❌ Failed to configure environment."
+    echo "❌ .env file not found. Please create one with MAIL_PASSWORD."
     exit 1
 fi
+
+DOMAIN="puspo.online"
+EMAIL="puspopuspo520@gmail.com"
 
 echo "🚀 Starting Deployment for $DOMAIN..."
 
@@ -31,7 +30,6 @@ sudo apt-get update -y
 if ! command -v docker &> /dev/null; then
     echo "🐳 Docker not found. Installing..."
     
-    # Add Docker's official GPG key:
     sudo apt-get install -y ca-certificates curl gnupg
     sudo install -m 0755 -d /etc/apt/keyrings
     if [ ! -f /etc/apt/keyrings/docker.gpg ]; then
@@ -39,7 +37,6 @@ if ! command -v docker &> /dev/null; then
     fi
     sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-    # Add the repository to Apt sources:
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
@@ -62,27 +59,19 @@ fi
 # 4. SSL Certificate Setup (Certbot)
 echo "🔒 Checking SSL certificates..."
 
-# Install certbot if missing
 if ! command -v certbot &> /dev/null; then
     echo "Installing Certbot..."
     sudo apt-get install -y certbot
 fi
 
-# Check if certificates exist, if not, generate them
 if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
-    echo "⚠️  SSL Certificates not found. Generating them now..."
-    
-    # Stop any conflicting services on port 80
+    echo "⚠️  SSL Certificates not found. Generating..."
     sudo docker compose down --remove-orphans || true
-    
-    # Run Certbot in standalone mode (requires port 80 to be free)
     sudo certbot certonly --standalone -d $DOMAIN -d www.$DOMAIN \
         --non-interactive --agree-tos --expand -m $EMAIL
-        
     echo "✅ Certificates generated successfully."
 else
     echo "✅ SSL Certificates found."
-    # Attempt renewal just in case
     sudo certbot renew --quiet
 fi
 
