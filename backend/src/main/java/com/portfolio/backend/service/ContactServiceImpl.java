@@ -4,50 +4,76 @@ import com.portfolio.backend.model.ContactMessage;
 import com.portfolio.backend.repository.ContactMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
 public class ContactServiceImpl implements ContactService {
 
     private final ContactMessageRepository repository;
-    private final JavaMailSender mailSender;
+    private final HttpClient httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
 
-    @org.springframework.beans.factory.annotation.Value("${spring.mail.username}")
+    @Value("${resend.api.key}")
+    private String resendApiKey;
+
+    @Value("${spring.mail.username}")
     private String recipientEmail;
 
     @Override
     public ContactMessage saveMessage(ContactMessage message) {
-        // 1. Try to send email FIRST. If it fails, do not save to DB (or save with
-        // status 'FAILED' if we had a status field).
-        // For now, we prioritize notifying the user of failure.
-        sendEmail(message);
+        // 1. Send via Resend API (HTTP to bypass SMTP block)
+        sendEmailViaResend(message);
 
-        // 2. If email sent successfully, save to DB
+        // 2. Save to DB
         return repository.save(message);
     }
 
-    private void sendEmail(ContactMessage message) {
+    private void sendEmailViaResend(ContactMessage message) {
         try {
-            System.out.println("📧 Attempting to send email from " + message.getEmail() + "...");
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom(recipientEmail); // Must match authenticated user
-            mailMessage.setTo(recipientEmail); // Sending to yourself
-            mailMessage.setSubject("New Portfolio Contact: " + message.getName());
-            mailMessage.setText(
-                    "FROM: " + message.getName() + " (" + message.getEmail() + ")\n\n" +
-                            "MESSAGE:\n" + message.getMessage() + "\n\n" +
-                            "--------------------------------------------------\n" +
-                            "This email was sent from your portfolio contact form.");
+            System.out.println("📧 Sending email via Resend API...");
 
-            mailSender.send(mailMessage);
-            System.out.println("✅ Email sent successfully to " + recipientEmail);
+            // Construct JSON payload manually to avoid extra dependencies (Jackson is
+            // available via Spring Web but simple string is safer for now)
+            // Note: Resend Free Tier only allows sending from 'onboarding@resend.dev' to
+            // your verified email.
+            // We use 'onboarding@resend.dev' as From, and your email as To.
+            String jsonBody = String.format(
+                    "{\"from\": \"onboarding@resend.dev\", \"to\": [\"%s\"], \"subject\": \"Portfolio Contact: %s\", \"html\": \"<p><strong>Name:</strong> %s</p><p><strong>Email:</strong> %s</p><p><strong>Message:</strong><br/>%s</p>\"}",
+                    recipientEmail,
+                    message.getName(),
+                    message.getName(),
+                    message.getEmail(),
+                    message.getMessage().replace("\n", "<br/>").replace("\"", "\\\"") // Basic escaping
+            );
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.resend.com/emails"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + resendApiKey)
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200 || response.statusCode() == 201) {
+                System.out.println("✅ Email sent successfully via Resend! ID: " + response.body());
+            } else {
+                System.err.println("❌ Resend API Failed: " + response.statusCode() + " " + response.body());
+                throw new RuntimeException("Failed to send email via Resend API: " + response.body());
+            }
+
         } catch (Exception e) {
-            System.err.println("❌ FAILED to send email: " + e.getMessage());
+            System.err.println("❌ Email Error: " + e.getMessage());
             e.printStackTrace();
-            // Critical: Throw exception so Controller returns 500 error
-            throw new RuntimeException("Failed to send email: " + e.getMessage());
+            throw new RuntimeException("Email sending failed: " + e.getMessage());
         }
     }
 }

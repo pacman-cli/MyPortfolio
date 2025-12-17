@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { Send, Loader2 } from 'lucide-react';
-import emailjs from '@emailjs/browser';
-
+import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Reveal } from '@/components/ui/reveal';
@@ -20,36 +19,13 @@ export const Contact = () => {
     e.preventDefault();
     setStatus('submitting');
     
-    // Check for keys - fail fast if not configured
-    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      console.error('EmailJS keys are missing in env vars.');
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 3000);
-      return;
-    }
-
     try {
-      await emailjs.send(
-        serviceId, 
-        templateId, 
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_name: 'Puspo', // Or parameterized
-        },
-        publicKey
-      );
-      
+      await axios.post('/api/v1/contact', formData);
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
       setTimeout(() => setStatus('idle'), 3000);
     } catch (error) {
-      console.error('EmailJS Failed:', error);
+      console.error(error);
       setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
     }
