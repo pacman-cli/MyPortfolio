@@ -3,20 +3,26 @@ package com.portfolio.backend.service;
 import com.portfolio.backend.model.ContactMessage;
 import com.portfolio.backend.repository.ContactMessageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ContactServiceImpl implements ContactService {
 
     private final ContactMessageRepository repository;
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();
@@ -38,21 +44,16 @@ public class ContactServiceImpl implements ContactService {
 
     private void sendEmailViaResend(ContactMessage message) {
         try {
-            System.out.println("📧 Sending email via Resend API...");
+            log.info("Sending email via Resend API...");
 
-            // Construct JSON payload manually to avoid extra dependencies (Jackson is
-            // available via Spring Web but simple string is safer for now)
-            // Note: Resend Free Tier only allows sending from 'onboarding@resend.dev' to
-            // your verified email.
-            // We use 'onboarding@resend.dev' as From, and your email as To.
-            String jsonBody = String.format(
-                    "{\"from\": \"onboarding@resend.dev\", \"to\": [\"%s\"], \"subject\": \"Portfolio Contact: %s\", \"html\": \"<p><strong>Name:</strong> %s</p><p><strong>Email:</strong> %s</p><p><strong>Message:</strong><br/>%s</p>\"}",
-                    recipientEmail,
-                    message.getName(),
-                    message.getName(),
-                    message.getEmail(),
-                    message.getMessage().replace("\n", "<br/>").replace("\"", "\\\"") // Basic escaping
-            );
+            // Use Jackson ObjectMapper for proper JSON encoding (prevents XSS/injection)
+            Map<String, Object> emailData = Map.of(
+                    "from", "onboarding@resend.dev",
+                    "to", List.of(recipientEmail),
+                    "subject", "Portfolio Contact: " + escapeHtml(message.getName()),
+                    "html", buildHtmlBody(message));
+
+            String jsonBody = objectMapper.writeValueAsString(emailData);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.resend.com/emails"))
@@ -64,16 +65,34 @@ public class ContactServiceImpl implements ContactService {
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200 || response.statusCode() == 201) {
-                System.out.println("✅ Email sent successfully via Resend! ID: " + response.body());
+                log.info("Email sent successfully via Resend! Response: {}", response.body());
             } else {
-                System.err.println("❌ Resend API Failed: " + response.statusCode() + " " + response.body());
+                log.error("Resend API Failed: {} {}", response.statusCode(), response.body());
                 throw new RuntimeException("Failed to send email via Resend API: " + response.body());
             }
 
         } catch (Exception e) {
-            System.err.println("❌ Email Error: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Email sending error: {}", e.getMessage(), e);
             throw new RuntimeException("Email sending failed: " + e.getMessage());
         }
+    }
+
+    private String buildHtmlBody(ContactMessage message) {
+        return String.format(
+                "<p><strong>Name:</strong> %s</p><p><strong>Email:</strong> %s</p><p><strong>Message:</strong><br/>%s</p>",
+                escapeHtml(message.getName()),
+                escapeHtml(message.getEmail()),
+                escapeHtml(message.getMessage()).replace("\n", "<br/>"));
+    }
+
+    private String escapeHtml(String input) {
+        if (input == null)
+            return "";
+        return input
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
     }
 }

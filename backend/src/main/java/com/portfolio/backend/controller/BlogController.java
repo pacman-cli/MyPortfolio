@@ -2,7 +2,7 @@ package com.portfolio.backend.controller;
 
 import com.portfolio.backend.model.Blog;
 import com.portfolio.backend.service.BlogService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/blogs")
+@RequiredArgsConstructor
 public class BlogController {
 
-    @Autowired
-    private BlogService blogService;
+    private final BlogService blogService;
 
     @GetMapping
     public List<Blog> getAllBlogs() {

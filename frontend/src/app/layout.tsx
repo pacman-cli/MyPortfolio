@@ -27,7 +27,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://puspo.online'),
 };
 
 export default function RootLayout({

@@ -13,12 +13,14 @@ import { GithubActivity } from '@/components/sections/github-activity';
 
 import { Blog } from '@/types';
 
+// Force dynamic rendering to ensure blogs are fetched from the backend container at runtime
+export const dynamic = 'force-dynamic';
+
 async function getBlogs(): Promise<Blog[]> {
   try {
     // Fetch from backend container internal URL
     const res = await fetch('http://portfolio-backend:8080/api/v1/blogs', { 
-      cache: 'no-store',
-      next: { revalidate: 60 } 
+      next: { revalidate: 60 } // ISR: Cache for 60 seconds, then revalidate
     });
     
     if (!res.ok) {

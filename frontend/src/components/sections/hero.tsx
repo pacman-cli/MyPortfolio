@@ -1,15 +1,40 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Download, Github, Linkedin, Database, Server, Smartphone, Cloud, ArrowDown, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { SiNextdotjs, SiReact, SiSpringboot, SiDocker, SiMysql } from "react-icons/si";
-import { Reveal } from '@/components/ui/reveal'; // Used for consistent reveal animations if needed, but keeping direct motion for Hero specific timing
+import { Reveal } from '@/components/ui/reveal';
 
 export const Hero = () => {
+    // Respect user's motion preferences for accessibility
+    const prefersReducedMotion = useReducedMotion();
+    
+    // Animation variants that respect reduced motion
+    const fadeInUp = {
+        initial: { opacity: 0, y: prefersReducedMotion ? 0 : 30 },
+        animate: { opacity: 1, y: 0 }
+    };
+    
+    const staggerContainer = {
+        animate: {
+            transition: {
+                staggerChildren: prefersReducedMotion ? 0 : 0.08
+            }
+        }
+    };
+    
+    const staggerItem = {
+        initial: { opacity: 0, y: prefersReducedMotion ? 0 : 10 },
+        animate: { opacity: 1, y: 0 }
+    };
+
     return (
-        <section className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#F5F9F7] dark:bg-[#020817] pt-28 lg:pt-20 transition-colors duration-300">
+        <section 
+            className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#F5F9F7] dark:bg-[#020817] pt-28 lg:pt-20 transition-colors duration-300"
+            aria-labelledby="hero-heading"
+        >
             {/* Background Atmosphere - Deep, Calm, Engineered */}
             <div className="absolute inset-0 w-full h-full overflow-visible -z-10">
                 {/* 1. Ambient Glows - Very Subtle */}
@@ -39,8 +64,8 @@ export const Hero = () => {
                             <div className="absolute -inset-x-8 -inset-y-8 bg-emerald-500/5 dark:bg-emerald-500/5 blur-3xl rounded-full opacity-50 pointer-events-none lg:block hidden" />
                             
                              <motion.h1 
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                id="hero-heading"
+                                {...fadeInUp}
                                 transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
                                 className="relative text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-gray-100 leading-[1.15] sm:leading-[1.1] lg:leading-[1.1]"
                              >
@@ -58,46 +83,55 @@ export const Hero = () => {
 
                         {/* 2. Sub-headline - Readable & Calm */}
                         <motion.p 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            {...fadeInUp}
                             transition={{ duration: 0.7, delay: 0.3 }}
                             className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed font-medium mx-auto lg:mx-0 px-2 sm:px-0"
                         >
                              I build secure, scalable, high-performance web applications from idea to production using modern architecture.
                         </motion.p>
 
-                        {/* 3. Tech Chips - Solid & Clean - Compact Mobile */}
+                        {/* 3. Tech Chips - Staggered Animation */}
                         <motion.div 
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
+                            variants={staggerContainer}
+                            initial="initial"
+                            animate="animate"
                             className="flex flex-wrap justify-center lg:justify-start gap-2 max-w-[300px] sm:max-w-none mx-auto lg:mx-0"
                         >
-                            <TechChip icon={<SiNextdotjs />} label="Next.js" />
-                            <TechChip icon={<SiReact />} label="React" />
-                            <TechChip icon={<SiSpringboot />} label="Spring Boot" />
-                            <TechChip icon={<SiDocker />} label="Docker" />
-                            <TechChip icon={<SiMysql />} label="MySQL" />
+                            <TechChip icon={<SiNextdotjs />} label="Next.js" variants={staggerItem} />
+                            <TechChip icon={<SiReact />} label="React" variants={staggerItem} />
+                            <TechChip icon={<SiSpringboot />} label="Spring Boot" variants={staggerItem} />
+                            <TechChip icon={<SiDocker />} label="Docker" variants={staggerItem} />
+                            <TechChip icon={<SiMysql />} label="MySQL" variants={staggerItem} />
                         </motion.div>
 
-                        {/* 4. CTAs - High Contrast & Solid - Full Width Mobile */}
+                        {/* 4. CTAs - Enhanced Hover Effects */}
                         <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            {...fadeInUp}
                             transition={{ duration: 0.5, delay: 0.5 }}
                             className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 pt-2 w-full sm:w-auto"
                         >
-                            <Button size="lg" className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all hover:-translate-y-0.5 h-12 sm:h-14 px-8 text-sm sm:text-base font-semibold">
+                            <Button 
+                                size="lg" 
+                                className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-600/30 h-12 sm:h-14 px-8 text-sm sm:text-base font-semibold"
+                                asChild
+                            >
                                 <Link href="#projects">View Projects</Link>
                             </Button>
                             
-                            <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all h-12 sm:h-14 px-8 font-semibold">
-                                <Download className="mr-2 h-4 w-4" /> Resume
+                            <Button 
+                                size="lg" 
+                                variant="outline" 
+                                className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] h-12 sm:h-14 px-8 font-semibold"
+                                asChild
+                            >
+                                <Link href="/resume.pdf" target="_blank">
+                                    <Download className="mr-2 h-4 w-4" /> Resume
+                                </Link>
                             </Button>
 
                             <div className="flex gap-4 sm:ml-4 sm:border-l sm:pl-6 border-slate-200 dark:border-slate-800 mt-2 sm:mt-0 items-center justify-center w-full sm:w-auto">
-                                <SocialLink href="https://github.com/pacman-cli" icon={<Github className="h-5 w-5" />} />
-                                <SocialLink href="https://www.linkedin.com/in/iampuspo/" icon={<Linkedin className="h-5 w-5" />} />
+                                <SocialLink href="https://github.com/pacman-cli" icon={<Github className="h-5 w-5" />} label="GitHub Profile" />
+                                <SocialLink href="https://www.linkedin.com/in/iampuspo/" icon={<Linkedin className="h-5 w-5" />} label="LinkedIn Profile" />
                             </div>
                         </motion.div>
                     </div>
@@ -111,6 +145,7 @@ export const Hero = () => {
                                 label="Frontend" 
                                 tech="Next.js"
                                 delay={0.2}
+                                prefersReducedMotion={prefersReducedMotion}
                             />
                             <div className="h-6 w-px bg-gradient-to-b from-slate-200 to-slate-200 dark:from-slate-800 dark:to-slate-800 relative">
                                 <Activity className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 text-emerald-500" />
@@ -121,6 +156,7 @@ export const Hero = () => {
                                 tech="Spring Boot"
                                 delay={0.4}
                                 main
+                                prefersReducedMotion={prefersReducedMotion}
                             />
                              <div className="h-6 w-px bg-gradient-to-b from-slate-200 to-slate-200 dark:from-slate-800 dark:to-slate-800 relative">
                                 <ArrowDown className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 text-slate-400" />
@@ -132,6 +168,7 @@ export const Hero = () => {
                                     tech="MySQL"
                                     delay={0.6}
                                     small
+                                    prefersReducedMotion={prefersReducedMotion}
                                 />
                                 <MobileNode 
                                     icon={<Cloud className="w-5 h-5 text-slate-600 dark:text-slate-400" />} 
@@ -139,13 +176,14 @@ export const Hero = () => {
                                     tech="Docker"
                                     delay={0.8}
                                     small
+                                    prefersReducedMotion={prefersReducedMotion}
                                 />
                             </div>
                         </div>
 
                         {/* 2. Desktop Floating Diagram (Visible >= LG) */}
                         <motion.div 
-                            initial={{ opacity: 0, scale: 0.95 }}
+                            initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                             className="relative hidden lg:block h-[600px] w-full"
@@ -155,13 +193,13 @@ export const Hero = () => {
                                 <div className="relative w-full h-[500px]">
                                     
                                     {/* Connection Lines (SVG) */}
-                                    <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+                                    <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" role="presentation" aria-hidden="true">
                                         {/* Frontend to Backend */}
-                                        <AnimatedLine x1="20%" y1="50%" x2="50%" y2="50%" delay={0} />
+                                        <AnimatedLine x1="20%" y1="50%" x2="50%" y2="50%" delay={0} prefersReducedMotion={prefersReducedMotion} />
                                         {/* Backend to DB */}
-                                        <AnimatedLine x1="50%" y1="50%" x2="80%" y2="30%" delay={1} />
+                                        <AnimatedLine x1="50%" y1="50%" x2="80%" y2="30%" delay={1} prefersReducedMotion={prefersReducedMotion} />
                                         {/* Backend to Cloud */}
-                                        <AnimatedLine x1="50%" y1="50%" x2="80%" y2="70%" delay={1.5} />
+                                        <AnimatedLine x1="50%" y1="50%" x2="80%" y2="70%" delay={1.5} prefersReducedMotion={prefersReducedMotion} />
                                     </svg>
 
                                     {/* Nodes */}
@@ -171,6 +209,7 @@ export const Hero = () => {
                                         tech="Next.js"
                                         x="20%" y="50%" 
                                         delay={0.5}
+                                        prefersReducedMotion={prefersReducedMotion}
                                     />
 
                                     <ArchitectureNode 
@@ -180,6 +219,7 @@ export const Hero = () => {
                                         x="50%" y="50%" 
                                         delay={0.7}
                                         main
+                                        prefersReducedMotion={prefersReducedMotion}
                                     />
 
                                     <ArchitectureNode 
@@ -188,6 +228,7 @@ export const Hero = () => {
                                         tech="MySQL / Redis"
                                         x="80%" y="30%" 
                                         delay={0.9}
+                                        prefersReducedMotion={prefersReducedMotion}
                                     />
 
                                     <ArchitectureNode 
@@ -196,17 +237,18 @@ export const Hero = () => {
                                         tech="Docker / AWS"
                                         x="80%" y="70%" 
                                         delay={1.1}
+                                        prefersReducedMotion={prefersReducedMotion}
                                     />
 
                                     {/* System Status - Green */}
                                     <motion.div 
-                                        animate={{ y: [-10, 10, -10] }}
+                                        animate={prefersReducedMotion ? {} : { y: [-10, 10, -10] }}
                                         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                                         className="absolute top-10 right-20 p-4 bg-white/60 dark:bg-slate-900/60 rounded-2xl shadow-xl shadow-emerald-500/5 border border-emerald-100/50 dark:border-emerald-900/30 backdrop-blur-md z-20"
                                     >
                                         <div className="flex gap-2 items-center text-xs font-bold text-slate-700 dark:text-slate-200">
-                                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                                            System Nominal
+                                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" aria-hidden="true" />
+                                            <span>System Nominal</span>
                                         </div>
                                         <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Latency &lt; 50ms</div>
                                     </motion.div>
@@ -221,23 +263,58 @@ export const Hero = () => {
     );
 };
 
-// Helper Components
-const TechChip = ({ icon, label }: { icon: any, label: string }) => (
-    <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-full text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors cursor-default whitespace-nowrap">
+// ===== Helper Components with Proper TypeScript Types =====
+
+interface TechChipProps {
+    icon: React.ReactNode;
+    label: string;
+    variants?: {
+        initial?: { opacity?: number; y?: number };
+        animate?: { opacity?: number; y?: number };
+    };
+}
+
+const TechChip = ({ icon, label, variants }: TechChipProps) => (
+    <motion.div 
+        variants={variants}
+        className="flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-full text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 shadow-sm hover:border-emerald-400 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors duration-200 cursor-default whitespace-nowrap"
+    >
         <span className="text-base sm:text-lg">{icon}</span>
         {label}
-    </div>
+    </motion.div>
 );
 
-const SocialLink = ({ href, icon }: { href: string, icon: any }) => (
-    <Link href={href} target="_blank" className="p-2 text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-full transition-all">
+interface SocialLinkProps {
+    href: string;
+    icon: React.ReactNode;
+    label: string;
+}
+
+const SocialLink = ({ href, icon, label }: SocialLinkProps) => (
+    <Link 
+        href={href} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        aria-label={label}
+        className="p-2 text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-full transition-all duration-200 hover:scale-110 hover:-rotate-6"
+    >
         {icon}
     </Link>
 );
 
-const MobileNode = ({ icon, label, tech, delay, main = false, small = false }: any) => (
+interface MobileNodeProps {
+    icon: React.ReactNode;
+    label: string;
+    tech: string;
+    delay: number;
+    main?: boolean;
+    small?: boolean;
+    prefersReducedMotion?: boolean | null;
+}
+
+const MobileNode = ({ icon, label, tech, delay, main = false, small = false, prefersReducedMotion }: MobileNodeProps) => (
     <motion.div 
-         initial={{ opacity: 0, y: 10 }}
+         initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
          whileInView={{ opacity: 1, y: 0 }}
          viewport={{ once: true }}
          transition={{ delay }}
@@ -256,9 +333,20 @@ const MobileNode = ({ icon, label, tech, delay, main = false, small = false }: a
     </motion.div>
 );
 
-const ArchitectureNode = ({ icon, label, tech, x, y, delay, main = false }: any) => (
+interface ArchitectureNodeProps {
+    icon: React.ReactNode;
+    label: string;
+    tech: string;
+    x: string;
+    y: string;
+    delay: number;
+    main?: boolean;
+    prefersReducedMotion?: boolean | null;
+}
+
+const ArchitectureNode = ({ icon, label, tech, x, y, delay, main = false, prefersReducedMotion }: ArchitectureNodeProps) => (
     <motion.div 
-        initial={{ opacity: 0, scale: 0 }}
+        initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20, delay }}
         className={`absolute -translate-x-1/2 -translate-y-1/2 p-4 rounded-2xl border bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-xl flex flex-col items-center gap-2 z-10 w-40 text-center
@@ -276,7 +364,16 @@ const ArchitectureNode = ({ icon, label, tech, x, y, delay, main = false }: any)
     </motion.div>
 );
 
-const AnimatedLine = ({ x1, y1, x2, y2, delay }: any) => {
+interface AnimatedLineProps {
+    x1: string;
+    y1: string;
+    x2: string;
+    y2: string;
+    delay: number;
+    prefersReducedMotion?: boolean | null;
+}
+
+const AnimatedLine = ({ x1, y1, x2, y2, delay, prefersReducedMotion }: AnimatedLineProps) => {
     return (
         <motion.g
             initial={{ opacity: 0 }}
@@ -286,21 +383,24 @@ const AnimatedLine = ({ x1, y1, x2, y2, delay }: any) => {
             {/* Base Line */}
             <line x1={x1} y1={y1} x2={x2} y2={y2} className="stroke-slate-200 dark:stroke-slate-800" strokeWidth="2" strokeDasharray="4 4" />
             
-            {/* Moving Packet - Green Tone */}
-            <motion.circle r="3" className="fill-emerald-400 dark:fill-emerald-500">
-                <motion.animate 
-                    attributeName="cx" 
-                    from={x1} to={x2} 
-                    dur="3s" 
-                    repeatCount="indefinite"
-                />
-                <motion.animate 
-                    attributeName="cy" 
-                    from={y1} to={y2} 
-                    dur="3s" 
-                    repeatCount="indefinite"
-                />
-            </motion.circle>
+            {/* Moving Packet - Green Tone (only animate if motion allowed) */}
+            {!prefersReducedMotion && (
+                <motion.circle r="3" className="fill-emerald-400 dark:fill-emerald-500">
+                    <animate 
+                        attributeName="cx" 
+                        from={x1} to={x2} 
+                        dur="3s" 
+                        repeatCount="indefinite"
+                    />
+                    <animate 
+                        attributeName="cy" 
+                        from={y1} to={y2} 
+                        dur="3s" 
+                        repeatCount="indefinite"
+                    />
+                </motion.circle>
+            )}
         </motion.g>
     );
 };
+

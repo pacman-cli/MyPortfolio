@@ -26,11 +26,6 @@ export const GithubActivity = () => {
   const [streak, setStreak] = useState(0);
   const [followers, setFollowers] = useState(0);
 
-  // Responsive State (Mobile First Defaults)
-  const [blockSize, setBlockSize] = useState(10); 
-  const [blockRadius, setBlockRadius] = useState(2);
-  const [blockMargin, setBlockMargin] = useState(2);
-  const [fontSize, setFontSize] = useState(12);
   const [monthsToShow, setMonthsToShow] = useState<number | null>(null); // Slicing logic
 
   const username = 'pacman-cli';
@@ -60,32 +55,14 @@ export const GithubActivity = () => {
     };
     fetchData();
 
-    // Responsive Handler - Strict 390px Optimization
+    // Slicing logic for mobile ONLY - no longer changing block sizes via JS to prevent CLS
     const handleResize = () => {
         const width = window.innerWidth;
-        if (width <= 400) { // Tiny Mobile (Strict <= 390px focus)
-            setBlockSize(9); // 9px block
-            setBlockMargin(2); // 2px gap = 11px pitch
-            setBlockRadius(2); 
-            setFontSize(10);
-            setMonthsToShow(5); // Show last 5 months (~21 weeks * 11px = ~230px, fits easily in 360px-32px=328px)
-        } else if (width < 640) { // Standard Mobile
-            setBlockSize(10); 
-            setBlockMargin(2);
-            setBlockRadius(2); 
-            setFontSize(12);
-            setMonthsToShow(8); // Show more on slightly wider mobile
-        } else if (width < 1024) { // Tablet
-            setBlockSize(12);
-            setBlockMargin(3);
-            setBlockRadius(3);
-            setFontSize(14);
-            setMonthsToShow(null); // Show all
-        } else { // Desktop
-            setBlockSize(14);
-            setBlockMargin(4);
-            setBlockRadius(3);
-            setFontSize(14);
+        if (width <= 400) {
+            setMonthsToShow(5);
+        } else if (width < 640) {
+            setMonthsToShow(8);
+        } else {
             setMonthsToShow(null);
         }
     };
@@ -187,18 +164,33 @@ export const GithubActivity = () => {
 
                 {/* Calendar Wrapper */}
                 <Reveal delay={0.5}>
-                    <Card className="p-4 md:p-8 bg-white/5 backdrop-blur-md border border-white/10 dark:border-white/5 flex flex-col shadow-sm items-center">
-                         {/* Scrollable Container with robust centering */}
-                         <div className="w-full overflow-x-auto pt-2 pb-4 px-1 hide-scrollbar">
-                             <div className="flex min-w-full justify-center w-fit mx-auto">
+                    <Card className="p-4 md:p-8 bg-white/5 backdrop-blur-md border border-white/10 dark:border-white/5 shadow-sm">
+                         {/* 
+                           Desktop: Center the entire calendar unit (months + grid + legend)
+                           Mobile: Horizontal scroll without shrinking cells
+                         */}
+                         <div 
+                            className="w-full overflow-x-auto py-2 scrollbar-hide"
+                            style={{ 
+                                WebkitOverflowScrolling: 'touch',
+                                scrollbarWidth: 'none',
+                                msOverflowStyle: 'none'
+                            }}
+                         >
+                             {/* 
+                               inline-flex ensures natural content width (no stretching)
+                               min-w-full + justify-center centers on desktop when content fits
+                               On mobile overflow, content stays left-aligned and scrolls naturally
+                             */}
+                             <div className="inline-flex min-w-full justify-center">
                                 <ActivityCalendar 
                                     data={getDisplayData()}
                                     theme={theme}
-                                    blockSize={blockSize}
-                                    blockMargin={blockMargin}
-                                    blockRadius={blockRadius}
-                                    fontSize={fontSize}
-                                    showWeekdayLabels={false} // Cleaner on mobile
+                                    blockSize={14}
+                                    blockMargin={4}
+                                    blockRadius={3}
+                                    fontSize={14}
+                                    showWeekdayLabels={false}
                                     labels={{
                                         legend: {
                                             less: 'Less',
@@ -231,7 +223,16 @@ export const GithubActivity = () => {
 
 // Reusable Stat Card - Equal Height Enforced
 // Passing className="h-full" to Reveal to ensure the wrapper stretches
-const StatCard = ({ icon, value, label, color, bg, delay }: any) => (
+interface StatCardProps {
+  icon: React.ReactNode;
+  value: number | string;
+  label: string;
+  color: string;
+  bg: string;
+  delay: number;
+}
+
+const StatCard = ({ icon, value, label, color, bg, delay }: StatCardProps) => (
     <Reveal delay={delay} width="100%" className="h-full">
         <Card className="h-full w-full p-3 md:p-6 flex flex-col items-center justify-center text-center gap-1.5 md:gap-2 bg-white/5 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all shadow-sm">
             <div className={`p-2 md:p-3 rounded-full ${bg} ${color}`}>
