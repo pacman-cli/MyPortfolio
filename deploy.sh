@@ -29,7 +29,7 @@ sudo apt-get update -y
 # 2. Install Docker & Docker Compose if not present
 if ! command -v docker &> /dev/null; then
     echo "🐳 Docker not found. Installing..."
-    
+
     sudo apt-get install -y ca-certificates curl gnupg
     sudo install -m 0755 -d /etc/apt/keyrings
     if [ ! -f /etc/apt/keyrings/docker.gpg ]; then
@@ -41,10 +41,10 @@ if ! command -v docker &> /dev/null; then
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
       sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    
+
     sudo apt-get update -y
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    
+
     echo "✅ Docker installed successfully."
 else
     echo "✅ Docker is already installed."
@@ -56,24 +56,27 @@ if [ -d ".git" ]; then
     git pull || echo "⚠️  Git pull failed (local changes?), continuing..."
 fi
 
-# 4. SSL Certificate Setup (Certbot)
-echo "🔒 Checking SSL certificates..."
+# # 4. SSL Certificate Setup (Certbot)
+# echo "🔒 Checking SSL certificates..."
 
-if ! command -v certbot &> /dev/null; then
-    echo "Installing Certbot..."
-    sudo apt-get install -y certbot
-fi
+# if ! command -v certbot &> /dev/null; then
+#     echo "Installing Certbot..."
+#     sudo apt-get install -y certbot
+# fi
 
-if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
-    echo "⚠️  SSL Certificates not found. Generating..."
-    sudo docker compose down --remove-orphans || true
-    sudo certbot certonly --standalone -d $DOMAIN -d www.$DOMAIN \
-        --non-interactive --agree-tos --expand -m $EMAIL
-    echo "✅ Certificates generated successfully."
-else
-    echo "✅ SSL Certificates found."
-    sudo certbot renew --quiet
-fi
+# if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
+#     echo "⚠️  SSL Certificates not found. Generating..."
+#     sudo docker compose down --remove-orphans || true
+#     sudo certbot certonly --standalone -d $DOMAIN -d www.$DOMAIN \
+#         --non-interactive --agree-tos --expand -m $EMAIL
+#     echo "✅ Certificates generated successfully."
+# else
+#     echo "✅ SSL Certificates found."
+#     sudo certbot renew --quiet
+# fi
+
+# SSL step skipped because Cloudflare tunnel provides HTTPS
+echo "🔒 Skipping SSL certificate generation (Cloudflare tunnel handles HTTPS)"
 
 # 5. Build and Run Containers
 echo "🏗️  Building and starting services..."
