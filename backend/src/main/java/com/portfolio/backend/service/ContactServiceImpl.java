@@ -1,13 +1,5 @@
 package com.portfolio.backend.service;
 
-import com.portfolio.backend.model.ContactMessage;
-import com.portfolio.backend.repository.ContactMessageRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -15,6 +7,16 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.portfolio.backend.model.ContactMessage;
+import com.portfolio.backend.repository.ContactMessageRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -33,6 +35,9 @@ public class ContactServiceImpl implements ContactService {
     @Value("${spring.mail.username}")
     private String recipientEmail;
 
+    @Value("${resend.from.email:Portfolio Contact <contact@puspo.online>}")
+    private String senderEmail;
+
     @Override
     public ContactMessage saveMessage(ContactMessage message) {
         // 1. Send via Resend API (HTTP to bypass SMTP block)
@@ -48,7 +53,7 @@ public class ContactServiceImpl implements ContactService {
 
             // Use Jackson ObjectMapper for proper JSON encoding (prevents XSS/injection)
             Map<String, Object> emailData = Map.of(
-                    "from", "onboarding@resend.dev",
+                    "from", senderEmail,
                     "to", List.of(recipientEmail),
                     "subject", "Portfolio Contact: " + escapeHtml(message.getName()),
                     "html", buildHtmlBody(message));
