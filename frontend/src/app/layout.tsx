@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
-import { LightModeBackground } from "@/components/ui/light-mode-background";
-import { CursorFollower } from "@/components/ui/cursor-follower";
+import { Navbar } from "@/components/navbar"
+import { ThemeProvider } from "@/components/theme-provider"
+import { CursorFollower } from "@/components/ui/cursor-follower"
+import { LightModeBackground } from "@/components/ui/light-mode-background"
+import { cn } from "@/lib/utils"
+import type { Metadata } from "next"
+import { Inter, Plus_Jakarta_Sans } from "next/font/google"
+import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" })
 
 export const metadata: Metadata = {
   title: 'MD. Ashikur Rahman PUSPO | CSE Student & Full Stack Developer',
@@ -28,27 +29,28 @@ export const metadata: Metadata = {
     ],
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://puspo.online'),
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-primary/20")}>
         <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <LightModeBackground />
           <CursorFollower />
+          <Navbar />
           {children}
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

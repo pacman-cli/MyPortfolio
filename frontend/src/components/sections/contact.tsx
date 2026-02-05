@@ -1,35 +1,35 @@
-"use client";
+"use client"
 
-import { useState } from 'react';
-import { Send, Loader2 } from 'lucide-react';
-import axios from 'axios';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Reveal } from '@/components/ui/reveal';
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Reveal } from '@/components/ui/reveal'
+import axios from 'axios'
+import { Loader2, Send } from 'lucide-react'
+import { useState } from 'react'
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
-  });
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  })
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('submitting');
-    
+    e.preventDefault()
+    setStatus('submitting')
+
     try {
-      await axios.post('/api/v1/contact', formData);
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => setStatus('idle'), 3000);
+      await axios.post('/api/v1/contact', formData)
+      setStatus('success')
+      setFormData({ name: '', email: '', message: '' })
+      setTimeout(() => setStatus('idle'), 3000)
     } catch (error) {
-      console.error(error);
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 3000);
+      console.error(error)
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 3000)
     }
-  };
+  }
 
   return (
     <section id="contact" className="py-20 bg-muted/50">
@@ -39,7 +39,7 @@ export const Contact = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
             <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto rounded-full" />
             <p className="mt-4 text-muted-foreground">
-              Have a project in mind? Let's discuss how we can work together.
+              Have a project in mind? Let&apos;s discuss how we can work together.
             </p>
           </div>
         </Reveal>
@@ -87,7 +87,7 @@ export const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   />
                 </div>
-                
+
                 <Button type="submit" className="w-full" disabled={status === 'submitting'}>
                   {status === 'submitting' ? (
                     <>
@@ -111,5 +111,5 @@ export const Contact = () => {
         </Reveal>
       </div>
     </section>
-  );
-};
+  )
+}
