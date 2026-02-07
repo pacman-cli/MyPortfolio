@@ -1,11 +1,11 @@
 "use client"
 
 import { cn } from '@/lib/utils'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion, Variants } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { FaAws } from "react-icons/fa"
 import {
-  SiAmazon,
   SiDocker,
   SiKubernetes,
   SiNextdotjs,
@@ -22,7 +22,7 @@ const TECH_ICONS = [
   { icon: SiPostgresql, color: "text-[#336791]", label: "PostgreSQL" },
   { icon: SiDocker, color: "text-[#2496ED]", label: "Docker" },
   { icon: SiKubernetes, color: "text-[#326CE5]", label: "Kubernetes" },
-  { icon: SiAmazon, color: "text-[#FF9900]", label: "AWS" },
+  { icon: FaAws, color: "text-[#FF9900]", label: "AWS" },
   { icon: SiNextdotjs, color: "text-slate-900 dark:text-white", label: "Next.js" },
 ]
 
@@ -38,7 +38,7 @@ export const HeroAvatar = () => {
   const RADIUS = 135
 
   // 1. ENTRY ANIMATION
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95 },
     visible: {
       opacity: 1,
@@ -48,7 +48,7 @@ export const HeroAvatar = () => {
   }
 
   // 2. SLOW RADIAL BREATH (GROUP)
-  const breathingVariants = {
+  const breathingVariants: Variants = {
     animate: {
       scale: [1, 1.01, 1],
       transition: {
@@ -63,7 +63,7 @@ export const HeroAvatar = () => {
   // Float is continuous. Hover depth (move outward) is an event.
   // We use separate variants on separate wrappers to avoid conflict.
 
-  const iconFloatVariants = (delay: number) => ({
+  const iconFloatVariants = (delay: number): Variants => ({
     animate: {
       y: [-3, 3, -3],
       transition: {
@@ -76,7 +76,7 @@ export const HeroAvatar = () => {
   })
 
   // Calculate generic hover expansion vector
-  const getHoverVariant = (x: number, y: number) => {
+  const getHoverVariant = (x: number, y: number): Variants => {
     // Normalize vector
     const length = Math.sqrt(x * x + y * y)
     const dx = (x / length) * 6 // Move 6px outward
