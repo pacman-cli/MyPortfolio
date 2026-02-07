@@ -244,7 +244,6 @@ export const ClosingSection = () => {
           >
             <QuietLink href="https://github.com/pacman-cli" label="GitHub" />
             <QuietLink href="https://www.linkedin.com/in/iampuspo/" label="LinkedIn" />
-            <QuietLink href="https://takatrack.puspo.online" label="TakaTrack" />
           </motion.div>
 
         </div>

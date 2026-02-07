@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Download, Github, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 import { SiDocker, SiMysql, SiNextdotjs, SiReact, SiSpringboot } from "react-icons/si"
-import { HeroStatusPanel } from './hero-status-panel'
+import { HeroAvatar } from './hero-avatar'
 
 export const Hero = () => {
     // Respect user's motion preferences for accessibility
@@ -139,8 +139,8 @@ export const Hero = () => {
                     {/* RIGHT SIDE: System Architecture Optimization */}
                     <div className="relative w-full flex justify-center items-center">
                         {/* Responsive scaling for mobile to ensure panel fits */}
-                        <div className="w-full flex justify-center items-center scale-100 sm:scale-100 md:scale-100 lg:scale-100 xl:scale-110 transition-transform duration-500 origin-center pl-0 lg:pl-10">
-                            <HeroStatusPanel />
+                        <div className="w-full flex justify-center items-center scale-100 sm:scale-100 md:scale-100 lg:scale-100 xl:scale-110 transition-transform duration-500 origin-center pl-0 lg:pl-10 pt-10 sm:pt-0">
+                            <HeroAvatar />
                         </div>
                     </div>
 
