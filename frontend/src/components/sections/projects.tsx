@@ -93,6 +93,50 @@ export const Projects = () => {
 
                   {/* Right: Tech & Actions */}
                   <div className="flex-1 w-full flex flex-col gap-6">
+
+                    {/* TakaTrack Live Preview (Conditional) */}
+                    {project.title === 'TakaTrack' && (
+                      <div className="w-full mb-2 group/preview relative">
+                        {/* Desktop: Live Iframe Preview */}
+                        <div className="hidden md:block w-full aspect-video rounded-xl overflow-hidden border border-border/50 bg-slate-100 dark:bg-slate-900 relative shadow-sm transition-all duration-500 group-hover/preview:shadow-[0_0_30px_rgba(59,130,246,0.3)] group-hover/preview:scale-[1.05] group-hover/preview:border-blue-500/50 ease-out">
+
+                          {/* Click Overlay - Enforces "Preview Only" feel & Opens New Tab */}
+                          <a
+                            href={project.demoUrl || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="absolute inset-0 z-20 cursor-pointer"
+                            aria-label="Open Live Demo"
+                          />
+
+                          {/* Loading Skeleton (Simulated via CSS or just background) */}
+                          <iframe
+                            src="https://takatrack.puspo.online/"
+                            title="TakaTrack Live Preview"
+                            className="w-full h-full object-cover pointer-events-none select-none"
+                            loading="lazy"
+                            tabIndex={-1}
+                          />
+                        </div>
+
+                        {/* Mobile: Static Fallback with Call-to-Action */}
+                        <div className="md:hidden w-full rounded-xl border border-border/50 bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 p-6 text-center space-y-3">
+                          <div className="mx-auto w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400">
+                            <SiSpringboot className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-foreground">Interactive Preview</h4>
+                            <p className="text-xs text-muted-foreground">Tap to view the full application</p>
+                          </div>
+                          <Button size="sm" className="w-full rounded-full bg-blue-600" asChild>
+                            <Link href={project.demoUrl || "#"} target="_blank">
+                              View Live Project
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Tech Stack Pucks */}
                     <div className="flex flex-wrap gap-2">
                       {project.techStack.map(tech => (

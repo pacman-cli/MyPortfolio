@@ -2,7 +2,6 @@
 
 import { Reveal } from '@/components/ui/reveal'
 import { getGithubProfile } from '@/lib/github'
-import { cn } from '@/lib/utils'
 import axios from 'axios'
 import { motion } from 'framer-motion'
 import { Calendar, Flame, Github, Trophy, Users } from 'lucide-react'
@@ -101,8 +100,8 @@ export const GithubActivity = () => {
         ) : data ? (
           <div className="flex flex-col gap-8">
 
-            {/* Stats Grid - Premium Layout */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* Stats Grid - Premium Layout (Fixed) */}
+            <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible pb-4 md:pb-0 snap-x snap-mandatory no-scrollbar">
               <StatCard
                 icon={<Trophy className="w-5 h-5" />}
                 value={data.total.lastYear}
@@ -122,7 +121,7 @@ export const GithubActivity = () => {
               <StatCard
                 icon={<Calendar className="w-5 h-5" />}
                 value={new Date().getFullYear()}
-                label="Year"
+                label="Active Year"
                 delay={0.3}
                 iconColor="text-blue-500"
                 bgColor="bg-blue-500/10"
@@ -136,6 +135,7 @@ export const GithubActivity = () => {
                 bgColor="bg-purple-500/10"
               />
             </div>
+
 
             {/* Calendar - Clean Container */}
             <Reveal delay={0.5} width="100%">
@@ -182,24 +182,16 @@ interface StatCardProps {
 const StatCard = ({ icon, value, label, delay, iconColor, bgColor }: StatCardProps) => (
   <Reveal delay={delay} width="100%">
     <motion.div
-      className="group relative flex flex-col items-start justify-between p-5 h-full min-h-[140px] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden hover:shadow-lg hover:border-emerald-500/30 transition-all duration-300"
-      whileHover={{ y: -4 }}
+      className="group relative flex items-center gap-4 p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/30 transition-all duration-300 min-w-[240px] snap-center hover:-translate-y-1"
+      transition={{ type: "spring", stiffness: 300 }}
     >
-      <div className={cn("p-2.5 rounded-xl mb-4 transition-colors", bgColor, iconColor)}>
+      <div className={`p-3 rounded-xl ${bgColor} ${iconColor} group-hover:scale-110 transition-transform duration-300`}>
         {icon}
       </div>
-
-      <div className="flex flex-col gap-1 z-10">
-        <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-          {value}
-        </span>
-        <span className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-          {label}
-        </span>
+      <div>
+        <div className="text-2xl font-bold tracking-tight">{value}</div>
+        <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-0.5">{label}</div>
       </div>
-
-      {/* Subtle Texture on Hover */}
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-emerald-500/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     </motion.div>
   </Reveal>
 )
