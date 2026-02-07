@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Download, Github, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 import { SiDocker, SiMysql, SiNextdotjs, SiReact, SiSpringboot } from "react-icons/si"
-import { OrbitingTechStack } from './hero-orbit'
+import { HeroStatusPanel } from './hero-status-panel'
 
 export const Hero = () => {
     // Respect user's motion preferences for accessibility
@@ -138,9 +138,9 @@ export const Hero = () => {
 
                     {/* RIGHT SIDE: System Architecture Optimization */}
                     <div className="relative w-full flex justify-center items-center">
-                        {/* Responsive scaling for mobile to ensure orbit fits */}
-                        <div className="scale-75 sm:scale-90 md:scale-100 lg:scale-110 xl:scale-125 transition-transform duration-500 origin-center w-full flex justify-center">
-                            <OrbitingTechStack />
+                        {/* Responsive scaling for mobile to ensure panel fits */}
+                        <div className="w-full flex justify-center items-center scale-100 sm:scale-100 md:scale-100 lg:scale-100 xl:scale-110 transition-transform duration-500 origin-center pl-0 lg:pl-10">
+                            <HeroStatusPanel />
                         </div>
                     </div>
 
