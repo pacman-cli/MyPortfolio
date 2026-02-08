@@ -47,9 +47,7 @@ export const HeroAvatar = () => {
   // Desktop: 8 icons, ~160px radius
   // Mobile: 4 icons, ~110px radius, Slower speed?
 
-  const activeIcons = isMobile
-    ? TECH_ICONS.filter((_, i) => [0, 1, 2, 4, 7].includes(i)) // Spring, Postgres, Docker, AWS, GitHub
-    : TECH_ICONS
+  const activeIcons = TECH_ICONS
 
   const radius = isMobile ? 85 : 160
   const duration = isMobile ? 150 : 100 // Seconds per rotation (Ultra Slow & Smooth)
@@ -112,7 +110,7 @@ export const HeroAvatar = () => {
                 <motion.div
                   className={cn(
                     "flex items-center justify-center rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200 dark:border-slate-800",
-                    isMobile ? "w-10 h-10 text-xl" : "w-14 h-14 text-2xl"
+                    isMobile ? "w-9 h-9 text-lg" : "w-14 h-14 text-2xl"
                   )}
                   // Micro-float & Pulse
                   animate={!prefersReducedMotion ? {

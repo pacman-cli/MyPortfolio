@@ -53,10 +53,10 @@ export const Hero = () => {
 
             {/* Main Container */}
             <div className="container px-4 md:px-6 mx-auto relative z-10 w-full max-w-7xl">
-                <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
 
                     {/* LEFT SIDE: Narrative & Story */}
-                    <div className="text-center lg:text-left flex flex-col items-center lg:items-start space-y-6 lg:space-y-10">
+                    <div className="text-center lg:text-left flex flex-col items-center lg:items-start space-y-5 md:space-y-8 lg:space-y-10">
 
                         {/* 1. Headline - Framed & Glowing - Mobile Optimized */}
                         <div className="space-y-3 md:space-y-4 relative w-full">
@@ -111,21 +111,19 @@ export const Hero = () => {
                             className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 pt-2 w-full sm:w-auto"
                         >
                             <Button
-                                size="lg"
-                                className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-600/30 h-10 sm:h-14 px-6 sm:px-8 text-xs sm:text-base font-semibold"
+                                className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-600/30 h-10 md:h-14 px-5 md:px-8 text-sm md:text-base font-semibold"
                                 asChild
                             >
                                 <Link href="#projects">View Projects</Link>
                             </Button>
 
                             <Button
-                                size="lg"
                                 variant="outline"
-                                className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] h-10 sm:h-14 px-6 sm:px-8 text-xs sm:text-base font-semibold"
+                                className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] h-10 md:h-14 px-5 md:px-8 text-sm md:text-base font-semibold"
                                 asChild
                             >
                                 <Link href="https://drive.google.com/uc?export=download&id=1kdsPhac4EReNEXJU6WfuNg9RPe4d2FvJ" target="_blank">
-                                    <Download className="mr-2 h-3 w-3 sm:h-4 sm:w-4" /> Resume
+                                    <Download className="mr-2 h-3.5 w-3.5 md:h-4 md:w-4" /> Resume
                                 </Link>
                             </Button>
 
