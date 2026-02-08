@@ -32,7 +32,7 @@ export const Hero = () => {
 
     return (
         <section
-            className="min-h-screen relative flex items-center justify-center overflow-hidden bg-[#F5F9F7] dark:bg-[#020817] pt-28 lg:pt-20 transition-colors duration-300"
+            className="min-h-[100dvh] relative flex items-start lg:items-center justify-center overflow-hidden bg-[#F5F9F7] dark:bg-[#020817] pt-[80px] lg:pt-20 transition-colors duration-300"
             aria-labelledby="hero-heading"
         >
             {/* Background Atmosphere - Deep, Calm, Engineered */}
@@ -53,7 +53,7 @@ export const Hero = () => {
 
             {/* Main Container */}
             <div className="container px-4 md:px-6 mx-auto relative z-10 w-full max-w-7xl">
-                <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
                     {/* LEFT SIDE: Narrative & Story */}
                     <div className="text-center lg:text-left flex flex-col items-center lg:items-start space-y-6 lg:space-y-10">
@@ -112,7 +112,7 @@ export const Hero = () => {
                         >
                             <Button
                                 size="lg"
-                                className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-600/30 h-12 sm:h-14 px-8 text-sm sm:text-base font-semibold"
+                                className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-600/30 h-10 sm:h-14 px-6 sm:px-8 text-xs sm:text-base font-semibold"
                                 asChild
                             >
                                 <Link href="#projects">View Projects</Link>
@@ -121,11 +121,11 @@ export const Hero = () => {
                             <Button
                                 size="lg"
                                 variant="outline"
-                                className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] h-12 sm:h-14 px-8 font-semibold"
+                                className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] h-10 sm:h-14 px-6 sm:px-8 text-xs sm:text-base font-semibold"
                                 asChild
                             >
                                 <Link href="https://drive.google.com/uc?export=download&id=1kdsPhac4EReNEXJU6WfuNg9RPe4d2FvJ" target="_blank">
-                                    <Download className="mr-2 h-4 w-4" /> Resume
+                                    <Download className="mr-2 h-3 w-3 sm:h-4 sm:w-4" /> Resume
                                 </Link>
                             </Button>
 
@@ -139,7 +139,7 @@ export const Hero = () => {
                     {/* RIGHT SIDE: System Architecture Optimization */}
                     <div className="relative w-full flex justify-center items-center">
                         {/* Responsive scaling for mobile to ensure panel fits */}
-                        <div className="w-full flex justify-center items-center scale-100 sm:scale-100 md:scale-100 lg:scale-100 xl:scale-110 transition-transform duration-500 origin-center pl-0 lg:pl-10 pt-10 sm:pt-0">
+                        <div className="w-full flex justify-center items-center scale-100 sm:scale-100 md:scale-100 lg:scale-100 xl:scale-110 transition-transform duration-500 origin-center pl-0 lg:pl-10 pt-0 sm:pt-0">
                             <HeroAvatar />
                         </div>
                     </div>
@@ -183,7 +183,7 @@ const SocialLink = ({ href, icon, label }: SocialLinkProps) => (
         target="_blank"
         rel="noopener noreferrer"
         aria-label={label}
-        className="p-2 text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-full transition-all duration-200 hover:scale-110 hover:-rotate-6"
+        className="p-3 text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-full transition-all duration-200 hover:scale-110 hover:-rotate-6 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800"
     >
         {icon}
     </Link>

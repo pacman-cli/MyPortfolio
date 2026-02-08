@@ -48,16 +48,16 @@ export const HeroAvatar = () => {
   // Mobile: 4 icons, ~110px radius, Slower speed?
 
   const activeIcons = isMobile
-    ? TECH_ICONS.filter((_, i) => [0, 2, 4, 5].includes(i)) // Spring, Docker, AWS, Next
+    ? TECH_ICONS.filter((_, i) => [0, 1, 2, 4, 7].includes(i)) // Spring, Postgres, Docker, AWS, GitHub
     : TECH_ICONS
 
-  const radius = isMobile ? 120 : 160
+  const radius = isMobile ? 85 : 160
   const duration = isMobile ? 150 : 100 // Seconds per rotation (Ultra Slow & Smooth)
 
   if (!mounted) return <div className="w-[300px] h-[300px]" /> // Skeleton/Placeholder
 
   return (
-    <div className="relative w-full h-[400px] flex items-center justify-center overflow-visible">
+    <div className="relative w-full h-[250px] md:h-[400px] flex items-center justify-center overflow-visible z-10">
 
       {/*
         ORBITAL SYSTEM
@@ -149,7 +149,7 @@ export const HeroAvatar = () => {
 
         {/* Border Ring */}
         <motion.div
-          className="w-32 h-32 md:w-44 md:h-44 rounded-full p-2 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-2xl"
+          className="w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 rounded-full p-2 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-2xl"
           whileHover={{ scale: 1.08 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >

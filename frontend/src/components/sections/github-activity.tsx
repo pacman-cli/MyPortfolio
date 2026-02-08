@@ -101,9 +101,9 @@ export const GithubActivity = () => {
           <div className="flex flex-col gap-8">
 
             {/* Stats Grid - Premium Layout (Fixed) */}
-            <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto md:overflow-visible pb-4 md:pb-0 snap-x snap-mandatory no-scrollbar">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pb-4 md:pb-0">
               <StatCard
-                icon={<Trophy className="w-5 h-5" />}
+                icon={<Trophy className="w-4 h-4 md:w-5 md:h-5" />}
                 value={data.total.lastYear}
                 label="Total Contributions"
                 delay={0.1}
@@ -111,7 +111,7 @@ export const GithubActivity = () => {
                 bgColor="bg-emerald-500/10"
               />
               <StatCard
-                icon={<Flame className="w-5 h-5" />}
+                icon={<Flame className="w-4 h-4 md:w-5 md:h-5" />}
                 value={streak}
                 label="Current Streak"
                 delay={0.2}
@@ -119,7 +119,7 @@ export const GithubActivity = () => {
                 bgColor="bg-orange-500/10"
               />
               <StatCard
-                icon={<Calendar className="w-5 h-5" />}
+                icon={<Calendar className="w-4 h-4 md:w-5 md:h-5" />}
                 value={new Date().getFullYear()}
                 label="Active Year"
                 delay={0.3}
@@ -127,7 +127,7 @@ export const GithubActivity = () => {
                 bgColor="bg-blue-500/10"
               />
               <StatCard
-                icon={<Users className="w-5 h-5" />}
+                icon={<Users className="w-4 h-4 md:w-5 md:h-5" />}
                 value={followers}
                 label="Followers"
                 delay={0.4}
@@ -182,15 +182,15 @@ interface StatCardProps {
 const StatCard = ({ icon, value, label, delay, iconColor, bgColor }: StatCardProps) => (
   <Reveal delay={delay} width="100%">
     <motion.div
-      className="group relative flex items-center gap-4 p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/30 transition-all duration-300 min-w-[240px] snap-center hover:-translate-y-1"
+      className="group relative flex items-center gap-2 md:gap-4 p-3 md:p-5 rounded-xl md:rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/30 transition-all duration-300 w-full hover:-translate-y-1"
       transition={{ type: "spring", stiffness: 300 }}
     >
-      <div className={`p-3 rounded-xl ${bgColor} ${iconColor} group-hover:scale-110 transition-transform duration-300`}>
+      <div className={`p-2.5 md:p-3 rounded-xl ${bgColor} ${iconColor} group-hover:scale-110 transition-transform duration-300`}>
         {icon}
       </div>
       <div>
-        <div className="text-2xl font-bold tracking-tight">{value}</div>
-        <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-0.5">{label}</div>
+        <div className="text-xl md:text-2xl font-bold tracking-tight">{value}</div>
+        <div className="text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wider mt-0.5">{label}</div>
       </div>
     </motion.div>
   </Reveal>
