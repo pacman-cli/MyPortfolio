@@ -108,10 +108,10 @@ export const Hero = () => {
                         <motion.div
                             {...fadeInUp}
                             transition={{ duration: 0.5, delay: 0.5 }}
-                            className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 pt-2 w-full sm:w-auto"
+                            className="flex flex-col sm:flex-row items-center gap-2 md:gap-4 pt-2 w-full sm:w-auto"
                         >
                             <Button
-                                className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-600/30 h-10 md:h-14 px-5 md:px-8 text-sm md:text-base font-semibold"
+                                className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-600/30 h-[42px] md:h-14 px-4 md:px-8 text-sm md:text-base font-semibold"
                                 asChild
                             >
                                 <Link href="#projects">View Projects</Link>
@@ -119,7 +119,7 @@ export const Hero = () => {
 
                             <Button
                                 variant="outline"
-                                className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] h-10 md:h-14 px-5 md:px-8 text-sm md:text-base font-semibold"
+                                className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] h-[42px] md:h-14 px-4 md:px-8 text-sm md:text-base font-semibold"
                                 asChild
                             >
                                 <Link href="https://drive.google.com/uc?export=download&id=1kdsPhac4EReNEXJU6WfuNg9RPe4d2FvJ" target="_blank">

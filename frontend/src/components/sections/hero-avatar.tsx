@@ -153,7 +153,7 @@ export const HeroAvatar = () => {
         >
           <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-slate-950 bg-slate-100 dark:bg-slate-800">
             <Image
-              src="https://drive.google.com/uc?export=download&id=1zIC7gXrjTEhqZltwf--gLlY7aukJ7ziN"
+              src="/profile.jpg"
               alt="Puspo's Profile"
               fill
               className="object-cover scale-125 -translate-x-1 translate-y-3 group-hover:scale-135 transition-transform duration-700"
