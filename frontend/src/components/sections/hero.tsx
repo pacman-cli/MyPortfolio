@@ -69,12 +69,12 @@ export const Hero = () => {
                                 transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
                                 className="relative text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-gray-100 leading-[1.15] sm:leading-[1.1] lg:leading-[1.1]"
                             >
-                                <span className="block sm:inline">Designing & Engineering</span>
+                                <span className="block sm:inline">I'm Puspo. Designing &</span>
                                 <span className="relative inline-block mt-1 lg:mt-0">
                                     {/* Text Highlights */}
                                     <span className="absolute -inset-2 bg-emerald-400/20 dark:bg-emerald-500/10 blur-xl rounded-full opacity-70" />
                                     <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-400 pb-1">
-                                        Digital Systems
+                                        Engineering Systems
                                     </span>
                                 </span>
                                 <span className="block sm:inline"> That Perform.</span>
@@ -87,7 +87,7 @@ export const Hero = () => {
                             transition={{ duration: 0.7, delay: 0.3 }}
                             className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed font-medium mx-auto lg:mx-0 px-2 sm:px-0"
                         >
-                            I build secure, scalable, high-performance web applications from idea to production using modern architecture.
+                            Hi, I am Puspo. I build secure, scalable, high-performance web applications from idea to production using modern architecture.
                         </motion.p>
 
                         {/* 3. Tech Chips - Staggered Animation */}
