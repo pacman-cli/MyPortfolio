@@ -37,14 +37,14 @@ export const metadata: Metadata = {
     title: 'Puspo | Backend Engineer & Software Developer',
     description: 'Backend Engineer and Software Developer specializing in Spring Boot, Go, and Cloud technologies.',
     images: ['/profile.jpg'],
-    creator: '@iampuspo', // Assuming handle, can be removed or verified later if needed, but safe to include generic or specific if known. User didn't specify twitter handle, but 'twitter meta tags' was in checklist. I will assuming standard schema or leave creator out if unknown. I'll omit creator for now to be safe.
+    creator: '@iam_puspo',
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://puspo.online'),
   alternates: {
     canonical: 'https://puspo.online',
   },
   other: {
-    'google-site-verification': 'google-site-verification-token', // User said "Google Search Console is already verified", so maybe this is already done via DNS or existing tag. I won't overwrite existing if I don't see it, but I will just assume they handled it.
+    'google-site-verification': 'google-site-verification-token',
   }
 }
 
@@ -60,7 +60,7 @@ const jsonLd = {
   sameAs: [
     'https://github.com/pacman-cli',
     'https://www.linkedin.com/in/iampuspo/',
-    // Add other social links if known
+    'https://x.com/iam_puspo'
   ],
   worksFor: {
     '@type': 'Organization',
