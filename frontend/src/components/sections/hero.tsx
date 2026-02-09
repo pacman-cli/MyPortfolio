@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Download, Github, Linkedin } from 'lucide-react'
 import Link from 'next/link'
-import { SiDocker, SiMysql, SiNextdotjs, SiReact, SiSpringboot } from "react-icons/si"
+import { SiDocker, SiMysql, SiNextdotjs, SiReact, SiSpringboot, SiX } from "react-icons/si"
 import { HeroAvatar } from './hero-avatar'
 
 export const Hero = () => {
@@ -130,6 +130,7 @@ export const Hero = () => {
                             <div className="flex gap-4 sm:ml-4 sm:border-l sm:pl-6 border-slate-200 dark:border-slate-800 mt-2 sm:mt-0 items-center justify-center w-full sm:w-auto">
                                 <SocialLink href="https://github.com/pacman-cli" icon={<Github className="h-5 w-5" />} label="GitHub Profile" />
                                 <SocialLink href="https://www.linkedin.com/in/iampuspo/" icon={<Linkedin className="h-5 w-5" />} label="LinkedIn Profile" />
+                                <SocialLink href="https://x.com/iam_puspo" icon={<SiX className="h-4 w-4" />} label="X (Twitter) Profile" />
                             </div>
                         </motion.div>
                     </div>
