@@ -1,7 +1,16 @@
+import { getBlogs } from '@/lib/api'
 import { MetadataRoute } from 'next'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = 'https://puspo.online'
+    const blogs = await getBlogs()
+
+    const blogEntries: MetadataRoute.Sitemap = blogs.map((blog) => ({
+        url: `${baseUrl}/blog/${blog.slug}`,
+        lastModified: new Date(blog.publishedAt),
+        changeFrequency: 'monthly',
+        priority: 0.6,
+    }))
 
     return [
         {
@@ -16,6 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.8,
         },
-        // Add other routes if they exist, e.g. /projects, /contact
+        ...blogEntries,
     ]
 }

@@ -426,7 +426,7 @@ const MobileTimeline = ({ pathProgress, prefersReducedMotion }: MobileTimelinePr
 
       {/* Milestones */}
       <div className="space-y-8">
-        {milestones.map((milestone, index) => (
+        {milestones.map((milestone) => (
           <div
             key={milestone.id}
             className="relative flex gap-6"

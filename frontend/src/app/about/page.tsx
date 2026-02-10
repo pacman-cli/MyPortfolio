@@ -83,7 +83,7 @@ export default function AboutPage() {
               <div className="flex flex-col gap-3">
                 <a href="https://github.com/pacman-cli" className="text-emerald-600 hover:underline">GitHub Profile</a>
                 <a href="https://www.linkedin.com/in/iampuspo/" className="text-emerald-600 hover:underline">LinkedIn Profile</a>
-                <a href="mailto:contact@puspo.online" className="text-emerald-600 hover:underline">contact@puspo.online</a>
+                <a href="mailto:puspopuspo520@gmail.com" className="text-emerald-600 hover:underline">puspopuspo520@gmail.com</a>
               </div>
             </div>
           </div>

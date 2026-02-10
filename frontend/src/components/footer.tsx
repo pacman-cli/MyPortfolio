@@ -13,16 +13,16 @@ export const Footer = () => {
         </div>
 
         <div className="flex items-center gap-6">
-          <Link href="https://github.com/pacman-cli" target="_blank" className="text-gray-500 hover:text-primary transition-colors">
+          <Link href="https://github.com/pacman-cli" target="_blank" aria-label="GitHub Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Github className="w-5 h-5" />
           </Link>
-          <Link href="https://www.linkedin.com/in/iampuspo/" target="_blank" className="text-gray-500 hover:text-primary transition-colors">
+          <Link href="https://www.linkedin.com/in/iampuspo/" target="_blank" aria-label="LinkedIn Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Linkedin className="w-5 h-5" />
           </Link>
-          <Link href="https://x.com/iam_puspo" target="_blank" className="text-gray-500 hover:text-primary transition-colors">
+          <Link href="https://x.com/iam_puspo" target="_blank" aria-label="X (Twitter) Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <SiX className="w-4 h-4" />
           </Link>
-          <Link href="mailto:puspopuspo520@gmail.com" className="text-gray-500 hover:text-primary transition-colors">
+          <Link href="mailto:puspopuspo520@gmail.com" aria-label="Email Me" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Mail className="w-5 h-5" />
           </Link>
         </div>

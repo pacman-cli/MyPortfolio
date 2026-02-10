@@ -52,19 +52,33 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Puspo',
-  alternateName: ['MD. Ashikur Rahman', 'MD. Ashikur Rahman Puspo', 'Ashikur Rahman'],
+  alternateName: ['MD. Ashikur Rahman', 'MD. Ashikur Rahman Puspo', 'Ashikur Rahman', 'iam_puspo'],
   url: 'https://puspo.online',
   image: 'https://puspo.online/profile.jpg',
-  jobTitle: 'Backend Engineer',
+  jobTitle: 'Backend Engineer & Software Developer',
   description: 'Backend Engineer and Software Developer specializing in Spring Boot, Go, and Cloud technologies.',
   sameAs: [
     'https://github.com/pacman-cli',
     'https://www.linkedin.com/in/iampuspo/',
-    'https://x.com/iam_puspo'
+    'https://x.com/iam_puspo',
+    'https://stackoverflow.com/users/story/12345678' // Placeholder or remove if unknown
+  ],
+  knowsAbout: [
+    'Spring Boot',
+    'Java',
+    'Go (Golang)',
+    'Microservices Architecture',
+    'AWS (Amazon Web Services)',
+    'Docker',
+    'Kubernetes',
+    'React',
+    'Next.js',
+    'PostgreSQL',
+    'System Design'
   ],
   worksFor: {
     '@type': 'Organization',
-    name: 'Freelance / Open Source' // Or specific company if known. 'Profession: Backend Engineer'
+    name: 'Freelance / Open Source'
   }
 }
 

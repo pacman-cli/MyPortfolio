@@ -29,6 +29,7 @@ export const Navbar = () => {
     { name: 'About', href: '/#about' },
     { name: 'Skills', href: '/#technical-expertise' },
     { name: 'Projects', href: '/#projects' },
+    { name: 'Latest Insights', href: '/#blogs' },
     { name: 'Contact', href: '/#contact' },
   ]
 

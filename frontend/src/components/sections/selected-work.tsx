@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, Folder, GitFork, Github, Star } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useRef } from 'react'
 import { FaJava } from 'react-icons/fa'
@@ -42,7 +43,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     description: "Full-stack rental property marketplace with secure authentication, real-time messaging, and comprehensive listing management.",
     techStack: ["Next.js", "Spring Boot", "MySQL", "Docker"],
     githubUrl: "https://github.com/pacman-cli/staymate",
-    demoUrl: "https://staymate-demo.puspo.online",
+    demoUrl: "https://staymate-demo.puspo.online?theme=light",
     category: "fullstack",
     featured: true,
     livePreview: true,
@@ -140,13 +141,19 @@ const cardVariants = {
 
 interface ProjectCardProps {
   project: FeaturedProject
-  // index: number // Unused
   prefersReducedMotion: boolean | null
 }
 
 const ProjectCard = ({ project, prefersReducedMotion }: ProjectCardProps) => {
   const cardRef = useRef(null)
   const isInView = useInView(cardRef, { once: true, amount: 0.2 })
+  const { resolvedTheme } = useTheme()
+
+  const livePreviewUrl = project.livePreview && project.demoUrl
+    ? (project.name === "StayMate"
+      ? `${project.demoUrl.split('?')[0]}?theme=${resolvedTheme || 'dark'}`
+      : project.demoUrl)
+    : null
 
   return (
     <motion.article
@@ -174,11 +181,11 @@ const ProjectCard = ({ project, prefersReducedMotion }: ProjectCardProps) => {
 
       <div className="flex flex-col h-full">
         {/* Live Preview / Media */}
-        {project.livePreview && project.demoUrl && (
+        {livePreviewUrl && (
           <div className="w-full h-48 border-b border-border/50 relative overflow-hidden bg-muted/30 group-hover:h-48 transition-all duration-500 ease-out">
             <div className="absolute inset-0 w-[400%] h-[400%] origin-top-left scale-[0.25]">
               <iframe
-                src={project.demoUrl}
+                src={livePreviewUrl}
                 title={`${project.name} Live Preview`}
                 className="w-full h-full border-0 bg-white dark:bg-slate-950"
                 loading="lazy"
@@ -187,7 +194,7 @@ const ProjectCard = ({ project, prefersReducedMotion }: ProjectCardProps) => {
             </div>
             {/* Overlay to prevent interaction stealing scroll but allow clicking */}
             <Link
-              href={project.demoUrl}
+              href={livePreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="absolute inset-0 z-10 block cursor-pointer"
@@ -276,7 +283,7 @@ const ProjectCard = ({ project, prefersReducedMotion }: ProjectCardProps) => {
 
             {project.demoUrl && (
               <Link
-                href={project.demoUrl}
+                href={livePreviewUrl || project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
@@ -337,23 +344,21 @@ export const SelectedWork = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div
+        <motion.ul
           variants={prefersReducedMotion ? undefined : containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto"
-          role="list"
-          aria-label="Featured projects"
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto list-none pl-0"
         >
           {FEATURED_PROJECTS.map((project) => (
-            <ProjectCard
-              key={project.name}
-              project={project}
-              // index={index} // Unused
-              prefersReducedMotion={prefersReducedMotion}
-            />
+            <motion.li key={project.name} className="h-full">
+              <ProjectCard
+                project={project}
+                prefersReducedMotion={prefersReducedMotion}
+              />
+            </motion.li>
           ))}
-        </motion.div>
+        </motion.ul>
 
         {/* View more on GitHub */}
         <motion.div

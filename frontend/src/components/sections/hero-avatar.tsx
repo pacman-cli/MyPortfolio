@@ -52,12 +52,9 @@ export const HeroAvatar = () => {
 
   // CONFIG: Animation Parameters
   // Desktop: 8 icons, ~160px radius
-  // Mobile: 4 icons, ~110px radius, Slower speed?
-
+  // Mobile: 4 icons, ~110px radius
   const activeIcons = TECH_ICONS
-
   const radius = isMobile ? 120 : 220
-  const duration = isMobile ? 150 : 100 // Seconds per rotation (Ultra Slow & Smooth)
 
   if (!mounted) return <div className="w-[300px] h-[300px]" /> // Skeleton/Placeholder
 
@@ -66,66 +63,49 @@ export const HeroAvatar = () => {
 
       {/*
         ORBITAL SYSTEM
-        Container rotates continuously.
+        Container rotates continuously using CSS for better performance.
         Children counter-rotate to stay upright.
       */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        animate={!prefersReducedMotion ? { rotate: 360 } : {}}
-        transition={{
-          duration: duration,
-          repeat: Infinity,
-          ease: "linear"
-        }}
+      <div
+        className={cn(
+          "absolute inset-0 flex items-center justify-center",
+          !prefersReducedMotion && "animate-spin-slow"
+        )}
       >
         {activeIcons.map((tech, index) => {
           const total = activeIcons.length
           const angleDeg = (index * 360) / total
-          // const angleRad = (angleDeg * Math.PI) / 180 // Unused
 
           // Fixed position on the circle edge
-          // We use standard CSS transform for placement to work with the parent rotation
-          // Parent rotates, carrying this child.
-
           return (
-            <motion.div
+            <div
               key={tech.label}
               className="absolute"
               style={{
                 top: "50%",
                 left: "50%",
-                // Place on circle edge
                 transform: `translate(-50%, -50%) rotate(${angleDeg}deg) translate(${radius}px) rotate(-${angleDeg}deg)`
-                // Explanation:
-                // 1. Center element
-                // 2. Rotate to target angle
-                // 3. Push out by radius
-                // 4. Rotate back (counter-rotate) so item is upright relative to center
-                // 5. Parent rotation adds global movement
               }}
             >
               {/* COUNTER-ROTATION CONTAINER (Keeps icon upright as parent spins) */}
-              <motion.div
-                animate={!prefersReducedMotion ? { rotate: -360 } : {}}
-                transition={{
-                  duration: duration,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
+              <div
+                className={cn(
+                  !prefersReducedMotion && "animate-spin-reverse-slow"
+                )}
               >
-                {/* ICON VISUAL + FLOATING & PULSE */}
+                {/* ICON VISUAL + FLOATING & PULSE (Kept simple Framer Motion for interactivity or subtle effects) */}
                 <motion.div
                   className={cn(
                     "flex items-center justify-center rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200 dark:border-slate-800",
                     isMobile ? "w-9 h-9 text-lg" : "w-14 h-14 text-2xl"
                   )}
-                  // Micro-float & Pulse
+                  // Micro-float & Pulse - Low cost transform only
                   animate={!prefersReducedMotion ? {
                     y: [-3, 3, -3],
                     scale: [1, 1.05, 1]
                   } : {}}
                   transition={{
-                    duration: 5 + (index % 5), // 5s, 6s, 7s...
+                    duration: 5 + (index % 5),
                     repeat: Infinity,
                     ease: "easeInOut",
                     delay: index * 0.5
@@ -133,15 +113,15 @@ export const HeroAvatar = () => {
                 >
                   <tech.icon className={tech.color} />
                 </motion.div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           )
         })}
-      </motion.div>
+      </div>
 
       {/*
         CENTERPIECE: GitHub Profile
-        Static position (z-10 above orbit plane if needed, or same plane)
+        Static position
       */}
       <AnimatePresence>
         {isHovered && (
@@ -149,12 +129,12 @@ export const HeroAvatar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 dark:bg-black/80 backdrop-blur-sm p-4"
             onClick={() => setIsHovered(false)}
           >
             <motion.div
               layoutId="profile-expand"
-              className="relative w-full max-w-2xl aspect-square rounded-3xl overflow-hidden border-4 border-emerald-500 shadow-2xl bg-slate-900"
+              className="relative w-full max-w-2xl aspect-square rounded-3xl overflow-hidden border-4 border-white dark:border-slate-950 shadow-xl shadow-emerald-500/10 dark:shadow-2xl bg-[#F5F9F7] dark:bg-[#020817]"
               onMouseLeave={() => setIsHovered(false)}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
@@ -164,6 +144,7 @@ export const HeroAvatar = () => {
                 fill
                 className="object-cover"
                 priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </motion.div>
           </motion.div>
@@ -174,7 +155,7 @@ export const HeroAvatar = () => {
         className="relative z-10 group"
         onMouseEnter={() => setIsHovered(true)}
       >
-        {/* Glow Ring (Glassmorphism) - Hidden when hovered to avoid visual clutter during transition? */}
+        {/* Glow Ring (Glassmorphism) */}
         <div className={cn(
           "absolute -inset-4 rounded-full bg-gradient-to-tr from-slate-200/50 to-slate-500/10 dark:from-slate-700/50 dark:to-slate-900/10 blur-xl transition-opacity duration-500",
           isHovered ? "opacity-0" : "opacity-0 group-hover:opacity-100"
@@ -182,23 +163,23 @@ export const HeroAvatar = () => {
 
         {/* Border Ring */}
         <motion.div
-          className="w-40 h-40 sm:w-56 sm:h-56 md:w-80 md:h-80 rounded-full p-2 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-2xl"
+          className="w-40 h-40 sm:w-56 sm:h-56 md:w-80 md:h-80 rounded-full p-2 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-xl"
           animate={{ opacity: isHovered ? 0 : 1 }}
         >
-          {/*
-              Note: We switch element with layoutId="profile-expand"
-              from here (in normal flow) to the modal (fixed overlay).
-              Framer Motion handles the flight.
-           */}
+          {/* Main Avatar Circle */}
           {!isHovered && (
-            <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-slate-950 bg-slate-100 dark:bg-slate-800">
-              <motion.div layoutId="profile-expand" className="w-full h-full relative">
+            <div className="relative w-full h-full rounded-full overflow-hidden">
+              <motion.div
+                layoutId="profile-expand"
+                className="w-full h-full relative border-4 border-white dark:border-slate-950 bg-[#F5F9F7] dark:bg-[#020817] rounded-full overflow-hidden shadow-sm"
+              >
                 <Image
                   src="/profile.jpg"
                   alt="Puspo's Profile"
                   fill
-                  className="object-cover scale-125 -translate-x-1 translate-y-3"
+                  className="object-cover scale-105"
                   priority
+                  sizes="(max-width: 768px) 50vw, 25vw"
                 />
               </motion.div>
             </div>
