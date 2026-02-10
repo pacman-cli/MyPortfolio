@@ -9,6 +9,7 @@ import { getBlogBySlug } from '@/lib/api'
 import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -117,25 +118,61 @@ export default async function BlogPost({ params }: PageProps) {
               h2: ({ node: _node, ...props }) => <h2 className="mt-12 mb-6 scroll-mt-24 text-primary" {...props} />,
               h3: ({ node: _node, ...props }) => <h3 className="mt-8 mb-4 scroll-mt-24 text-primary/90" {...props} />,
               blockquote: ({ node, className, children, ...props }) => {
-                const firstChild = node?.children?.[0]
-                if (
-                  firstChild &&
-                  firstChild.type === 'element' &&
-                  firstChild.tagName === 'p' &&
-                  firstChild.children?.[0]?.type === 'text'
-                ) {
-                  const textContent = firstChild.children[0].value
-                  const match = textContent.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/)
-
-                  if (match) {
-                    const type = match[1] as any
-                    return (
-                      <Alert type={type} {...props}>
-                        {children}
-                      </Alert>
-                    )
+                // Helper to find the first text string in a React node tree
+                const findFirstString = (nodes: React.ReactNode): string | null => {
+                  const arr = React.Children.toArray(nodes)
+                  for (const child of arr) {
+                    if (typeof child === 'string') return child
+                    if (React.isValidElement(child)) {
+                      const element = child as React.ReactElement<{ children?: React.ReactNode }>
+                      if (element.props.children) {
+                        const result = findFirstString(element.props.children)
+                        if (result) return result
+                      }
+                    }
                   }
+                  return null
                 }
+
+                const firstString = findFirstString(children)
+                const match = firstString?.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i)
+
+                if (match) {
+                  const type = match[1].toUpperCase()
+
+                  // Helper to clone tree and strip the marker from the first found text string
+                  let stripped = false
+                  const stripMarker = (nodes: React.ReactNode): React.ReactNode => {
+                    return React.Children.map(nodes, (child) => {
+                      if (stripped) return child // Optimization: stop looking once found
+
+                      if (typeof child === 'string') {
+                        if (child.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i)) {
+                          stripped = true
+                          return child.replace(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/i, '')
+                        }
+                        return child
+                      }
+
+                      if (React.isValidElement(child)) {
+                        const element = child as React.ReactElement<{ children?: React.ReactNode }>
+                        const newChildren = stripMarker(element.props.children)
+                        return React.cloneElement(element, {}, newChildren)
+                      }
+
+                      return child
+                    })
+                  }
+
+                  const newChildren = stripMarker(children)
+
+                  return (
+                    <Alert type={type as any} {...props}>
+                      {newChildren}
+                    </Alert>
+                  )
+                }
+
                 return (
                   <blockquote className="border-l-4 border-blue-500 pl-4 italic bg-blue-500/5 py-2 pr-4 rounded-r-lg my-6" {...props}>
                     {children}

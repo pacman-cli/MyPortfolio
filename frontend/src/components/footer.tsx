@@ -8,8 +8,12 @@ export const Footer = () => {
   return (
     <footer className="py-8 bg-white dark:bg-slate-950 border-t border-gray-100 dark:border-gray-800">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="text-gray-600 dark:text-gray-400 text-sm">
-          © {new Date().getFullYear()} <span className="font-bold text-gray-900 dark:text-white">MD. Ashikur Rahman</span>. All rights reserved.
+        <div className="text-gray-600 dark:text-gray-400 text-sm flex flex-col md:flex-row items-center gap-1">
+          <span>© {new Date().getFullYear()} <span className="font-bold text-gray-900 dark:text-white">Puspo</span>. All rights reserved.</span>
+          {/* <span className="hidden md:inline text-gray-400">•</span> */}
+          {/* <span className="text-xs">
+            Inspired by <Link href="https://monzim.com" target="_blank" className="text-emerald-600 dark:text-emerald-500 hover:underline">Monzim</Link>
+          </span> */}
         </div>
 
         <div className="flex items-center gap-6">

@@ -182,7 +182,7 @@ const ProjectCard = ({ project, prefersReducedMotion }: ProjectCardProps) => {
       <div className="flex flex-col h-full">
         {/* Live Preview / Media */}
         {livePreviewUrl && (
-          <div className="w-full h-48 border-b border-border/50 relative overflow-hidden bg-muted/30 group-hover:h-48 transition-all duration-500 ease-out">
+          <div className="w-full h-48 border-b border-border/50 relative overflow-hidden bg-muted/30 group-hover:h-48 transition-all duration-500 ease-out rounded-t-2xl">
             <div className="absolute inset-0 w-[400%] h-[400%] origin-top-left scale-[0.25]">
               <iframe
                 src={livePreviewUrl}

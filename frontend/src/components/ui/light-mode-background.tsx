@@ -1,8 +1,17 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
 export const LightModeBackground = () => {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   return (
     <div className="fixed inset-0 -z-30 pointer-events-none overflow-hidden dark:hidden bg-slate-50/50">
       {/* Top Left - Soft Mint/Green Abstract Shape */}
@@ -13,7 +22,7 @@ export const LightModeBackground = () => {
         className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] blur-3xl opacity-60"
       >
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full fill-green-200/40">
-           <path d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.4,70.9,32.4C59.6,43.4,48.3,52.4,36.4,60.8C24.5,69.2,12,76.9,-1.1,78.8C-14.2,80.7,-27.1,76.8,-39.8,69.4C-52.5,62,-65.1,51.1,-73.4,37.8C-81.7,24.5,-85.7,8.7,-84, -6.3C-82.3,-21.3,-74.9,-35.3,-64.1,-46.6C-53.3,-57.9,-39.1,-66.4,-25.3,-73.9C-11.5,-81.4,1.8,-87.8,14.6,-86.3L44.7,-76.4Z" transform="translate(100 100)" />
+          <path d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.4,70.9,32.4C59.6,43.4,48.3,52.4,36.4,60.8C24.5,69.2,12,76.9,-1.1,78.8C-14.2,80.7,-27.1,76.8,-39.8,69.4C-52.5,62,-65.1,51.1,-73.4,37.8C-81.7,24.5,-85.7,8.7,-84, -6.3C-82.3,-21.3,-74.9,-35.3,-64.1,-46.6C-53.3,-57.9,-39.1,-66.4,-25.3,-73.9C-11.5,-81.4,1.8,-87.8,14.6,-86.3L44.7,-76.4Z" transform="translate(100 100)" />
         </svg>
       </motion.div>
 
@@ -30,19 +39,19 @@ export const LightModeBackground = () => {
       </motion.div>
 
       {/* Floating Particles/Orbs for detail */}
-      <motion.div 
-         animate={{ y: [0, -30, 0], opacity: [0.4, 0.7, 0.4] }}
-         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-         className="absolute top-1/4 right-1/4 w-32 h-32 bg-green-300/20 rounded-full blur-2xl"
+      <motion.div
+        animate={{ y: [0, -30, 0], opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/4 right-1/4 w-32 h-32 bg-green-300/20 rounded-full blur-2xl"
       />
-      <motion.div 
-         animate={{ y: [0, 40, 0], opacity: [0.3, 0.6, 0.3] }}
-         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-         className="absolute bottom-1/3 left-1/4 w-40 h-40 bg-teal-200/20 rounded-full blur-2xl"
+      <motion.div
+        animate={{ y: [0, 40, 0], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-1/3 left-1/4 w-40 h-40 bg-teal-200/20 rounded-full blur-2xl"
       />
 
       {/* Subtle Grid Pattern Overlay */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03]" />
     </div>
-  );
-};
+  )
+}

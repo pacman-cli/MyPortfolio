@@ -31,7 +31,7 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
                     </div>
                 </Reveal>
 
-                <div className="max-w-3xl mx-auto">
+                <div className="max-w-2xl mx-auto">
                     <Reveal delay={0.2}>
                         <Link href={`/blog/${featuredBlog.slug}`} className="block group">
                             <article className="relative bg-card/50 backdrop-blur-sm rounded-3xl border border-border/50 overflow-hidden hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">

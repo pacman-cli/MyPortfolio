@@ -2,9 +2,9 @@
 
 import { Button } from '@/components/ui/button'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Download, Github, Linkedin } from 'lucide-react'
+import { Github, Linkedin } from 'lucide-react'
 import Link from 'next/link'
-import { SiDocker, SiMysql, SiNextdotjs, SiReact, SiSpringboot, SiX } from "react-icons/si"
+import { SiDocker, SiNextdotjs, SiSpringboot, SiX } from "react-icons/si"
 import { HeroAvatar } from './hero-avatar'
 
 export const Hero = () => {
@@ -56,81 +56,90 @@ export const Hero = () => {
                 <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
 
                     {/* LEFT SIDE: Narrative & Story */}
-                    <div className="text-center lg:text-left flex flex-col items-center lg:items-start space-y-5 md:space-y-8 lg:space-y-10">
+                    <div className="text-center lg:text-left flex flex-col items-center lg:items-start space-y-6 md:space-y-8">
 
-                        {/* 1. Headline - Framed & Glowing - Mobile Optimized */}
-                        <div className="space-y-3 md:space-y-4 relative w-full">
-                            {/* Subtle underlying glow for headline area */}
-                            <div className="absolute -inset-x-8 -inset-y-8 bg-emerald-500/5 dark:bg-emerald-500/5 blur-3xl rounded-full opacity-50 pointer-events-none lg:block hidden" />
+                        {/* 0. Status Badge - Monzim Style (Green Pill) */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium"
+                        >
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            Available for opportunities
+                        </motion.div>
 
+                        {/* 1. Headline - Cleaner, Larger, Focused */}
+                        <div className="space-y-4 relative w-full">
                             <motion.h1
                                 id="hero-heading"
                                 {...fadeInUp}
                                 transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-                                className="relative text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-gray-100 leading-[1.15] sm:leading-[1.1] lg:leading-[1.1]"
+                                className="text-4xl sm:text-6xl lg:text-[5.5rem] font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
                             >
-                                <span className="block sm:inline">I&apos;m Puspo. Designing &</span>
-                                <span className="relative inline-block mt-1 lg:mt-0">
-                                    {/* Text Highlights */}
-                                    <span className="absolute -inset-2 bg-emerald-400/20 dark:bg-emerald-500/10 blur-xl rounded-full opacity-70" />
-                                    <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-400 pb-1">
-                                        Engineering Systems
-                                    </span>
+                                <span className="block text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-500 dark:text-slate-400 mb-2">Hello, I&apos;m</span>
+                                <span className="relative inline-block transition-colors duration-300 hover:text-emerald-500 cursor-default font-serif italic">
+                                    Puspo
                                 </span>
-                                <span className="block sm:inline"> That Perform.</span>
                             </motion.h1>
+                            <motion.h2
+                                {...fadeInUp}
+                                transition={{ duration: 0.7, delay: 0.2 }}
+                                className="text-xl sm:text-2xl lg:text-3xl font-medium text-slate-600 dark:text-slate-300"
+                            >
+                                Backend Engineer & <span className="text-emerald-600 dark:text-emerald-400">Software Developer</span>
+                            </motion.h2>
                         </div>
 
-                        {/* 2. Sub-headline - Readable & Calm */}
+                        {/* 2. Sub-headline */}
                         <motion.p
                             {...fadeInUp}
                             transition={{ duration: 0.7, delay: 0.3 }}
-                            className="text-sm sm:text-lg text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed font-medium mx-auto lg:mx-0 px-2 sm:px-0"
+                            className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed mx-auto lg:mx-0"
                         >
-                            Hi, I am Puspo. I build secure, scalable, high-performance web applications from idea to production using modern architecture.
+                            Building scalable infrastructure and high-performance systems. Specializing in <strong className="text-slate-900 dark:text-slate-200">Spring Boot</strong> and cloud platforms like <strong className="text-slate-900 dark:text-slate-200">AWS</strong>.
                         </motion.p>
 
-                        {/* 3. Tech Chips - Staggered Animation */}
+                        {/* 3. Tech Chips - Simplified */}
                         <motion.div
                             variants={staggerContainer}
                             initial="initial"
                             animate="animate"
-                            className="flex flex-wrap justify-center lg:justify-start gap-2 max-w-[300px] sm:max-w-none mx-auto lg:mx-0"
+                            className="flex flex-wrap justify-center lg:justify-start gap-3"
                         >
-                            <TechChip icon={<SiNextdotjs />} label="Next.js" variants={staggerItem} />
-                            <TechChip icon={<SiReact />} label="React" variants={staggerItem} />
                             <TechChip icon={<SiSpringboot />} label="Spring Boot" variants={staggerItem} />
-                            <TechChip icon={<SiDocker />} label="Docker" variants={staggerItem} />
-                            <TechChip icon={<SiMysql />} label="MySQL" variants={staggerItem} />
+                            <TechChip icon={<SiNextdotjs />} label="Next.js" variants={staggerItem} />
+                            <TechChip icon={<SiDocker />} label="Cloud Native" variants={staggerItem} />
                         </motion.div>
 
-                        {/* 4. CTAs - Enhanced Hover Effects */}
+                        {/* 4. CTAs - Primary Green, Secondary Outline */}
                         <motion.div
                             {...fadeInUp}
                             transition={{ duration: 0.5, delay: 0.5 }}
-                            className="flex flex-col sm:flex-row items-center gap-2 md:gap-4 pt-2 w-full sm:w-auto"
+                            className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto"
                         >
                             <Button
-                                className="w-full sm:w-auto rounded-full bg-emerald-600 hover:bg-emerald-700 text-white border-0 shadow-lg shadow-emerald-600/20 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-600/30 h-[42px] md:h-14 px-4 md:px-8 text-sm md:text-base font-semibold"
+                                className="w-full sm:w-auto rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold h-12 px-8 shadow-lg shadow-emerald-500/20 transition-all hover:scale-105"
+                                asChild
+                            >
+                                <Link href="#contact">Get in Touch</Link>
+                            </Button>
+
+                            <Button
+                                variant="outline"
+                                className="w-full sm:w-auto rounded-full border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white font-medium h-12 px-8 transition-all hover:scale-105"
                                 asChild
                             >
                                 <Link href="#projects">View Projects</Link>
                             </Button>
 
-                            <Button
-                                variant="outline"
-                                className="w-full sm:w-auto rounded-full bg-white dark:bg-[#0A120F] border-2 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500 dark:hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-all duration-200 hover:-translate-y-1 hover:scale-[1.02] h-[42px] md:h-14 px-4 md:px-8 text-sm md:text-base font-semibold"
-                                asChild
-                            >
-                                <Link href="https://drive.google.com/uc?export=download&id=1kdsPhac4EReNEXJU6WfuNg9RPe4d2FvJ" target="_blank">
-                                    <Download className="mr-2 h-3.5 w-3.5 md:h-4 md:w-4" /> Resume
-                                </Link>
-                            </Button>
-
-                            <div className="flex gap-4 sm:ml-4 sm:border-l sm:pl-6 border-slate-200 dark:border-slate-800 mt-2 sm:mt-0 items-center justify-center w-full sm:w-auto">
-                                <SocialLink href="https://github.com/pacman-cli" icon={<Github className="h-5 w-5" />} label="GitHub Profile" />
-                                <SocialLink href="https://www.linkedin.com/in/iampuspo/" icon={<Linkedin className="h-5 w-5" />} label="LinkedIn Profile" />
-                                <SocialLink href="https://x.com/iam_puspo" icon={<SiX className="h-4 w-4" />} label="X (Twitter) Profile" />
+                            <div className="flex gap-3 sm:ml-4 items-center mt-4 sm:mt-0">
+                                <SocialLink href="https://github.com/pacman-cli" icon={<Github className="h-5 w-5" />} label="GitHub" />
+                                <SocialLink href="https://www.linkedin.com/in/iampuspo/" icon={<Linkedin className="h-5 w-5" />} label="LinkedIn" />
+                                <SocialLink href="https://x.com/iam_puspo" icon={<SiX className="h-4 w-4" />} label="X" />
                             </div>
                         </motion.div>
                     </div>

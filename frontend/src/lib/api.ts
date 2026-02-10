@@ -128,19 +128,10 @@ Start small, extract one service at a time, and validate your assumptions.
 ]
 
 export async function getBlogs(): Promise<Blog[]> {
-    // Simulate network delay
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(BLOGS)
-        }, 100)
-    })
+    return Promise.resolve(BLOGS)
 }
 
 export async function getBlogBySlug(slug: string): Promise<Blog | null> {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const blog = BLOGS.find(b => b.slug === slug)
-            resolve(blog || null)
-        }, 100)
-    })
+    const blog = BLOGS.find(b => b.slug === slug)
+    return Promise.resolve(blog || null)
 }
