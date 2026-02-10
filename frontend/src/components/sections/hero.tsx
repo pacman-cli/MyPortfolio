@@ -69,7 +69,7 @@ export const Hero = () => {
                                 transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
                                 className="relative text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-gray-100 leading-[1.15] sm:leading-[1.1] lg:leading-[1.1]"
                             >
-                                <span className="block sm:inline">I'm Puspo. Designing &</span>
+                                <span className="block sm:inline">I&apos;m Puspo. Designing &</span>
                                 <span className="relative inline-block mt-1 lg:mt-0">
                                     {/* Text Highlights */}
                                     <span className="absolute -inset-2 bg-emerald-400/20 dark:bg-emerald-500/10 blur-xl rounded-full opacity-70" />

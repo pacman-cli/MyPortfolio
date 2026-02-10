@@ -22,6 +22,7 @@ interface FeaturedProject {
   forks?: number
   category: 'fullstack' | 'backend' | 'frontend' | 'systems'
   featured?: boolean
+  livePreview?: boolean
 }
 
 // Curated list of projects - edit this to customize your showcase
@@ -34,14 +35,17 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     demoUrl: "https://takatrack.puspo.online",
     category: "fullstack",
     featured: true,
+    livePreview: true,
   },
   {
     name: "StayMate",
     description: "Full-stack rental property marketplace with secure authentication, real-time messaging, and comprehensive listing management.",
     techStack: ["Next.js", "Spring Boot", "MySQL", "Docker"],
     githubUrl: "https://github.com/pacman-cli/staymate",
+    demoUrl: "https://staymate-demo.puspo.online",
     category: "fullstack",
     featured: true,
+    livePreview: true,
   },
   {
     name: "Portfolio",
@@ -50,13 +54,16 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     githubUrl: "https://github.com/pacman-cli/MyPortfolio",
     demoUrl: "https://puspo.online",
     category: "frontend",
+    livePreview: true,
   },
   {
-    name: "Expense Tracker",
-    description: "Track daily expenses efficiently with detailed analytics, categorization, and financial monitoring capabilities.",
-    techStack: ["Next.js", "Spring Boot", "MySQL"],
-    githubUrl: "https://github.com/pacman-cli/expense-tracker",
+    name: "E-Commerce",
+    description: "A comprehensive e-commerce platform with product management, shopping cart functionality, and secure checkout processes.",
+    techStack: ["Next.js", "Spring Boot", "MySQL", "Docker"],
+    githubUrl: "https://github.com/pacman-cli/e-commerce",
+    demoUrl: "https://ecommerce.puspo.online/",
     category: "fullstack",
+    livePreview: true,
   },
   {
     name: "Java Learning",
@@ -133,11 +140,11 @@ const cardVariants = {
 
 interface ProjectCardProps {
   project: FeaturedProject
-  index: number
+  // index: number // Unused
   prefersReducedMotion: boolean | null
 }
 
-const ProjectCard = ({ project, index, prefersReducedMotion }: ProjectCardProps) => {
+const ProjectCard = ({ project, prefersReducedMotion }: ProjectCardProps) => {
   const cardRef = useRef(null)
   const isInView = useInView(cardRef, { once: true, amount: 0.2 })
 
@@ -165,100 +172,125 @@ const ProjectCard = ({ project, index, prefersReducedMotion }: ProjectCardProps)
         </div>
       )}
 
-      <div className="p-6 flex flex-col h-full">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div className="flex items-center gap-3">
-            <div className={cn(
-              "p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110",
-              getCategoryColor(project.category)
-            )}>
-              <Folder className="w-5 h-5" />
+      <div className="flex flex-col h-full">
+        {/* Live Preview / Media */}
+        {project.livePreview && project.demoUrl && (
+          <div className="w-full h-48 border-b border-border/50 relative overflow-hidden bg-muted/30 group-hover:h-48 transition-all duration-500 ease-out">
+            <div className="absolute inset-0 w-[400%] h-[400%] origin-top-left scale-[0.25]">
+              <iframe
+                src={project.demoUrl}
+                title={`${project.name} Live Preview`}
+                className="w-full h-full border-0 bg-white dark:bg-slate-950"
+                loading="lazy"
+                tabIndex={-1}
+              />
             </div>
-            <div>
-              <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
-                {project.name}
-              </h3>
-              <span className={cn(
-                "inline-block text-[10px] font-medium uppercase tracking-wide px-2 py-0.5 rounded-full border mt-1",
-                getCategoryColor(project.category)
-              )}>
-                {project.category}
-              </span>
-            </div>
-          </div>
-
-          {/* Stats */}
-          {(project.stars || project.forks) && (
-            <div className="flex items-center gap-3 text-xs text-muted-foreground">
-              {project.stars && (
-                <span className="flex items-center gap-1">
-                  <Star className="w-3.5 h-3.5" />
-                  {project.stars}
-                </span>
-              )}
-              {project.forks && (
-                <span className="flex items-center gap-1">
-                  <GitFork className="w-3.5 h-3.5" />
-                  {project.forks}
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Description */}
-        <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-grow">
-          {project.description}
-        </p>
-
-        {/* Tech stack */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {project.techStack.map((tech) => (
-            <span
-              key={tech}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-secondary/50 text-secondary-foreground border border-border/50 hover:border-primary/30 transition-colors"
-            >
-              {getTechIcon(tech)}
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Actions */}
-        <div className="flex items-center gap-3 pt-4 border-t border-border/50">
-          <Link
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium",
-              "bg-secondary/50 hover:bg-secondary text-foreground",
-              "border border-border/50 hover:border-primary/30",
-              "transition-all duration-300"
-            )}
-            aria-label={`View ${project.name} source code on GitHub`}
-          >
-            <Github className="w-4 h-4" />
-            Code
-          </Link>
-
-          {project.demoUrl && (
+            {/* Overlay to prevent interaction stealing scroll but allow clicking */}
             <Link
               href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
+              className="absolute inset-0 z-10 block cursor-pointer"
+              aria-label={`Visit ${project.name} live demo`}
+            />
+          </div>
+        )}
+
+        <div className="p-6 flex flex-col flex-grow">
+          {/* Header */}
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div className="flex items-center gap-3">
+              <div className={cn(
+                "p-2.5 rounded-xl transition-transform duration-300 group-hover:scale-110",
+                getCategoryColor(project.category)
+              )}>
+                <Folder className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
+                  {project.name}
+                </h3>
+                <span className={cn(
+                  "inline-block text-[10px] font-medium uppercase tracking-wide px-2 py-0.5 rounded-full border mt-1",
+                  getCategoryColor(project.category)
+                )}>
+                  {project.category}
+                </span>
+              </div>
+            </div>
+
+            {/* Stats */}
+            {(project.stars || project.forks) && (
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                {project.stars && (
+                  <span className="flex items-center gap-1">
+                    <Star className="w-3.5 h-3.5" />
+                    {project.stars}
+                  </span>
+                )}
+                {project.forks && (
+                  <span className="flex items-center gap-1">
+                    <GitFork className="w-3.5 h-3.5" />
+                    {project.forks}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Description */}
+          <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-grow">
+            {project.description}
+          </p>
+
+          {/* Tech stack */}
+          <div className="flex flex-wrap gap-1.5 mb-5">
+            {project.techStack.map((tech) => (
+              <span
+                key={tech}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full bg-secondary/50 text-secondary-foreground border border-border/50 hover:border-primary/30 transition-colors"
+              >
+                {getTechIcon(tech)}
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3 pt-4 border-t border-border/50">
+            <Link
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
                 "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium",
-                "bg-primary hover:bg-primary/90 text-primary-foreground",
+                "bg-secondary/50 hover:bg-secondary text-foreground",
+                "border border-border/50 hover:border-primary/30",
                 "transition-all duration-300"
               )}
-              aria-label={`View ${project.name} live demo`}
+              aria-label={`View ${project.name} source code on GitHub`}
             >
-              Live Demo
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <Github className="w-4 h-4" />
+              Code
             </Link>
-          )}
+
+            {project.demoUrl && (
+              <Link
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium",
+                  "bg-primary hover:bg-primary/90 text-primary-foreground",
+                  "transition-all duration-300"
+                )}
+                aria-label={`View ${project.name} live demo`}
+              >
+                Live Demo
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </motion.article>
@@ -313,11 +345,11 @@ export const SelectedWork = () => {
           role="list"
           aria-label="Featured projects"
         >
-          {FEATURED_PROJECTS.map((project, index) => (
+          {FEATURED_PROJECTS.map((project) => (
             <ProjectCard
               key={project.name}
               project={project}
-              index={index}
+              // index={index} // Unused
               prefersReducedMotion={prefersReducedMotion}
             />
           ))}

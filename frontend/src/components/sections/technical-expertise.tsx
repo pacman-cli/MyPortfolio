@@ -212,7 +212,7 @@ const SkillChip = ({ skill, index }: { skill: SkillItem; index: number }) => {
 // COMPONENT: CATEGORY NODE
 // ============================================================================
 
-const CategoryNode = ({ category, index, isLast }: { category: SkillCategory; index: number; isLast: boolean }) => {
+const CategoryNode = ({ category }: { category: SkillCategory }) => {
   const nodeRef = useRef(null)
   const isInView = useInView(nodeRef, {
     margin: "-20% 0px -20% 0px",
@@ -348,12 +348,10 @@ export const TechnicalExpertise = () => {
 
           {/* Categories */}
           <div className="space-y-2 md:space-y-4 pb-8">
-            {SKILL_CATEGORIES.map((category, index) => (
+            {SKILL_CATEGORIES.map((category) => (
               <CategoryNode
                 key={category.id}
                 category={category}
-                index={index}
-                isLast={index === SKILL_CATEGORIES.length - 1}
               />
             ))}
           </div>

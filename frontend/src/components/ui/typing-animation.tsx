@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect, useState } from "react";
+import { animate, motion, useMotionValue, useTransform } from "framer-motion"
+import { useEffect, useState } from "react"
 
 export const TypingAnimation = ({ text }: { text: string }) => {
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) => Math.round(latest));
-  const displayText = useTransform(rounded, (latest) => text.slice(0, latest));
-  const [showCursor, setShowCursor] = useState(true);
+  const count = useMotionValue(0)
+  const rounded = useTransform(count, (latest) => Math.round(latest))
+  const displayText = useTransform(rounded, (latest) => text.slice(0, latest))
+  const [showCursor, setShowCursor] = useState(true)
 
   useEffect(() => {
     const controls = animate(count, text.length, {
@@ -15,9 +15,9 @@ export const TypingAnimation = ({ text }: { text: string }) => {
       duration: 2, // Slow and smooth, 2 seconds total
       ease: "easeInOut",
       onComplete: () => setShowCursor(false) // Hide cursor after typing
-    });
-    return controls.stop;
-  }, []);
+    })
+    return controls.stop
+  }, [count, text.length])
 
   return (
     <span className="inline-flex items-center">
@@ -32,5 +32,5 @@ export const TypingAnimation = ({ text }: { text: string }) => {
         />
       )}
     </span>
-  );
-};
+  )
+}

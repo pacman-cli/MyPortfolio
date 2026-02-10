@@ -1,32 +1,28 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { Reveal } from '@/components/ui/reveal';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar, Clock, X, Tag, BookOpen } from 'lucide-react';
-import axios from 'axios';
-import { Blog } from '@/types';
-import { motion, AnimatePresence } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
+import { Button } from '@/components/ui/button'
+import { Reveal } from '@/components/ui/reveal'
+import { Blog } from '@/types'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowRight, BookOpen, Calendar, Clock, X } from 'lucide-react'
+import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 interface RecentBlogsProps {
-    blogs: Blog[];
+    blogs: Blog[]
 }
 
 export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
-    const [visibleCount, setVisibleCount] = useState(3);
-    const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
+    const [visibleCount] = useState(3) // setVisibleCount unused if loadMore is gone
+    const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null)
 
-    const loadMore = () => {
-        setVisibleCount(prev => prev + 3);
-    };
+    // const loadMore = () => { ... } // Unused
 
 
 
     return (
         <section id="blogs" className="py-20 bg-background relative">
-             {/* Background Blob equivalent to styles in Skills */}
+            {/* Background Blob equivalent to styles in Skills */}
             <div className="absolute top-1/2 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl -z-10" />
 
             <div className="container mx-auto px-6">
@@ -48,14 +44,14 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
                     ) : (
                         blogs.slice(0, visibleCount).map((blog, index) => (
                             <Reveal key={blog.id} delay={index * 0.1}>
-                                <div 
+                                <div
                                     className="bg-muted/30 rounded-2xl p-8 border border-border/50 hover:border-blue-500/30 transition-colors group cursor-pointer"
                                     onClick={() => setSelectedBlog(blog)}
                                 >
                                     <div className="flex flex-col md:flex-row items-center gap-6">
                                         {/* Icon & Title - Matches Skills Left Column */}
                                         <div className="flex items-center gap-4 md:w-1/3 w-full self-start">
-                                                <div className="p-3 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform shadow-sm shrink-0">
+                                            <div className="p-3 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform shadow-sm shrink-0">
                                                 <BookOpen className="w-6 h-6" />
                                             </div>
                                             <div>
@@ -80,7 +76,7 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
                                             <p className="text-muted-foreground text-sm line-clamp-2 md:line-clamp-none mb-4 leading-relaxed">
                                                 {blog.excerpt}
                                             </p>
-                                            
+
                                             <div className="flex items-center justify-between">
                                                 <div className="flex flex-wrap gap-2">
                                                     {blog.tags && (typeof blog.tags === 'string' ? blog.tags.split(',') : []).slice(0, 3).map(tag => (
@@ -89,7 +85,7 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
                                                         </span>
                                                     ))}
                                                 </div>
-                                                
+
                                                 <div className="flex items-center text-primary font-medium text-sm group-hover:underline whitespace-nowrap ml-4">
                                                     Read <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
                                                 </div>
@@ -106,14 +102,14 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
             {/* Blog Modal */}
             <AnimatePresence>
                 {selectedBlog && (
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={() => setSelectedBlog(null)}
                         className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 md:p-8"
                     >
-                        <motion.div 
+                        <motion.div
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -158,5 +154,5 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
                 )}
             </AnimatePresence>
         </section>
-    );
-};
+    )
+}

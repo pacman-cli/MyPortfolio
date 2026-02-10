@@ -112,11 +112,10 @@ const contentVariants = {
 interface TimelineNodeProps {
   milestone: Milestone
   isActive: boolean
-  index: number
   prefersReducedMotion: boolean | null
 }
 
-const TimelineNode = ({ milestone, isActive, index, prefersReducedMotion }: TimelineNodeProps) => {
+const TimelineNode = ({ milestone, isActive, prefersReducedMotion }: TimelineNodeProps) => {
   const getTypeColor = () => {
     switch (milestone.type) {
       case 'work': return 'from-blue-500 to-cyan-500'
@@ -381,7 +380,6 @@ const DesktopTimeline = ({ pathProgress, prefersReducedMotion }: DesktopTimeline
               <TimelineNode
                 milestone={milestone}
                 isActive={isActive}
-                index={index}
                 prefersReducedMotion={prefersReducedMotion}
               />
 
@@ -439,7 +437,6 @@ const MobileTimeline = ({ pathProgress, prefersReducedMotion }: MobileTimelinePr
               <TimelineNode
                 milestone={milestone}
                 isActive={false}
-                index={index}
                 prefersReducedMotion={prefersReducedMotion}
               />
             </div>
