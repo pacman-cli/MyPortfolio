@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  compress: true,
 }
 
 console.log('🔗 Connecting to Backend at:', process.env.BACKEND_URL || (process.env.NODE_ENV === 'production' ? 'http://portfolio-backend:8080' : 'http://localhost:8082'))
