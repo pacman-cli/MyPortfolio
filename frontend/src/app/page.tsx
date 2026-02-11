@@ -1,15 +1,18 @@
 import { Footer } from '@/components/footer'
-import { About } from '@/components/sections/about'
-import { ClosingSection } from '@/components/sections/closing-section'
-import { GithubActivity } from '@/components/sections/github-activity'
 import { Hero } from '@/components/sections/hero'
-import { Highlights } from '@/components/sections/highlights'
-import { JourneyTimeline } from '@/components/sections/journey-timeline'
-import { RecentBlogs } from '@/components/sections/recent-blogs'
-import { SelectedWork } from '@/components/sections/selected-work'
-import { TechnicalExpertise } from '@/components/sections/technical-expertise'
 import { ScrollProgress } from '@/components/ui/scroll-progress'
 import { getBlogs } from '@/lib/api'
+import dynamic from 'next/dynamic'
+
+// Lazy load below-the-fold components
+const About = dynamic(() => import('@/components/sections/about').then(mod => mod.About))
+const ClosingSection = dynamic(() => import('@/components/sections/closing-section').then(mod => mod.ClosingSection))
+const GithubActivity = dynamic(() => import('@/components/sections/github-activity').then(mod => mod.GithubActivity))
+const Highlights = dynamic(() => import('@/components/sections/highlights').then(mod => mod.Highlights))
+const JourneyTimeline = dynamic(() => import('@/components/sections/journey-timeline').then(mod => mod.JourneyTimeline))
+const RecentBlogs = dynamic(() => import('@/components/sections/recent-blogs').then(mod => mod.RecentBlogs))
+const SelectedWork = dynamic(() => import('@/components/sections/selected-work').then(mod => mod.SelectedWork))
+const TechnicalExpertise = dynamic(() => import('@/components/sections/technical-expertise').then(mod => mod.TechnicalExpertise))
 
 export default async function Home() {
   const blogs = await getBlogs()

@@ -118,59 +118,64 @@ export default async function BlogPost({ params }: PageProps) {
               h2: ({ node: _node, ...props }) => <h2 className="mt-12 mb-6 scroll-mt-24 text-primary" {...props} />,
               h3: ({ node: _node, ...props }) => <h3 className="mt-8 mb-4 scroll-mt-24 text-primary/90" {...props} />,
               blockquote: ({ node, className, children, ...props }) => {
-                // Helper to find the first text string in a React node tree
-                const findFirstString = (nodes: React.ReactNode): string | null => {
-                  const arr = React.Children.toArray(nodes)
-                  for (const child of arr) {
-                    if (typeof child === 'string') return child
-                    if (React.isValidElement(child)) {
-                      const element = child as React.ReactElement<{ children?: React.ReactNode }>
-                      if (element.props.children) {
-                        const result = findFirstString(element.props.children)
-                        if (result) return result
+                const childrenArray = React.Children.toArray(children)
+                const firstChild = childrenArray[0]
+
+                // Helper to check for alert pattern
+                const getAlertMatch = (text: string) => text.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s?/i)
+
+                // Check if first child is a paragraph (standard markdown structure)
+                if (React.isValidElement(firstChild)) {
+                  const element = firstChild as React.ReactElement<{ children?: React.ReactNode }>
+                  if (element.props.children) {
+                    const pChildren = React.Children.toArray(element.props.children)
+                    const firstText = pChildren[0]
+
+                    if (typeof firstText === 'string') {
+                      const match = getAlertMatch(firstText)
+                      if (match) {
+                        const type = match[1].toUpperCase()
+
+                        // Remove the marker from the text
+                        const remainingText = firstText.replace(match[0], '')
+
+                        // Reconstruct the paragraph with remaining text
+                        const newPChildren = [...pChildren]
+                        newPChildren[0] = remainingText
+
+                        // Identify title - either explicit or default
+                        // Standard GFM alerts don't have titles in the first line typically,
+                        // but often people write "> [!TIP] Title here"
+                        // If we want to support that, we can parse remainingText.
+                        // For now, let's use the Type as title to match GitHub style implicitly,
+                        // or if the line has content, keep it in the body.
+
+                        const newFirstChild = React.cloneElement(firstChild as React.ReactElement, {}, newPChildren)
+                        const newContent = [newFirstChild, ...childrenArray.slice(1)]
+
+                        return (
+                          <Alert type={type as any} title={type}>
+                            {newContent}
+                          </Alert>
+                        )
                       }
                     }
                   }
-                  return null
                 }
 
-                const firstString = findFirstString(children)
-                const match = firstString?.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i)
-
-                if (match) {
-                  const type = match[1].toUpperCase()
-
-                  // Helper to clone tree and strip the marker from the first found text string
-                  let stripped = false
-                  const stripMarker = (nodes: React.ReactNode): React.ReactNode => {
-                    return React.Children.map(nodes, (child) => {
-                      if (stripped) return child // Optimization: stop looking once found
-
-                      if (typeof child === 'string') {
-                        if (child.match(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i)) {
-                          stripped = true
-                          return child.replace(/^\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/i, '')
-                        }
-                        return child
-                      }
-
-                      if (React.isValidElement(child)) {
-                        const element = child as React.ReactElement<{ children?: React.ReactNode }>
-                        const newChildren = stripMarker(element.props.children)
-                        return React.cloneElement(element, {}, newChildren)
-                      }
-
-                      return child
-                    })
+                // Fallback for direct text children (less common)
+                if (typeof firstChild === 'string') {
+                  const match = getAlertMatch(firstChild)
+                  if (match) {
+                    const type = match[1].toUpperCase()
+                    const remainingText = firstChild.replace(match[0], '')
+                    return (
+                      <Alert type={type as any} title={type}>
+                        {remainingText}
+                        {childrenArray.slice(1)}
+                      </Alert>
+                    )
                   }
-
-                  const newChildren = stripMarker(children)
-
-                  return (
-                    <Alert type={type as any} {...props}>
-                      {newChildren}
-                    </Alert>
-                  )
                 }
 
                 return (

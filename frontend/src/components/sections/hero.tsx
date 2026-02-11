@@ -38,8 +38,8 @@ export const Hero = () => {
             {/* Background Atmosphere - Deep, Calm, Engineered */}
             <div className="absolute inset-0 w-full h-full overflow-visible -z-10">
                 {/* 1. Ambient Glows - Very Subtle */}
-                <div className="absolute top-[-10%] right-[-10%] w-[600px] lg:w-[1000px] h-[600px] lg:h-[1000px] bg-gradient-to-br from-emerald-100/30 to-teal-100/30 dark:from-emerald-900/10 dark:to-teal-900/10 rounded-full blur-[100px] lg:blur-[130px]" />
-                <div className="absolute bottom-[-10%] left-[-10%] w-[500px] lg:w-[800px] h-[500px] lg:h-[800px] bg-gradient-to-tr from-green-100/30 to-cyan-100/30 dark:from-green-900/10 dark:to-cyan-900/10 rounded-full blur-[100px] lg:blur-[130px]" />
+                <div className="absolute top-[-10%] right-[-10%] w-[600px] lg:w-[1000px] h-[600px] lg:h-[1000px] bg-gradient-to-br from-emerald-100/30 to-teal-100/30 dark:from-emerald-900/10 dark:to-teal-900/10 rounded-full blur-[100px] lg:blur-[130px] will-change-transform" />
+                <div className="absolute bottom-[-10%] left-[-10%] w-[500px] lg:w-[800px] h-[500px] lg:h-[800px] bg-gradient-to-tr from-green-100/30 to-cyan-100/30 dark:from-green-900/10 dark:to-cyan-900/10 rounded-full blur-[100px] lg:blur-[130px] will-change-transform" />
 
                 {/* 2. Circuit/Grid Pattern - Visually Weighting the Left Side */}
                 <div
