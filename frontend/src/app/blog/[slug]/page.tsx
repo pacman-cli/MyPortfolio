@@ -5,6 +5,7 @@ import { Alert } from '@/components/ui/alert'
 import { BlogProgress } from '@/components/ui/blog-progress'
 import { Button } from '@/components/ui/button'
 import { CodeBlock } from '@/components/ui/code-block'
+import { MermaidDiagram } from '@/components/ui/mermaid-diagram'
 import { getBlogBySlug } from '@/lib/api'
 import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react'
 import Link from 'next/link'
@@ -70,9 +71,9 @@ export default async function BlogPost({ params }: PageProps) {
         </div>
       </nav>
 
-      <article className="container max-w-3xl mx-auto px-6 py-12 md:py-20 pt-32 md:pt-40">
+      <article className="container max-w-3xl mx-auto px-6 pt-10 md:pt-14 pb-12 md:pb-20">
         {/* Header */}
-        <header className="mb-12 md:mb-16">
+        <header className="mb-10 md:mb-12">
           <div className="flex flex-wrap gap-2 mb-6">
             {blog.tags && (typeof blog.tags === 'string' ? blog.tags.split(',') : []).map(tag => (
               <span
@@ -130,7 +131,6 @@ export default async function BlogPost({ params }: PageProps) {
                   if (element.props.children) {
                     const pChildren = React.Children.toArray(element.props.children)
                     const firstText = pChildren[0]
-
                     if (typeof firstText === 'string') {
                       const match = getAlertMatch(firstText)
                       if (match) {
@@ -204,6 +204,11 @@ export default async function BlogPost({ params }: PageProps) {
                       {children}
                     </code>
                   )
+                }
+
+                // Render Mermaid diagrams as SVG
+                if (match && match[1] === 'mermaid') {
+                  return <MermaidDiagram chart={String(children).replace(/\n$/, '')} />
                 }
 
                 return (

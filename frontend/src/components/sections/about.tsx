@@ -26,8 +26,9 @@ export const About = () => {
                                 <Image
                                     src="/profile.jpg"
                                     alt="MD. Ashikur Rahman PUSPO"
-                                    width={500}
-                                    height={600}
+                                    fill
+                                    sizes="(max-width: 768px) 90vw, 40vw"
+                                    loading="lazy"
                                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
                                 />
                             </div>

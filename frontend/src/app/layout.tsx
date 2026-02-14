@@ -1,14 +1,23 @@
 import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
-import { CursorFollower } from "@/components/ui/cursor-follower"
+import { LazyCursorFollower } from "@/components/ui/cursor-follower-lazy"
 import { LightModeBackground } from "@/components/ui/light-mode-background"
 import { cn } from "@/lib/utils"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: 'swap' })
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: 'swap' })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
+    { media: '(prefers-color-scheme: dark)', color: '#020817' },
+  ],
+}
 
 export const metadata: Metadata = {
   title: 'Puspo | Backend Engineer & Software Developer',
@@ -89,6 +98,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <link rel="dns-prefetch" href="https://api.github.com" />
+        <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-primary/20")} suppressHydrationWarning>
         <script
           type="application/ld+json"
@@ -101,7 +116,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LightModeBackground />
-          <CursorFollower />
+          <LazyCursorFollower />
           <Navbar />
           {children}
         </ThemeProvider>

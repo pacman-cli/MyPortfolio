@@ -24,6 +24,12 @@ export const CursorFollower = () => {
       return
     }
 
+    // Also skip on small screens (mobile)
+    if (window.innerWidth < 768) {
+      setIsVisible(false)
+      return
+    }
+
     // Hide default cursor
     document.body.classList.add('custom-cursor-active')
 
