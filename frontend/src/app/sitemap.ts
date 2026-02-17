@@ -2,7 +2,7 @@ import { getBlogs } from '@/lib/api'
 import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://puspo.online'
+    const baseUrl = 'https://www.puspo.online'
     const blogs = await getBlogs()
 
     const blogEntries: MetadataRoute.Sitemap = blogs.map((blog) => ({

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://puspo.online/sitemap.xml',
+        sitemap: 'https://www.puspo.online/sitemap.xml',
     }
 }
