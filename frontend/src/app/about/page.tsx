@@ -3,12 +3,12 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 
 export const metadata: Metadata = {
-  title: 'About Puspo | Backend Engineer & Software Developer',
-  description: 'Learn about Puspo (MD. Ashikur Rahman), a Backend Engineer specializing in Spring Boot, Go, and Cloud Architecture. Discover his journey, skills, and professional background.',
+  title: 'About Puspo | Backend Developer',
+  description: 'Learn about Puspo (MD. Ashikur Rahman), a Backend Developer specializing in Spring Boot, MySQL, and Cloud Architecture. Discover his journey, skills, and professional background.',
   openGraph: {
-    title: 'About Puspo | Backend Engineer',
-    description: 'Who is Puspo? A dedicated software engineer building scalable backend systems.',
-    url: 'https://puspo.online/about',
+    title: 'About Puspo | Backend Developer',
+    description: 'Who is Puspo? A dedicated software developer building scalable backend systems.',
+    url: 'https://www.puspo.online/about',
   }
 }
 
