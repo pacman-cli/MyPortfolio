@@ -3,6 +3,16 @@ import { Blog } from "@/types"
 // Single high-quality static blog post
 const BLOGS: Blog[] = [
     {
+        id: 2,
+        title: "Deep Dive: Spring Security Architecture & Request Pipeline",
+        slug: "spring-security-architecture-linkedin",
+        excerpt: "A visual deep dive into how Spring Security processes requests under the hood, featuring a detailed pipeline diagram and configuration best practices.",
+        tags: "Spring Security, Backend, Architecture",
+        publishedAt: "2024-05-20T09:00:00.000Z",
+        externalUrl: "https://www.linkedin.com/posts/iampuspo_today-i-deep-dived-into-how-spring-security-share-7430609877632237568-D53Q",
+        imageUrl: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop" // Beautiful generic code/security image
+    },
+    {
         id: 1,
         title: "Microservices in Spring Boot: Architecture, Design Patterns, and Production Practices",
         slug: "microservices-spring-boot-architecture",
@@ -579,7 +589,7 @@ Migrating to microservices is a journey, not a destination. It requires a shift 
 Start small, extract one service at a time, and validate your assumptions.
     `,
         tags: "Spring Boot, Microservices, Architecture, System Design",
-        publishedAt: new Date().toISOString()
+        publishedAt: "2024-04-10T10:30:00.000Z"
     }
 ]
 

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { CodeBlock } from '@/components/ui/code-block'
 import { MermaidDiagram } from '@/components/ui/mermaid-diagram'
 import { getBlogBySlug } from '@/lib/api'
-import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react'
+import { ArrowLeft, Clock, Tag } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
@@ -90,15 +90,16 @@ export default async function BlogPost({ params }: PageProps) {
           </h1>
 
           <div className="flex items-center gap-6 text-sm text-muted-foreground border-b border-border/50 pb-8">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              <time dateTime={blog.publishedAt}>
-                {new Date(blog.publishedAt).toLocaleDateString(undefined, {
-                  year: 'numeric',
+            <div className="flex items-center justify-center gap-4 text-sm font-mono text-muted-foreground/80 mb-8">
+              <span suppressHydrationWarning>
+                {new Date(blog.publishedAt).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
                   month: 'long',
-                  day: 'numeric'
+                  day: 'numeric',
+                  year: 'numeric'
                 })}
-              </time>
+              </span>
+              <span>•</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />

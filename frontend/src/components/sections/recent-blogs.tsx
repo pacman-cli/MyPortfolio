@@ -9,33 +9,66 @@ interface RecentBlogsProps {
     blogs: Blog[]
 }
 
+import Image from 'next/image'
+
 const BlogRow = ({ blog }: { blog: Blog }) => {
+    const isExternal = !!blog.externalUrl
+    const Wrapper = isExternal ? 'a' : Link
+    const href = isExternal ? blog.externalUrl! : `/blog/${blog.slug}`
+    const target = isExternal ? '_blank' : undefined
+    const rel = isExternal ? 'noopener noreferrer' : undefined
+
     return (
-        <Link href={`/blog/${blog.slug}`} className="block group">
-            <article className="flex flex-col md:flex-row gap-6 md:items-start py-8 border-b border-border/40 group-hover:bg-muted/30 transition-colors duration-300 px-6 -mx-6 rounded-lg">
-                <div className="md:w-32 flex-shrink-0 pt-1">
-                    <span className="text-sm font-mono text-muted-foreground/60 block">
-                        {new Date(blog.publishedAt).toLocaleDateString(undefined, {
+        <Wrapper href={href} target={target} rel={rel} className="block group">
+            <article className="flex flex-col md:flex-row gap-6 md:items-start py-8 border-b border-border/40 group-hover:bg-muted/30 transition-colors duration-300 px-6 -mx-6 rounded-lg relative">
+
+                {/* Mobile: Image at top, Desktop: Hidden */}
+                {blog.imageUrl && (
+                    <div className="md:hidden w-full aspect-video relative rounded-lg overflow-hidden border border-border/50 group-hover:border-primary/50 transition-colors">
+                        <Image src={blog.imageUrl} alt={blog.title} fill className="object-cover" />
+                    </div>
+                )}
+
+                {/* Left: Meta info */}
+                <div className="md:w-32 flex-shrink-0 pt-1 flex md:flex-col justify-between md:justify-start items-center md:items-start">
+                    <span suppressHydrationWarning className="text-sm font-mono text-muted-foreground/60 block">
+                        {new Date(blog.publishedAt).toLocaleDateString('en-US', {
+                            timeZone: 'UTC',
                             month: 'short',
                             day: 'numeric'
                         })}
                     </span>
+                    {isExternal && (
+                        <span className="inline-flex items-center gap-1 md:mt-2 text-[10px] font-medium text-blue-500 uppercase tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full">
+                            LinkedIn
+                        </span>
+                    )}
                 </div>
 
+                {/* Middle: Content */}
                 <div className="flex-1 space-y-2">
-                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors pr-6 md:pr-0">
                         {blog.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2 max-w-2xl leading-relaxed">
+                    <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-3 max-w-2xl leading-relaxed">
                         {blog.excerpt}
                     </p>
                 </div>
 
-                <div className="md:w-12 flex justify-end pt-1">
-                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                {/* Right: Desktop Image & Icon */}
+                <div className="flex items-start gap-4 flex-shrink-0">
+                    {blog.imageUrl && (
+                        <div className="hidden md:block w-32 h-20 relative rounded-md overflow-hidden border border-border/50 group-hover:border-primary/50 transition-colors">
+                            <Image src={blog.imageUrl} alt={blog.title} fill className="object-cover" />
+                        </div>
+                    )}
+                    <div className="absolute top-8 right-6 md:static md:w-12 flex justify-end md:pt-1">
+                        <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                    </div>
                 </div>
+
             </article>
-        </Link>
+        </Wrapper>
     )
 }
 
