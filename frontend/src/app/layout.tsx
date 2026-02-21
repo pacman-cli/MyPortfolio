@@ -78,6 +78,9 @@ const jsonLdData = [
       'https://www.linkedin.com/in/iampuspo/',
       'https://x.com/iam_puspo',
       'https://web.facebook.com/pacman.puspo/',
+      'https://www.threads.net/@pacman.puspo',
+      'https://www.instagram.com/pacman.puspo/',
+      'https://link.me/pacman',
     ],
     knowsAbout: [
       'Spring Boot', 'Java', 'MySQL', 'PostgreSQL',
