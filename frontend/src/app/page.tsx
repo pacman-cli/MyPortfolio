@@ -16,7 +16,7 @@ const SectionSkeleton = () => (
 const About = dynamic(() => import('@/components/sections/about').then(mod => mod.About), { loading: () => <SectionSkeleton /> })
 const ClosingSection = dynamic(() => import('@/components/sections/closing-section').then(mod => mod.ClosingSection), { loading: () => <SectionSkeleton /> })
 const GithubActivity = dynamic(() => import('@/components/sections/github-activity').then(mod => mod.GithubActivity), { loading: () => <SectionSkeleton /> })
-const Highlights = dynamic(() => import('@/components/sections/highlights').then(mod => mod.Highlights))
+const Highlights = dynamic(() => import('@/components/sections/highlights').then(mod => mod.Highlights), { loading: () => <SectionSkeleton /> })
 const JourneyTimeline = dynamic(() => import('@/components/sections/journey-timeline').then(mod => mod.JourneyTimeline), { loading: () => <SectionSkeleton /> })
 const RecentBlogs = dynamic(() => import('@/components/sections/recent-blogs').then(mod => mod.RecentBlogs), { loading: () => <SectionSkeleton /> })
 const SelectedWork = dynamic(() => import('@/components/sections/selected-work').then(mod => mod.SelectedWork), { loading: () => <SectionSkeleton /> })

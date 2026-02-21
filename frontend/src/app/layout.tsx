@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description: 'Meet Puspo (MD. Ashikur Rahman), a Backend Engineer and Software Developer specializing in Spring Boot,My Sql and Cloud technologies.',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://www.puspo.online/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Puspo - Backend Developer',
@@ -45,15 +45,12 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Puspo | Backend Developer',
     description: 'Meet Puspo (MD. Ashikur Rahman), a Backend Engineer and Software Developer specializing in Spring Boot,My Sql and Cloud technologies.',
-    images: ['/og-image.png'],
+    images: ['https://www.puspo.online/og-image.png'],
     creator: '@iam_puspo',
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puspo.online'),
   alternates: {
     canonical: 'https://www.puspo.online/',
-  },
-  other: {
-    'google-site-verification': 'google-site-verification-token',
   }
 }
 
@@ -153,8 +150,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-primary/20")} suppressHydrationWarning>
         {jsonLdData.map((data, index) => (
           <script
             key={index}
@@ -162,6 +157,8 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
           />
         ))}
+      </head>
+      <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-primary/20")} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

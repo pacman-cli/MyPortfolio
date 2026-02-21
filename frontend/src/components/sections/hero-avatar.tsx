@@ -167,7 +167,7 @@ export const HeroAvatar = () => {
                   width={800}
                   height={800}
                   className="w-full h-auto rounded-2xl"
-                  priority
+                  loading="lazy"
                   sizes="(max-width: 768px) 90vw, 550px"
                   style={{
                     display: 'block',
