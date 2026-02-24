@@ -81,7 +81,7 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
     if (displayBlogs.length === 0) return null
 
     return (
-        <section id="blogs" className="py-24 bg-background relative overflow-hidden">
+        <section id="blogs" className="py-16 md:py-24 bg-background relative overflow-hidden">
             <div className="container mx-auto px-6 max-w-5xl">
                 <Reveal width="100%">
                     <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">

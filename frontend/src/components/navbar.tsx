@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/ui/theme-toggle'
+import { ThemeTabs } from '@/components/ui/theme-tabs'
 import { cn } from '@/lib/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
@@ -152,13 +152,13 @@ export const Navbar = () => {
           </Button>
 
           <div className="hidden lg:flex items-center gap-2 mr-2">
-            <ThemeToggle />
+            <ThemeTabs />
           </div>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="flex items-center gap-4 md:hidden">
-          <ThemeToggle />
+          <ThemeTabs />
           <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X /> : <Menu />}
           </Button>

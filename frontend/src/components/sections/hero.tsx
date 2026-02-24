@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
+import { GooeyText } from '@/components/ui/gooey-text-morphing'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Github, Linkedin } from 'lucide-react'
 import Link from 'next/link'
@@ -73,25 +74,33 @@ export const Hero = () => {
                         </motion.div>
 
                         {/* 1. Headline - Cleaner, Larger, Focused */}
-                        <div className="space-y-4 relative w-full">
+                        <div className="space-y-1 relative w-full flex flex-col items-center lg:items-start text-center lg:text-left">
                             <motion.h1
                                 id="hero-heading"
                                 {...fadeInUp}
                                 transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-                                className="text-4xl sm:text-6xl lg:text-[5.5rem] font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
+                                className="text-4xl sm:text-6xl lg:text-[5.5rem] font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1] flex flex-col items-center lg:items-start"
                             >
-                                <span className="block text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-500 dark:text-slate-400 mb-2">Hello, I&apos;m</span>
-                                <span className="relative inline-block transition-colors duration-300 hover:text-emerald-500 cursor-default font-serif italic">
+                                <span className="block text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-500 dark:text-slate-400 mb-1">Hello, I&apos;m</span>
+                                <span className="relative inline-block transition-colors duration-300 hover:text-emerald-500 cursor-default font-serif italic mb-1">
                                     Puspo
                                 </span>
                             </motion.h1>
-                            <motion.h2
+                            <motion.div
                                 {...fadeInUp}
                                 transition={{ duration: 0.7, delay: 0.2 }}
-                                className="text-xl sm:text-2xl lg:text-3xl font-medium text-slate-600 dark:text-slate-300"
+                                className="w-full flex justify-center lg:justify-start"
                             >
-                                Backend Engineer & <span className="text-emerald-600 dark:text-emerald-400">Software Developer</span>
-                            </motion.h2>
+                                <div className="h-[48px] sm:h-[60px] lg:h-[72px] w-full max-w-[600px] relative flex items-center justify-center lg:justify-start overflow-visible">
+                                    <GooeyText
+                                        texts={["Software Developer", "System Architect", "Cloud Enthusiast", "Problem Solver"]}
+                                        morphTime={1.5}
+                                        cooldownTime={2.5}
+                                        className="h-full w-full font-bold flex items-center justify-center lg:justify-start"
+                                        textClassName="text-emerald-600 dark:text-emerald-400 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-none"
+                                    />
+                                </div>
+                            </motion.div>
                         </div>
 
                         {/* 2. Sub-headline */}

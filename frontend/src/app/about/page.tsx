@@ -47,7 +47,7 @@ export default function AboutPage() {
             <section>
               <h2 className="text-2xl font-bold mb-4 text-foreground">Professional Background</h2>
               <p>
-                As a software developer, I focus on creating high-performance systems using <strong>Spring Boot (Java)</strong>, <strong>Go (Golang)</strong>, and modern cloud technologies.
+                As a software developer, I focus on creating high-performance systems using <strong>Spring Boot (Java)</strong>, and modern cloud technologies.
                 I build solutions that are not just functional but also maintainable and efficient.
               </p>
               <p className="mt-4">
@@ -59,7 +59,7 @@ export default function AboutPage() {
             <section>
               <h2 className="text-2xl font-bold mb-4 text-foreground">What I Do</h2>
               <ul className="list-disc pl-6 space-y-2">
-                <li><strong>Backend Development:</strong> Architecting RESTful APIs and Microservices with Spring Boot and Go.</li>
+                <li><strong>Backend Development:</strong> Architecting RESTful APIs and Microservices with Spring Boot.</li>
                 <li><strong>Database Management:</strong> Designing optimized schemas for PostgreSQL and MySQL.</li>
                 <li><strong>DevOps & Cloud:</strong> Deploying applications using Docker, Kubernetes, and AWS.</li>
                 <li><strong>System Design:</strong> focusing on scalability, security, and performance optimization.</li>

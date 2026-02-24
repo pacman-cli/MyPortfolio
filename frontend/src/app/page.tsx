@@ -20,6 +20,7 @@ const Highlights = dynamic(() => import('@/components/sections/highlights').then
 const JourneyTimeline = dynamic(() => import('@/components/sections/journey-timeline').then(mod => mod.JourneyTimeline), { loading: () => <SectionSkeleton /> })
 const RecentBlogs = dynamic(() => import('@/components/sections/recent-blogs').then(mod => mod.RecentBlogs), { loading: () => <SectionSkeleton /> })
 const SelectedWork = dynamic(() => import('@/components/sections/selected-work').then(mod => mod.SelectedWork), { loading: () => <SectionSkeleton /> })
+const Certifications = dynamic(() => import('@/components/sections/certifications').then(mod => mod.Certifications), { loading: () => <SectionSkeleton /> })
 const TechnicalExpertise = dynamic(() => import('@/components/sections/technical-expertise').then(mod => mod.TechnicalExpertise), { loading: () => <SectionSkeleton /> })
 
 export default async function Home() {
@@ -33,6 +34,7 @@ export default async function Home() {
       <About />
       <TechnicalExpertise />
       <SelectedWork />
+      <Certifications />
       <RecentBlogs blogs={blogs} />
       <Suspense fallback={<SectionSkeleton />}>
         <GithubActivity />

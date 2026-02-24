@@ -28,7 +28,7 @@ const FEATURED_PROJECTS: FeaturedProject[] = [
     name: "TakaTrack",
     description: "A comprehensive personal finance management platform with real-time visualizations, expense tracking, and savings goal management.",
     techStack: ["Next.js", "Spring Boot", "MySQL", "Docker"],
-    githubUrl: "https://github.com/pacman-cli/TakaTrack",
+    githubUrl: "https://github.com/pacman-cli/expense-tracker",
     demoUrl: "https://takatrack.puspo.online",
     category: "fullstack",
     featured: true,
@@ -109,7 +109,7 @@ const ProjectRow = ({ project, index }: { project: FeaturedProject; index: numbe
       onMouseLeave={() => setIsHovered(false)}
       className="group relative border-b border-border/40 last:border-0 hover:bg-muted/30 transition-colors duration-300"
     >
-      <div className="flex flex-col md:flex-row gap-6 p-6 md:p-8 md:items-start">
+      <div className="flex flex-col md:flex-row gap-4 p-4 md:px-6 md:py-5 md:items-start">
         {/* Index */}
         <div className="w-12 pt-1">
           <span className="font-mono text-xs text-muted-foreground/60 group-hover:text-primary transition-colors">
@@ -183,7 +183,7 @@ export const SelectedWork = () => {
     <section
       id="projects"
       ref={containerRef}
-      className="py-24 md:py-32 bg-background relative"
+      className="py-12 md:py-16 bg-background relative"
       aria-labelledby="work-heading"
     >
       <div className="container mx-auto px-6 max-w-5xl">
