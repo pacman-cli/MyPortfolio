@@ -163,7 +163,7 @@ export const HeroAvatar = () => {
               >
                 <Image
                   src="/profile.jpg"
-                  alt="Puspo's Profile"
+                  alt="MD Ashikur Rahman Puspo's Profile"
                   width={800}
                   height={800}
                   className="w-full h-auto rounded-2xl"
@@ -199,7 +199,7 @@ export const HeroAvatar = () => {
           <div className="relative w-full h-full rounded-full overflow-hidden">
             <Image
               src="/profile.jpg"
-              alt="Puspo's Profile"
+              alt="MD Ashikur Rahman Puspo's Profile"
               fill
               className="object-cover scale-105"
               priority

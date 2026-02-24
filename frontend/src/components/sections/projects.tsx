@@ -129,7 +129,7 @@ export const Projects = () => {
                             <p className="text-xs text-muted-foreground">Tap to view the full application</p>
                           </div>
                           <Button size="sm" className="w-full rounded-full bg-blue-600" asChild>
-                            <Link href={project.demoUrl || "#"} target="_blank">
+                            <Link href={project.demoUrl || "#"} target="_blank" rel="noopener noreferrer">
                               View Live Project
                             </Link>
                           </Button>
@@ -151,14 +151,14 @@ export const Projects = () => {
                     <div className="flex items-center gap-4 mt-auto">
                       {project.githubUrl && (
                         <Button size="sm" variant="outline" className="rounded-full" asChild>
-                          <Link href={project.githubUrl} target="_blank">
+                          <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                             <Github className="w-4 h-4 mr-2" /> View Code
                           </Link>
                         </Button>
                       )}
                       {project.demoUrl && (
                         <Button size="sm" className="rounded-full bg-blue-600 hover:bg-blue-700" asChild>
-                          <Link href={project.demoUrl} target="_blank">
+                          <Link href={project.demoUrl} target="_blank" rel="noopener noreferrer">
                             Live Demo <ArrowRight className="w-4 h-4 ml-2" />
                           </Link>
                         </Button>

@@ -1,6 +1,6 @@
 "use client"
 
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { Github, Instagram, Linkedin, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { SiX } from "react-icons/si"
 
@@ -12,19 +12,22 @@ export const Footer = () => {
           <span suppressHydrationWarning>© {new Date().getFullYear()} <span className="font-bold text-gray-900 dark:text-white">Puspo</span>. All rights reserved.</span>
           {/* <span className="hidden md:inline text-gray-400">•</span> */}
           {/* <span className="text-xs">
-            Inspired by <Link href="https://monzim.com" target="_blank" className="text-emerald-600 dark:text-emerald-500 hover:underline">Monzim</Link>
+            Inspired by <Link href="https://monzim.com" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-500 hover:underline">Monzim</Link>
           </span> */}
         </div>
 
         <div className="flex items-center gap-6">
-          <Link href="https://github.com/pacman-cli" target="_blank" aria-label="GitHub Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+          <Link href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Github className="w-5 h-5" />
           </Link>
-          <Link href="https://www.linkedin.com/in/iampuspo/" target="_blank" aria-label="LinkedIn Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+          <Link href="https://www.linkedin.com/in/iampuspo/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Linkedin className="w-5 h-5" />
           </Link>
-          <Link href="https://x.com/iam_puspo" target="_blank" aria-label="X (Twitter) Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+          <Link href="https://x.com/iam_puspo" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter) Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <SiX className="w-4 h-4" />
+          </Link>
+          <Link href="https://www.instagram.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+            <Instagram className="w-5 h-5" />
           </Link>
           <Link href="mailto:puspopuspo520@gmail.com" aria-label="Email Me" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Mail className="w-5 h-5" />

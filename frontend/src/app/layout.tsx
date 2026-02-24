@@ -20,7 +20,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Puspo | Backend Developer',
+  title: 'MD Ashikur Rahman Puspo | Backend Developer',
   description: 'Meet Puspo (MD. Ashikur Rahman), a Backend Engineer and Software Developer specializing in Spring Boot,My Sql and Cloud technologies.',
   keywords: ['Puspo', 'Ashikur Rahman Puspo', 'Backend Developer', 'Backend Engineer', 'Software Developer', 'Spring Boot', 'MySQL', 'Cloud', 'DevOps'],
   authors: [{ name: 'Puspo', url: 'https://www.puspo.online' }],
@@ -60,9 +60,10 @@ const jsonLdData = [
     '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': 'https://www.puspo.online/#person',
-    name: 'Puspo',
-    givenName: 'MD. Ashikur Rahman',
-    alternateName: ['MD. Ashikur Rahman', 'MD. Ashikur Rahman Puspo', 'Ashikur Rahman', 'Ashikur Rahman Puspo', 'iam_puspo'],
+    name: 'MD Ashikur Rahman Puspo',
+    givenName: 'MD Ashikur Rahman',
+    familyName: 'Puspo',
+    alternateName: ['Puspo', 'MD. Ashikur Rahman', 'MD. Ashikur Rahman Puspo', 'Ashikur Rahman', 'Ashikur Rahman Puspo', 'iam_puspo', 'pacman.puspo'],
     url: 'https://www.puspo.online',
     image: {
       '@type': 'ImageObject',

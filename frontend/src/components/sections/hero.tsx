@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { GooeyText } from '@/components/ui/gooey-text-morphing'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Github, Linkedin } from 'lucide-react'
+import { Github, Instagram, Linkedin } from 'lucide-react'
 import Link from 'next/link'
 import { SiDocker, SiNextdotjs, SiSpringboot, SiX } from "react-icons/si"
 import { HeroAvatar } from './hero-avatar'
@@ -83,7 +83,7 @@ export const Hero = () => {
                             >
                                 <span className="block text-2xl sm:text-3xl lg:text-4xl font-normal text-slate-500 dark:text-slate-400 mb-1">Hello, I&apos;m</span>
                                 <span className="relative inline-block transition-colors duration-300 hover:text-emerald-500 cursor-default font-serif italic mb-1">
-                                    Puspo
+                                    MD Ashikur Rahman Puspo
                                 </span>
                             </motion.h1>
                             <motion.div
@@ -149,6 +149,7 @@ export const Hero = () => {
                                 <SocialLink href="https://github.com/pacman-cli" icon={<Github className="h-5 w-5" />} label="GitHub" />
                                 <SocialLink href="https://www.linkedin.com/in/iampuspo/" icon={<Linkedin className="h-5 w-5" />} label="LinkedIn" />
                                 <SocialLink href="https://x.com/iam_puspo" icon={<SiX className="h-4 w-4" />} label="X" />
+                                <SocialLink href="https://www.instagram.com/pacman.puspo/" icon={<Instagram className="h-5 w-5" />} label="Instagram" />
                             </div>
                         </motion.div>
                     </div>

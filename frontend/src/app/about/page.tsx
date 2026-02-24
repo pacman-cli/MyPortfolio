@@ -72,7 +72,7 @@ export default function AboutPage() {
             <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800">
               <Image
                 src="/profile.jpg"
-                alt="MD. Ashikur Rahman Puspo - Backend Engineer"
+                alt="MD Ashikur Rahman Puspo - Backend Engineer"
                 fill
                 className="object-cover"
               />
@@ -81,8 +81,9 @@ export default function AboutPage() {
             <div className="p-6 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
               <h3 className="font-bold text-lg mb-4">Connect with Puspo</h3>
               <div className="flex flex-col gap-3">
-                <a href="https://github.com/pacman-cli" className="text-emerald-600 hover:underline">GitHub Profile</a>
-                <a href="https://www.linkedin.com/in/iampuspo/" className="text-emerald-600 hover:underline">LinkedIn Profile</a>
+                <a href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">GitHub Profile</a>
+                <a href="https://www.linkedin.com/in/iampuspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">LinkedIn Profile</a>
+                <a href="https://www.instagram.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">Instagram Profile</a>
                 <a href="mailto:puspopuspo520@gmail.com" className="text-emerald-600 hover:underline">puspopuspo520@gmail.com</a>
               </div>
             </div>

@@ -159,7 +159,7 @@ export const Navbar = () => {
         {/* Mobile Menu Button */}
         <div className="flex items-center gap-4 md:hidden">
           <ThemeTabs />
-          <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <Button variant="ghost" size="icon" aria-label="Toggle mobile menu" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X /> : <Menu />}
           </Button>
         </div>

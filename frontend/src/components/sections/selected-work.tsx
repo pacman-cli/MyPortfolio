@@ -150,6 +150,7 @@ const ProjectRow = ({ project, index }: { project: FeaturedProject; index: numbe
             <Link
               href={project.githubUrl}
               target="_blank"
+              rel="noopener noreferrer"
               className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-full transition-all"
               aria-label="GitHub Repo"
             >
@@ -160,6 +161,7 @@ const ProjectRow = ({ project, index }: { project: FeaturedProject; index: numbe
             <Link
               href={project.demoUrl}
               target="_blank"
+              rel="noopener noreferrer"
               className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full transition-all"
               aria-label="Live Demo"
             >
@@ -201,6 +203,7 @@ export const SelectedWork = () => {
           <Link
             href="https://github.com/pacman-cli"
             target="_blank"
+            rel="noopener noreferrer"
             className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-2 group"
           >
             View all projects

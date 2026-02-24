@@ -223,6 +223,7 @@ export const ClosingSection = () => {
             <Link
               href={resumeUrl}
               target="_blank"
+              rel="noopener noreferrer"
               className={cn(
                 "inline-flex items-center gap-2 text-sm font-medium",
                 "text-muted-foreground hover:text-foreground",
@@ -244,6 +245,7 @@ export const ClosingSection = () => {
           >
             <QuietLink href="https://github.com/pacman-cli" label="GitHub" />
             <QuietLink href="https://www.linkedin.com/in/iampuspo/" label="LinkedIn" />
+            <QuietLink href="https://www.instagram.com/pacman.puspo/" label="Instagram" />
           </motion.div>
 
         </div>
