@@ -169,6 +169,7 @@ export const HeroAvatar = () => {
                   className="w-full h-auto rounded-2xl"
                   loading="lazy"
                   sizes="(max-width: 768px) 90vw, 550px"
+                  quality={75}
                   style={{
                     display: 'block',
                     boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
@@ -203,7 +204,8 @@ export const HeroAvatar = () => {
               fill
               className="object-cover scale-105"
               priority
-              sizes="(max-width: 768px) 50vw, 25vw"
+              sizes="(max-width: 768px) 160px, 320px"
+              quality={75}
             />
           </div>
         </div>

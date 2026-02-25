@@ -1,5 +1,7 @@
 "use client"
 
+import { PROJECTS } from '@/lib/projects'
+import type { Project } from '@/types'
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Folder, Github } from 'lucide-react'
 import Link from 'next/link'
@@ -7,72 +9,8 @@ import { useRef, useState } from 'react'
 import { FaJava } from 'react-icons/fa'
 import { SiDocker, SiMysql, SiNextdotjs, SiPython, SiReact, SiSpringboot, SiTailwindcss, SiTypescript } from 'react-icons/si'
 
-// ============================================================================
-// CONFIGURATION
-// ============================================================================
-
-interface FeaturedProject {
-  name: string
-  description: string
-  techStack: string[]
-  githubUrl: string
-  demoUrl?: string
-  stars?: number
-  forks?: number
-  category: 'fullstack' | 'backend' | 'frontend' | 'systems'
-  featured?: boolean
-}
-
-const FEATURED_PROJECTS: FeaturedProject[] = [
-  {
-    name: "TakaTrack",
-    description: "A comprehensive personal finance management platform with real-time visualizations, expense tracking, and savings goal management.",
-    techStack: ["Next.js", "Spring Boot", "MySQL", "Docker"],
-    githubUrl: "https://github.com/pacman-cli/expense-tracker",
-    demoUrl: "https://takatrack.puspo.online",
-    category: "fullstack",
-    featured: true,
-  },
-  {
-    name: "StayMate",
-    description: "Full-stack rental property marketplace with secure authentication, real-time messaging, and comprehensive listing management.",
-    techStack: ["Next.js", "Spring Boot", "MySQL", "Docker"],
-    githubUrl: "https://github.com/pacman-cli/staymate",
-    demoUrl: "https://staymate-demo.puspo.online",
-    category: "fullstack",
-    featured: true,
-  },
-  {
-    name: "Portfolio",
-    description: "Modern developer portfolio built with Next.js 16, featuring scroll-driven animations, dark mode, and responsive design.",
-    techStack: ["Next.js", "TypeScript", "Tailwind CSS"],
-    githubUrl: "https://github.com/pacman-cli/MyPortfolio",
-    demoUrl: "https://puspo.online",
-    category: "frontend",
-  },
-  {
-    name: "E-Commerce",
-    description: "A comprehensive e-commerce platform with product management, shopping cart functionality, and secure checkout processes.",
-    techStack: ["Next.js", "Spring Boot", "MySQL", "Docker"],
-    githubUrl: "https://github.com/pacman-cli/e-commerce",
-    demoUrl: "https://ecommerce.puspo.online/",
-    category: "fullstack",
-  },
-  {
-    name: "Java Learning",
-    description: "Comprehensive repository of Java learning projects covering core concepts, algorithms, and advanced OOP patterns.",
-    techStack: ["Java", "Algorithms", "OOP"],
-    githubUrl: "https://github.com/pacman-cli/Java-Learning",
-    category: "backend",
-  },
-  {
-    name: "Business Analytics Dashboard",
-    description: "Data-driven analytics dashboard for business insights with interactive visualizations and reporting capabilities.",
-    techStack: ["Java", "Spring Boot", "Analytics"],
-    githubUrl: "https://github.com/pacman-cli/Java-Learning/tree/main/server/businessAnalytics",
-    category: "backend",
-  },
-]
+// Use centralized project data
+const FEATURED_PROJECTS = PROJECTS
 
 // ============================================================================
 // TECH ICON MAPPING
@@ -96,7 +34,7 @@ const getTechIcon = (tech: string) => {
 // PROJECT ROW COMPONENT
 // ============================================================================
 
-const ProjectRow = ({ project, index }: { project: FeaturedProject; index: number }) => {
+const ProjectRow = ({ project, index }: { project: Project; index: number }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -120,9 +58,12 @@ const ProjectRow = ({ project, index }: { project: FeaturedProject; index: numbe
         {/* Content */}
         <div className="flex-1 space-y-3">
           <div className="flex flex-wrap items-center gap-3">
-            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+            <Link
+              href={`/projects/${project.slug}`}
+              className="text-xl font-bold text-foreground group-hover:text-primary transition-colors hover:underline"
+            >
               {project.name}
-            </h3>
+            </Link>
             {project.featured && (
               <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-primary/10 text-primary uppercase tracking-wide">
                 Featured
@@ -168,6 +109,12 @@ const ProjectRow = ({ project, index }: { project: FeaturedProject; index: numbe
               <ArrowUpRight className="w-5 h-5" />
             </Link>
           )}
+          <Link
+            href={`/projects/${project.slug}`}
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors whitespace-nowrap"
+          >
+            Case Study →
+          </Link>
         </div>
       </div>
     </motion.div>
@@ -201,9 +148,7 @@ export const SelectedWork = () => {
             </p>
           </div>
           <Link
-            href="https://github.com/pacman-cli"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/projects"
             className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-2 group"
           >
             View all projects

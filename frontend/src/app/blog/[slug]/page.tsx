@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Footer } from '@/components/footer'
+import { BlogPostingSchema } from '@/components/seo/json-ld'
 import { Alert } from '@/components/ui/alert'
 import { BlogProgress } from '@/components/ui/blog-progress'
 import { Button } from '@/components/ui/button'
 import { CodeBlock } from '@/components/ui/code-block'
 import { MermaidDiagram } from '@/components/ui/mermaid-diagram'
-import { getBlogBySlug } from '@/lib/api'
+import { getBlogBySlug, getBlogs } from '@/lib/api'
+import { constructMetadata } from '@/lib/seo'
 import { ArrowLeft, Clock, Tag } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -18,24 +20,30 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
+export async function generateStaticParams() {
+  const blogs = await getBlogs()
+  return blogs
+    .filter((b) => b.content) // Only generate pages for blogs with content
+    .map((b) => ({ slug: b.slug }))
+}
+
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params
   const blog = await getBlogBySlug(slug)
 
   if (!blog) return { title: 'Blog Not Found' }
 
-  return {
-    title: `${blog.title} | Puspo`,
+  const blogUrl = `https://puspo.online/blog/${blog.slug}`
+  return constructMetadata({
+    title: `${blog.title} | MD Ashikur Rahman Puspo`,
     description: blog.excerpt,
-    openGraph: {
-      title: blog.title,
-      description: blog.excerpt,
-      type: 'article',
-      authors: ['Puspo'],
-      publishedTime: blog.publishedAt,
-      tags: blog.tags?.split(',').map(tag => tag.trim())
-    }
-  }
+    url: blogUrl,
+    keywords: [
+      ...blog.tags.split(',').map((t) => t.trim()),
+      'Technical Blog',
+      'Backend Engineering',
+    ],
+  })
 }
 
 export default async function BlogPost({ params }: PageProps) {
@@ -52,6 +60,8 @@ export default async function BlogPost({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-background selection:bg-blue-500/30">
+      {/* BlogPosting JSON-LD for rich results */}
+      <BlogPostingSchema blog={blog} url={`https://puspo.online/blog/${blog.slug}`} />
       <BlogProgress />
 
       {/* Navigation */}

@@ -49,6 +49,23 @@ const getProjectIcon = (tech: string) => {
   return <Folder className="w-4 h-4" />
 }
 
+const ProjectSchema = ({ project }: { project: Project }) => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": project.title,
+    "applicationCategory": "WebApplication",
+    "operatingSystem": "Any",
+    "description": project.description,
+    "url": project.demoUrl || project.githubUrl,
+    "author": {
+      "@type": "Person",
+      "name": "MD Ashikur Rahman Puspo"
+    }
+  }
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+}
+
 export const Projects = () => {
   return (
     <section id="projects" className="py-20 bg-muted/20">
@@ -75,6 +92,9 @@ export const Projects = () => {
                 )}
 
                 <div className="flex flex-col md:flex-row items-start gap-8">
+                  {/* JSON-LD Schema for SEO */}
+                  <ProjectSchema project={project} />
+
                   {/* Left: Icon & Info */}
                   <div className="flex items-start gap-6 md:w-5/12 w-full">
                     <div className={`p-4 rounded-2xl shrink-0 ${project.featured ? 'bg-blue-500/10 text-blue-600' : 'bg-muted text-muted-foreground'} group-hover:scale-110 transition-transform duration-300`}>

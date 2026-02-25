@@ -1,16 +1,20 @@
 import { Footer } from '@/components/footer'
-import { Metadata } from 'next'
+import { constructMetadata } from '@/lib/seo'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 
-export const metadata: Metadata = {
-  title: 'About Puspo | Backend Developer',
-  description: 'Learn about Puspo (MD. Ashikur Rahman), a Backend Developer specializing in Spring Boot, MySQL, and Cloud Architecture. Discover his journey, skills, and professional background.',
-  openGraph: {
-    title: 'About Puspo | Backend Developer',
-    description: 'Who is Puspo? A dedicated software developer building scalable backend systems.',
-    url: 'https://www.puspo.online/about',
-  }
-}
+export const metadata: Metadata = constructMetadata({
+  title: 'About MD Ashikur Rahman Puspo | Backend Developer & Software Engineer',
+  description: 'Learn about MD Ashikur Rahman Puspo — a Backend Developer specializing in Spring Boot, Java, MySQL, Docker, and Cloud Architecture. Discover his journey, skills, and professional background.',
+  url: 'https://puspo.online/about',
+  keywords: [
+    'About Puspo',
+    'MD Ashikur Rahman Puspo',
+    'Backend Developer Bangladesh',
+    'Software Engineer Portfolio',
+    'Spring Boot Developer',
+  ],
+})
 
 export default function AboutPage() {
   return (
@@ -75,6 +79,9 @@ export default function AboutPage() {
                 alt="MD Ashikur Rahman Puspo - Backend Engineer"
                 fill
                 className="object-cover"
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 400px"
+                quality={75}
               />
             </div>
 

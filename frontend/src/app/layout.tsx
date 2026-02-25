@@ -19,41 +19,9 @@ export const viewport: Viewport = {
   ],
 }
 
-export const metadata: Metadata = {
-  title: 'MD Ashikur Rahman Puspo | Backend Developer',
-  description: 'Meet Puspo (MD. Ashikur Rahman), a Backend Engineer and Software Developer specializing in Spring Boot,My Sql and Cloud technologies.',
-  keywords: ['Puspo', 'Ashikur Rahman Puspo', 'Backend Developer', 'Backend Engineer', 'Software Developer', 'Spring Boot', 'MySQL', 'Cloud', 'DevOps'],
-  authors: [{ name: 'Puspo', url: 'https://www.puspo.online' }],
-  creator: 'Puspo',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://www.puspo.online/',
-    title: 'Puspo | Backend Developer',
-    description: 'Meet Puspo (MD. Ashikur Rahman), a Backend Engineer and Software Developer specializing in Spring Boot,My Sql and Cloud technologies.',
-    images: [
-      {
-        url: 'https://www.puspo.online/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Puspo - Backend Developer',
-      },
-    ],
-    siteName: 'Puspo',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Puspo | Backend Developer',
-    description: 'Meet Puspo (MD. Ashikur Rahman), a Backend Engineer and Software Developer specializing in Spring Boot,My Sql and Cloud technologies.',
-    images: ['https://www.puspo.online/og-image.png'],
-    creator: '@iam_puspo',
-  },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puspo.online'),
-  alternates: {
-    canonical: 'https://www.puspo.online/',
-  }
-}
+import { constructMetadata } from "@/lib/seo"
 
+export const metadata: Metadata = constructMetadata()
 const jsonLdData = [
   // 1. Person Schema — tells Google WHO you are + your social profiles
   {
@@ -84,9 +52,10 @@ const jsonLdData = [
       'https://link.me/pacman',
     ],
     knowsAbout: [
-      'Spring Boot', 'Java', 'MySQL', 'PostgreSQL',
+      'Spring Boot', 'Java', 'Go', 'MySQL', 'PostgreSQL',
       'Microservices Architecture', 'AWS', 'Docker',
-      'Kubernetes', 'React', 'Next.js', 'System Design'
+      'Kubernetes', 'React', 'Next.js', 'System Design',
+      'API Development', 'REST API', 'DevOps', 'CI/CD',
     ],
     alumniOf: {
       '@type': 'CollegeOrUniversity',
@@ -104,8 +73,8 @@ const jsonLdData = [
     '@type': 'WebSite',
     '@id': 'https://www.puspo.online/#website',
     url: 'https://www.puspo.online',
-    name: 'Puspo | Backend Developer',
-    description: 'Portfolio website of Puspo (MD. Ashikur Rahman), a Backend Developer.',
+    name: 'MD Ashikur Rahman Puspo | Backend Developer',
+    description: 'Portfolio website of MD Ashikur Rahman Puspo, a Backend Developer specializing in Spring Boot, Java, and Cloud Architecture.',
     publisher: { '@id': 'https://www.puspo.online/#person' },
     potentialAction: {
       '@type': 'SearchAction',
@@ -122,7 +91,7 @@ const jsonLdData = [
     '@type': 'ProfilePage',
     '@id': 'https://www.puspo.online/#profilepage',
     url: 'https://www.puspo.online',
-    name: 'Puspo | Backend Developer',
+    name: 'MD Ashikur Rahman Puspo | Backend Developer',
     mainEntity: { '@id': 'https://www.puspo.online/#person' },
     dateCreated: '2024-01-01',
     dateModified: new Date().toISOString().split('T')[0],
@@ -131,13 +100,12 @@ const jsonLdData = [
   {
     '@context': 'https://schema.org',
     '@type': 'SiteNavigationElement',
-    name: ['About', 'Projects', 'Resume', 'Blog', 'Contact'],
+    name: ['About', 'Projects', 'Resume', 'Blog'],
     url: [
-      'https://www.puspo.online/about',
-      'https://www.puspo.online/#projects',
-      'https://www.puspo.online/resume',
-      'https://www.puspo.online/blog',
-      'https://www.puspo.online/#contact',
+      'https://puspo.online/about',
+      'https://puspo.online/projects',
+      'https://puspo.online/resume',
+      'https://puspo.online/blog',
     ],
   },
 ]
