@@ -5,6 +5,7 @@ import { LightModeBackground } from "@/components/ui/light-mode-background"
 import { cn } from "@/lib/utils"
 import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
+import Script from "next/script"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: 'swap' })
@@ -118,11 +119,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5094304024850501"
-          crossOrigin="anonymous"
-        />
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -136,6 +132,12 @@ export default function RootLayout({
         ))}
       </head>
       <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-primary/20")} suppressHydrationWarning>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5094304024850501"
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
