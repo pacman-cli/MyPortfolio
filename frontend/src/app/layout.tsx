@@ -31,7 +31,7 @@ const jsonLdData = [
     name: 'MD Ashikur Rahman Puspo',
     givenName: 'MD Ashikur Rahman',
     familyName: 'Puspo',
-    alternateName: ['Puspo', 'MD. Ashikur Rahman', 'MD. Ashikur Rahman Puspo', 'Ashikur Rahman', 'Ashikur Rahman Puspo', 'iam_puspo', 'pacman.puspo'],
+    alternateName: ['Puspo', 'MD. Ashikur Rahman', 'MD. Ashikur Rahman Puspo', 'Ashikur Rahman', 'Ashikur Rahman Puspo', 'iam_puspo', 'pacman.puspo', 'Puspo', 'Pushpo'],
     url: 'https://www.puspo.online',
     image: {
       '@type': 'ImageObject',
@@ -118,6 +118,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5094304024850501"
+          crossOrigin="anonymous"
+        />
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
