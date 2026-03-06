@@ -119,6 +119,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        <meta name="google-adsense-account" content="ca-pub-5094804024850501" />
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
