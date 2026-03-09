@@ -7,7 +7,7 @@ const defaultMeta = {
     description:
         'Experienced Backend Engineer specializing in Spring Boot, Java, MySQL, Docker, and scalable Cloud Infrastructure. Building production-grade APIs and microservices.',
     url: SITE_URL,
-    image: `${SITE_URL}/profile.jpg`,
+    image: `${SITE_URL}/og-image.png`,
     twitterHandle: '@iam_puspo',
 }
 
