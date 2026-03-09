@@ -27,7 +27,7 @@ export default async function Home() {
   const blogs = await getBlogs()
 
   return (
-    <main className="min-h-screen">
+    <main id="main-content" className="min-h-screen">
       <ScrollProgress />
       <Hero />
       <Highlights />

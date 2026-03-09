@@ -109,26 +109,15 @@ export const HeroAvatar = () => {
                   !prefersReducedMotion && "animate-spin-reverse-slow"
                 )}
               >
-                {/* ICON VISUAL + FLOATING & PULSE (Kept simple Framer Motion for interactivity or subtle effects) */}
-                <motion.div
+                {/* ICON VISUAL — static, the orbital CSS spin provides the motion */}
+                <div
                   className={cn(
                     "flex items-center justify-center rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200 dark:border-slate-800",
                     isMobile ? "w-9 h-9 text-lg" : "w-14 h-14 text-2xl"
                   )}
-                  // Micro-float & Pulse - Low cost transform only
-                  animate={!prefersReducedMotion ? {
-                    y: [-3, 3, -3],
-                    scale: [1, 1.05, 1]
-                  } : {}}
-                  transition={{
-                    duration: 5 + (index % 5),
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: index * 0.5
-                  }}
                 >
                   <tech.icon className={tech.color} />
-                </motion.div>
+                </div>
               </div>
             </div>
           )

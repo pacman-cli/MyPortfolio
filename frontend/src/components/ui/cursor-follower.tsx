@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 export const CursorFollower = () => {
   const [isHovering, setIsHovering] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   // Use motion values for better performance than state
   const mouseX = useMotionValue(0)
@@ -17,26 +18,21 @@ export const CursorFollower = () => {
   const cursorY = useSpring(mouseY, springConfig)
 
   useEffect(() => {
-    // Only run on client-side and non-touch devices
-    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
-    if (isTouchDevice) {
-      setIsVisible(false)
-      return
-    }
+    setIsMounted(true)
 
-    // Also skip on small screens (mobile)
-    if (window.innerWidth < 768) {
-      setIsVisible(false)
+    // Only run on non-touch devices
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
+    if (isTouchDevice || window.innerWidth < 768) {
       return
     }
 
     // Hide default cursor
     document.body.classList.add('custom-cursor-active')
+    setIsVisible(true)
 
     const moveMouse = (e: MouseEvent) => {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
-      if (!isVisible) setIsVisible(true)
     }
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -46,7 +42,7 @@ export const CursorFollower = () => {
         target.tagName === 'BUTTON' ||
         target.closest('a') ||
         target.closest('button') ||
-        target.classList.contains('cursor-pointer') || // Tailwind specific
+        target.classList.contains('cursor-pointer') ||
         window.getComputedStyle(target).cursor === 'pointer'
 
       setIsHovering(!!isInteractive)
@@ -60,8 +56,8 @@ export const CursorFollower = () => {
       setIsVisible(true)
     }
 
-    window.addEventListener("mousemove", moveMouse)
-    window.addEventListener("mouseover", handleMouseOver)
+    window.addEventListener("mousemove", moveMouse, { passive: true })
+    window.addEventListener("mouseover", handleMouseOver, { passive: true })
     document.addEventListener("mouseleave", handleMouseLeave)
     document.addEventListener("mouseenter", handleMouseEnter)
 
@@ -72,11 +68,10 @@ export const CursorFollower = () => {
       document.removeEventListener("mouseenter", handleMouseEnter)
       document.body.classList.remove('custom-cursor-active')
     }
-  }, [mouseX, mouseY, isVisible])
+  }, [mouseX, mouseY])
 
-  if (typeof window !== 'undefined' && window.matchMedia("(pointer: coarse)").matches) {
-    return null
-  }
+  // Don't render anything until mounted (SSR-safe)
+  if (!isMounted) return null
 
   return (
     <motion.div
@@ -86,7 +81,7 @@ export const CursorFollower = () => {
         y: cursorY,
         translateX: "-50%",
         translateY: "-50%",
-        backgroundColor: "white", // Mix-blend-difference makes this invert colors
+        backgroundColor: "white",
       }}
       animate={{
         scale: isHovering ? 2.5 : 1,
@@ -97,7 +92,6 @@ export const CursorFollower = () => {
         opacity: { duration: 0.2 }
       }}
     >
-      {/* Optional: Inner solid dot for precision */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/50 transition-all duration-300 ${isHovering ? 'w-full h-full opacity-20' : 'w-1 h-1 opacity-0'}`} />
     </motion.div>
   )

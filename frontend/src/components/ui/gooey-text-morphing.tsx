@@ -20,6 +20,7 @@ export function GooeyText({
 }: GooeyTextProps) {
   const text1Ref = React.useRef<HTMLSpanElement>(null)
   const text2Ref = React.useRef<HTMLSpanElement>(null)
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
     let textIndex = texts.length - 1
@@ -27,6 +28,7 @@ export function GooeyText({
     let morph = 0
     let cooldown = cooldownTime
     let animationFrameId: number
+    let isVisible = true
 
     const setMorph = (fraction: number) => {
       if (text1Ref.current && text2Ref.current) {
@@ -63,6 +65,12 @@ export function GooeyText({
     }
 
     function animate() {
+      if (!isVisible) {
+        // When not visible, keep requesting frames but skip work
+        animationFrameId = requestAnimationFrame(animate)
+        return
+      }
+
       animationFrameId = requestAnimationFrame(animate)
       const newTime = new Date()
       const shouldIncrementIndex = cooldown > 0
@@ -85,15 +93,31 @@ export function GooeyText({
       }
     }
 
+    // Use IntersectionObserver to pause animations when off-screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting
+        if (isVisible) {
+          time = new Date() // Reset time to avoid huge dt jump
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
     animate()
 
     return () => {
       cancelAnimationFrame(animationFrameId)
+      observer.disconnect()
     }
   }, [texts, morphTime, cooldownTime])
 
   return (
-    <div className={cn("relative", className)}>
+    <div ref={containerRef} className={cn("relative", className)}>
       <svg className="absolute h-0 w-0" aria-hidden="true" focusable="false">
         <defs>
           <filter id="threshold">
@@ -119,6 +143,7 @@ export function GooeyText({
             "absolute top-1/2 -translate-y-1/2 left-0 w-full text-center lg:text-left select-none whitespace-nowrap",
             textClassName
           )}
+          aria-hidden="true"
         />
         <span
           ref={text2Ref}
@@ -126,7 +151,10 @@ export function GooeyText({
             "absolute top-1/2 -translate-y-1/2 left-0 w-full text-center lg:text-left select-none whitespace-nowrap",
             textClassName
           )}
+          aria-hidden="true"
         />
+        {/* Accessible text for screen readers */}
+        <span className="sr-only">{texts.join(', ')}</span>
       </div>
     </div>
   )

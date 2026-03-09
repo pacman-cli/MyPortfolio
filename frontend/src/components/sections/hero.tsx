@@ -4,9 +4,14 @@ import { Button } from '@/components/ui/button'
 import { GooeyText } from '@/components/ui/gooey-text-morphing'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Github, Instagram, Linkedin } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { SiDocker, SiNextdotjs, SiSpringboot, SiX } from "react-icons/si"
-import { HeroAvatar } from './hero-avatar'
+
+const HeroAvatar = dynamic(
+    () => import('./hero-avatar').then(mod => mod.HeroAvatar),
+    { ssr: true, loading: () => <div className="w-[300px] h-[300px] md:w-[500px] md:h-[500px]" /> }
+)
 
 export const Hero = () => {
     // Respect user's motion preferences for accessibility
@@ -64,10 +69,11 @@ export const Hero = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-medium"
+                            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-medium"
+                            role="status"
                         >
                             <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
                             Available for opportunities
