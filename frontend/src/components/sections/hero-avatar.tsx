@@ -31,11 +31,26 @@ const TECH_ICONS = [
   { icon: SiGithub, color: "text-slate-900 dark:text-white", label: "GitHub" },
 ]
 
+const PROFILE_IMAGES = [
+  '/profile.jpg',
+  '/profile2.jpg',
+]
+
 export const HeroAvatar = () => {
   const [mounted, setMounted] = useState(false)
   const prefersReducedMotion = useReducedMotion()
   const [isMobile, setIsMobile] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  // Auto-cycle images while hovered/overlay is open
+  useEffect(() => {
+    if (!isHovered) return
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % PROFILE_IMAGES.length)
+    }, 1500)
+    return () => clearInterval(interval)
+  }, [isHovered])
 
   useEffect(() => {
     // Defer to avoid synchronous state update warning
@@ -150,8 +165,10 @@ export const HeroAvatar = () => {
                 WebkitBackdropFilter: 'blur(12px)',
                 cursor: 'pointer',
               }}
-              onClick={() => setIsHovered(false)}
-              onMouseLeave={() => setIsHovered(false)}
+              onClick={() => {
+                setIsHovered(false)
+                setCurrentImageIndex(0)
+              }}
             >
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -161,20 +178,30 @@ export const HeroAvatar = () => {
                 style={{ width: '90vw', maxWidth: '550px' }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <Image
-                  src="/profile.jpg"
-                  alt="MD Ashikur Rahman Puspo's Profile"
-                  width={800}
-                  height={800}
-                  className="w-full h-auto rounded-2xl"
-                  loading="lazy"
-                  sizes="(max-width: 768px) 90vw, 550px"
-                  quality={75}
-                  style={{
-                    display: 'block',
-                    boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
-                  }}
-                />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={PROFILE_IMAGES[currentImageIndex]}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <Image
+                      src={PROFILE_IMAGES[currentImageIndex]}
+                      alt="MD Ashikur Rahman Puspo's Profile"
+                      width={800}
+                      height={800}
+                      className="w-full h-auto rounded-2xl"
+                      loading="lazy"
+                      sizes="(max-width: 768px) 90vw, 550px"
+                      quality={75}
+                      style={{
+                        display: 'block',
+                        boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
+                      }}
+                    />
+                  </motion.div>
+                </AnimatePresence>
               </motion.div>
             </motion.div>
           )}
@@ -184,7 +211,10 @@ export const HeroAvatar = () => {
 
       <div
         className="relative z-10 group cursor-pointer"
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          setIsHovered(true)
+          setCurrentImageIndex(1) // Immediately show the second photo
+        }}
       >
         {/* Glow Ring (Glassmorphism) */}
         <div className={cn(
@@ -198,15 +228,26 @@ export const HeroAvatar = () => {
         >
           {/* Main Avatar Circle */}
           <div className="relative w-full h-full rounded-full overflow-hidden">
-            <Image
-              src="/profile.jpg"
-              alt="MD Ashikur Rahman Puspo's Profile"
-              fill
-              className="object-cover scale-105"
-              priority
-              sizes="(max-width: 768px) 160px, 320px"
-              quality={75}
-            />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={PROFILE_IMAGES[currentImageIndex]}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={PROFILE_IMAGES[currentImageIndex]}
+                  alt="MD Ashikur Rahman Puspo's Profile"
+                  fill
+                  className="object-cover scale-105"
+                  priority
+                  sizes="(max-width: 768px) 160px, 320px"
+                  quality={75}
+                />
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
