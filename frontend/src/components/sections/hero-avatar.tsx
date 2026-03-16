@@ -5,32 +5,6 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { FaAws } from "react-icons/fa"
-import {
-  SiDocker,
-  SiGithub,
-  SiKubernetes,
-  SiLinux,
-  SiNextdotjs,
-  SiPostgresql,
-  SiSpringboot
-} from "react-icons/si"
-
-// ===================================
-// CONFIGURATION
-// ===================================
-
-const TECH_ICONS = [
-  { icon: SiSpringboot, color: "text-[#6DB33F]", label: "Spring Boot" },
-  { icon: SiPostgresql, color: "text-[#336791]", label: "PostgreSQL" },
-  { icon: SiDocker, color: "text-[#2496ED]", label: "Docker" },
-  { icon: SiKubernetes, color: "text-[#326CE5]", label: "Kubernetes" },
-  { icon: FaAws, color: "text-[#FF9900]", label: "AWS" },
-  { icon: SiNextdotjs, color: "text-slate-900 dark:text-white", label: "Next.js" },
-  { icon: SiLinux, color: "text-slate-800 dark:text-slate-200", label: "Linux" },
-  { icon: SiGithub, color: "text-slate-900 dark:text-white", label: "GitHub" },
-]
-
 const PROFILE_IMAGES = [
   '/profile.jpg',
   '/profile2.jpg',
@@ -66,69 +40,13 @@ export const HeroAvatar = () => {
     }
   }, [])
 
-  // CONFIG: Animation Parameters
-  // Desktop: 8 icons, ~160px radius
-  // Mobile: 4 icons, ~110px radius
-  const activeIcons = TECH_ICONS
+  const activeIcons = []
   const radius = isMobile ? 120 : 220
 
   if (!mounted) return <div className="w-[300px] h-[300px]" /> // Skeleton/Placeholder
 
   return (
     <div className="relative w-full h-[300px] md:h-[500px] flex items-center justify-center overflow-visible z-10">
-
-      {/*
-        ORBITAL SYSTEM
-        Container rotates continuously using CSS for better performance.
-        Children counter-rotate to stay upright.
-      */}
-      <div
-        className={cn(
-          "absolute inset-0 flex items-center justify-center",
-          !prefersReducedMotion && "animate-spin-slow"
-        )}
-      >
-        {activeIcons.map((tech, index) => {
-          const total = activeIcons.length
-          const angleDeg = (index * 360) / total
-
-          // Fixed position on the circle edge
-          return (
-            <div
-              key={tech.label}
-              className="absolute"
-              style={{
-                top: "50%",
-                left: "50%",
-                transform: `translate(-50%, -50%) rotate(${angleDeg}deg) translate(${radius}px) rotate(-${angleDeg}deg)`
-              }}
-            >
-              {/* COUNTER-ROTATION CONTAINER (Keeps icon upright as parent spins) */}
-              <div
-                className={cn(
-                  !prefersReducedMotion && "animate-spin-reverse-slow"
-                )}
-              >
-                {/* ICON VISUAL — static, the orbital CSS spin provides the motion */}
-                <div
-                  className={cn(
-                    "flex items-center justify-center rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200 dark:border-slate-800",
-                    isMobile ? "w-9 h-9 text-lg" : "w-14 h-14 text-2xl"
-                  )}
-                >
-                  <tech.icon className={tech.color} />
-                </div>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-
-      {/*
-        CENTERPIECE: GitHub Profile
-        Static position
-      */}
-
       {/* FULLSCREEN POPUP — rendered via Portal so it escapes all parent overflow/z-index */}
       {mounted && createPortal(
         <AnimatePresence>
