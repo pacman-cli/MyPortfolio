@@ -3,7 +3,7 @@ import { getAllProjectSlugs } from '@/lib/projects'
 import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://puspo.online'
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puspo.online'
 
     // Static routes
     const staticRoutes: MetadataRoute.Sitemap = [
@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.9,
         },
         {
-            url: `${baseUrl}/about`,
+            url: `${baseUrl}/about-me`,
             lastModified: new Date().toISOString(),
             changeFrequency: 'monthly',
             priority: 0.8,

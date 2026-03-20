@@ -235,17 +235,20 @@ export const ClosingSection = () => {
             </Link>
           </motion.div>
 
-          {/* Quiet links */}
+          {/* Find Me Online section */}
           <motion.div
             custom={5}
             variants={prefersReducedMotion ? undefined : textRevealVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className="mt-12 flex flex-wrap items-center justify-center gap-6"
+            className="mt-12 flex flex-col items-center justify-center gap-4"
           >
-            <QuietLink href="https://github.com/pacman-cli" label="GitHub" />
-            <QuietLink href="https://www.linkedin.com/in/iampuspo/" label="LinkedIn" />
-            <QuietLink href="https://www.instagram.com/pacman.puspo/" label="Instagram" />
+            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-2">Find Me Online</h3>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              <QuietLink href="https://github.com/pacman-cli" label="MD Ashikur Rahman Puspo GitHub" />
+              <QuietLink href="https://www.linkedin.com/in/iampuspo/" label="MD Ashikur Rahman Puspo LinkedIn" />
+              <QuietLink href="https://www.instagram.com/pacman.puspo/" label="MD Ashikur Rahman Puspo Instagram" />
+            </div>
           </motion.div>
 
         </div>

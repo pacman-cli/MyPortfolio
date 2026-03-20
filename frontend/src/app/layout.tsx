@@ -28,45 +28,19 @@ const jsonLdData = [
   {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    '@id': 'https://www.puspo.online/#person',
     name: 'MD Ashikur Rahman Puspo',
-    givenName: 'MD Ashikur Rahman',
-    familyName: 'Puspo',
-    alternateName: ['Puspo', 'MD. Ashikur Rahman', 'MD. Ashikur Rahman Puspo', 'Ashikur Rahman', 'Ashikur Rahman Puspo', 'iam_puspo', 'pacman.puspo', 'Puspo', 'Pushpo'],
     url: 'https://www.puspo.online',
-    image: {
-      '@type': 'ImageObject',
-      url: 'https://www.puspo.online/og-image.png',
-      width: 1200,
-      height: 630,
-    },
-    jobTitle: 'Backend Developer',
-    description: 'Meet Puspo (MD. Ashikur Rahman), a Backend Engineer and Software Developer specializing in Spring Boot, MySQL and Cloud technologies.',
-    // sameAs is THE key property that links your social profiles in Google Search
+    image: 'https://www.puspo.online/profile.jpg',
     sameAs: [
       'https://github.com/pacman-cli',
       'https://www.linkedin.com/in/iampuspo/',
-      'https://x.com/iam_puspo',
-      'https://web.facebook.com/pacman.puspo/',
-      'https://www.threads.net/@pacman.puspo',
-      'https://www.instagram.com/pacman.puspo/',
-      'https://link.me/pacman',
+      'https://www.instagram.com/pacman.puspo/'
     ],
-    knowsAbout: [
-      'Spring Boot', 'Java', 'Go', 'MySQL', 'PostgreSQL',
-      'Microservices Architecture', 'AWS', 'Docker',
-      'Kubernetes', 'React', 'Next.js', 'System Design',
-      'API Development', 'REST API', 'DevOps', 'CI/CD',
-    ],
-    alumniOf: {
-      '@type': 'CollegeOrUniversity',
-      name: 'United International University',
-      sameAs: 'https://www.uiu.ac.bd/',
-    },
-    nationality: {
-      '@type': 'Country',
-      name: 'Bangladesh',
-    },
+    jobTitle: 'Backend Developer',
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Self / Freelancer'
+    }
   },
   // 2. WebSite Schema — helps Google generate sitelinks (sub-pages under your result)
   {

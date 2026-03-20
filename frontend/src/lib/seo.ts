@@ -1,13 +1,12 @@
 import { Metadata } from 'next'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://puspo.online'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puspo.online'
 
 const defaultMeta = {
     title: 'MD Ashikur Rahman Puspo | Backend Developer',
-    description:
-        'Experienced Backend Engineer specializing in Spring Boot, Java, MySQL, Docker, and scalable Cloud Infrastructure. Building production-grade APIs and microservices.',
+    description: 'Backend Engineer specializing in Spring Boot, APIs, and scalable systems.',
     url: SITE_URL,
-    image: `${SITE_URL}/og-image.png`,
+    image: `${SITE_URL}/preview.png`,
     twitterHandle: '@iam_puspo',
 }
 

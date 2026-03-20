@@ -118,13 +118,11 @@ export const About = () => {
                                 </div>
                             </Reveal>
 
-                            <Reveal delay={0.5}>
                                 <div className="pt-4">
-                                    <a href="/about" className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline inline-flex items-center gap-1">
+                                    <a href="/about-me" className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline inline-flex items-center gap-1">
                                         Read full bio &rarr;
                                     </a>
                                 </div>
-                            </Reveal>
                         </div>
                     </div>
                 </Reveal>
