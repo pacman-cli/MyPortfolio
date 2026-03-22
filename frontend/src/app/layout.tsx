@@ -28,13 +28,18 @@ const jsonLdData = [
   {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': 'https://www.puspo.online/#person',
     name: 'MD Ashikur Rahman Puspo',
     url: 'https://www.puspo.online',
     image: 'https://www.puspo.online/profile.jpg',
     sameAs: [
       'https://github.com/pacman-cli',
       'https://www.linkedin.com/in/iampuspo/',
-      'https://www.instagram.com/pacman.puspo/'
+      'https://www.instagram.com/pacman.puspo/',
+      'https://x.com/iam_puspo',
+      'https://web.facebook.com/pacman.puspo/',
+      'https://www.threads.net/@pacman.puspo',
+      'https://link.me/pacman'
     ],
     jobTitle: 'Backend Developer',
     worksFor: {
