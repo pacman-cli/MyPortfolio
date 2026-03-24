@@ -185,7 +185,7 @@ const StatCard = ({ icon, value, label, delay, iconColor, bgColor }: StatCardPro
       className="group relative flex items-center gap-2 md:gap-4 p-3 md:p-5 rounded-xl md:rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/30 transition-all duration-300 w-full hover:-translate-y-1"
       transition={{ type: "spring", stiffness: 300 }}
     >
-      <div className={`p-2.5 md:p-3 rounded-xl ${bgColor} ${iconColor} group-hover:scale-110 transition-transform duration-300`}>
+      <div className={`p-2.5 md:p-3 rounded-xl ${bgColor} ${iconColor} group-hover:-translate-y-1 transition-transform duration-300`}>
         {icon}
       </div>
       <div>

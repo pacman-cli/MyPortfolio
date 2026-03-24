@@ -41,7 +41,7 @@ export const Highlights = () => {
                             whileHover={{ y: -5 }}
                             className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all group"
                         >
-                            <div className="bg-background w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                            <div className="bg-background w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-sm group-hover:-translate-y-1 transition-transform duration-300">
                                 {item.icon}
                             </div>
                             <h3 className="font-semibold text-lg mb-2 group-hover:text-green-600 transition-colors dark:group-hover:text-green-400">

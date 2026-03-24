@@ -164,7 +164,7 @@ export const Skills = () => {
                 <div className="flex flex-col md:flex-row items-center gap-6">
                   {/* Icon & Title */}
                   <div className="flex items-center gap-4 md:w-1/3 w-full">
-                    <div className="p-3 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform shadow-sm">
+                    <div className="p-3 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl text-blue-600 dark:text-blue-400 group-hover:-translate-y-1 transition-transform shadow-sm">
                       {category.icon}
                     </div>
                     <div className="text-left">

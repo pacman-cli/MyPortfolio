@@ -137,7 +137,7 @@ export const Hero = () => {
                             className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto"
                         >
                             <Button
-                                className="w-full sm:w-auto rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold h-12 px-8 shadow-lg shadow-emerald-500/20 transition-all hover:scale-105"
+                                className="w-full sm:w-auto rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold h-12 px-8 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all"
                                 asChild
                             >
                                 <Link href="#contact">Get in Touch</Link>
@@ -145,7 +145,7 @@ export const Hero = () => {
 
                             <Button
                                 variant="outline"
-                                className="w-full sm:w-auto rounded-full border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white font-medium h-12 px-8 transition-all hover:scale-105"
+                                className="w-full sm:w-auto rounded-full border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-900 dark:text-white font-medium h-12 px-8 transition-all hover:-translate-y-0.5"
                                 asChild
                             >
                                 <Link href="#projects">View Projects</Link>
@@ -208,7 +208,7 @@ const SocialLink = ({ href, icon, label }: SocialLinkProps) => (
         target="_blank"
         rel="noopener noreferrer"
         aria-label={label}
-        className="p-3 text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-full transition-all duration-200 hover:scale-110 hover:-rotate-6 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800"
+        className="p-3 text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-full transition-all duration-200 hover:-translate-y-1 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800"
     >
         {icon}
     </Link>

@@ -83,7 +83,7 @@ export const Projects = () => {
         <div className="space-y-6 max-w-5xl mx-auto">
           {SELECTED_PROJECTS.map((project, index) => (
             <Reveal key={project.title} delay={index * 0.1}>
-              <div className="bg-background rounded-2xl p-8 border border-border/50 hover:border-blue-500/30 transition-colors group relative overflow-hidden">
+              <div className="bg-background rounded-2xl p-8 border border-border/50 hover:border-foreground/10 transition-colors group relative overflow-hidden">
                 {/* Featured Badge Decoration */}
                 {project.featured && (
                   <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl z-10">
@@ -97,7 +97,7 @@ export const Projects = () => {
 
                   {/* Left: Icon & Info */}
                   <div className="flex items-start gap-6 md:w-5/12 w-full">
-                    <div className={`p-4 rounded-2xl shrink-0 ${project.featured ? 'bg-blue-500/10 text-blue-600' : 'bg-muted text-muted-foreground'} group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`p-4 rounded-2xl shrink-0 ${project.featured ? 'bg-blue-500/10 text-blue-600' : 'bg-muted text-muted-foreground'} group-hover:-translate-y-1 transition-transform duration-300`}>
                       <Folder className="w-8 h-8" />
                     </div>
 
@@ -118,7 +118,7 @@ export const Projects = () => {
                     {project.title === 'TakaTrack' && (
                       <div className="w-full mb-2 group/preview relative">
                         {/* Desktop: Live Iframe Preview */}
-                        <div className="hidden md:block w-full aspect-video rounded-xl overflow-hidden border border-border/50 bg-slate-100 dark:bg-slate-900 relative shadow-sm transition-all duration-500 group-hover/preview:shadow-[0_0_30px_rgba(59,130,246,0.3)] group-hover/preview:scale-[1.05] group-hover/preview:border-blue-500/50 ease-out">
+                        <div className="hidden md:block w-full aspect-video rounded-xl overflow-hidden border border-border/50 bg-slate-100 dark:bg-slate-900 relative shadow-sm transition-all duration-500 group-hover/preview:shadow-lg group-hover/preview:-translate-y-1 group-hover/preview:border-border/60 ease-out">
 
                           {/* Click Overlay - Enforces "Preview Only" feel & Opens New Tab */}
                           <a

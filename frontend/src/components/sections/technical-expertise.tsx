@@ -194,7 +194,7 @@ const SkillChip = ({ skill, index }: { skill: SkillItem; index: number }) => {
     >
       <span className={cn(
         "text-xl filter grayscale group-hover:grayscale-0 transition-all duration-300",
-        "opacity-80 group-hover:opacity-100 group-hover:scale-110 transform"
+        "opacity-80 group-hover:opacity-100 group-hover:-translate-y-1 transform transition-transform"
       )}>
         {skill.icon}
       </span>
