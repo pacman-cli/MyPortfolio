@@ -2,7 +2,7 @@
 
 import { Github, Instagram, Linkedin, Mail } from 'lucide-react'
 import Link from 'next/link'
-import { SiX } from "react-icons/si"
+import { SiX, SiFacebook, SiLeetcode } from "react-icons/si"
 
 export const Footer = () => {
   return (
@@ -22,6 +22,12 @@ export const Footer = () => {
           </Link>
           <Link href="https://www.linkedin.com/in/iampuspo/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Linkedin className="w-5 h-5" />
+          </Link>
+          <Link href="https://www.facebook.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" aria-label="Facebook Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+            <SiFacebook className="w-5 h-5" />
+          </Link>
+          <Link href="https://leetcode.com/u/pacman-cli/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+            <SiLeetcode className="w-5 h-5" />
           </Link>
           <Link href="https://x.com/iam_puspo" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter) Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <SiX className="w-4 h-4" />

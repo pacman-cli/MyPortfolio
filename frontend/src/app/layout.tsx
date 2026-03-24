@@ -30,6 +30,8 @@ const jsonLdData = [
     '@type': 'Person',
     '@id': 'https://www.puspo.online/#person',
     name: 'MD Ashikur Rahman Puspo',
+    alternateName: 'Ashikur Rahman Puspo',
+    additionalName: 'Puspo',
     url: 'https://www.puspo.online',
     image: 'https://www.puspo.online/profile.jpg',
     sameAs: [
@@ -37,11 +39,12 @@ const jsonLdData = [
       'https://www.linkedin.com/in/iampuspo/',
       'https://www.instagram.com/pacman.puspo/',
       'https://x.com/iam_puspo',
-      'https://web.facebook.com/pacman.puspo/',
+      'https://www.facebook.com/pacman.puspo/',
       'https://www.threads.net/@pacman.puspo',
-      'https://link.me/pacman'
+      'https://leetcode.com/u/pacman-cli/'
     ],
     jobTitle: 'Backend Developer',
+    knowsAbout: ['Spring Boot', 'Java', 'Microservices', 'Docker', 'AWS', 'Next.js', 'System Design'],
     worksFor: {
       '@type': 'Organization',
       name: 'Self / Freelancer'

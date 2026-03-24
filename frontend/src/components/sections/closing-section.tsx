@@ -245,9 +245,12 @@ export const ClosingSection = () => {
           >
             <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-2">Find Me Online</h3>
             <div className="flex flex-wrap items-center justify-center gap-6">
-              <QuietLink href="https://github.com/pacman-cli" label="MD Ashikur Rahman Puspo GitHub" />
-              <QuietLink href="https://www.linkedin.com/in/iampuspo/" label="MD Ashikur Rahman Puspo LinkedIn" />
-              <QuietLink href="https://www.instagram.com/pacman.puspo/" label="MD Ashikur Rahman Puspo Instagram" />
+              <QuietLink href="https://github.com/pacman-cli" label="GitHub" />
+              <QuietLink href="https://www.linkedin.com/in/iampuspo/" label="LinkedIn" />
+              <QuietLink href="https://www.facebook.com/pacman.puspo/" label="Facebook" />
+              <QuietLink href="https://leetcode.com/u/pacman-cli/" label="LeetCode" />
+              <QuietLink href="https://x.com/iam_puspo" label="X (Twitter)" />
+              <QuietLink href="https://www.instagram.com/pacman.puspo/" label="Instagram" />
             </div>
           </motion.div>
 
