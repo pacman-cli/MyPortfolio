@@ -65,7 +65,7 @@ export const Navbar = () => {
               viewBox="0 0 40 40"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="overflow-visible transition-transform duration-300 group-hover:scale-110"
+              className="overflow-visible transition-transform duration-300 group-hover:-translate-y-0.5"
               aria-hidden="true"
             >
               <defs>

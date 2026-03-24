@@ -99,12 +99,12 @@ export function Theme({
         className={cn(
           "inline-flex items-center justify-center gap-2 rounded-lg border transition-all duration-200",
           "border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-foreground)]",
-          "hover:scale-105 hover:bg-[var(--color-muted)] active:scale-95",
+          "hover:bg-[var(--color-muted)] active:scale-95",
           sizeClasses[size],
           className
         )}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.97 }}
       >
         <motion.div
           key={safeTheme}
@@ -389,15 +389,15 @@ export function Theme({
           className={cn(
             "flex items-center justify-center rounded-full border-2 transition-all",
             "border-[var(--color-primary)] bg-[var(--color-primary)] text-white",
-            "shadow-lg hover:scale-110"
+            "shadow-lg hover:-translate-y-0.5"
           )}
           style={{
             width: centerSize,
             height: centerSize,
             backgroundColor: "var(--color-primary)",
           }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
         >
           <motion.div
             animate={{ rotate: isOpen ? 180 : 0 }}
@@ -429,14 +429,14 @@ export function Theme({
                     className={cn(
                       "absolute flex items-center justify-center rounded-full border-2 shadow-lg cursor-pointer",
                       "bg-[var(--color-card)] text-[var(--color-foreground)]",
-                      "hover:scale-110",
+                      "hover:-translate-y-0.5",
                       size === "sm"
                         ? "h-8 w-8"
                         : size === "md"
                           ? "h-10 w-10"
                           : "h-12 w-12",
                       isSelected
-                        ? "scale-125 border-[var(--color-primary)] bg-[var(--color-primary)] text-white"
+                        ? "scale-110 border-[var(--color-primary)] bg-[var(--color-primary)] text-white"
                         : "border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-foreground)]"
                     )}
                     style={{
@@ -447,8 +447,8 @@ export function Theme({
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0, opacity: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                   >
                     <Icon size={size === "sm" ? 12 : size === "md" ? 16 : 18} />
                   </motion.button>
