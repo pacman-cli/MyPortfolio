@@ -11,7 +11,7 @@ export const metadata: Metadata = constructMetadata({
   title: 'Projects | MD Ashikur Rahman Puspo',
   description:
     'Explore my portfolio of full-stack projects built with Spring Boot, Next.js, Docker, and MySQL. Each project includes architecture details, challenges, and results.',
-  url: 'https://puspo.online/projects',
+  url: 'https://www.puspo.online/projects',
   keywords: [
     'Backend Developer Projects',
     'Spring Boot Projects',

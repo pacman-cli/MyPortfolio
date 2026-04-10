@@ -6,21 +6,33 @@ const defaultMeta = {
     title: 'MD Ashikur Rahman Puspo | Backend Developer',
     description: 'Backend Engineer specializing in Spring Boot, APIs, and scalable systems.',
     url: SITE_URL,
-    image: `${SITE_URL}/preview.png`,
+    image: `${SITE_URL}/og-image.png`,
     twitterHandle: '@iam_puspo',
 }
 
 /** SEO keyword clusters for developer portfolio discoverability */
 const DEFAULT_KEYWORDS = [
+    // Personal brand name variations
     'MD Ashikur Rahman Puspo',
+    'Ashikur Rahman Puspo',
+    'Ashikur Rahman',
     'Puspo',
+    'ashikur rahman puspo',
+    // Social handles / usernames
+    'pacman.puspo',
+    'pacman-cli',
+    'iampuspo',
+    'pacmanTichKule',
+    // Professional titles
     'Backend Developer',
     'Backend Engineer',
     'Software Developer',
+    'Software Engineer',
     'Spring Boot Developer',
     'Java Developer',
     'API Developer',
     'Full Stack Developer',
+    // Technical skills
     'System Design',
     'Microservices',
     'MySQL',
@@ -30,6 +42,14 @@ const DEFAULT_KEYWORDS = [
     'Cloud Infrastructure',
     'Next.js Developer',
     'DevOps',
+    // Competitive programming
+    'LeetCode',
+    'Problem Solving',
+    'Data Structures and Algorithms',
+    // Location-based
+    'Backend Developer Bangladesh',
+    'Software Engineer Dhaka',
+    'Software Engineer Bangladesh',
 ]
 
 /**

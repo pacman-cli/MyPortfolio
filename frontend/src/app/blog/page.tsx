@@ -9,7 +9,7 @@ export const metadata: Metadata = constructMetadata({
   title: 'Blog | MD Ashikur Rahman Puspo — Technical Articles',
   description:
     'Read technical blog posts by MD Ashikur Rahman Puspo on Backend Engineering, Spring Boot, System Design, Microservices, Docker, and Cloud Architecture.',
-  url: 'https://puspo.online/blog',
+  url: 'https://www.puspo.online/blog',
   keywords: [
     'Backend Engineering Blog',
     'Spring Boot Tutorial',

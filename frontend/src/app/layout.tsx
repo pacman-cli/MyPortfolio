@@ -30,25 +30,59 @@ const jsonLdData = [
     '@type': 'Person',
     '@id': 'https://www.puspo.online/#person',
     name: 'MD Ashikur Rahman Puspo',
-    alternateName: 'Ashikur Rahman Puspo',
+    alternateName: ['Ashikur Rahman Puspo', 'Ashikur Rahman', 'Puspo', 'ashikur rahman puspo', 'pacman-cli'],
     additionalName: 'Puspo',
     url: 'https://www.puspo.online',
-    image: 'https://www.puspo.online/profile.jpg',
+    mainEntityOfPage: 'https://www.puspo.online',
+    image: {
+      '@type': 'ImageObject',
+      url: 'https://www.puspo.online/profile.jpg',
+      width: 400,
+      height: 400,
+    },
+    description: 'MD Ashikur Rahman Puspo is a Backend Developer and Software Engineer from Dhaka, Bangladesh, specializing in Spring Boot, Java, Microservices, Docker, and AWS. Active on LeetCode as pacman-cli, GitHub, LinkedIn, YouTube, Facebook, and Instagram.',
+    email: 'puspopuspo520@gmail.com',
+    identifier: [
+      { '@type': 'PropertyValue', name: 'GitHub', value: 'pacman-cli', url: 'https://github.com/pacman-cli' },
+      { '@type': 'PropertyValue', name: 'LinkedIn', value: 'iampuspo', url: 'https://www.linkedin.com/in/iampuspo/' },
+      { '@type': 'PropertyValue', name: 'LeetCode', value: 'pacman-cli', url: 'https://leetcode.com/u/pacman-cli/' },
+      { '@type': 'PropertyValue', name: 'YouTube', value: 'pacmanTichKule', url: 'https://www.youtube.com/@pacmanTichKule' },
+      { '@type': 'PropertyValue', name: 'Instagram', value: 'pacman.puspo', url: 'https://www.instagram.com/pacman.puspo/' },
+      { '@type': 'PropertyValue', name: 'Facebook', value: 'pacman.puspo', url: 'https://www.facebook.com/pacman.puspo/' },
+    ],
     sameAs: [
       'https://github.com/pacman-cli',
       'https://www.linkedin.com/in/iampuspo/',
       'https://www.instagram.com/pacman.puspo/',
-      'https://x.com/iam_puspo',
       'https://www.facebook.com/pacman.puspo/',
+      'https://x.com/iam_puspo',
       'https://www.threads.net/@pacman.puspo',
-      'https://leetcode.com/u/pacman-cli/'
+      'https://leetcode.com/u/pacman-cli/',
+      'https://www.youtube.com/@pacmanTichKule',
+      'https://www.youtube.com/@pacmanTichKule/featured',
     ],
     jobTitle: 'Backend Developer',
-    knowsAbout: ['Spring Boot', 'Java', 'Microservices', 'Docker', 'AWS', 'Next.js', 'System Design'],
+    knowsAbout: ['Spring Boot', 'Java', 'Microservices', 'Docker', 'AWS', 'Next.js', 'System Design', 'LeetCode', 'Data Structures', 'Algorithms', 'REST APIs', 'Cloud Architecture'],
+    knowsLanguage: ['English', 'Bengali'],
+    nationality: {
+      '@type': 'Country',
+      name: 'Bangladesh',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Dhaka',
+      addressCountry: 'BD',
+    },
+    alumniOf: {
+      '@type': 'EducationalOrganization',
+      name: 'United International University',
+      url: 'https://www.uiu.ac.bd/',
+    },
     worksFor: {
       '@type': 'Organization',
-      name: 'Self / Freelancer'
-    }
+      name: 'Self / Freelancer',
+    },
+    gender: 'Male',
   },
   // 2. WebSite Schema — helps Google generate sitelinks (sub-pages under your result)
   {
@@ -57,16 +91,10 @@ const jsonLdData = [
     '@id': 'https://www.puspo.online/#website',
     url: 'https://www.puspo.online',
     name: 'MD Ashikur Rahman Puspo | Backend Developer',
-    description: 'Portfolio website of MD Ashikur Rahman Puspo, a Backend Developer specializing in Spring Boot, Java, and Cloud Architecture.',
+    alternateName: ['Puspo Portfolio', 'Ashikur Rahman Puspo Website'],
+    description: 'Portfolio website of MD Ashikur Rahman Puspo, a Backend Developer specializing in Spring Boot, Java, and Cloud Architecture. View projects, blog, resume, and social profiles.',
     publisher: { '@id': 'https://www.puspo.online/#person' },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: 'https://www.puspo.online/?q={search_term_string}',
-      },
-      'query-input': 'required name=search_term_string',
-    },
+    inLanguage: 'en-US',
   },
   // 3. ProfilePage Schema — tells Google this page IS a profile page
   {
@@ -76,19 +104,34 @@ const jsonLdData = [
     url: 'https://www.puspo.online',
     name: 'MD Ashikur Rahman Puspo | Backend Developer',
     mainEntity: { '@id': 'https://www.puspo.online/#person' },
-    dateCreated: '2024-01-01',
+    dateCreated: '2024-06-01',
     dateModified: new Date().toISOString().split('T')[0],
+    inLanguage: 'en-US',
   },
   // 4. SiteNavigationElement — explicitly tells Google about your main pages (sitelinks)
   {
     '@context': 'https://schema.org',
     '@type': 'SiteNavigationElement',
-    name: ['About', 'Projects', 'Resume', 'Blog'],
+    name: ['About', 'Projects', 'Resume', 'Blog', 'Social Links'],
     url: [
-      'https://puspo.online/about',
-      'https://puspo.online/projects',
-      'https://puspo.online/resume',
-      'https://puspo.online/blog',
+      'https://www.puspo.online/about-me',
+      'https://www.puspo.online/projects',
+      'https://www.puspo.online/resume',
+      'https://www.puspo.online/blog',
+      'https://www.puspo.online/links',
+    ],
+  },
+  // 5. BreadcrumbList — tells Google to show breadcrumbs for organized navigation
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.puspo.online' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: 'https://www.puspo.online/about-me' },
+      { '@type': 'ListItem', position: 3, name: 'Projects', item: 'https://www.puspo.online/projects' },
+      { '@type': 'ListItem', position: 4, name: 'Blog', item: 'https://www.puspo.online/blog' },
+      { '@type': 'ListItem', position: 5, name: 'Resume', item: 'https://www.puspo.online/resume' },
+      { '@type': 'ListItem', position: 6, name: 'Social Links', item: 'https://www.puspo.online/links' },
     ],
   },
 ]

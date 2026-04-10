@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Github, Instagram, Linkedin } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { SiDocker, SiNextdotjs, SiSpringboot, SiX, SiLeetcode, SiFacebook } from "react-icons/si"
+import { SiDocker, SiNextdotjs, SiSpringboot, SiX, SiLeetcode, SiFacebook, SiYoutube } from "react-icons/si"
 
 const HeroAvatar = dynamic(
     () => import('./hero-avatar').then(mod => mod.HeroAvatar),
@@ -156,6 +156,7 @@ export const Hero = () => {
                                 <SocialLink href="https://leetcode.com/u/pacman-cli/" icon={<SiLeetcode className="h-5 w-5" />} label="LeetCode" />
                                 <SocialLink href="https://www.linkedin.com/in/iampuspo/" icon={<Linkedin className="h-5 w-5" />} label="LinkedIn" />
                                 <SocialLink href="https://www.facebook.com/pacman.puspo/" icon={<SiFacebook className="h-5 w-5" />} label="Facebook" />
+                                <SocialLink href="https://www.youtube.com/@pacmanTichKule" icon={<SiYoutube className="h-5 w-5" />} label="YouTube" />
                                 <SocialLink href="https://x.com/iam_puspo" icon={<SiX className="h-4 w-4" />} label="X" />
                                 <SocialLink href="https://www.instagram.com/pacman.puspo/" icon={<Instagram className="h-5 w-5" />} label="Instagram" />
                             </div>

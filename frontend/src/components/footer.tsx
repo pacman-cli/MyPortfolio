@@ -1,6 +1,6 @@
 "use client"
 
-import { Github, Instagram, Linkedin, Mail } from 'lucide-react'
+import { Github, Instagram, Linkedin, Mail, Youtube } from 'lucide-react'
 import Link from 'next/link'
 import { SiX, SiFacebook, SiLeetcode } from "react-icons/si"
 
@@ -34,6 +34,9 @@ export const Footer = () => {
           </Link>
           <Link href="https://www.instagram.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Instagram className="w-5 h-5" />
+          </Link>
+          <Link href="https://www.youtube.com/@pacmanTichKule" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
+            <Youtube className="w-5 h-5" />
           </Link>
           <Link href="mailto:puspopuspo520@gmail.com" aria-label="Email Me" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
             <Mail className="w-5 h-5" />

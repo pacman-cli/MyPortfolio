@@ -5,7 +5,7 @@ export const metadata: Metadata = constructMetadata({
   title: 'Resume | MD Ashikur Rahman Puspo — Backend Developer',
   description:
     'View the professional resume of MD Ashikur Rahman Puspo — Backend Developer with expertise in Spring Boot, Java, MySQL, Docker, AWS, and Microservices Architecture.',
-  url: 'https://puspo.online/resume',
+  url: 'https://www.puspo.online/resume',
   keywords: [
     'Puspo Resume',
     'MD Ashikur Rahman Puspo Resume',
