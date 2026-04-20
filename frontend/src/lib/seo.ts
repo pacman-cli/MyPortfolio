@@ -1,13 +1,14 @@
 import { Metadata } from 'next'
+import { absoluteUrl, siteConfig } from './site'
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puspo.online'
+const SITE_URL = siteConfig.url
 
 const defaultMeta = {
-    title: 'MD Ashikur Rahman Puspo | Backend Developer',
-    description: 'Backend Engineer specializing in Spring Boot, APIs, and scalable systems.',
+    title: 'MD Ashikur Rahman Puspo | Backend Developer Portfolio',
+    description: siteConfig.description,
     url: SITE_URL,
-    image: `${SITE_URL}/og-image.png`,
-    twitterHandle: '@iam_puspo',
+    image: siteConfig.ogImage,
+    twitterHandle: siteConfig.twitterHandle,
 }
 
 /** SEO keyword clusters for developer portfolio discoverability */
@@ -22,7 +23,8 @@ const DEFAULT_KEYWORDS = [
     'pacman.puspo',
     'pacman-cli',
     'iampuspo',
-    'pacmanTichKule',
+    'springCraftDev',
+    '@springCraftDev',
     // Professional titles
     'Backend Developer',
     'Backend Engineer',
@@ -50,6 +52,7 @@ const DEFAULT_KEYWORDS = [
     'Backend Developer Bangladesh',
     'Software Engineer Dhaka',
     'Software Engineer Bangladesh',
+    'Official portfolio',
 ]
 
 /**
@@ -80,14 +83,15 @@ export function constructMetadata({
         title,
         description,
         keywords,
+        applicationName: siteConfig.siteName,
         alternates: {
-            canonical: url,
+            canonical: absoluteUrl(url),
         },
         openGraph: {
             title,
             description,
-            url,
-            siteName: 'MD Ashikur Rahman Puspo',
+            url: absoluteUrl(url),
+            siteName: siteConfig.siteName,
             images: [
                 {
                     url: image,
@@ -108,11 +112,28 @@ export function constructMetadata({
         },
         authors: [
             {
-                name: 'MD Ashikur Rahman Puspo',
+                name: siteConfig.fullName,
                 url: SITE_URL,
             },
         ],
-        creator: 'MD Ashikur Rahman Puspo',
+        creator: siteConfig.fullName,
+        publisher: siteConfig.fullName,
+        robots: noIndex
+            ? {
+                index: false,
+                follow: false,
+            }
+            : {
+                index: true,
+                follow: true,
+                googleBot: {
+                    index: true,
+                    follow: true,
+                    'max-image-preview': 'large',
+                    'max-snippet': -1,
+                    'max-video-preview': -1,
+                },
+            },
         ...(noIndex && {
             robots: {
                 index: false,

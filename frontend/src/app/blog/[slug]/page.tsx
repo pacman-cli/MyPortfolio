@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Footer } from '@/components/footer'
-import { BlogPostingSchema } from '@/components/seo/json-ld'
+import { BlogPostingSchema, BreadcrumbSchema } from '@/components/seo/json-ld'
 import { Alert } from '@/components/ui/alert'
 import { BlogProgress } from '@/components/ui/blog-progress'
 import { Button } from '@/components/ui/button'
 import { CodeBlock } from '@/components/ui/code-block'
 import { MermaidDiagram } from '@/components/ui/mermaid-diagram'
 import { getBlogBySlug, getBlogs } from '@/lib/api'
+import { absoluteUrl } from '@/lib/site'
 import { constructMetadata } from '@/lib/seo'
 import { ArrowLeft, Clock, Tag } from 'lucide-react'
 import Link from 'next/link'
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: PageProps) {
 
   if (!blog) return { title: 'Blog Not Found' }
 
-  const blogUrl = `https://puspo.online/blog/${blog.slug}`
+  const blogUrl = absoluteUrl(`/blog/${blog.slug}`)
   return constructMetadata({
     title: `${blog.title} | MD Ashikur Rahman Puspo`,
     description: blog.excerpt,
@@ -61,7 +62,14 @@ export default async function BlogPost({ params }: PageProps) {
   return (
     <main className="min-h-screen bg-background selection:bg-blue-500/30">
       {/* BlogPosting JSON-LD for rich results */}
-      <BlogPostingSchema blog={blog} url={`https://puspo.online/blog/${blog.slug}`} />
+      <BlogPostingSchema blog={blog} url={absoluteUrl(`/blog/${blog.slug}`)} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Blog', item: '/blog' },
+          { name: blog.title, item: `/blog/${blog.slug}` },
+        ]}
+      />
       <BlogProgress />
 
       {/* Navigation */}

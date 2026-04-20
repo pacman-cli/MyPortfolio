@@ -1,9 +1,10 @@
 import { getBlogs } from '@/lib/api'
+import { SITE_URL } from '@/lib/site'
 import { getAllProjectSlugs } from '@/lib/projects'
 import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.puspo.online'
+    const baseUrl = SITE_URL
 
     // Static routes
     const staticRoutes: MetadataRoute.Sitemap = [

@@ -95,7 +95,7 @@ flowchart TD
             'Modern developer portfolio built with Next.js 16, featuring scroll-driven animations, dark mode, and responsive design.',
         techStack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
         githubUrl: 'https://github.com/pacman-cli/MyPortfolio',
-        demoUrl: 'https://puspo.online',
+        demoUrl: 'https://www.puspo.online',
         category: 'frontend',
         problemStatement:
             'Developer portfolios need to balance visual appeal with performance and SEO. Most template-based portfolios sacrifice either design quality or Core Web Vitals scores.',

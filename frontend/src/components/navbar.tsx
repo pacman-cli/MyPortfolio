@@ -6,16 +6,13 @@ import { cn } from '@/lib/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
-  const router = useRouter()
-
-  const isHomePage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,18 +30,12 @@ export const Navbar = () => {
     { name: 'Contact', href: '/#contact' },
   ]
 
-  const handleNavigation = (href: string) => {
-    setIsMobileMenuOpen(false)
+  const isActiveLink = (href: string) => {
     if (href.startsWith('/#')) {
-      const id = href.replace('/#', '')
-      if (isHomePage) {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-      } else {
-        router.push(href)
-      }
-    } else {
-      router.push(href)
+      return false
     }
+
+    return pathname === href
   }
 
   return (
@@ -57,7 +48,16 @@ export const Navbar = () => {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo / Branding — Static SVG, no infinite animations */}
-        <Link href="/" className="group" onClick={() => isHomePage && window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <Link
+          href="/"
+          className="group"
+          onClick={() => {
+            setIsMobileMenuOpen(false)
+            if (pathname === '/') {
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }
+          }}
+        >
           <div className="flex items-center gap-2">
             <svg
               width="40"
@@ -106,31 +106,37 @@ export const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <button
+            <Link
               key={link.name}
-              onClick={() => handleNavigation(link.href)}
+              href={link.href}
               className={cn(
                 "text-sm font-medium transition-colors",
-                pathname === link.href
+                isActiveLink(link.href)
                   ? "text-emerald-500 dark:text-emerald-400"
                   : "text-gray-700 dark:text-gray-300 hover:text-emerald-500 dark:hover:text-emerald-400"
               )}
-              {...(pathname === link.href && { 'aria-current': 'page' as const })}
+              onClick={() => setIsMobileMenuOpen(false)}
+              {...(isActiveLink(link.href) && { 'aria-current': 'page' as const })}
             >
               {link.name}
-            </button>
+            </Link>
           ))}
 
           <Button
+            asChild
             variant="ghost"
-            onClick={() => router.push('/resume')}
             className={cn(
               "text-sm font-medium transition-colors hover:text-emerald-500 hover:bg-emerald-500/10",
               pathname === '/resume' ? "text-emerald-500 bg-emerald-500/10" : "text-gray-700 dark:text-gray-300"
             )}
-            {...(pathname === '/resume' && { 'aria-current': 'page' as const })}
           >
-            Resume
+            <Link
+              href="/resume"
+              onClick={() => setIsMobileMenuOpen(false)}
+              {...(pathname === '/resume' && { 'aria-current': 'page' as const })}
+            >
+              Resume
+            </Link>
           </Button>
 
           <div className="hidden lg:flex items-center gap-2 mr-2">
@@ -167,25 +173,27 @@ export const Navbar = () => {
           >
             <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
               {navLinks.map((link) => (
-                <button
+                <Link
                   key={link.name}
                   role="menuitem"
-                  onClick={() => handleNavigation(link.href)}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="text-left text-lg font-medium text-gray-900 dark:text-gray-100 py-2 border-b border-gray-100 dark:border-gray-800/50 last:border-0 hover:text-emerald-500"
                 >
                   {link.name}
-                </button>
+                </Link>
               ))}
-              <button
+              <Link
                 role="menuitem"
-                onClick={() => handleNavigation('/resume')}
+                href="/resume"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
                   "text-left text-lg font-medium py-2 border-b border-gray-100 dark:border-gray-800/50 last:border-0 hover:text-emerald-500",
                   pathname === '/resume' ? "text-emerald-500" : "text-gray-900 dark:text-gray-100"
                 )}
               >
                 Resume
-              </button>
+              </Link>
             </div>
           </motion.div>
         )}

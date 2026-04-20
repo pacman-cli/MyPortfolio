@@ -1,10 +1,13 @@
 import { Blog, Project } from '@/types'
+import { absoluteUrl, siteConfig } from '@/lib/site'
+
+type JsonLdValue = Record<string, unknown> | Array<Record<string, unknown>>
 
 /**
  * Renders a JSON-LD script tag for SEO structured data.
  * Use in Server Components to inject schema into <head>.
  */
-export function JsonLd({ data }: { data: Record<string, unknown> }) {
+export function JsonLd({ data }: { data: JsonLdValue }) {
   return (
     <script
       type="application/ld+json"
@@ -25,8 +28,8 @@ export function SoftwareSourceCodeSchema({ project }: { project: Project }) {
     programmingLanguage: project.techStack,
     author: {
       '@type': 'Person',
-      name: 'MD Ashikur Rahman Puspo',
-      url: 'https://puspo.online',
+      name: siteConfig.fullName,
+      url: siteConfig.url,
     },
     ...(project.demoUrl && {
       targetProduct: {
@@ -54,13 +57,13 @@ export function BlogPostingSchema({ blog, url }: { blog: Blog; url: string }) {
     url,
     author: {
       '@type': 'Person',
-      name: 'MD Ashikur Rahman Puspo',
-      url: 'https://puspo.online',
+      name: siteConfig.fullName,
+      url: siteConfig.url,
     },
     publisher: {
       '@type': 'Person',
-      name: 'MD Ashikur Rahman Puspo',
-      url: 'https://puspo.online',
+      name: siteConfig.fullName,
+      url: siteConfig.url,
     },
     keywords: blog.tags,
     mainEntityOfPage: {
@@ -70,4 +73,25 @@ export function BlogPostingSchema({ blog, url }: { blog: Blog; url: string }) {
   }
 
   return <JsonLd data={data} />
+}
+
+export function BreadcrumbSchema({
+  items,
+}: {
+  items: Array<{ name: string; item: string }>
+}) {
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: items.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          item: absoluteUrl(item.item),
+        })),
+      }}
+    />
+  )
 }

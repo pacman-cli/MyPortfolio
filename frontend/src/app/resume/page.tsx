@@ -63,8 +63,8 @@ export default function ResumePage() {
                     <a href="tel:+8801990866142" className="flex items-center gap-1 hover:text-emerald-500 transition-colors">
                       <Phone className="w-4 h-4 print:w-3 print:h-3" /> +880 1990866142
                     </a>
-                    <a href="https://puspo.online" className="flex items-center gap-1 hover:text-emerald-500 transition-colors">
-                      <ExternalLink className="w-4 h-4 print:w-3 print:h-3" /> puspo.online
+                    <a href="https://www.puspo.online" className="flex items-center gap-1 hover:text-emerald-500 transition-colors">
+                      <ExternalLink className="w-4 h-4 print:w-3 print:h-3" /> www.puspo.online
                     </a>
                   </div>
                   <div className="flex gap-4 mt-4 print:mt-2">

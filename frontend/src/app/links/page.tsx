@@ -1,4 +1,6 @@
+import { BreadcrumbSchema, JsonLd } from '@/components/seo/json-ld'
 import { Footer } from '@/components/footer'
+import { absoluteUrl, siteConfig } from '@/lib/site'
 import { constructMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Image from 'next/image'
@@ -9,8 +11,8 @@ import { SiX, SiFacebook, SiLeetcode, SiThreads } from 'react-icons/si'
 export const metadata: Metadata = constructMetadata({
   title: 'Social Links | MD Ashikur Rahman Puspo — Connect With Me',
   description:
-    'Find all social media profiles and links of MD Ashikur Rahman Puspo. Connect on GitHub (pacman-cli), LinkedIn (iampuspo), LeetCode, YouTube (pacmanTichKule), Facebook, Instagram, X (Twitter), and Threads.',
-  url: 'https://www.puspo.online/links',
+    'Official social links and profiles of MD Ashikur Rahman Puspo. Connect on GitHub, LinkedIn, LeetCode, YouTube @springCraftDev, Instagram, Facebook, X, and Threads.',
+  url: absoluteUrl('/links'),
   keywords: [
     'MD Ashikur Rahman Puspo social links',
     'Ashikur Rahman Puspo profiles',
@@ -18,7 +20,7 @@ export const metadata: Metadata = constructMetadata({
     'iampuspo LinkedIn',
     'pacman.puspo Instagram',
     'pacman.puspo Facebook',
-    'pacmanTichKule YouTube',
+    'springCraftDev YouTube',
     'pacman-cli LeetCode',
     'Puspo social media',
     'Ashikur Rahman Puspo contact',
@@ -52,8 +54,8 @@ const socialLinks = [
   },
   {
     name: 'YouTube',
-    handle: '@pacmanTichKule',
-    url: 'https://www.youtube.com/@pacmanTichKule',
+    handle: '@springCraftDev',
+    url: 'https://www.youtube.com/@springCraftDev',
     description: 'Tech tutorials, coding content, and developer vlogs.',
     icon: <Youtube className="w-6 h-6" />,
     color: 'hover:border-red-500',
@@ -104,30 +106,39 @@ const socialLinks = [
 const linksPageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
+  '@id': `${absoluteUrl('/links')}#webpage`,
   name: 'Social Links — MD Ashikur Rahman Puspo',
-  description: 'All social media profiles and contact information for MD Ashikur Rahman Puspo.',
-  url: 'https://www.puspo.online/links',
-  mainEntity: {
-    '@id': 'https://www.puspo.online/#person',
+  description: 'Official profile directory and contact links for MD Ashikur Rahman Puspo.',
+  url: absoluteUrl('/links'),
+  isPartOf: {
+    '@id': `${siteConfig.url}/#website`,
   },
-  hasPart: socialLinks
-    .filter((link) => !link.url.startsWith('mailto:'))
-    .map((link) => ({
-      '@type': 'WebPage',
-      name: `${link.name} — ${link.handle}`,
-      url: link.url,
-    })),
+  about: {
+    '@id': `${siteConfig.url}/#person`,
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: socialLinks
+      .filter((link) => !link.url.startsWith('mailto:'))
+      .map((link, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: `${link.name} — ${link.handle}`,
+        url: link.url,
+      })),
+  },
 }
 
 export default function LinksPage() {
   return (
     <main className="min-h-screen pt-24 pb-16">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(linksPageJsonLd) }}
-        />
-      </head>
+      <JsonLd data={linksPageJsonLd} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Social Links', item: '/links' },
+        ]}
+      />
       <div className="container mx-auto px-6 max-w-3xl">
         {/* Header */}
         <section className="mb-12 text-center">

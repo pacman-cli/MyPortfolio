@@ -247,10 +247,12 @@ export const ClosingSection = () => {
             <div className="flex flex-wrap items-center justify-center gap-6">
               <QuietLink href="https://github.com/pacman-cli" label="GitHub" />
               <QuietLink href="https://www.linkedin.com/in/iampuspo/" label="LinkedIn" />
+              <QuietLink href="https://www.youtube.com/@springCraftDev" label="YouTube" />
               <QuietLink href="https://www.facebook.com/pacman.puspo/" label="Facebook" />
               <QuietLink href="https://leetcode.com/u/pacman-cli/" label="LeetCode" />
               <QuietLink href="https://x.com/iam_puspo" label="X (Twitter)" />
               <QuietLink href="https://www.instagram.com/pacman.puspo/" label="Instagram" />
+              <QuietLink href="/links" label="All Profiles" external={false} />
             </div>
           </motion.div>
 

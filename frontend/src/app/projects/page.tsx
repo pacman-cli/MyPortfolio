@@ -1,4 +1,6 @@
+import { BreadcrumbSchema, JsonLd } from '@/components/seo/json-ld'
 import { Footer } from '@/components/footer'
+import { absoluteUrl, siteConfig } from '@/lib/site'
 import { getProjects } from '@/lib/projects'
 import { constructMetadata } from '@/lib/seo'
 import { ArrowUpRight, Folder, Github } from 'lucide-react'
@@ -11,7 +13,7 @@ export const metadata: Metadata = constructMetadata({
   title: 'Projects | MD Ashikur Rahman Puspo',
   description:
     'Explore my portfolio of full-stack projects built with Spring Boot, Next.js, Docker, and MySQL. Each project includes architecture details, challenges, and results.',
-  url: 'https://www.puspo.online/projects',
+  url: absoluteUrl('/projects'),
   keywords: [
     'Backend Developer Projects',
     'Spring Boot Projects',
@@ -39,9 +41,35 @@ function getTechIcon(tech: string) {
 
 export default function ProjectsPage() {
   const projects = getProjects()
+  const projectsPageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${absoluteUrl('/projects')}#webpage`,
+    url: absoluteUrl('/projects'),
+    name: 'Projects | MD Ashikur Rahman Puspo',
+    description: 'Portfolio case studies, demos, and source repositories by MD Ashikur Rahman Puspo.',
+    isPartOf: { '@id': `${siteConfig.url}/#website` },
+    about: { '@id': `${siteConfig.url}/#person` },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: projects.map((project, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: project.name,
+        url: absoluteUrl(`/projects/${project.slug}`),
+      })),
+    },
+  }
 
   return (
     <main className="min-h-screen bg-background">
+      <JsonLd data={projectsPageJsonLd} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Projects', item: '/projects' },
+        ]}
+      />
       <div className="container mx-auto px-6 max-w-5xl pt-28 pb-20">
         {/* Header */}
         <div className="mb-16">

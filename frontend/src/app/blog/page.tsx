@@ -1,5 +1,7 @@
+import { BreadcrumbSchema, JsonLd } from '@/components/seo/json-ld'
 import { Footer } from '@/components/footer'
 import { getBlogs } from '@/lib/api'
+import { absoluteUrl, siteConfig } from '@/lib/site'
 import { constructMetadata } from '@/lib/seo'
 import { ArrowRight, BookOpen, Clock, Tag } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -9,7 +11,7 @@ export const metadata: Metadata = constructMetadata({
   title: 'Blog | MD Ashikur Rahman Puspo — Technical Articles',
   description:
     'Read technical blog posts by MD Ashikur Rahman Puspo on Backend Engineering, Spring Boot, System Design, Microservices, Docker, and Cloud Architecture.',
-  url: 'https://www.puspo.online/blog',
+  url: absoluteUrl('/blog'),
   keywords: [
     'Backend Engineering Blog',
     'Spring Boot Tutorial',
@@ -22,9 +24,35 @@ export const metadata: Metadata = constructMetadata({
 
 export default async function BlogPage() {
   const blogs = await getBlogs()
+  const blogPageJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${absoluteUrl('/blog')}#webpage`,
+    url: absoluteUrl('/blog'),
+    name: 'Blog | MD Ashikur Rahman Puspo',
+    description: 'Technical articles, guides, and external posts by MD Ashikur Rahman Puspo.',
+    isPartOf: { '@id': `${siteConfig.url}/#website` },
+    about: { '@id': `${siteConfig.url}/#person` },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: blogs.map((blog, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: blog.title,
+        url: blog.content ? absoluteUrl(`/blog/${blog.slug}`) : blog.externalUrl,
+      })),
+    },
+  }
 
   return (
     <main className="min-h-screen bg-background">
+      <JsonLd data={blogPageJsonLd} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Blog', item: '/blog' },
+        ]}
+      />
       <div className="container mx-auto px-6 max-w-4xl pt-28 pb-20">
         {/* Header */}
         <div className="mb-16">

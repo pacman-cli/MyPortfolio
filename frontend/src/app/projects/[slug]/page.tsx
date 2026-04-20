@@ -1,6 +1,7 @@
 import { Footer } from '@/components/footer'
-import { SoftwareSourceCodeSchema } from '@/components/seo/json-ld'
+import { BreadcrumbSchema, SoftwareSourceCodeSchema } from '@/components/seo/json-ld'
 import { GithubBadge } from '@/components/ui/github-badge'
+import { absoluteUrl } from '@/lib/site'
 import { getAllProjectSlugs, getProjectBySlug } from '@/lib/projects'
 import { constructMetadata } from '@/lib/seo'
 import { ArrowLeft, ArrowUpRight, CheckCircle, Github, Lightbulb, Target, Wrench } from 'lucide-react'
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return constructMetadata({
     title: `${project.name} — Case Study | MD Ashikur Rahman Puspo`,
     description: project.longDescription || project.description,
-    url: `https://puspo.online/projects/${project.slug}`,
+    url: absoluteUrl(`/projects/${project.slug}`),
     keywords: [
       project.name,
       ...project.techStack,
@@ -48,6 +49,13 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
     <main className="min-h-screen bg-background">
       {/* JSON-LD Schema */}
       <SoftwareSourceCodeSchema project={project} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Projects', item: '/projects' },
+          { name: project.name, item: `/projects/${project.slug}` },
+        ]}
+      />
 
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
