@@ -470,17 +470,21 @@ stateDiagram-v2
     HALF_OPEN --> CLOSED : Probe succeeds
     HALF_OPEN --> OPEN : Probe fails
 
-    CLOSED : [Status: Normal Operation]
-    CLOSED : All requests pass through
-    CLOSED : Failures are counted
-
-    OPEN : [Status: Failing Fast]
-    OPEN : Requests rejected immediately
-    OPEN : Routed to fallback
-
-    HALF_OPEN : [Status: Testing Recovery]
-    HALF_OPEN : Limited test requests sent
-    HALF_OPEN : Evaluating service health
+    note right of CLOSED
+        Normal Operation
+        All requests pass through
+        Failures are counted
+    end note
+    note right of OPEN
+        Failing Fast
+        Requests rejected immediately
+        Routed to fallback
+    end note
+    note right of HALF_OPEN
+        Testing Recovery
+        Limited test requests sent
+        Evaluating service health
+    end note
 \`\`\`
 
 - **CLOSED**: All requests pass through normally. Failures are counted.
