@@ -43,15 +43,15 @@ Before diving into each component, here's how all the pieces fit together in a t
 
 \`\`\`mermaid
 flowchart TD
-    Client["🖥️ Client (Browser / Mobile)"]
-    Gateway["🔀 API Gateway\n(Spring Cloud Gateway)\nRouting · Auth · Rate Limiting"]
-    Order["📦 Order Service"]
-    Payment["💳 Payment Service"]
-    Inventory["📋 Inventory Service"]
-    Notification["🔔 Notification Service"]
-    Broker["📨 Message Broker\n(Kafka / RabbitMQ)"]
-    Eureka["📡 Eureka Service Registry"]
-    DB["🗄️ DB (Per Service)"]
+    Client["Client (Browser / Mobile)"]
+    Gateway["API Gateway\n(Spring Cloud Gateway)\nRouting · Auth · Rate Limiting"]
+    Order["Order Service"]
+    Payment["Payment Service"]
+    Inventory["Inventory Service"]
+    Notification["Notification Service"]
+    Broker["Message Broker\n(Kafka / RabbitMQ)"]
+    Eureka["Eureka Service Registry"]
+    DB["DB (Per Service)"]
 
     Client --> Gateway
     Gateway --> Order
@@ -97,15 +97,15 @@ Eureka follows a **client-server** model:
 
 \`\`\`mermaid
 flowchart TD
-    Eureka["📡 EUREKA SERVER\n(Service Registry)"]
+    Eureka["EUREKA SERVER\n(Service Registry)"]
     Registry["Registry Table:\n\norder-service → 192.168.1.10, .11\ninventory-service → 192.168.1.20\npayment-service → 192.168.1.30, .31"]
-    OrderSvc["📦 Order Service\n(Eureka Client)"]
-    InvSvc["📋 Inventory Service\n(Eureka Client)"]
+    OrderSvc["Order Service\n(Eureka Client)"]
+    InvSvc["Inventory Service\n(Eureka Client)"]
 
     Eureka --- Registry
-    OrderSvc -->|"① Register\n+ Heartbeat"| Eureka
-    InvSvc -->|"② Discover\n+ Fetch List"| Eureka
-    OrderSvc -->|"③ Call by name"| InvSvc
+    OrderSvc -->|"(1) Register\n+ Heartbeat"| Eureka
+    InvSvc -->|"(2) Discover\n+ Fetch List"| Eureka
+    OrderSvc -->|"(3) Call by name"| InvSvc
 
     style Eureka fill:#be185d,stroke:#f472b6,color:#e2e8f0
     style Registry fill:#1e293b,stroke:#64748b,color:#94a3b8
@@ -229,15 +229,15 @@ The Gateway is the single entry point for all client requests. It handles routin
 
 \`\`\`mermaid
 flowchart TD
-    Client["🖥️ CLIENT"]
-    Gateway["🔀 API GATEWAY :8080"]
+    Client["CLIENT"]
+    Gateway["API GATEWAY :8080"]
     Route["Route Matching"]
     Auth["Auth Filter"]
     RateLimit["Rate Limiter"]
     CB["Circuit Breaker"]
-    OrderSvc["📦 Order Service"]
-    PaySvc["💳 Payment Service"]
-    InvSvc["📋 Inventory Service"]
+    OrderSvc["Order Service"]
+    PaySvc["Payment Service"]
+    InvSvc["Inventory Service"]
 
     Client -->|"GET /api/orders/123"| Gateway
     Gateway --> Route
@@ -277,21 +277,21 @@ While \`RestTemplate\` and \`WebClient\` work, they require boilerplate code for
 
 \`\`\`mermaid
 flowchart TD
-    subgraph OrderService["📦 ORDER SERVICE"]
+    subgraph OrderService["ORDER SERVICE"]
         Call["OrderService.java\ninventoryClient.getStock('P001')"]
         FeignIF["InventoryClient Interface\n@FeignClient('inventory-service')"]
         LB["Spring Cloud LoadBalancer\n(Round Robin / Weighted)"]
     end
 
-    Eureka["📡 EUREKA SERVER\nReturns: 192.168.1.20, .21"]
-    Inst1["📋 Inventory Instance 1\n:8081"]
-    Inst2["📋 Inventory Instance 2\n:8082"]
+    Eureka["EUREKA SERVER\nReturns: 192.168.1.20, .21"]
+    Inst1["Inventory Instance 1\n:8081"]
+    Inst2["Inventory Instance 2\n:8082"]
 
-    Call -->|"① Method call"| FeignIF
-    FeignIF -->|"② Auto-generates HTTP client"| LB
-    LB -->|"③ Lookup in Eureka"| Eureka
-    Eureka -->|"④ HTTP GET /api/v1/stock/P001"| Inst1
-    Eureka -->|"④ HTTP GET /api/v1/stock/P001"| Inst2
+    Call -->|"(1) Method call"| FeignIF
+    FeignIF -->|"(2) Auto-generates HTTP client"| LB
+    LB -->|"(3) Lookup in Eureka"| Eureka
+    Eureka -->|"(4) HTTP GET /api/v1/stock/P001"| Inst1
+    Eureka -->|"(4) HTTP GET /api/v1/stock/P001"| Inst2
 
     style Call fill:#1e293b,stroke:#94a3b8,color:#e2e8f0
     style FeignIF fill:#7c3aed,stroke:#a78bfa,color:#e2e8f0
@@ -470,15 +470,15 @@ stateDiagram-v2
     HALF_OPEN --> CLOSED : Probe succeeds
     HALF_OPEN --> OPEN : Probe fails
 
-    CLOSED : ✅ Normal Operation
+    CLOSED : [Status: Normal Operation]
     CLOSED : All requests pass through
     CLOSED : Failures are counted
 
-    OPEN : ❌ Failing Fast
+    OPEN : [Status: Failing Fast]
     OPEN : Requests rejected immediately
     OPEN : Routed to fallback
 
-    HALF_OPEN : 🔄 Testing Recovery
+    HALF_OPEN : [Status: Testing Recovery]
     HALF_OPEN : Limited test requests sent
     HALF_OPEN : Evaluating service health
 \`\`\`
@@ -548,14 +548,14 @@ ENTRYPOINT ["java","-jar","/app.jar"]
 
 \`\`\`mermaid
 flowchart TD
-    subgraph Cluster["☸️ Kubernetes Cluster"]
+    subgraph Cluster["Kubernetes Cluster"]
         subgraph NS["Namespace: production"]
-            Pod1["🟢 Pod 1\nOrder Service"]
-            Pod2["🟢 Pod 2\nOrder Service"]
+            Pod1["Pod 1\nOrder Service"]
+            Pod2["Pod 2\nOrder Service"]
             SVC["K8s Service\n(Load Balancer)\nClusterIP / NodePort"]
-            HPA["📈 HPA Auto-Scaler\nmin: 2, max: 10\nCPU target: 70%"]
+            HPA["HPA Auto-Scaler\nmin: 2, max: 10\nCPU target: 70%"]
         end
-        subgraph Ingress["🌐 Ingress Controller"]
+        subgraph Ingress["Ingress Controller"]
             R1["api.puspo.online → order-service"]
             R2["api.puspo.online/pay → payment-service"]
         end
@@ -595,6 +595,11 @@ Start small, extract one service at a time, and validate your assumptions.
 
 export async function getBlogs(): Promise<Blog[]> {
     return Promise.resolve(BLOGS)
+}
+
+export async function getBlogSummaries(): Promise<Omit<Blog, 'content'>[]> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return Promise.resolve(BLOGS.map(({ content, ...rest }) => rest))
 }
 
 export async function getBlogBySlug(slug: string): Promise<Blog | null> {

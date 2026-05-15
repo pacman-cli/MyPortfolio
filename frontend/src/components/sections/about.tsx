@@ -1,6 +1,8 @@
 "use client"
 
 import { Reveal } from '@/components/ui/reveal'
+import { SectionDivider } from '@/components/ui/section-divider'
+import { BLUR_DATA_URL } from '@/lib/blur'
 import { Code2, GraduationCap, Rocket, Zap } from 'lucide-react'
 import Image from 'next/image'
 
@@ -11,15 +13,10 @@ export const About = () => {
                 <Reveal width="100%">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
-                        <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 mx-auto rounded-full" />
+                        <SectionDivider />
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
-                        {/* Photo Column - Order 1 on mobile (visual), but standard flow: Text then Photo?
-                 User request: "Photo moves above the text on small screens".
-                 So Photo first in DOM for mobile, or use flex-col-reverse?
-                 "Photo moves above text" -> Photo is top. So Photo DOM first.
-             */}
                         <div className="relative order-1 md:order-2">
                             {/* Profile Image Container */}
                             <div className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden bg-card border-2 border-border/50 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
@@ -29,6 +26,8 @@ export const About = () => {
                                     fill
                                     sizes="(max-width: 768px) 90vw, 40vw"
                                     loading="lazy"
+                                    placeholder="blur"
+                                    blurDataURL={BLUR_DATA_URL}
                                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
                                 />
                             </div>
@@ -119,7 +118,7 @@ export const About = () => {
                             </Reveal>
 
                                 <div className="pt-4">
-                                    <a href="/about-me" className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline inline-flex items-center gap-1">
+                                    <a href="/about-me" className="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline inline-flex items-center gap-1">
                                         Read full bio &rarr;
                                     </a>
                                 </div>

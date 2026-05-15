@@ -1,49 +1,23 @@
-"use client"
-
-import { Github, Instagram, Linkedin, Mail, Youtube } from 'lucide-react'
+import { SocialFooterLinks } from '@/components/ui/social-links'
 import Link from 'next/link'
-import { SiX, SiFacebook, SiLeetcode } from "react-icons/si"
 
 export const Footer = () => {
   return (
-    <footer className="py-8 bg-white dark:bg-slate-950 border-t border-gray-100 dark:border-gray-800">
+    <footer className="py-8 bg-background border-t border-border">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex flex-col items-center md:items-start gap-3 text-gray-600 dark:text-gray-400 text-sm">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} <span className="font-bold text-gray-900 dark:text-white">Puspo</span>. All rights reserved.</span>
+        <div className="flex flex-col items-center md:items-start gap-3 text-muted-foreground text-sm">
+          <span suppressHydrationWarning>© {new Date().getFullYear()} <span className="font-bold text-foreground">Puspo</span>. All rights reserved.</span>
           <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm">
-            <Link href="/about-me" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">About</Link>
-            <Link href="/projects" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Projects</Link>
-            <Link href="/blog" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Blog</Link>
-            <Link href="/resume" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Resume</Link>
-            <Link href="/links" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Social Links</Link>
+            <Link href="/about-me" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">About</Link>
+            <Link href="/projects" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">Projects</Link>
+            <Link href="/blog" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">Blog</Link>
+            <Link href="/resume" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">Resume</Link>
+            <Link href="/links" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">Social Links</Link>
           </nav>
         </div>
 
         <div className="flex items-center gap-6">
-          <Link href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-            <Github className="w-5 h-5" />
-          </Link>
-          <Link href="https://www.linkedin.com/in/iampuspo/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-            <Linkedin className="w-5 h-5" />
-          </Link>
-          <Link href="https://www.facebook.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" aria-label="Facebook Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-            <SiFacebook className="w-5 h-5" />
-          </Link>
-          <Link href="https://leetcode.com/u/pacman-cli/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-            <SiLeetcode className="w-5 h-5" />
-          </Link>
-          <Link href="https://x.com/iam_puspo" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter) Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-            <SiX className="w-4 h-4" />
-          </Link>
-          <Link href="https://www.instagram.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-            <Instagram className="w-5 h-5" />
-          </Link>
-          <Link href="https://www.youtube.com/@springCraftDev" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-            <Youtube className="w-5 h-5" />
-          </Link>
-          <Link href="mailto:puspopuspo520@gmail.com" aria-label="Email Me" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors">
-            <Mail className="w-5 h-5" />
-          </Link>
+          <SocialFooterLinks />
         </div>
       </div>
     </footer >

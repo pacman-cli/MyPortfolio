@@ -65,7 +65,7 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
   if (error) {
     return (
       <div className="my-6 rounded-lg border border-yellow-500/30 bg-yellow-500/5 p-4">
-        <p className="text-sm text-yellow-400 mb-2">⚠️ Diagram render error</p>
+        <p className="text-sm text-yellow-400 mb-2">[Warning] Diagram render error</p>
         <pre className="text-xs text-muted-foreground overflow-x-auto whitespace-pre-wrap font-mono">
           {chart}
         </pre>

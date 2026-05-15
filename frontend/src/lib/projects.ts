@@ -26,11 +26,11 @@ export const PROJECTS: Project[] = [
         architecture: `
 \`\`\`mermaid
 flowchart TD
-    Client["🖥️ Next.js Frontend"]
-    API["🔀 Spring Boot API"]
-    DB["🗄️ MySQL Database"]
-    Auth["🔐 JWT Authentication"]
-    Docker["🐳 Docker Compose"]
+    Client["Next.js Frontend"]
+    API["Spring Boot API"]
+    DB["MySQL Database"]
+    Auth["JWT Authentication"]
+    Docker["Docker Compose"]
 
     Client -->|"REST API"| API
     API --> Auth

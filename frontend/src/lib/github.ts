@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-const GITHUB_USERNAME = 'pacman-cli'
+export const GITHUB_USERNAME = 'pacman-cli'
 const BASE_URL = 'https://api.github.com'
 
 // Types
@@ -32,8 +30,11 @@ export interface GithubRepo {
 
 export const getGithubProfile = async (): Promise<GithubProfile | null> => {
     try {
-        const response = await axios.get(`${BASE_URL}/users/${GITHUB_USERNAME}`)
-        return response.data
+        const response = await fetch(`${BASE_URL}/users/${GITHUB_USERNAME}`, {
+            next: { revalidate: 3600 }
+        })
+        if (!response.ok) return null
+        return response.json()
     } catch (error) {
         console.error('Error fetching GitHub profile:', error)
         return null
@@ -42,15 +43,12 @@ export const getGithubProfile = async (): Promise<GithubProfile | null> => {
 
 export const getGithubRepos = async (): Promise<GithubRepo[]> => {
     try {
-        const response = await axios.get(`${BASE_URL}/users/${GITHUB_USERNAME}/repos`, {
-            params: {
-                sort: 'updated',
-                per_page: 100
-            }
+        const response = await fetch(`${BASE_URL}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`, {
+            next: { revalidate: 3600 }
         })
-        // Filter out forks if desired, or keep them.
-        // For a portfolio, usually sources are better, but we keep all public for now.
-        return response.data.filter((repo: GithubRepo) => !repo.fork)
+        if (!response.ok) return []
+        const data: GithubRepo[] = await response.json()
+        return data.filter((repo: GithubRepo) => !repo.fork)
     } catch (error) {
         console.error('Error fetching GitHub repos:', error)
         return []

@@ -4,73 +4,38 @@ import { motion, useMotionValue, useSpring } from "framer-motion"
 import { useEffect, useState } from "react"
 
 export const CursorFollower = () => {
-  const [isHovering, setIsHovering] = useState(false)
-  const [isVisible, setIsVisible] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
-
-  // Use motion values for better performance than state
+  const [isHovering, setIsHovering] = useState(false)
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-
-  // Smooth spring physics
   const springConfig = { damping: 25, stiffness: 150, mass: 0.5 }
   const cursorX = useSpring(mouseX, springConfig)
   const cursorY = useSpring(mouseY, springConfig)
 
   useEffect(() => {
-    setIsMounted(true)
-
-    // Only run on non-touch devices
+    const frame = requestAnimationFrame(() => setIsMounted(true))
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
-    if (isTouchDevice || window.innerWidth < 768) {
-      return
-    }
+    if (isTouchDevice || window.innerWidth < 768) return
 
-    // Hide default cursor
-    document.body.classList.add('custom-cursor-active')
-    setIsVisible(true)
-
-    const moveMouse = (e: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
-    }
-
-    const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       const isInteractive =
         target.tagName === 'A' ||
         target.tagName === 'BUTTON' ||
         target.closest('a') ||
-        target.closest('button') ||
-        target.classList.contains('cursor-pointer') ||
-        window.getComputedStyle(target).cursor === 'pointer'
-
+        target.closest('button')
       setIsHovering(!!isInteractive)
     }
 
-    const handleMouseLeave = () => {
-      setIsVisible(false)
-    }
-
-    const handleMouseEnter = () => {
-      setIsVisible(true)
-    }
-
-    window.addEventListener("mousemove", moveMouse, { passive: true })
-    window.addEventListener("mouseover", handleMouseOver, { passive: true })
-    document.addEventListener("mouseleave", handleMouseLeave)
-    document.addEventListener("mouseenter", handleMouseEnter)
-
+    window.addEventListener("mousemove", handleMouseMove, { passive: true })
     return () => {
-      window.removeEventListener("mousemove", moveMouse)
-      window.removeEventListener("mouseover", handleMouseOver)
-      document.removeEventListener("mouseleave", handleMouseLeave)
-      document.removeEventListener("mouseenter", handleMouseEnter)
-      document.body.classList.remove('custom-cursor-active')
+      cancelAnimationFrame(frame)
+      window.removeEventListener("mousemove", handleMouseMove)
     }
   }, [mouseX, mouseY])
 
-  // Don't render anything until mounted (SSR-safe)
   if (!isMounted) return null
 
   return (
@@ -85,11 +50,7 @@ export const CursorFollower = () => {
       }}
       animate={{
         scale: isHovering ? 2.5 : 1,
-        opacity: isVisible ? 1 : 0,
-      }}
-      transition={{
-        scale: { duration: 0.2 },
-        opacity: { duration: 0.2 }
+        opacity: 1,
       }}
     >
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/50 transition-all duration-300 ${isHovering ? 'w-full h-full opacity-20' : 'w-1 h-1 opacity-0'}`} />

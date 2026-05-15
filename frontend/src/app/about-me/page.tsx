@@ -117,7 +117,7 @@ export default function AboutPage() {
                 <a href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">GitHub</a>
                 <a href="https://www.linkedin.com/in/iampuspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">LinkedIn</a>
                 <a href="https://leetcode.com/u/pacman-cli/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">LeetCode</a>
-                <a href="https://www.instagram.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">Instagram</a>
+                <a href="https://www.instagram.com/iampuspoo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">Instagram</a>
                 <a href="https://www.facebook.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">Facebook</a>
                 <a href="https://www.youtube.com/@springCraftDev" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">YouTube</a>
                 <a href="https://x.com/iam_puspo" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">X (Twitter)</a>

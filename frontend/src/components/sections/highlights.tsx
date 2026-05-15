@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from 'framer-motion';
 import { Zap, ShieldCheck, Palette, Rocket } from 'lucide-react';
 
 const highlights = [
@@ -32,14 +29,9 @@ export const Highlights = () => {
             <div className="container px-6 mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {highlights.map((item, index) => (
-                        <motion.div
+                        <div
                             key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: index * 0.1 }}
-                            whileHover={{ y: -5 }}
-                            className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 transition-all group"
+                            className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border hover:border-green-500/30 hover:shadow-lg hover:shadow-green-500/10 hover:-translate-y-1 transition-all duration-300 group"
                         >
                             <div className="bg-background w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-sm group-hover:-translate-y-1 transition-transform duration-300">
                                 {item.icon}
@@ -50,7 +42,7 @@ export const Highlights = () => {
                             <p className="text-sm text-muted-foreground">
                                 {item.description}
                             </p>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

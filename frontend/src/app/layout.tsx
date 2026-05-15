@@ -2,6 +2,7 @@ import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LazyCursorFollower } from "@/components/ui/cursor-follower-lazy"
 import { LightModeBackground } from "@/components/ui/light-mode-background"
+import { CookieConsent } from "@/components/ui/cookie-consent"
 import { cn } from "@/lib/utils"
 import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
@@ -9,8 +10,8 @@ import Script from "next/script"
 import { SAME_AS_LINKS, SITE_NAVIGATION, siteConfig } from "@/lib/site"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: 'swap' })
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta", display: 'swap' })
+const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: 'swap' })
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-heading", display: 'swap' })
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -31,7 +32,15 @@ const jsonLdData = [
     '@id': `${siteConfig.url}/#person`,
     name: siteConfig.personName,
     honorificPrefix: 'MD.',
-    alternateName: ['MD Ashikur Rahman Puspo', 'Ashikur Rahman', 'Puspo', 'ashikur rahman puspo', 'pacman-cli', 'iampuspo', 'springCraftDev'],
+    alternateName: [
+      'Ashikur Rahman Puspo',
+      'Ashikur Rahman',
+      'Puspo',
+      'iampuspoo',
+      'iampuspo',
+      'pacman-cli',
+      'springCraftDev',
+    ],
     additionalName: 'Puspo',
     url: siteConfig.url,
     mainEntityOfPage: siteConfig.url,
@@ -44,16 +53,32 @@ const jsonLdData = [
     description: siteConfig.description,
     email: siteConfig.email,
     identifier: [
-      { '@type': 'PropertyValue', name: 'GitHub', value: 'pacman-cli', url: 'https://github.com/pacman-cli' },
       { '@type': 'PropertyValue', name: 'LinkedIn', value: 'iampuspo', url: 'https://www.linkedin.com/in/iampuspo/' },
-      { '@type': 'PropertyValue', name: 'LeetCode', value: 'pacman-cli', url: 'https://leetcode.com/u/pacman-cli/' },
+      { '@type': 'PropertyValue', name: 'GitHub', value: 'pacman-cli', url: 'https://github.com/pacman-cli' },
       { '@type': 'PropertyValue', name: 'YouTube', value: 'springCraftDev', url: 'https://www.youtube.com/@springCraftDev' },
-      { '@type': 'PropertyValue', name: 'Instagram', value: 'pacman.puspo', url: 'https://www.instagram.com/pacman.puspo/' },
+      { '@type': 'PropertyValue', name: 'X', value: 'iam_puspo', url: 'https://x.com/iam_puspo' },
+      { '@type': 'PropertyValue', name: 'Instagram', value: 'iampuspoo', url: 'https://www.instagram.com/iampuspoo/' },
       { '@type': 'PropertyValue', name: 'Facebook', value: 'pacman.puspo', url: 'https://www.facebook.com/pacman.puspo/' },
+      { '@type': 'PropertyValue', name: 'LeetCode', value: 'pacman-cli', url: 'https://leetcode.com/u/pacman-cli/' },
     ],
     sameAs: SAME_AS_LINKS,
-    jobTitle: siteConfig.jobTitle,
-    knowsAbout: ['Spring Boot', 'Java', 'Microservices', 'Docker', 'AWS', 'Next.js', 'System Design', 'LeetCode', 'Data Structures', 'Algorithms', 'REST APIs', 'Cloud Architecture'],
+    jobTitle: 'Backend Engineer & Software Developer',
+    knowsAbout: [
+      'Backend Engineering',
+      'Software Development',
+      'Spring Boot',
+      'Java',
+      'Microservices',
+      'System Design',
+      'Docker',
+      'Kubernetes',
+      'AWS',
+      'PostgreSQL',
+      'MySQL',
+      'REST APIs',
+      'Cloud Architecture',
+      'DevOps',
+    ],
     knowsLanguage: ['English', 'Bengali'],
     nationality: {
       '@type': 'Country',
@@ -69,7 +94,6 @@ const jsonLdData = [
       name: 'United International University',
       url: 'https://www.uiu.ac.bd/',
     },
-    gender: 'Male',
   },
   {
     '@context': 'https://schema.org',
@@ -77,7 +101,7 @@ const jsonLdData = [
     '@id': `${siteConfig.url}/#website`,
     url: siteConfig.url,
     name: siteConfig.siteName,
-    alternateName: [siteConfig.shortName, siteConfig.fullName, 'Puspo Portfolio'],
+    alternateName: ['Puspo', 'iampuspoo', 'Ashikur Rahman Puspo Portfolio'],
     description: siteConfig.description,
     publisher: { '@id': `${siteConfig.url}/#person` },
     inLanguage: 'en',
@@ -87,7 +111,7 @@ const jsonLdData = [
     '@type': 'WebPage',
     '@id': `${siteConfig.url}/#webpage`,
     url: siteConfig.url,
-    name: 'MD Ashikur Rahman Puspo | Backend Developer Portfolio',
+    name: 'Ashikur Rahman Puspo | Backend Engineer & Software Developer',
     description: siteConfig.description,
     isPartOf: { '@id': `${siteConfig.url}/#website` },
     about: { '@id': `${siteConfig.url}/#person` },
@@ -153,6 +177,7 @@ export default function RootLayout({
           <LazyCursorFollower />
           <Navbar />
           {children}
+          <CookieConsent />
         </ThemeProvider>
       </body>
     </html>

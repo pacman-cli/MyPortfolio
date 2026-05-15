@@ -1,164 +1,27 @@
 "use client"
 
-import { cn } from '@/lib/utils'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { BLUR_DATA_URL } from '@/lib/blur'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
-const PROFILE_IMAGES = [
-  '/profile.jpg',
-  '/profile2.jpg',
-]
 
 export const HeroAvatar = () => {
-  const [mounted, setMounted] = useState(false)
-  const prefersReducedMotion = useReducedMotion()
-  const [isMobile, setIsMobile] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-
-  // Auto-cycle images while hovered/overlay is open
-  useEffect(() => {
-    if (!isHovered) return
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % PROFILE_IMAGES.length)
-    }, 1500)
-    return () => clearInterval(interval)
-  }, [isHovered])
-
-  useEffect(() => {
-    // Defer to avoid synchronous state update warning
-    const timer = setTimeout(() => setMounted(true), 0)
-
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    handleResize()
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  const activeIcons = []
-  const radius = isMobile ? 120 : 220
-
-  if (!mounted) return <div className="w-[300px] h-[300px]" /> // Skeleton/Placeholder
-
   return (
-    <div className="relative w-full h-[300px] md:h-[500px] flex items-center justify-center overflow-visible z-10">
-      {/* FULLSCREEN POPUP — rendered via Portal so it escapes all parent overflow/z-index */}
-      {mounted && createPortal(
-        <AnimatePresence>
-          {isHovered && (
-            <motion.div
-              key="photo-overlay"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 9999,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                cursor: 'pointer',
-              }}
-              onClick={() => {
-                setIsHovered(false)
-                setCurrentImageIndex(0)
-              }}
-            >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                style={{ width: '90vw', maxWidth: '550px' }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={PROFILE_IMAGES[currentImageIndex]}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <Image
-                      src={PROFILE_IMAGES[currentImageIndex]}
-                      alt="MD Ashikur Rahman Puspo's Profile"
-                      width={800}
-                      height={800}
-                      className="w-full h-auto rounded-2xl"
-                      loading="lazy"
-                      sizes="(max-width: 768px) 90vw, 550px"
-                      quality={75}
-                      style={{
-                        display: 'block',
-                        boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
-                      }}
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
-
-      <div
-        className="relative z-10 group cursor-pointer"
-        onMouseEnter={() => {
-          setIsHovered(true)
-          setCurrentImageIndex(1) // Immediately show the second photo
-        }}
-      >
-        {/* Glow Ring (Glassmorphism) */}
-        <div className={cn(
-          "absolute -inset-4 rounded-full bg-gradient-to-tr from-slate-200/50 to-slate-500/10 dark:from-slate-700/50 dark:to-slate-900/10 blur-xl transition-opacity duration-500",
-          "opacity-0 group-hover:opacity-100"
-        )} />
-
-        {/* Border Ring */}
-        <div
-          className="w-40 h-40 sm:w-56 sm:h-56 md:w-80 md:h-80 rounded-full p-2 bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200 dark:border-slate-800 shadow-xl"
-        >
-          {/* Main Avatar Circle */}
-          <div className="relative w-full h-full rounded-full overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={PROFILE_IMAGES[currentImageIndex]}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={PROFILE_IMAGES[currentImageIndex]}
-                  alt="MD Ashikur Rahman Puspo's Profile"
-                  fill
-                  className="object-cover scale-105"
-                  priority
-                  sizes="(max-width: 768px) 160px, 320px"
-                  quality={75}
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
+    <div className="relative z-10 flex h-[300px] w-full items-center justify-center overflow-visible md:h-[500px]">
+      <div className="absolute h-56 w-56 rounded-full bg-emerald-400/10 blur-3xl md:h-96 md:w-96" aria-hidden="true" />
+      <div className="relative h-40 w-40 rounded-full border border-emerald-400/15 bg-card/80 p-2 shadow-2xl shadow-emerald-950/20 backdrop-blur-sm sm:h-56 sm:w-56 md:h-80 md:w-80">
+        <div className="relative h-full w-full overflow-hidden rounded-full">
+          <Image
+            src="/profile.jpg"
+            alt="MD Ashikur Rahman Puspo"
+            fill
+            className="object-cover object-[52%_45%]"
+            priority
+            sizes="(max-width: 768px) 160px, 320px"
+            quality={88}
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+          />
         </div>
       </div>
-
     </div>
   )
 }

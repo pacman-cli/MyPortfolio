@@ -4,55 +4,53 @@ import { absoluteUrl, siteConfig } from './site'
 const SITE_URL = siteConfig.url
 
 const defaultMeta = {
-    title: 'MD Ashikur Rahman Puspo | Backend Developer Portfolio',
-    description: siteConfig.description,
+    title: 'Ashikur Rahman Puspo | Backend Engineer & Software Developer',
+    description: 'Official portfolio of Ashikur Rahman Puspo — Backend Engineer, Software Developer, and DevOps enthusiast from Dhaka, Bangladesh. Explore projects, skills, experience, GitHub, LinkedIn, and contact information.',
     url: SITE_URL,
     image: siteConfig.ogImage,
     twitterHandle: siteConfig.twitterHandle,
 }
 
-/** SEO keyword clusters for developer portfolio discoverability */
+/** SEO keyword clusters for personal brand discoverability */
 const DEFAULT_KEYWORDS = [
-    // Personal brand name variations
-    'MD Ashikur Rahman Puspo',
+    // Personal brand — primary
     'Ashikur Rahman Puspo',
     'Ashikur Rahman',
+    'Ashikur Puspo',
     'Puspo',
-    'ashikur rahman puspo',
-    // Social handles / usernames
-    'pacman.puspo',
-    'pacman-cli',
+    'iampuspoo',
     'iampuspo',
+    'MD Ashikur Rahman Puspo',
+    // Usernames
+    'pacman-cli',
     'springCraftDev',
-    '@springCraftDev',
     // Professional titles
-    'Backend Developer',
     'Backend Engineer',
+    'Backend Developer',
     'Software Developer',
     'Software Engineer',
     'Spring Boot Developer',
     'Java Developer',
-    'API Developer',
     'Full Stack Developer',
+    'DevOps Engineer',
     // Technical skills
-    'System Design',
+    'Spring Boot',
+    'Java',
     'Microservices',
-    'MySQL',
+    'System Design',
     'Docker',
     'Kubernetes',
     'AWS',
     'Cloud Infrastructure',
-    'Next.js Developer',
-    'DevOps',
-    // Competitive programming
-    'LeetCode',
-    'Problem Solving',
-    'Data Structures and Algorithms',
-    // Location-based
-    'Backend Developer Bangladesh',
+    'PostgreSQL',
+    'MySQL',
+    'REST APIs',
+    'Next.js',
+    // Location
+    'Bangladesh Developer',
     'Software Engineer Dhaka',
-    'Software Engineer Bangladesh',
-    'Official portfolio',
+    'Backend Developer Bangladesh',
+    'Dhaka',
 ]
 
 /**
@@ -70,6 +68,8 @@ export function constructMetadata({
     url = defaultMeta.url,
     keywords = DEFAULT_KEYWORDS,
     noIndex = false,
+    type = 'website',
+    publishedTime,
 }: {
     title?: string
     description?: string
@@ -77,7 +77,10 @@ export function constructMetadata({
     url?: string
     keywords?: string[]
     noIndex?: boolean
+    type?: 'website' | 'article' | 'profile'
+    publishedTime?: string
 } = {}): Metadata {
+    const ogType = type === 'article' ? 'article' : type === 'profile' ? 'profile' : 'website'
     return {
         metadataBase: new URL(SITE_URL),
         title,
@@ -92,6 +95,8 @@ export function constructMetadata({
             description,
             url: absoluteUrl(url),
             siteName: siteConfig.siteName,
+            type: ogType,
+            ...(publishedTime && { releaseDate: publishedTime }),
             images: [
                 {
                     url: image,
@@ -101,7 +106,6 @@ export function constructMetadata({
                 },
             ],
             locale: 'en_US',
-            type: 'website',
         },
         twitter: {
             card: 'summary_large_image',
@@ -119,10 +123,7 @@ export function constructMetadata({
         creator: siteConfig.fullName,
         publisher: siteConfig.fullName,
         robots: noIndex
-            ? {
-                index: false,
-                follow: false,
-            }
+            ? { index: false, follow: false }
             : {
                 index: true,
                 follow: true,
@@ -134,11 +135,5 @@ export function constructMetadata({
                     'max-video-preview': -1,
                 },
             },
-        ...(noIndex && {
-            robots: {
-                index: false,
-                follow: false,
-            },
-        }),
     }
 }

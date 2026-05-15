@@ -1,8 +1,7 @@
 "use client"
 
 import { Reveal } from '@/components/ui/reveal'
-import { getGithubProfile } from '@/lib/github'
-import axios from 'axios'
+import { getGithubProfile, GITHUB_USERNAME } from '@/lib/github'
 import { motion } from 'framer-motion'
 import { Calendar, Flame, Github, Trophy, Users } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -26,7 +25,7 @@ export const GithubActivity = () => {
   const [streak, setStreak] = useState(0)
   const [followers, setFollowers] = useState(0)
 
-  const username = 'pacman-cli'
+  const username = GITHUB_USERNAME
 
   // Premium Green Theme (Emerald)
   const theme: ThemeInput = {
@@ -38,12 +37,13 @@ export const GithubActivity = () => {
     const fetchData = async () => {
       try {
         const [contribResponse, profile] = await Promise.all([
-          axios.get(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`),
+          fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=last`),
           getGithubProfile()
         ])
 
-        setData(contribResponse.data)
-        calculateStreak(contribResponse.data.contributions)
+        const contribData = contribResponse.ok ? await contribResponse.json() : null
+        setData(contribData)
+        if (contribData) calculateStreak(contribData.contributions)
         if (profile) setFollowers(profile.followers)
       } catch (error) {
         console.error("Failed to fetch GitHub contributions", error)

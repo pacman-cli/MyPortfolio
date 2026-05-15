@@ -1,7 +1,7 @@
 import { Footer } from '@/components/footer'
 import { Hero } from '@/components/sections/hero'
 import { ScrollProgress } from '@/components/ui/scroll-progress'
-import { getBlogs } from '@/lib/api'
+import { getBlogSummaries } from '@/lib/api'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
@@ -24,7 +24,7 @@ const Certifications = dynamic(() => import('@/components/sections/certification
 const TechnicalExpertise = dynamic(() => import('@/components/sections/technical-expertise').then(mod => mod.TechnicalExpertise), { ssr: true, loading: () => <SectionSkeleton /> })
 
 export default async function Home() {
-  const blogs = await getBlogs()
+  const blogs = await getBlogSummaries()
 
   return (
     <main id="main-content" className="min-h-screen">

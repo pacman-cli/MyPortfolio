@@ -17,23 +17,19 @@ export const siteConfig = {
   ogImage: `${SITE_URL}/og-image.png`,
   twitterHandle: "@iam_puspo",
   youtubeHandle: "@springCraftDev",
+  resumeDownloadUrl: "https://drive.google.com/uc?export=download&id=1kdsPhac4EReNEXJU6WfuNg9RPe4d2FvJ",
 } as const
 
 export const SOCIAL_PROFILES = [
-  {
-    name: "GitHub",
-    handle: "pacman-cli",
-    url: "https://github.com/pacman-cli",
-  },
   {
     name: "LinkedIn",
     handle: "iampuspo",
     url: "https://www.linkedin.com/in/iampuspo/",
   },
   {
-    name: "LeetCode",
+    name: "GitHub",
     handle: "pacman-cli",
-    url: "https://leetcode.com/u/pacman-cli/",
+    url: "https://github.com/pacman-cli",
   },
   {
     name: "YouTube",
@@ -41,9 +37,14 @@ export const SOCIAL_PROFILES = [
     url: "https://www.youtube.com/@springCraftDev",
   },
   {
+    name: "X",
+    handle: "iam_puspo",
+    url: "https://x.com/iam_puspo",
+  },
+  {
     name: "Instagram",
-    handle: "pacman.puspo",
-    url: "https://www.instagram.com/pacman.puspo/",
+    handle: "iampuspoo",
+    url: "https://www.instagram.com/iampuspoo/",
   },
   {
     name: "Facebook",
@@ -51,9 +52,9 @@ export const SOCIAL_PROFILES = [
     url: "https://www.facebook.com/pacman.puspo/",
   },
   {
-    name: "X",
-    handle: "iam_puspo",
-    url: "https://x.com/iam_puspo",
+    name: "LeetCode",
+    handle: "pacman-cli",
+    url: "https://leetcode.com/u/pacman-cli/",
   },
   {
     name: "Threads",

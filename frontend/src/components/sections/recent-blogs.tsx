@@ -1,15 +1,13 @@
-"use client"
-
 import { Reveal } from '@/components/ui/reveal'
 import { Blog } from '@/types'
 import { ArrowUpRight, PenTool } from 'lucide-react'
 import Link from 'next/link'
+import { BLUR_DATA_URL } from '@/lib/blur'
+import Image from 'next/image'
 
 interface RecentBlogsProps {
     blogs: Blog[]
 }
-
-import Image from 'next/image'
 
 const BlogRow = ({ blog }: { blog: Blog }) => {
     const isExternal = !!blog.externalUrl
@@ -25,7 +23,7 @@ const BlogRow = ({ blog }: { blog: Blog }) => {
                 {/* Mobile: Image at top, Desktop: Hidden */}
                 {blog.imageUrl && (
                     <div className="md:hidden w-full aspect-video relative rounded-lg overflow-hidden border border-border/50 group-hover:border-primary/50 transition-colors">
-                        <Image src={blog.imageUrl} alt={blog.title} fill className="object-cover" />
+                        <Image src={blog.imageUrl} alt={blog.title} fill className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} sizes="(max-width: 768px) 100vw, 33vw" />
                     </div>
                 )}
 
@@ -59,7 +57,7 @@ const BlogRow = ({ blog }: { blog: Blog }) => {
                 <div className="flex items-start gap-4 flex-shrink-0">
                     {blog.imageUrl && (
                         <div className="hidden md:block w-32 h-20 relative rounded-md overflow-hidden border border-border/50 group-hover:border-primary/50 transition-colors">
-                            <Image src={blog.imageUrl} alt={blog.title} fill className="object-cover" />
+                            <Image src={blog.imageUrl} alt={blog.title} fill className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} sizes="128px" />
                         </div>
                     )}
                     <div className="absolute top-8 right-6 md:static md:w-12 flex justify-end md:pt-1">
@@ -73,9 +71,6 @@ const BlogRow = ({ blog }: { blog: Blog }) => {
 }
 
 export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
-    // Determine which blogs to show.
-    // Ensure we have at least a few items for the list to look good.
-    // If we only have 1 (the real one), that's fine, but the list design scales better.
     const displayBlogs = blogs.length > 0 ? blogs.slice(0, 5) : []
 
     if (displayBlogs.length === 0) return null

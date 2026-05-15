@@ -21,10 +21,23 @@ export function GooeyText({
   const text1Ref = React.useRef<HTMLSpanElement>(null)
   const text2Ref = React.useRef<HTMLSpanElement>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
+  const reducedMotion = React.useRef(false)
 
   React.useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    reducedMotion.current = mq.matches
+
+    if (text1Ref.current && text2Ref.current) {
+      text1Ref.current.textContent = texts[texts.length - 1] ?? ""
+      text1Ref.current.style.opacity = "0%"
+      text2Ref.current.textContent = texts[0] ?? ""
+      text2Ref.current.style.opacity = "100%"
+    }
+
+    if (reducedMotion.current) return
+
     let textIndex = texts.length - 1
-    let time = new Date()
+    let time = 0
     let morph = 0
     let cooldown = cooldownTime
     let animationFrameId: number
@@ -64,18 +77,13 @@ export function GooeyText({
       setMorph(fraction)
     }
 
-    function animate() {
-      if (!isVisible) {
-        // When not visible, keep requesting frames but skip work
-        animationFrameId = requestAnimationFrame(animate)
-        return
-      }
+    function animate(timestamp: number) {
+      if (!isVisible) return
 
       animationFrameId = requestAnimationFrame(animate)
-      const newTime = new Date()
       const shouldIncrementIndex = cooldown > 0
-      const dt = (newTime.getTime() - time.getTime()) / 1000
-      time = newTime
+      const dt = time === 0 ? 0 : (timestamp - time) / 1000
+      time = timestamp
 
       cooldown -= dt
 
@@ -93,12 +101,12 @@ export function GooeyText({
       }
     }
 
-    // Use IntersectionObserver to pause animations when off-screen
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting
         if (isVisible) {
-          time = new Date() // Reset time to avoid huge dt jump
+          time = 0
+          animationFrameId = requestAnimationFrame(animate)
         }
       },
       { threshold: 0.1 }
@@ -108,7 +116,7 @@ export function GooeyText({
       observer.observe(containerRef.current)
     }
 
-    animate()
+    animationFrameId = requestAnimationFrame(animate)
 
     return () => {
       cancelAnimationFrame(animationFrameId)

@@ -5,8 +5,6 @@ import { BlogPostingSchema, BreadcrumbSchema } from '@/components/seo/json-ld'
 import { Alert } from '@/components/ui/alert'
 import { BlogProgress } from '@/components/ui/blog-progress'
 import { Button } from '@/components/ui/button'
-import { CodeBlock } from '@/components/ui/code-block'
-import { MermaidDiagram } from '@/components/ui/mermaid-diagram'
 import { getBlogBySlug, getBlogs } from '@/lib/api'
 import { absoluteUrl } from '@/lib/site'
 import { constructMetadata } from '@/lib/seo'
@@ -16,6 +14,10 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import dynamic from 'next/dynamic'
+
+const CodeBlock = dynamic(() => import('@/components/ui/code-block').then(mod => mod.CodeBlock))
+const MermaidDiagram = dynamic(() => import('@/components/ui/mermaid-diagram').then(mod => mod.MermaidDiagram))
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -36,9 +38,11 @@ export async function generateMetadata({ params }: PageProps) {
 
   const blogUrl = absoluteUrl(`/blog/${blog.slug}`)
   return constructMetadata({
-    title: `${blog.title} | MD Ashikur Rahman Puspo`,
+    title: `${blog.title} | Ashikur Rahman Puspo`,
     description: blog.excerpt,
     url: blogUrl,
+    type: 'article',
+    publishedTime: blog.publishedAt,
     keywords: [
       ...blog.tags.split(',').map((t) => t.trim()),
       'Technical Blog',

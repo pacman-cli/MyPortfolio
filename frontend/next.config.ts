@@ -1,10 +1,12 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  // Remove 'standalone' for Vercel — it's only needed for Docker/self-hosted
-  // output: 'standalone',
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'react-icons', 'framer-motion'],
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
+    qualities: [75, 88, 90, 92],
     remotePatterns: [
       {
         protocol: 'https',
@@ -49,6 +51,15 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, stale-while-revalidate=86400',
           },
         ],
       },

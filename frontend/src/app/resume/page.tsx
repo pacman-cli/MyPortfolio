@@ -80,9 +80,9 @@ export default function ResumePage() {
                       {/* Screen only icon view */}
                       <span className="print:hidden sr-only">GitHub</span>
                     </a>
-                    <a href="https://www.instagram.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-slate-800 rounded-full hover:bg-pink-600 hover:text-white transition-all print:bg-transparent print:p-0 print:text-black">
+                    <a href="https://www.instagram.com/iampuspoo/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-slate-800 rounded-full hover:bg-pink-600 hover:text-white transition-all print:bg-transparent print:p-0 print:text-black">
                       <FaInstagram className="w-5 h-5 print:hidden" />
-                      <span className="hidden print:inline text-xs underline">instagram.com/pacman.puspo</span>
+                      <span className="hidden print:inline text-xs underline">instagram.com/iampuspoo</span>
                       {/* Screen only icon view */}
                       <span className="print:hidden sr-only">Instagram</span>
                     </a>
