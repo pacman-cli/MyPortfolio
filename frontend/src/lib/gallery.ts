@@ -43,7 +43,7 @@ export function buildDriveApiUrl(
     params.set('pageToken', pageToken)
   }
 
-  return `https://drive.googleapis.com/drive/v3/files?${params.toString()}`
+  return `https://www.googleapis.com/drive/v3/files?${params.toString()}`
 }
 
 export async function fetchGalleryPhotos(

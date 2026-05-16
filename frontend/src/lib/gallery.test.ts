@@ -35,7 +35,7 @@ describe('mapDriveFileToPhoto', () => {
 describe('buildDriveApiUrl', () => {
   it('builds URL with folder ID and API key', () => {
     const url = buildDriveApiUrl('folder123', 'key456')
-    expect(url).toContain('drive.googleapis.com')
+    expect(url).toContain('www.googleapis.com')
     expect(url).toContain('folder123')
     expect(url).toContain('key456')
   })
