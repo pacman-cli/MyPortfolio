@@ -6,12 +6,12 @@ export default function GalleryLoading() {
           <div className="h-12 w-48 bg-muted rounded-lg animate-pulse mb-4" />
           <div className="h-6 w-96 bg-muted rounded-lg animate-pulse" />
         </div>
-        <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
-          {Array.from({ length: 8 }).map((_, i) => (
+        <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-3">
+          {Array.from({ length: 10 }).map((_, i) => (
             <div
               key={i}
-              className="break-inside-avoid mb-4 rounded-xl bg-muted animate-pulse"
-              style={{ height: `${200 + (i % 3) * 80}px` }}
+              className="break-inside-avoid mb-3 rounded-2xl bg-muted animate-pulse"
+              style={{ height: `${180 + (i % 4) * 60}px` }}
             />
           ))}
         </div>

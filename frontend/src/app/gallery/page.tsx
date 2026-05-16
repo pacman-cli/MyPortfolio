@@ -14,7 +14,7 @@ export const metadata: Metadata = constructMetadata({
 export default function GalleryPage() {
   return (
     <main className="min-h-screen bg-background">
-      <div className="container mx-auto px-6 max-w-6xl pt-28 pb-20">
+      <div className="container mx-auto px-4 md:px-6 max-w-7xl pt-28 pb-20">
         <div className="relative mb-16 overflow-hidden">
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
           <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl -z-10" />
