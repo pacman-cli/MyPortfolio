@@ -19,7 +19,7 @@ export function mapDriveFileToPhoto(file: DriveFile): GalleryPhoto {
   return {
     id: file.id,
     name: file.name,
-    url: `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`,
+    url: `https://lh3.googleusercontent.com/d/${file.id}=w600`,
     width: file.imageMediaMetadata?.width ?? 4,
     height: file.imageMediaMetadata?.height ?? 3,
     createdTime: file.createdTime,

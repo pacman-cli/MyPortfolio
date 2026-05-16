@@ -20,9 +20,9 @@ export const PhotoCard = ({ photo, index, onClick }: PhotoCardProps) => {
       <Image
         src={photo.url}
         alt={photo.name}
-        width={photo.width}
-        height={photo.height}
-        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+        width={600}
+        height={Math.round((photo.height / photo.width) * 600) || 450}
+        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
         loading={index < 6 ? 'eager' : 'lazy'}
         placeholder="blur"
         blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2UyZThlYSIvPjwvc3ZnPg=="

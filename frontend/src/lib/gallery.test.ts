@@ -13,7 +13,7 @@ describe('mapDriveFileToPhoto', () => {
     expect(result).toEqual({
       id: 'abc123',
       name: 'sunset.jpg',
-      url: 'https://drive.google.com/thumbnail?id=abc123&sz=w1000',
+      url: 'https://lh3.googleusercontent.com/d/abc123=w600',
       width: 1920,
       height: 1080,
       createdTime: '2026-01-15T10:00:00.000Z',
