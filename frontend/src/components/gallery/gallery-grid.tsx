@@ -63,7 +63,7 @@ export const GalleryGrid = () => {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
@@ -100,7 +100,7 @@ export const GalleryGrid = () => {
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
         {photos.map((photo, index) => (
           <PhotoCard
             key={photo.id}
