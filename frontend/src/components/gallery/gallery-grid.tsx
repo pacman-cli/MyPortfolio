@@ -2,7 +2,7 @@
 
 import type { GalleryPhoto, GalleryResponse } from '@/types'
 import { Loader2 } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { PhotoCard } from './photo-card'
 import { Lightbox } from './lightbox'
 
@@ -13,37 +13,53 @@ export const GalleryGrid = () => {
   const [loadingMore, setLoadingMore] = useState(false)
   const [error, setError] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const [retryCount, setRetryCount] = useState(0)
+  const abortRef = useRef<AbortController | null>(null)
 
-  const fetchPhotos = useCallback(async (pageToken: string | null = null) => {
-    const isLoadingMore = pageToken !== null
-    if (isLoadingMore) {
-      setLoadingMore(true)
-    } else {
-      setLoading(true)
-    }
+  useEffect(() => {
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
+
+    setLoading(true)
     setError(false)
 
-    try {
-      const params = new URLSearchParams()
-      if (pageToken) params.set('pageToken', pageToken)
+    fetch('/api/gallery', { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch')
+        return res.json() as Promise<GalleryResponse>
+      })
+      .then((data) => {
+        setPhotos(data.photos)
+        setNextPageToken(data.nextPageToken)
+      })
+      .catch((err) => {
+        if (err instanceof DOMException && err.name === 'AbortError') return
+        setError(true)
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
 
+    return () => { controller.abort() }
+  }, [retryCount])
+
+  const loadMore = useCallback(async () => {
+    if (!nextPageToken) return
+    setLoadingMore(true)
+    try {
+      const params = new URLSearchParams({ pageToken: nextPageToken })
       const response = await fetch(`/api/gallery?${params.toString()}`)
       if (!response.ok) throw new Error('Failed to fetch')
-
       const data: GalleryResponse = await response.json()
-      setPhotos((prev) => (isLoadingMore ? [...prev, ...data.photos] : data.photos))
+      setPhotos((prev) => [...prev, ...data.photos])
       setNextPageToken(data.nextPageToken)
     } catch {
       setError(true)
     } finally {
-      setLoading(false)
       setLoadingMore(false)
     }
-  }, [])
-
-  useEffect(() => {
-    fetchPhotos()
-  }, [fetchPhotos])
+  }, [nextPageToken])
 
   if (loading) {
     return (
@@ -65,7 +81,7 @@ export const GalleryGrid = () => {
         <p className="text-muted-foreground mb-4">Failed to load photos.</p>
         <button
           type="button"
-          onClick={() => fetchPhotos()}
+          onClick={() => setRetryCount((c) => c + 1)}
           className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
         >
           Try again
@@ -99,7 +115,7 @@ export const GalleryGrid = () => {
         <div className="text-center mt-10">
           <button
             type="button"
-            onClick={() => fetchPhotos(nextPageToken)}
+            onClick={loadMore}
             disabled={loadingMore}
             className="px-6 py-3 rounded-lg bg-muted hover:bg-muted/80 text-foreground font-medium transition-colors disabled:opacity-50"
           >
