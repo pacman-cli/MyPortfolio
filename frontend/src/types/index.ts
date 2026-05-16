@@ -47,3 +47,17 @@ export interface Project {
     // Internal linking
     relatedBlogSlugs?: string[]
 }
+
+export interface GalleryPhoto {
+    id: string
+    name: string
+    url: string
+    width: number
+    height: number
+    createdTime: string
+}
+
+export interface GalleryResponse {
+    photos: GalleryPhoto[]
+    nextPageToken: string | null
+}
