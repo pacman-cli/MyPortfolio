@@ -16,9 +16,10 @@ const NAV_LINKS = [
   { name: 'Projects', href: '/#projects', id: 'projects' },
   { name: 'Latest Insights', href: '/#blogs', id: 'blogs' },
   { name: 'Contact', href: '/#contact', id: 'contact' },
+  { name: 'Gallery', href: '/gallery' },
 ] as const
 
-const SECTION_IDS = NAV_LINKS.map(link => link.id)
+const SECTION_IDS = NAV_LINKS.map(link => 'id' in link ? link.id : null).filter(Boolean) as string[]
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -94,7 +95,6 @@ export const Navbar = () => {
       aria-label="Main navigation"
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo / Branding — Static SVG, no infinite animations */}
         <Link
           href="/"
           className="group"
@@ -149,24 +149,31 @@ export const Navbar = () => {
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6 lg:gap-8">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={cn(
-                "text-sm font-medium transition-colors",
-                isActiveLink(link.href, link.id)
-                  ? "text-emerald-700 dark:text-emerald-400"
-                  : "text-muted-foreground hover:text-emerald-700 dark:hover:text-emerald-400"
-              )}
-              onClick={() => setIsMobileMenuOpen(false)}
-              {...(isActiveLink(link.href, link.id) && { 'aria-current': 'page' as const })}
-            >
-              {link.name}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive = isActiveLink(link.href, 'id' in link ? link.id : undefined)
+
+            return (
+              <div key={link.name} className="relative">
+                <Link
+                  href={link.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:scale-105 active:scale-95 inline-block origin-center",
+                    isActive
+                      ? "text-emerald-700 dark:text-emerald-400"
+                      : "text-muted-foreground hover:text-emerald-700 dark:hover:text-emerald-400"
+                  )}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  {...(isActive && { 'aria-current': 'page' as const })}
+                >
+                  {link.name}
+                </Link>
+                {isActive && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-600 dark:bg-emerald-400 rounded-full origin-left animate-[scaleX_0.2s_ease-out]" />
+                )}
+              </div>
+            )
+          })}
 
           <Button
             asChild
@@ -190,25 +197,27 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu Button */}
         <div className="flex items-center gap-4 md:hidden">
           <ThemeTabs />
-          <Button
-            variant="ghost"
-            size="icon"
+          <motion.button
             ref={toggleRef}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
-            className="w-11 h-11" // Larger target size
+            className="w-11 h-11 flex items-center justify-center text-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            whileTap={{ scale: 0.9 }}
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </Button>
+            <motion.div
+              animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+              transition={{ stiffness: 300, damping: 20 }}
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </motion.div>
+          </motion.button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -227,9 +236,9 @@ export const Navbar = () => {
                     onClick={closeMenu}
                     className={cn(
                       "block text-left text-lg font-medium py-2 border-b border-border last:border-0 hover:text-emerald-700 dark:hover:text-emerald-400",
-                      isActiveLink(link.href, link.id) ? "text-emerald-700 dark:text-emerald-400" : "text-foreground"
+                      isActiveLink(link.href, 'id' in link ? link.id : undefined) ? "text-emerald-700 dark:text-emerald-400" : "text-foreground"
                     )}
-                    {...(isActiveLink(link.href, link.id) && { 'aria-current': 'page' as const })}
+                    {...(isActiveLink(link.href, 'id' in link ? link.id : undefined) && { 'aria-current': 'page' as const })}
                   >
                     {link.name}
                   </Link>
