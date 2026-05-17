@@ -1,8 +1,8 @@
 "use client"
 
-import { GlowingEffect } from '@/components/ui/glowing-effect'
 import type { Certification } from '@/types'
 import { motion } from 'framer-motion'
+import { SPRING_FADE_UP } from '@/lib/animations'
 import { Award, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 
@@ -53,46 +53,37 @@ const CERTIFICATIONS: Certification[] = [
 const CertificationRow = ({ cert, index }: { cert: Certification; index: number }) => {
   return (
     <motion.li
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
+      transition={{ delay: index * 0.06, ...SPRING_FADE_UP }}
       viewport={{ once: true }}
-      className="list-none group relative w-full"
+      className="list-none group"
     >
-      <div className="relative h-full w-full rounded-[1.25rem] border-[0.75px] border-border p-2 md:rounded-[1.5rem] md:p-3">
-        <GlowingEffect
-          spread={40}
-          glow={true}
-          disabled={false}
-          proximity={64}
-          inactiveZone={0.01}
-          borderWidth={3}
-        />
-        <div className="relative flex flex-col md:flex-row gap-4 h-full overflow-hidden rounded-xl border-[0.75px] bg-background p-4 shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)] md:px-6 md:py-5 md:items-start hover:bg-muted/30 transition-colors duration-300">
-          {/* Index hidden on mobile to match the other sections */}
+      <div className="glass glass-hover rounded-xl overflow-hidden relative">
+        <div className="accent-bar-left" />
+
+        <div className="flex flex-col md:flex-row gap-4 p-4 md:px-6 md:py-5 md:items-start">
           <div className="w-12 pt-1 hidden md:block">
-            <span className="font-mono text-xs text-muted-foreground/60 group-hover:text-primary transition-colors">
+            <span className="font-mono text-xs text-muted-foreground/40 group-hover:text-primary transition-colors">
               {String(index + 1).padStart(2, '0')}
             </span>
           </div>
 
-          {/* Content */}
           <div className="flex-1 space-y-3">
             <div className="flex flex-wrap items-center gap-3">
-              <h3 className="pt-0.5 text-xl leading-[1.375rem] font-semibold font-sans tracking-[-0.04em] md:text-2xl md:leading-[1.875rem] text-balance text-foreground group-hover:text-primary transition-colors">
+              <h3 className="pt-0.5 text-xl leading-[1.375rem] font-semibold tracking-tight md:text-2xl md:leading-[1.875rem] text-foreground group-hover:text-primary transition-colors">
                 {cert.title}
               </h3>
             </div>
 
-            <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">
+            <p className="text-sm text-muted-foreground/80 max-w-2xl leading-relaxed">
               {cert.issuer} &middot; Issued {cert.date}
             </p>
 
-            {/* Skills */}
             {cert.skills && cert.skills.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-2">
                 {cert.skills.map((skill) => (
-                  <span key={skill} className="px-2.5 py-1 text-xs font-medium bg-muted/50 text-muted-foreground rounded-md border border-border/50">
+                  <span key={skill} className="px-2.5 py-1 text-xs font-medium glass rounded-md">
                     {skill}
                   </span>
                 ))}
@@ -100,7 +91,6 @@ const CertificationRow = ({ cert, index }: { cert: Certification; index: number 
             )}
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-4 md:pt-1 self-start md:self-auto mt-4 md:mt-0 relative z-10">
             <Link
               href={cert.url}
@@ -124,11 +114,10 @@ export const Certifications = () => {
   return (
     <section
       id="certifications"
-      className="py-16 md:py-24 bg-background relative"
+      className="py-16 md:py-20 bg-background relative"
       aria-labelledby="certifications-heading"
     >
       <div className="container mx-auto px-6 max-w-5xl">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
             <h2 id="certifications-heading" className="text-3xl font-bold mb-4 flex items-center gap-3">
@@ -141,7 +130,6 @@ export const Certifications = () => {
           </div>
         </div>
 
-        {/* List */}
         <ul className="flex flex-col gap-6">
           {CERTIFICATIONS.map((cert, index) => (
             <CertificationRow key={cert.id} cert={cert} index={index} />

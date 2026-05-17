@@ -476,7 +476,7 @@ export const JourneyTimeline = () => {
     <section
       id="experience"
       ref={containerRef}
-      className="py-20 md:py-32 bg-background/50 relative overflow-hidden"
+      className="py-20 md:py-28 bg-background/50 relative overflow-hidden"
       aria-labelledby="journey-heading"
     >
       {/* Background accents */}

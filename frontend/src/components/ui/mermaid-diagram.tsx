@@ -12,7 +12,8 @@ let mermaidInitialized = false
 export function MermaidDiagram({ chart }: MermaidDiagramProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [svg, setSvg] = useState<string>('')
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState(false)
+  const [isWide, setIsWide] = useState(false)
 
   useEffect(() => {
     if (!mermaidInitialized) {
@@ -36,12 +37,13 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
           nodeTextColor: '#e2e8f0',
         },
         fontFamily: 'ui-sans-serif, system-ui, sans-serif',
-        fontSize: 14,
+        fontSize: 13,
         flowchart: {
           htmlLabels: true,
           curve: 'basis',
-          padding: 16,
+          padding: 24,
         },
+        sequence: { useMaxWidth: true },
         securityLevel: 'loose',
       })
       mermaidInitialized = true
@@ -52,15 +54,23 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
         const id = `mermaid-${Math.random().toString(36).slice(2, 9)}`
         const { svg: renderedSvg } = await mermaid.render(id, chart)
         setSvg(renderedSvg)
-        setError(null)
+        setError(false)
       } catch (err) {
         console.error('Mermaid rendering error:', err)
-        setError('Failed to render diagram')
+        setError(true)
       }
     }
 
     renderChart()
   }, [chart])
+
+  useEffect(() => {
+    if (!containerRef.current || !svg) return
+    const svgEl = containerRef.current.querySelector('svg')
+    if (svgEl) {
+      setIsWide(svgEl.scrollWidth > svgEl.clientWidth + 10)
+    }
+  }, [svg])
 
   if (error) {
     return (
@@ -76,8 +86,14 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
   return (
     <div
       ref={containerRef}
-      className="my-8 flex justify-center rounded-xl border border-border/50 bg-[#0f172a] p-6 overflow-x-auto shadow-lg"
-      dangerouslySetInnerHTML={{ __html: svg }}
-    />
+      className={`my-8 flex justify-center rounded-xl border border-border/50 bg-[#0f172a] shadow-lg ${
+        isWide ? 'p-4 overflow-x-auto' : 'p-6'
+      }`}
+    >
+      <div
+        className="w-full [&>svg]:max-w-full [&>svg]:h-auto [&>svg]:overflow-visible"
+        dangerouslySetInnerHTML={{ __html: svg }}
+      />
+    </div>
   )
 }

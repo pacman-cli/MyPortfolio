@@ -8,7 +8,7 @@ export const CursorFollower = () => {
   const [isHovering, setIsHovering] = useState(false)
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const springConfig = { damping: 25, stiffness: 150, mass: 0.5 }
+  const springConfig = { damping: 30, stiffness: 500, mass: 0.2 }
   const cursorX = useSpring(mouseX, springConfig)
   const cursorY = useSpring(mouseY, springConfig)
 
@@ -16,6 +16,8 @@ export const CursorFollower = () => {
     const frame = requestAnimationFrame(() => setIsMounted(true))
     const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
     if (isTouchDevice || window.innerWidth < 768) return
+
+    document.documentElement.classList.add('custom-cursor-active')
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX)
@@ -33,6 +35,7 @@ export const CursorFollower = () => {
     return () => {
       cancelAnimationFrame(frame)
       window.removeEventListener("mousemove", handleMouseMove)
+      document.documentElement.classList.remove('custom-cursor-active')
     }
   }, [mouseX, mouseY])
 

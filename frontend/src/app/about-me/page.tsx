@@ -4,6 +4,7 @@ import { Footer } from '@/components/footer'
 import { constructMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import { AboutContent } from './_components/about-content'
 
 export const metadata: Metadata = constructMetadata({
   title: 'About MD Ashikur Rahman Puspo | Backend Developer & Software Engineer',
@@ -62,44 +63,13 @@ export default function AboutPage() {
         <div className="grid md:grid-cols-3 gap-12">
 
           {/* Main Text */}
-          <div className="md:col-span-2 space-y-8 text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-            <section>
-              <h2 className="text-2xl font-bold mb-4 text-foreground">Who is MD Ashikur Rahman Puspo?</h2>
-              <p>
-                I am <strong>MD Ashikur Rahman Puspo</strong>, a passionate Software Engineer and Backend Developer based in Dhaka, Bangladesh.
-                Currently completing my degree in Computer Science & Engineering at United International University, I have dedicated myself to mastering the art of building robust, scalable digital systems.
-              </p>
-              <p className="mt-4">
-                My journey began with a curiosity for how things work under the hood. This led me to specialize as a <strong>Backend Developer</strong>,
-                where I architect logic, manage databases, and ensure secure data flow for complex applications.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4 text-foreground">Professional Background</h2>
-              <p>
-                As a software engineer, I focus on creating high-performance systems using <strong>Spring Boot</strong> and modern cloud technologies. As a dedicated <strong>Spring Boot Developer</strong>, I build solutions that are not just functional but also maintainable and efficient.
-              </p>
-              <p className="mt-4">
-                I have experience integrating complex services, from payment gateways to real-time communication protocols.
-                My work emphasizes <strong>Clean Architecture</strong>, <strong>Domain-Driven Design (DDD)</strong>, and <strong>DevOps</strong> practices.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4 text-foreground">What I Do</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li><strong>Backend Development:</strong> Architecting RESTful APIs and Microservices as a Software Engineer and Spring Boot Developer.</li>
-                <li><strong>Database Management:</strong> Designing optimized schemas for PostgreSQL and MySQL.</li>
-                <li><strong>DevOps & Cloud:</strong> Deploying applications using Docker, Kubernetes, and AWS.</li>
-                <li><strong>System Design:</strong> focusing on scalability, security, and performance.</li>
-              </ul>
-            </section>
+          <div className="md:col-span-2 space-y-6">
+            <AboutContent />
           </div>
 
           {/* Sidebar / Image */}
           <div className="space-y-8">
-            <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800">
+            <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border-2 border-border/30 shadow-lg glass">
               <Image
                 src="/profile.jpg"
                 alt="MD Ashikur Rahman Puspo - Backend Developer"
@@ -111,18 +81,18 @@ export default function AboutPage() {
               />
             </div>
 
-            <div className="p-6 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-              <h3 className="font-bold text-lg mb-4">Connect with MD Ashikur Rahman Puspo</h3>
-              <div className="flex flex-col gap-3">
-                <a href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">GitHub</a>
-                <a href="https://www.linkedin.com/in/iampuspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">LinkedIn</a>
-                <a href="https://leetcode.com/u/pacman-cli/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">LeetCode</a>
-                <a href="https://www.instagram.com/iampuspoo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">Instagram</a>
-                <a href="https://www.facebook.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">Facebook</a>
-                <a href="https://www.youtube.com/@springCraftDev" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">YouTube</a>
-                <a href="https://x.com/iam_puspo" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">X (Twitter)</a>
-                <a href="https://www.threads.net/@pacman.puspo" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">Threads</a>
-                <a href="mailto:puspopuspo520@gmail.com" className="text-emerald-600 hover:underline">Email</a>
+            <div className="glass rounded-xl p-6 space-y-4">
+              <h3 className="font-bold text-lg tracking-tight">Connect</h3>
+              <div className="flex flex-col gap-2.5">
+                <a href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">GitHub</a>
+                <a href="https://www.linkedin.com/in/iampuspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">LinkedIn</a>
+                <a href="https://leetcode.com/u/pacman-cli/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">LeetCode</a>
+                <a href="https://www.instagram.com/iampuspoo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">Instagram</a>
+                <a href="https://www.facebook.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">Facebook</a>
+                <a href="https://www.youtube.com/@springCraftDev" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">YouTube</a>
+                <a href="https://x.com/iam_puspo" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">X (Twitter)</a>
+                <a href="https://www.threads.net/@pacman.puspo" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">Threads</a>
+                <a href="mailto:puspopuspo520@gmail.com" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">Email</a>
               </div>
             </div>
           </div>

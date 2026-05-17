@@ -4,11 +4,11 @@ import { SocialHeroLinks } from '@/components/ui/social-links'
 import { Button } from '@/components/ui/button'
 import { AvailabilityBadge } from '@/components/ui/availability-badge'
 import { ScrambleRole } from '@/components/ui/scramble-text'
+import { ScrollProgressBar } from '@/components/ui/animations'
 import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { useMemo } from 'react'
 import type { ReactNode } from 'react'
 import { SiDocker, SiNextdotjs, SiSpringboot } from "react-icons/si"
 import { BLUR_DATA_URL } from '@/lib/blur'
@@ -24,29 +24,13 @@ const HeroPortraitPanel = dynamic(
 export const Hero = () => {
     const prefersReducedMotion = useReducedMotion()
 
-    const fadeInUp = useMemo(() => ({
-        initial: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
-        animate: { opacity: 1, y: 0 }
-    }), [prefersReducedMotion])
-
-    const staggerContainer = useMemo(() => prefersReducedMotion ? undefined : {
-        animate: {
-            transition: {
-                staggerChildren: 0.05
-            }
-        }
-    }, [prefersReducedMotion])
-
-    const staggerItem = useMemo(() => ({
-        initial: { opacity: 0, y: prefersReducedMotion ? 0 : 6 },
-        animate: { opacity: 1, y: 0 }
-    }), [prefersReducedMotion])
-
     return (
         <section
             className="relative min-h-[100svh] overflow-hidden bg-background pt-24 lg:pt-0"
             aria-labelledby="hero-heading"
         >
+            {!prefersReducedMotion && <ScrollProgressBar />}
+
             {/* Background Atmosphere */}
             <div className="absolute inset-0 -z-10" aria-hidden="true">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(16,185,129,0.10),transparent_28%),radial-gradient(circle_at_78%_18%,rgba(45,212,191,0.08),transparent_30%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background)/0.94)_55%,hsl(var(--background))_100%)]" />
@@ -91,9 +75,9 @@ export const Hero = () => {
 
                         {/* Status Badge */}
                         <motion.div
-                            initial={{ opacity: 0, y: 12 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
                             className="mb-5 lg:mb-6"
                         >
                             <AvailabilityBadge label="1+ Years Experience" />
@@ -101,17 +85,23 @@ export const Hero = () => {
 
                         {/* Headline */}
                         <motion.div
-                            {...fadeInUp}
-                            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                             className="w-full mb-4"
                         >
                             <h1
                                 id="hero-heading"
                                 className="font-heading text-[2.55rem] font-black leading-[1.02] tracking-normal text-foreground sm:text-5xl md:text-[3.3rem] lg:text-[4.25rem] xl:text-[4.85rem]"
                             >
-                                <span className="mb-3 block text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground sm:text-base lg:mb-4">
+                                <motion.span
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.15 }}
+                                    className="mb-3 block text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground sm:text-base lg:mb-4"
+                                >
                                     Hello, I&apos;m
-                                </span>
+                                </motion.span>
                                 <span className="mx-auto block max-w-[12ch] bg-[linear-gradient(115deg,hsl(var(--foreground))_0%,rgb(16,185,129)_44%,rgb(45,212,191)_100%)] bg-clip-text text-transparent drop-shadow-[0_18px_54px_rgba(16,185,129,0.16)] md:mx-0 md:max-w-[11ch]">
                                     MD Ashikur Rahman Puspo
                                 </span>
@@ -120,8 +110,9 @@ export const Hero = () => {
 
                         {/* Role Text */}
                         <motion.div
-                            {...fadeInUp}
-                            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
                             className="mb-5 w-full lg:mb-6"
                         >
                             <ScrambleRole />
@@ -129,8 +120,9 @@ export const Hero = () => {
 
                         {/* Sub-headline */}
                         <motion.p
-                            {...fadeInUp}
-                            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
                             className="mb-6 max-w-[58ch] text-sm leading-7 text-muted-foreground sm:text-base lg:mb-7 lg:text-lg lg:leading-8"
                         >
                             Building scalable infrastructure and high-performance systems.
@@ -138,8 +130,9 @@ export const Hero = () => {
                         </motion.p>
 
                         <motion.div
-                            {...fadeInUp}
-                            transition={{ duration: 0.45, delay: 0.24, ease: "easeOut" }}
+                            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.5, delay: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
                             className="mb-6 grid w-full max-w-[560px] grid-cols-3 overflow-hidden rounded-2xl border border-emerald-400/15 bg-background/55 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:bg-slate-950/35 lg:mb-7"
                         >
                             <HeroMetric value="1+" label="Year Experience" />
@@ -149,20 +142,21 @@ export const Hero = () => {
 
                         {/* Tech Chips */}
                         <motion.div
-                            variants={staggerContainer}
-                            initial="initial"
-                            animate="animate"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.65, ease: [0.25, 0.1, 0.25, 1] }}
                             className="mb-7 flex flex-wrap justify-center gap-2.5 md:justify-start lg:mb-8"
                         >
-                            <TechChip icon={<SiSpringboot />} label="Spring Boot" variants={staggerItem} />
-                            <TechChip icon={<SiNextdotjs />} label="Next.js" variants={staggerItem} />
-                            <TechChip icon={<SiDocker />} label="Cloud Native" variants={staggerItem} />
+                            <TechChip icon={<SiSpringboot />} label="Spring Boot" delay={0.7} />
+                            <TechChip icon={<SiNextdotjs />} label="Next.js" delay={0.75} />
+                            <TechChip icon={<SiDocker />} label="Cloud Native" delay={0.8} />
                         </motion.div>
 
                         {/* CTAs */}
                         <motion.div
-                            {...fadeInUp}
-                            transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.85, ease: [0.25, 0.1, 0.25, 1] }}
                             className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center"
                         >
                             <Button
@@ -210,16 +204,17 @@ const HeroMetric = ({ value, label }: { value: string; label: string }) => (
     </div>
 )
 
-const TechChip = ({ icon, label, variants }: {
+const TechChip = ({ icon, label, delay = 0 }: {
     icon: ReactNode
     label: string
-    variants?: {
-        initial?: { opacity?: number; y?: number }
-        animate?: { opacity?: number; y?: number }
-    }
+    delay?: number
 }) => (
     <motion.div
-        variants={variants}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, delay, ease: [0.25, 0.1, 0.25, 1] }}
+        whileHover={{ scale: 1.05, y: -2 }}
+        whileTap={{ scale: 0.95 }}
         className="flex cursor-default items-center gap-2 rounded-full border border-emerald-400/15 bg-background/50 px-3.5 py-2 text-xs font-semibold text-muted-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl transition-colors duration-200 hover:border-emerald-400/35 hover:text-foreground sm:text-sm"
     >
         <span className="text-base text-emerald-500 dark:text-emerald-400">{icon}</span>

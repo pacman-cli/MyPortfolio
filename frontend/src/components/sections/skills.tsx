@@ -27,7 +27,7 @@ import {
   SiC,
   SiCanva,
   SiCplusplus,
-  SiCss3,
+  SiCss,
   SiFigma,
   SiFramer,
   SiGo,
@@ -115,7 +115,7 @@ const getSkillIcon = (skillName: string) => {
   // Generic fallback for others detected from GitHub
   if (normalized.includes('script') && !normalized.includes('type')) return <SiJavascript className="w-4 h-4 text-yellow-400" />
   if (normalized.includes('html')) return <SiHtml5 className="w-4 h-4 text-orange-600" />
-  if (normalized.includes('css')) return <SiCss3 className="w-4 h-4 text-blue-500" />
+  if (normalized.includes('css')) return <SiCss className="w-4 h-4 text-blue-500" />
   if (normalized.includes('python')) return <SiPython className="w-4 h-4 text-blue-400" />
   if (normalized.includes('go')) return <SiGo className="w-4 h-4 text-cyan-500" />
   if (normalized.includes('rust')) return <SiRust className="w-4 h-4 text-orange-400" />
@@ -140,7 +140,7 @@ export const Skills = () => {
   }, [])
 
   return (
-    <section id="skills" className="py-20 bg-background relative overflow-hidden">
+    <section id="skills" className="py-20 md:py-28 bg-background relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl -z-10" />

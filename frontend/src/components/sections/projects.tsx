@@ -2,19 +2,11 @@ import { Button } from '@/components/ui/button'
 import { Reveal } from '@/components/ui/reveal'
 import { SectionDivider } from '@/components/ui/section-divider'
 import { getFeaturedProjects } from '@/lib/projects'
+import { getTechIcon } from '@/lib/tech-icons'
 import { ArrowRight, Folder, Github } from 'lucide-react'
 import Link from 'next/link'
-import { FaJava } from "react-icons/fa"
-import { SiMysql, SiNextdotjs, SiSpringboot } from "react-icons/si"
 
-const getProjectIcon = (tech: string) => {
-  const t = tech.toLowerCase()
-  if (t.includes('next')) return <SiNextdotjs className="w-4 h-4" />
-  if (t.includes('spring')) return <SiSpringboot className="w-4 h-4" />
-  if (t.includes('mysql')) return <SiMysql className="w-4 h-4" />
-  if (t.includes('java')) return <FaJava className="w-4 h-4" />
-  return <Folder className="w-4 h-4" />
-}
+const getProjectIcon = (tech: string) => getTechIcon(tech, 'w-4 h-4') ?? <Folder className="w-4 h-4" />
 
 const ProjectSchema = ({ project }: { project: { name: string; description: string; demoUrl?: string; githubUrl?: string } }) => {
   const schema = {
@@ -37,7 +29,7 @@ export const Projects = () => {
   const projects = getFeaturedProjects()
 
   return (
-    <section id="projects" className="py-20 bg-muted/20">
+    <section id="projects" className="py-20 md:py-28 bg-muted/20">
       <div className="container mx-auto px-6">
         <Reveal width="100%">
           <div className="text-center mb-16">
@@ -52,7 +44,7 @@ export const Projects = () => {
         <div className="space-y-6 max-w-5xl mx-auto">
           {projects.map((project, index) => (
             <Reveal key={project.slug} delay={index * 0.1}>
-              <div className="bg-background rounded-2xl p-8 border border-border/50 hover:border-foreground/10 transition-colors group relative overflow-hidden">
+              <div className="bg-background rounded-2xl p-8 border border-border/50 hover:border-foreground/10 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group relative overflow-hidden cursor-pointer">
                 {project.featured && (
                   <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl z-10">
                     FEATURED
@@ -80,7 +72,10 @@ export const Projects = () => {
                   <div className="flex-1 w-full flex flex-col gap-6">
                     <div className="flex flex-wrap gap-2">
                       {project.techStack.map(tech => (
-                        <span key={tech} className="flex items-center gap-2 px-3 py-1.5 bg-muted/50 border rounded-full text-xs font-medium hover:border-primary/30 transition-colors">
+                        <span
+                          key={tech}
+                          className="flex items-center gap-2 px-3 py-1.5 bg-muted/50 border rounded-full text-xs font-medium hover:border-primary/30 transition-colors cursor-default hover:scale-105 hover:-translate-y-0.5"
+                        >
                           {getProjectIcon(tech)}
                           {tech}
                         </span>

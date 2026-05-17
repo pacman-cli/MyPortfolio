@@ -27,7 +27,7 @@ const experienceData = [
 
 export const Experience = () => {
   return (
-    <section id="experience" className="py-20 bg-background/50">
+    <section id="experience" className="py-20 md:py-28 bg-background/50">
       <div className="container mx-auto px-6">
         <Reveal width="100%">
           <div className="text-center mb-16">
