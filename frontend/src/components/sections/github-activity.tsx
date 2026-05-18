@@ -4,14 +4,14 @@ import { Reveal } from '@/components/ui/reveal'
 import { getGithubProfile, GITHUB_USERNAME } from '@/lib/github'
 import { motion } from 'framer-motion'
 import { Calendar, Flame, Github, Trophy, Users } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { ActivityCalendar, ThemeInput } from 'react-activity-calendar'
 
 interface ContributionData {
   total: {
     [year: string]: number
     lastYear: number
-  }
+  } | null
   contributions: Array<{
     date: string
     count: number
@@ -33,6 +33,20 @@ export const GithubActivity = () => {
     dark: ['#1e293b', '#064e3b', '#059669', '#10b981', '#34d399'],
   }
 
+  const calculateStreak = useCallback((contributions: Array<{ date: string; count: number }>) => {
+    const reversed = [...contributions].reverse()
+    let currentStreak = 0
+
+    for (const day of reversed) {
+      if (day.count > 0) currentStreak++
+      else {
+        const today = new Date().toISOString().split('T')[0]
+        if (day.date !== today) break
+      }
+    }
+    setStreak(currentStreak)
+  }, [])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,21 +66,7 @@ export const GithubActivity = () => {
       }
     }
     fetchData()
-  }, [])
-
-  const calculateStreak = (contributions: Array<{ date: string; count: number }>) => {
-    const reversed = [...contributions].reverse()
-    let currentStreak = 0
-
-    for (const day of reversed) {
-      if (day.count > 0) currentStreak++
-      else {
-        const today = new Date().toISOString().split('T')[0]
-        if (day.date !== today) break
-      }
-    }
-    setStreak(currentStreak)
-  }
+  }, [username, calculateStreak])
 
   return (
     <section className="py-20 md:py-28 bg-background relative overflow-hidden" id="open-source">
@@ -104,7 +104,7 @@ export const GithubActivity = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pb-4 md:pb-0">
               <StatCard
                 icon={<Trophy className="w-4 h-4 md:w-5 md:h-5" />}
-                value={data.total.lastYear}
+                value={data.total?.lastYear || 0}
                 label="Total Contributions"
                 delay={0.1}
                 iconColor="text-emerald-500"

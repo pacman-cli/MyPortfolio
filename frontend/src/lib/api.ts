@@ -1576,11 +1576,11 @@ export async function getBlogs(): Promise<Blog[]> {
 }
 
 export async function getBlogSummaries(): Promise<Omit<Blog, 'content'>[]> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     return Promise.resolve(
         [...BLOGS]
             .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-            .map(({ content, ...rest }) => rest)
+            .map((blog) => { const rest = { ...blog, content: undefined }; return rest; })
     )
 }
 
