@@ -1,21 +1,49 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./button"
 
 export const CookieConsent = () => {
   const [showConsent, setShowConsent] = useState(false)
+  const dialogRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // Check if user has already consented
     const hasConsented = localStorage.getItem("cookieConsent")
     if (!hasConsented) {
-      // Small delay to not immediately pop up on load
       const timer = setTimeout(() => setShowConsent(true), 1000)
       return () => clearTimeout(timer)
     }
   }, [])
+
+  useEffect(() => {
+    if (!showConsent) return
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    const focusable = dialog.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+
+    first?.focus()
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last?.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first?.focus()
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [showConsent])
 
   const handleAccept = () => {
     localStorage.setItem("cookieConsent", "true")
@@ -31,6 +59,10 @@ export const CookieConsent = () => {
     <AnimatePresence>
       {showConsent && (
         <motion.div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Cookie consent"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}

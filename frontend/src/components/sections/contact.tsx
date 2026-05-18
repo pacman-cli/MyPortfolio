@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { SPRING_FADE_UP } from '@/lib/animations'
 import { Loader2, Send, MapPin, Mail, ArrowUpRight, Sparkles } from 'lucide-react'
 import { useState } from 'react'
@@ -36,6 +36,7 @@ const contactSchema = z.object(fieldSchemas)
 type FormErrors = Partial<Record<keyof z.infer<typeof contactSchema>, string>>
 
 export const Contact = () => {
+  const prefersReducedMotion = useReducedMotion()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -102,21 +103,28 @@ export const Contact = () => {
       {/* Animated background */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/80 via-background to-blue-50/50 dark:from-emerald-950/20 dark:via-background dark:to-blue-950/10" />
-        <motion.div
-          className="absolute top-20 -left-32 w-96 h-96 bg-emerald-300/20 dark:bg-emerald-500/10 rounded-full blur-3xl"
-          animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute bottom-10 -right-20 w-80 h-80 bg-blue-300/15 dark:bg-blue-500/10 rounded-full blur-3xl"
-          animate={{ x: [0, -25, 0], y: [0, 15, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-300/10 dark:bg-purple-500/5 rounded-full blur-3xl"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        />
+        {!prefersReducedMotion && (
+          <>
+            <motion.div
+              className="absolute top-20 -left-32 w-96 h-96 bg-emerald-300/20 dark:bg-emerald-500/10 rounded-full blur-3xl"
+              whileInView={{ x: [0, 30, 0], y: [0, -20, 0] }}
+              viewport={{ once: false, margin: '200px' }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute bottom-10 -right-20 w-80 h-80 bg-blue-300/15 dark:bg-blue-500/10 rounded-full blur-3xl"
+              whileInView={{ x: [0, -25, 0], y: [0, 15, 0] }}
+              viewport={{ once: false, margin: '200px' }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-300/10 dark:bg-purple-500/5 rounded-full blur-3xl"
+              whileInView={{ scale: [1, 1.2, 1] }}
+              viewport={{ once: false, margin: '200px' }}
+              transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </>
+        )}
         {/* Grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
       </div>

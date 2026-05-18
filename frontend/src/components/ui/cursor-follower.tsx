@@ -8,7 +8,7 @@ export const CursorFollower = () => {
   const [isHovering, setIsHovering] = useState(false)
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const springConfig = { damping: 30, stiffness: 500, mass: 0.2 }
+  const springConfig = { damping: 40, stiffness: 1000, mass: 0.1 }
   const cursorX = useSpring(mouseX, springConfig)
   const cursorY = useSpring(mouseY, springConfig)
 
