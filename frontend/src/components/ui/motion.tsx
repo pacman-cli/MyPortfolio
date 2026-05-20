@@ -36,7 +36,7 @@ export function InteractiveCard({
   className = "",
   enableTilt = false,
   enablePress = true,
-  tiltIntensity = 8,
+  // tiltIntensity = 8,
   onClick,
 }: InteractiveCardProps) {
   const ref = useRef<HTMLDivElement>(null)

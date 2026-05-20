@@ -19,6 +19,7 @@ export const HeroPortraitPanel = ({ className = '' }: { className?: string }) =>
             className="scale-[1.02] object-cover object-[54%_50%] will-change-auto"
             sizes="(max-width: 768px) 92vw, (max-width: 1024px) 42vw, 45vw"
             quality={92}
+            unoptimized={true}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
           />
