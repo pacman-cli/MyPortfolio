@@ -161,6 +161,42 @@ flowchart TD
             'https://github.com/pacman-cli/Java-Learning/tree/main/server/businessAnalytics',
         category: 'backend',
     },
+    {
+        slug: 'shelftotales',
+        name: 'ShelfToTales',
+        description: 'A platform to explore, track, and manage your book collections and reading journey.',
+        techStack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+        githubUrl: 'https://github.com/pacman-cli/ShelfToTales',
+        category: 'frontend',
+        featured: true,
+    },
+    {
+        slug: 'uptime-monitoring',
+        name: 'Uptime Monitoring',
+        description: 'A system to monitor application uptime and perform active health checks.',
+        techStack: ['Spring Boot', 'Java', 'Docker'],
+        githubUrl: 'https://github.com/pacman-cli/uptime-monitoring',
+        category: 'backend',
+        featured: true,
+    },
+    {
+        slug: 'narisurokka',
+        name: 'NariSurokka',
+        description: 'A safety and awareness platform specifically built with modern security features.',
+        techStack: ['Spring Boot', 'Next.js', 'PostgreSQL'],
+        githubUrl: 'https://github.com/pacman-cli/narisurokka',
+        category: 'fullstack',
+        featured: true,
+    },
+    {
+        slug: 'smartshop-microservices',
+        name: 'SmartShop Microservices',
+        description: 'A microservices-based e-commerce architecture demonstrating scalability and decoupled services.',
+        techStack: ['Spring Boot', 'Spring Cloud', 'Docker', 'MySQL'],
+        githubUrl: 'https://github.com/pacman-cli/smartshop-microservices',
+        category: 'backend',
+        featured: true,
+    },
 ]
 
 /** Get all projects */
