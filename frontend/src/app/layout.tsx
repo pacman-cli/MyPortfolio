@@ -8,6 +8,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
 import Script from "next/script"
 import { SAME_AS_LINKS, SITE_NAVIGATION, siteConfig } from "@/lib/site"
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: 'swap' })
@@ -178,6 +179,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <CookieConsent />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
