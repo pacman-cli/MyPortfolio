@@ -21,9 +21,6 @@ export const GalleryGrid = () => {
     const controller = new AbortController()
     abortRef.current = controller
 
-    setLoading(true)
-    setError(false)
-
     fetch('/api/gallery', { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch')

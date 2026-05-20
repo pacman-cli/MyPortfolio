@@ -134,7 +134,7 @@ interface ScrollRevealProps {
 
 export function ScrollReveal({
   children,
-  threshold = 0.1,
+  // threshold = 0.1,
   direction = "up",
   distance = 30,
   duration = 0.5,
@@ -322,12 +322,12 @@ interface MagneticCursorProps {
 
 export function MagneticCursor({
   children,
-  strength = 0.3,
+  // strength = 0.3,
   className = "",
 }: MagneticCursorProps) {
   const ref = useRef<HTMLDivElement>(null)
 
-  const { scrollY } = useScroll()
+  // const { scrollY } = useScroll()
 
   // Simplified version without mouse tracking for SSR safety
   return (
