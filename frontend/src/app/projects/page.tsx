@@ -23,8 +23,8 @@ export const metadata: Metadata = constructMetadata({
   ],
 })
 
-export default function ProjectsPage() {
-  const projects = getProjects()
+export default async function ProjectsPage() {
+  const projects = await getProjects()
   const projectsPageJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',

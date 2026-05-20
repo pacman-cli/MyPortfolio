@@ -24,6 +24,8 @@ public class Blog {
 
     private String tags; // Comma separated tags
 
+    private String imageUrl;
+
     private LocalDateTime publishedAt;
 
     @PrePersist

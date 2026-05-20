@@ -1,6 +1,5 @@
 "use client"
 
-import { PROJECTS } from '@/lib/projects'
 import { getTechIcon, getTechIconColor } from '@/lib/tech-icons'
 import type { Project } from '@/types'
 import { motion } from 'framer-motion'
@@ -8,9 +7,6 @@ import { SPRING_FADE_UP } from '@/lib/animations'
 import { ArrowUpRight, Folder, Github } from 'lucide-react'
 import Link from 'next/link'
 import { useRef } from 'react'
-
-// Use centralized project data
-const FEATURED_PROJECTS = PROJECTS
 
 const ProjectRow = ({ project, index }: { project: Project; index: number }) => {
   const direction = index % 2 === 0 ? -20 : 20
@@ -108,7 +104,11 @@ const ProjectRow = ({ project, index }: { project: Project; index: number }) => 
 // MAIN COMPONENT
 // ============================================================================
 
-export const SelectedWork = () => {
+interface SelectedWorkProps {
+  projects?: Project[]
+}
+
+export const SelectedWork = ({ projects = [] }: SelectedWorkProps) => {
   const containerRef = useRef<HTMLElement>(null)
 
   return (
@@ -139,8 +139,8 @@ export const SelectedWork = () => {
         </div>
 
         <div className="border-t border-border/40">
-          {FEATURED_PROJECTS.map((project, index) => (
-            <ProjectRow key={project.name} project={project} index={index} />
+          {projects.map((project, index) => (
+            <ProjectRow key={project.slug} project={project} index={index} />
           ))}
         </div>
       </div>

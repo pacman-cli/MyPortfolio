@@ -18,6 +18,9 @@ public class Project {
     @Column(nullable = false)
     private String title;
 
+    @Column(unique = true)
+    private String slug;
+
     @Column(nullable = false)
     private String description;
 

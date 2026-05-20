@@ -3,7 +3,7 @@ import { BreadcrumbSchema, SoftwareSourceCodeSchema } from '@/components/seo/jso
 import { GithubBadge } from '@/components/ui/github-badge'
 import { SectionReveal } from '@/components/ui/section-reveal'
 import { absoluteUrl } from '@/lib/site'
-import { getAllProjectSlugs, getProjectBySlug } from '@/lib/projects'
+import { getAllProjectSlugs, getProjectBySlug, getProjects } from '@/lib/projects'
 import { constructMetadata } from '@/lib/seo'
 import { ArrowLeft, ArrowUpRight, CheckCircle, Github, Lightbulb, Target, Wrench } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -16,12 +16,20 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
+  try {
+    const projects = await getProjects()
+    if (projects.length > 0) {
+      return projects.map((p) => ({ slug: p.slug }))
+    }
+  } catch {
+    // fallback below
+  }
   return getAllProjectSlugs().map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const project = getProjectBySlug(slug)
+  const project = await getProjectBySlug(slug)
   if (!project) return { title: 'Project Not Found' }
 
   return constructMetadata({
@@ -40,7 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProjectCaseStudy({ params }: PageProps) {
   const { slug } = await params
-  const project = getProjectBySlug(slug)
+  const project = await getProjectBySlug(slug)
 
   if (!project) notFound()
 

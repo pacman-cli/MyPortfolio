@@ -9,7 +9,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import type { ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 import { SiDocker, SiNextdotjs, SiSpringboot } from "react-icons/si"
 import { BLUR_DATA_URL } from '@/lib/blur'
 import { ArrowRight, FolderGit2 } from 'lucide-react'
@@ -195,14 +195,14 @@ export const Hero = () => {
     )
 }
 
-const HeroMetric = ({ value, label }: { value: string; label: string }) => (
+const HeroMetric = React.memo(({ value, label }: { value: string; label: string }) => (
     <div className="border-r border-emerald-400/15 px-3 py-3 text-center last:border-r-0 md:px-4 md:text-left">
         <div className="font-heading text-lg font-black leading-none text-foreground sm:text-xl">{value}</div>
         <div className="mt-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground sm:text-[0.7rem]">
             {label}
         </div>
     </div>
-)
+))
 
 const TechChip = ({ icon, label, delay = 0 }: {
     icon: ReactNode

@@ -1,12 +1,14 @@
 import { SocialFooterLinks } from '@/components/ui/social-links'
 import Link from 'next/link'
 
+const CURRENT_YEAR = new Date().getFullYear()
+
 export const Footer = () => {
   return (
     <footer className="py-8 bg-background border-t border-border">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex flex-col items-center md:items-start gap-3 text-muted-foreground text-sm">
-          <span suppressHydrationWarning>© {new Date().getFullYear()} <span className="font-bold text-foreground">Puspo</span>. All rights reserved.</span>
+          <span>&copy; {CURRENT_YEAR} <span className="font-bold text-foreground">Puspo</span>. All rights reserved.</span>
           <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm">
             <Link href="/about-me" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">About</Link>
             <Link href="/projects" className="hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors">Projects</Link>

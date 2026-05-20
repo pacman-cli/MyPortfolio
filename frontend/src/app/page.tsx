@@ -2,6 +2,7 @@ import { Footer } from '@/components/footer'
 import { Hero } from '@/components/sections/hero'
 import { ScrollProgress } from '@/components/ui/scroll-progress'
 import { getBlogSummaries } from '@/lib/api'
+import { getProjects } from '@/lib/projects'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
@@ -25,6 +26,7 @@ const TechnicalExpertise = dynamic(() => import('@/components/sections/technical
 
 export default async function Home() {
   const blogs = await getBlogSummaries()
+  const projects = await getProjects()
 
   return (
     <main id="main-content" className="min-h-screen">
@@ -33,7 +35,7 @@ export default async function Home() {
       <Highlights />
       <About />
       <TechnicalExpertise />
-      <SelectedWork />
+      <SelectedWork projects={projects} />
       <Certifications />
       <RecentBlogs blogs={blogs} />
       <Suspense fallback={<SectionSkeleton />}>

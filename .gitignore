@@ -1,5 +1,6 @@
 # Secrets
 .env
+.env.*
 .DS_Store
 
 # Node
@@ -19,3 +20,50 @@ mvnw.cmd
 .vscode/
 *.swp
 *.iml
+
+# Agent/audit/tooling files
+.agent/
+.serena/
+.opencode/
+.mcp.json
+.claude/
+.kiro/
+*.bak
+
+# Audit docs
+ARCHITECTURE_AUDIT.md
+AUDIT_CHECKLIST.md
+AUDIT_REPORT.md
+AUDIT_SUMMARY.md
+QUICK_FIXES.md
+README_AUDIT.md
+
+# Deployment / infra (keep only frontend + backend)
+deploy.sh
+docker-compose.yml
+docker-compose.local.yml
+docker-compose.*.yml
+nginx/
+start-local.sh
+stop-local.sh
+IMG_*.HEIC
+IMG_*.JPG
+IMG_*.jpg
+IMG_*.png
+
+# Frontend noise
+frontend/CLAUDE.md
+frontend/AGENTS.md
+frontend/GEMINI.md
+frontend/BingSiteAuth.xml
+frontend/design-philosophy.md
+frontend/docs/
+frontend/canvas.html
+frontend/canvas*.png
+frontend/canvas*.svg
+frontend/kinetic-whispers-canvas*
+frontend/build-output.txt
+frontend/skills-lock.json
+frontend/.agents/
+frontend/.learnings/
+frontend/Screenshot*

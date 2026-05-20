@@ -32,7 +32,7 @@ public class ContactServiceImpl implements ContactService {
     @Value("${resend.api.key}")
     private String resendApiKey;
 
-    @Value("${spring.mail.username}")
+    @Value("${recipient.email}")
     private String recipientEmail;
 
     @Value("${resend.from.email:Portfolio Contact <contact@puspo.online>}")

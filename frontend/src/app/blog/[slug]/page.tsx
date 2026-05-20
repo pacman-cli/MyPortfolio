@@ -3,7 +3,7 @@ import { BlogPostingSchema, BreadcrumbSchema } from '@/components/seo/json-ld'
 import { Alert } from '@/components/ui/alert'
 import { BlogProgress } from '@/components/ui/blog-progress'
 import { Button } from '@/components/ui/button'
-import { getBlogBySlug, getBlogs } from '@/lib/api'
+import { getBlogBySlug, getBlogs, STATIC_BLOG_SLUGS } from '@/lib/api'
 import { absoluteUrl } from '@/lib/site'
 import { calculateReadTime } from '@/lib/utils'
 import { constructMetadata } from '@/lib/seo'
@@ -40,10 +40,11 @@ function HorizontalRule() {
 }
 
 export async function generateStaticParams() {
-  const blogs = await getBlogs()
-  return blogs
-    .filter((b) => b.content)
-    .map((b) => ({ slug: b.slug }))
+  const blogs = await getBlogs().catch(() => null)
+  if (blogs && blogs.length > 0) {
+    return blogs.filter((b) => b.content).map((b) => ({ slug: b.slug }))
+  }
+  return STATIC_BLOG_SLUGS.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: PageProps) {
