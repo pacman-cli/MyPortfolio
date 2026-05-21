@@ -2,7 +2,6 @@ package com.portfolio.backend.controller;
 
 import com.portfolio.backend.dto.BlogDTO;
 import com.portfolio.backend.dto.PagedResponse;
-import com.portfolio.backend.model.Blog;
 import com.portfolio.backend.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,4 @@ public class BlogController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public Blog createBlog(@RequestBody Blog blog) {
-        return blogService.createBlog(blog);
-    }
 }

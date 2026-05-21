@@ -36,8 +36,5 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(DtoConverter::toDTO);
     }
 
-    @Override
-    public Project saveProject(Project project) {
-        return repository.save(project);
-    }
+
 }

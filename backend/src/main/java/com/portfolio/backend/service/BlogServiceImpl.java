@@ -5,7 +5,7 @@ import com.portfolio.backend.dto.PagedResponse;
 import com.portfolio.backend.model.Blog;
 import com.portfolio.backend.repository.BlogRepository;
 import com.portfolio.backend.util.DtoConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BlogServiceImpl implements BlogService {
 
-    @Autowired
-    private BlogRepository blogRepository;
+    private final BlogRepository blogRepository;
 
     @Override
     public PagedResponse<BlogDTO> getAllBlogs(int page, int size) {
@@ -38,11 +38,5 @@ public class BlogServiceImpl implements BlogService {
                 .map(DtoConverter::toDTO);
     }
 
-    @Override
-    public Blog createBlog(Blog blog) {
-        if (blog.getSlug() == null || blog.getSlug().isEmpty()) {
-            blog.setSlug(blog.getTitle().toLowerCase().replace(" ", "-"));
-        }
-        return blogRepository.save(blog);
-    }
+
 }

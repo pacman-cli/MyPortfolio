@@ -2,7 +2,6 @@ package com.portfolio.backend.controller;
 
 import com.portfolio.backend.dto.PagedResponse;
 import com.portfolio.backend.dto.ProjectDTO;
-import com.portfolio.backend.model.Project;
 import com.portfolio.backend.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,4 @@ public class ProjectController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Project> createProject(@RequestBody Project project) {
-        return ResponseEntity.ok(service.saveProject(project));
-    }
 }

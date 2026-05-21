@@ -80,7 +80,8 @@ export async function getBlogs(): Promise<Blog[]> {
         (a, b) =>
           new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
       )
-  } catch {
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error)
     return []
   }
 }
