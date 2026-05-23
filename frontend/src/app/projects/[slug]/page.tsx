@@ -4,12 +4,67 @@ import { GithubBadge } from '@/components/ui/github-badge'
 import { SectionReveal } from '@/components/ui/section-reveal'
 import { absoluteUrl } from '@/lib/site'
 import { getAllProjectSlugs, getProjectBySlug, getProjects } from '@/lib/projects'
+import { getBlogBySlug } from '@/lib/api'
 import { constructMetadata } from '@/lib/seo'
-import { ArrowLeft, ArrowUpRight, CheckCircle, Github, Lightbulb, Target, Wrench } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  BarChart,
+  CheckCircle,
+  Code,
+  Cpu,
+  Database,
+  FileText,
+  GitBranch,
+  Github,
+  Home,
+  Image,
+  Lightbulb,
+  Moon,
+  Package,
+  Search,
+  Shield,
+  ShoppingCart,
+  Smartphone,
+  Target,
+  TrendingUp,
+  Wrench,
+  Zap,
+} from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+import dynamic from 'next/dynamic'
+
+const MermaidDiagram = dynamic(() => import('@/components/ui/mermaid-diagram').then(mod => mod.MermaidDiagram))
+
+function featureIcon(title: string): React.ReactNode {
+  const t = title.toLowerCase()
+  if (t.includes("expense") || t.includes("track")) return <Zap className="w-5 h-5" />
+  if (t.includes("goal") || t.includes("target")) return <Target className="w-5 h-5" />
+  if (t.includes("analytic") || t.includes("chart") || t.includes("dashboard") || t.includes("report")) return <BarChart className="w-5 h-5" />
+  if (t.includes("device") || t.includes("sync")) return <Smartphone className="w-5 h-5" />
+  if (t.includes("property") || t.includes("list")) return <Home className="w-5 h-5" />
+  if (t.includes("auth") || t.includes("access") || t.includes("role")) return <Shield className="w-5 h-5" />
+  if (t.includes("search") || t.includes("filter")) return <Search className="w-5 h-5" />
+  if (t.includes("upload") || t.includes("image")) return <Image className="w-5 h-5" />
+  if (t.includes("seo") || t.includes("dark") || t.includes("light") || t.includes("theme")) return <Moon className="w-5 h-5" />
+  if (t.includes("blog") || t.includes("markdown")) return <FileText className="w-5 h-5" />
+  if (t.includes("github")) return <Github className="w-5 h-5" />
+  if (t.includes("cart") || t.includes("checkout")) return <ShoppingCart className="w-5 h-5" />
+  if (t.includes("inventory") || t.includes("product")) return <Package className="w-5 h-5" />
+  if (t.includes("java") || t.includes("core") || t.includes("pattern") || t.includes("algorithm")) return <Code className="w-5 h-5" />
+  if (t.includes("data") || t.includes("structure")) return <Database className="w-5 h-5" />
+  if (t.includes("concurrency") || t.includes("thread")) return <Cpu className="w-5 h-5" />
+  if (t.includes("pipeline") || t.includes("process") || t.includes("etl")) return <GitBranch className="w-5 h-5" />
+  if (t.includes("kpi") || t.includes("metric") || t.includes("trend")) return <TrendingUp className="w-5 h-5" />
+  return <Zap className="w-5 h-5" />
+}
+
+function detectMermaid(text: string): boolean {
+  return /^(graph |flowchart |sequenceDiagram |erDiagram |classDiagram |stateDiagram )/.test(text.trim())
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -155,8 +210,79 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
               </SectionReveal>
             )}
 
+            {/* Key Features */}
+            {project.keyFeatures && project.keyFeatures.length > 0 && (
+              <SectionReveal delay={0.1}>
+                <section>
+                  <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
+                    <Zap className="w-6 h-6 text-amber-500" />
+                    Key Features
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {project.keyFeatures.map((feature, i) => (
+                      <div key={i} className="glass rounded-xl p-5 space-y-2 border border-amber-500/10">
+                        <div className="flex items-center gap-2 text-amber-500">
+                          {featureIcon(feature.title)}
+                          <h3 className="font-semibold text-sm">{feature.title}</h3>
+                        </div>
+                        <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </SectionReveal>
+            )}
+
+            {/* Architecture */}
+            {project.architecture && (
+              <SectionReveal delay={0.15}>
+                <section>
+                  <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
+                    <GitBranch className="w-6 h-6 text-purple-500" />
+                    Architecture
+                  </h2>
+                  {detectMermaid(project.architecture) ? (
+                    <div className="glass rounded-xl p-4 md:p-6 border-purple-500/10 overflow-x-auto">
+                      <MermaidDiagram chart={project.architecture} />
+                    </div>
+                  ) : (
+                    <div className="glass rounded-xl p-6 border-purple-500/10">
+                      <p className="text-muted-foreground/80 leading-relaxed whitespace-pre-line font-mono text-sm">
+                        {project.architecture}
+                      </p>
+                    </div>
+                  )}
+                </section>
+              </SectionReveal>
+            )}
+
+            {/* Database Design */}
+            {project.databaseDesign && (
+              <SectionReveal delay={0.2}>
+                <section>
+                  <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
+                    <Database className="w-6 h-6 text-sky-500" />
+                    Database Design
+                  </h2>
+                  {detectMermaid(project.databaseDesign) ? (
+                    <div className="glass rounded-xl p-4 md:p-6 border-sky-500/10 overflow-x-auto">
+                      <MermaidDiagram chart={project.databaseDesign} />
+                    </div>
+                  ) : (
+                    <div className="glass rounded-xl p-6 border-sky-500/10">
+                      <p className="text-muted-foreground/80 leading-relaxed whitespace-pre-line font-mono text-sm">
+                        {project.databaseDesign}
+                      </p>
+                    </div>
+                  )}
+                </section>
+              </SectionReveal>
+            )}
+
             {/* Tech Stack */}
-            <SectionReveal delay={0.1}>
+            <SectionReveal delay={0.25}>
               <section>
                 <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
                   <Wrench className="w-6 h-6 text-blue-500" />
@@ -172,7 +298,7 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
 
             {/* Challenges & Solutions */}
             {project.challenges && project.challenges.length > 0 && (
-              <SectionReveal delay={0.2}>
+              <SectionReveal delay={0.3}>
                 <section>
                   <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
                     <Lightbulb className="w-6 h-6 text-yellow-500" />
@@ -200,7 +326,7 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
 
             {/* Results */}
             {project.results && project.results.length > 0 && (
-              <SectionReveal delay={0.3}>
+              <SectionReveal delay={0.35}>
                 <section>
                   <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
                     <CheckCircle className="w-6 h-6 text-emerald-500" />
@@ -215,6 +341,43 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                </section>
+              </SectionReveal>
+            )}
+
+            {/* Related Blog Posts */}
+            {project.relatedBlogSlugs && project.relatedBlogSlugs.length > 0 && (
+              <SectionReveal delay={0.4}>
+                <section>
+                  <h2 className="text-2xl font-bold mb-4 flex items-center gap-3 tracking-tight">
+                    <FileText className="w-6 h-6 text-indigo-500" />
+                    Related Blog Posts
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {await Promise.all(
+                      project.relatedBlogSlugs.map(async (blogSlug) => {
+                        const blog = await getBlogBySlug(blogSlug)
+                        if (!blog) return null
+                        return (
+                          <Link
+                            key={blogSlug}
+                            href={`/blog/${blogSlug}`}
+                            className="glass rounded-xl p-5 space-y-2 border border-indigo-500/10 hover:border-indigo-500/30 transition-colors group"
+                          >
+                            <h3 className="font-semibold text-sm group-hover:text-indigo-400 transition-colors line-clamp-2">
+                              {blog.title}
+                            </h3>
+                            <p className="text-xs text-muted-foreground/70 line-clamp-2">
+                              {blog.excerpt}
+                            </p>
+                            <span className="text-xs text-indigo-400 font-medium inline-flex items-center gap-1">
+                              Read <ArrowUpRight className="w-3 h-3" />
+                            </span>
+                          </Link>
+                        )
+                      }),
+                    )}
                   </div>
                 </section>
               </SectionReveal>
