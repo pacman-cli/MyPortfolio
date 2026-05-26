@@ -33,6 +33,7 @@ export interface Project {
 
     // Case study sections
     problemStatement?: string
+    keyFeatures?: { title: string; description: string }[]
     architecture?: string       // Mermaid diagram or description
     databaseDesign?: string     // DB schema description
     challenges?: string[]       // Key challenges faced
