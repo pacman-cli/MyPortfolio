@@ -36,9 +36,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Suspense, type ReactNode } from 'react'
-import dynamic from 'next/dynamic'
 
-const MermaidDiagram = dynamic(() => import('@/components/ui/mermaid-diagram').then(mod => mod.MermaidDiagram), { ssr: false })
+import { MermaidDiagram } from '@/components/ui/mermaid-diagram-wrapper'
 
 function featureIcon(title: string): React.ReactNode {
   const t = title.toLowerCase()
