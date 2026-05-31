@@ -1,4 +1,5 @@
 import { Blog } from "@/types"
+import { fetchJson } from "@/lib/utils"
 
 /** Static slug list for generateStaticParams fallback when backend is unavailable. */
 export const STATIC_BLOG_SLUGS = [
@@ -15,7 +16,6 @@ const API_BASE: string =
       ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/v1`
       : "http://localhost:8082/api/v1"
 
-const REVALIDATE = 3600
 
 interface PagedResponse<T> {
   items: T[]
@@ -34,12 +34,6 @@ interface BlogDTO {
   tags: string[]
   imageUrl: string | null
   publishedAt: string
-}
-
-async function fetchJson<T>(url: string): Promise<T> {
-  const res = await fetch(url, { next: { revalidate: REVALIDATE } })
-  if (!res.ok) throw new Error(`API ${res.status}: ${res.statusText}`)
-  return res.json()
 }
 
 function toBlog(dto: BlogDTO): Blog {
