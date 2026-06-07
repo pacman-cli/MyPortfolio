@@ -31,6 +31,22 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.puspo.online',
+          },
+        ],
+        destination: 'https://puspo.online/:path*',
+        permanent: true,
+      },
+    ]
+  },
   async rewrites() {
     return [
       {
