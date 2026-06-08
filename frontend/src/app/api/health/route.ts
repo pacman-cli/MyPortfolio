@@ -75,8 +75,7 @@ export async function GET() {
 
   const health: HealthCheck = {
     status: hasFailures ? 'degraded' : allSkipped ? 'degraded' : 'healthy',
-    timestamp: new Date().toISOString(),
-    coldStartTime: Date.now() - startTime,
+    timestamp: new Date().toISOString(),      uptime: Date.now() - startTime,
     checks,
   }
 

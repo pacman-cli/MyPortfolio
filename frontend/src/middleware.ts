@@ -39,6 +39,7 @@ function isPageRoute(pathname: string): boolean {
   if (pathname.startsWith('/_next/')) return false
   if (pathname.startsWith('/.well-known/')) return false
   if (pathname === '/auth.md') return false
+  if (pathname === '/robots.txt') return false
   // Exclude static file extensions
   if (/\.(svg|jpg|jpeg|png|webp|avif|ico|woff|woff2|js|css|json|txt|xml)$/.test(pathname)) return false
   return true
@@ -238,6 +239,14 @@ function handleAgentSkillsIndex(): Response {
           url: `${SITE_URL}/auth.md`,
           sha256: '',
         },
+        {
+          name: 'content-signals',
+          type: 'discovery',
+          description:
+            'Content-Signal directives in robots.txt declaring AI content usage preferences for ai-train, search, and ai-input.',
+          url: `${SITE_URL}/robots.txt`,
+          sha256: '',
+        },
       ],
     },
     'application/json',
@@ -262,6 +271,28 @@ function handleWellKnown(pathname: string): Response {
     headers: {
       'Content-Type': 'application/json',
       'Cache-Control': 'public, max-age=60',
+    },
+  })
+}
+
+/* ------------------------------------------------------------------ */
+/*  robots.txt Handler — Content Signals                              */
+/* ------------------------------------------------------------------ */
+
+function handleRobotsTxt(): Response {
+  const robotsTxt = `User-agent: *
+Allow: /
+Content-Signal: ai-train=no, ai-input=no, search=yes
+
+Sitemap: ${SITE_URL}/sitemap.xml
+Host: ${SITE_URL}
+`
+
+  return new Response(robotsTxt, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
     },
   })
 }
@@ -453,17 +484,22 @@ export function middleware(request: NextRequest) {
     return handleWellKnown(pathname)
   }
 
-  // 2. Handle auth.md
+  // 2. Handle robots.txt — inject Content Signals for AI agents
+  if (pathname === '/robots.txt') {
+    return handleRobotsTxt()
+  }
+
+  // 3. Handle auth.md
   if (pathname === '/auth.md') {
     return handleAuthMd()
   }
 
-  // 3. Markdown for Agents — return markdown when agents request it
+  // 4. Markdown for Agents — return markdown when agents request it
   if (accept.includes('text/markdown') && isPageRoute(pathname)) {
     return handleMarkdownRequest(pathname)
   }
 
-  // 4. Link headers on all page routes
+  // 5. Link headers on all page routes
   const response = NextResponse.next()
   if (isPageRoute(pathname)) {
     addLinkHeaders(response)
