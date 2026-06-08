@@ -73,6 +73,22 @@ describe('OpenID Config integration', () => {
   })
 })
 
+// OAuth Authorization Server integration
+describe('OAuth Authorization Server integration', () => {
+  it('returns RFC 8414 compliant authorization server metadata', async () => {
+    const middleware = await getMiddleware()
+    const res = middleware(makeRequest('/.well-known/oauth-authorization-server')) as Response
+    const body = await res.json()
+
+    expect(body.issuer).toBe('https://puspo.online')
+    expect(body.authorization_endpoint).toContain('oauth/authorize')
+    expect(body.token_endpoint).toContain('oauth/token')
+    expect(body.jwks_uri).toContain('.well-known/jwks.json')
+    expect(Array.isArray(body.scopes_supported)).toBe(true)
+    expect(body.token_endpoint_auth_methods_supported).toContain('client_secret_basic')
+  })
+})
+
 // OAuth Protected Resource integration
 describe('OAuth Protected Resource integration', () => {
   it('returns RFC 9728 protected resource metadata', async () => {
@@ -153,9 +169,10 @@ describe('Markdown negotiation integration', () => {
     const middleware = await getMiddleware()
     const mockResponse = { headers: { set: vi.fn() } }
     vi.mocked(NextResponse.next).mockReturnValue(mockResponse as any)
-    middleware(makeRequest('/api/gallery', 'text/markdown'))
-    // Should not return a Response with markdown Content-Type
-    // It should call NextResponse.next()
+    const res = middleware(makeRequest('/api/gallery', 'text/markdown'))
+    // API routes should fall through to NextResponse.next(), not return markdown
+    expect(res).toHaveProperty('headers')
+    expect(mockResponse.headers.set).not.toHaveBeenCalled()
   })
 })
 
