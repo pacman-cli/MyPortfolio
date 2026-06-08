@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { LazyCursorFollower } from "@/components/ui/cursor-follower-lazy"
 import { LightModeBackground } from "@/components/ui/light-mode-background"
 import { CookieConsent } from "@/components/ui/cookie-consent"
+import { WebMCPProvider } from "@/components/webmcp-provider"
 import { cn } from "@/lib/utils"
 import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
@@ -178,6 +179,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <CookieConsent />
+          <WebMCPProvider />
         </ThemeProvider>
       </body>
     </html>
