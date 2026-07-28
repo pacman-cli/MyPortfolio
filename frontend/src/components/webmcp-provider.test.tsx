@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, cleanup } from '@testing-library/react'
+import { render, cleanup } from '@testing-library/react'
 import { WebMCPProvider } from './webmcp-provider'
 
 // Mock navigator.modelContext

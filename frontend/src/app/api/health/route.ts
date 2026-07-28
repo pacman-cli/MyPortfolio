@@ -17,7 +17,7 @@ interface HealthCheck {
 
 const startTime = Date.now()
 
-async function checkEndpoint(url: string, name: string): Promise<{ status: 'pass' | 'fail' | 'skip'; message: string; latency: number }> {
+async function checkEndpoint(url: string): Promise<{ status: 'pass' | 'fail' | 'skip'; message: string; latency: number }> {
   const start = Date.now()
   try {
     const res = await fetch(url, {
@@ -57,7 +57,7 @@ export async function GET() {
 
   const results = await Promise.all(
     wellKnownEndpoints.map(async (endpoint) => {
-      const result = await checkEndpoint(endpoint.url, endpoint.name)
+      const result = await checkEndpoint(endpoint.url)
       return { name: endpoint.name, ...result }
     }),
   )

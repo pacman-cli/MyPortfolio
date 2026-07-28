@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ContactServiceImpl implements ContactService {
 
     private final ContactMessageRepository repository;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();

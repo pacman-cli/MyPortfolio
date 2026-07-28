@@ -8,12 +8,13 @@ import { ArrowUpRight, PenTool } from 'lucide-react'
 import Link from 'next/link'
 import { BLUR_DATA_URL } from '@/lib/blur'
 import Image from 'next/image'
+import { memo } from 'react'
 
 interface RecentBlogsProps {
     blogs: Blog[]
 }
 
-const BlogRow = ({ blog, index }: { blog: Blog; index: number }) => {
+const BlogRow = memo(({ blog, index }: { blog: Blog; index: number }) => {
     const isExternal = !!blog.externalUrl
     const Wrapper = isExternal ? 'a' : Link
     const href = isExternal ? blog.externalUrl! : `/blog/${blog.slug}`
@@ -96,7 +97,9 @@ const BlogRow = ({ blog, index }: { blog: Blog; index: number }) => {
             </Wrapper>
         </motion.div>
     )
-}
+})
+BlogRow.displayName = 'BlogRow'
+
 
 export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
     const displayBlogs = blogs.length > 0 ? blogs.slice(0, 5) : []

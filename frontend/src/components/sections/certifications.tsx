@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { SPRING_FADE_UP } from '@/lib/animations'
 import { Award, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
+import { memo } from 'react'
 
 // Temporary mock data until provided by the user
 const CERTIFICATIONS: Certification[] = [
@@ -50,7 +51,7 @@ const CERTIFICATIONS: Certification[] = [
   },
 ]
 
-const CertificationRow = ({ cert, index }: { cert: Certification; index: number }) => {
+const CertificationRow = memo(({ cert, index }: { cert: Certification; index: number }) => {
   return (
     <motion.li
       initial={{ opacity: 0, y: 16 }}
@@ -108,7 +109,9 @@ const CertificationRow = ({ cert, index }: { cert: Certification; index: number 
       </div>
     </motion.li>
   )
-}
+})
+CertificationRow.displayName = 'CertificationRow'
+
 
 export const Certifications = () => {
   return (

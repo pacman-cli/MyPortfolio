@@ -82,7 +82,11 @@ export async function getBlogs(): Promise<Blog[]> {
 
 export async function getBlogSummaries(): Promise<Omit<Blog, "content">[]> {
   const blogs = await getBlogs()
-  return blogs.map(({ content, ...rest }) => rest)
+  return blogs.map((blog) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { content, ...rest } = blog
+    return rest
+  })
 
 }
 

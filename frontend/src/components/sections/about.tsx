@@ -22,7 +22,7 @@ export const About = () => {
             <div className="relative order-1 md:order-2">
               <div className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden bg-card border-2 border-border/30 shadow-lg grayscale hover:grayscale-0 transition-all duration-500">
                 <Image
-                  src="/profile.jpg"
+                  src="/profile.webp"
                   alt="MD Ashikur Rahman Puspo"
                   fill
                   sizes="(max-width: 768px) 90vw, 40vw"

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { NextRequest, NextResponse } from 'next/server'
 
 vi.mock('@/lib/site', () => ({
@@ -168,7 +168,7 @@ describe('Markdown negotiation integration', () => {
   it('does not return markdown for API routes', async () => {
     const middleware = await getMiddleware()
     const mockResponse = { headers: { set: vi.fn() } }
-    vi.mocked(NextResponse.next).mockReturnValue(mockResponse as any)
+    vi.mocked(NextResponse.next).mockReturnValue(mockResponse as unknown as NextResponse)
     const res = middleware(makeRequest('/api/gallery', 'text/markdown'))
     // API routes should fall through to NextResponse.next(), not return markdown
     expect(res).toHaveProperty('headers')
@@ -181,7 +181,7 @@ describe('Link headers integration', () => {
   it('adds all Link relations to homepage', async () => {
     const middleware = await getMiddleware()
     const mockResponse = { headers: { set: vi.fn() } }
-    vi.mocked(NextResponse.next).mockReturnValue(mockResponse as any)
+    vi.mocked(NextResponse.next).mockReturnValue(mockResponse as unknown as NextResponse)
     middleware(makeRequest('/'))
 
     const linkValue = mockResponse.headers.set.mock.calls[0][1] as string

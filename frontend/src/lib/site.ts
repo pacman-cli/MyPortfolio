@@ -13,7 +13,7 @@ export const siteConfig = {
   description:
     "Official portfolio of Ashikur Rahman Puspo, a backend developer from Dhaka, Bangladesh. Explore projects, technical articles, resume, and verified social profiles including GitHub, LinkedIn, and YouTube @springCraftDev.",
   email: "puspopuspo520@gmail.com",
-  image: `${SITE_URL}/profile.jpg`,
+  image: `${SITE_URL}/profile.webp`,
   ogImage: `${SITE_URL}/og-image.png`,
   twitterHandle: "@iam_puspo",
   youtubeHandle: "@springCraftDev",

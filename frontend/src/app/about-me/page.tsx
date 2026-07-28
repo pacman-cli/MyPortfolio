@@ -71,7 +71,7 @@ export default function AboutPage() {
           <div className="space-y-8">
             <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border-2 border-border/30 shadow-lg glass">
               <Image
-                src="/profile.jpg"
+                src="/profile.webp"
                 alt="MD Ashikur Rahman Puspo - Backend Developer"
                 fill
                 className="object-cover"

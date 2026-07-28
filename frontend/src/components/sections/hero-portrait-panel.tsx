@@ -12,13 +12,13 @@ export const HeroPortraitPanel = ({ className = '' }: { className?: string }) =>
       <div className="absolute inset-y-0 right-0 w-full overflow-hidden rounded-[1.75rem] border border-emerald-400/10 bg-slate-950/30 shadow-[0_36px_120px_rgba(6,78,59,0.22)] lg:rounded-none lg:border-y-0 lg:border-r-0">
         <div className="absolute inset-0">
           <Image
-            src="/profile.jpg"
+            src="/profile.webp"
             alt="MD Ashikur Rahman Puspo - Backend Developer"
             fill
             priority
             className="scale-[1.02] object-cover object-[54%_50%] will-change-auto"
             sizes="(max-width: 768px) 92vw, (max-width: 1024px) 42vw, 45vw"
-            quality={92}
+            quality={90}
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
           />

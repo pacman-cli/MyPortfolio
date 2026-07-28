@@ -510,6 +510,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|profile.jpg|og-image.png|ads.txt|BingSiteAuth.xml|.*\\.(?:svg|jpg|jpeg|png|webp|avif|ico|woff|woff2|js|css)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|profile.webp|og-image.png|ads.txt|BingSiteAuth.xml|.*\\.(?:svg|jpg|jpeg|png|webp|avif|ico|woff|woff2|js|css)$).*)',
   ],
 }

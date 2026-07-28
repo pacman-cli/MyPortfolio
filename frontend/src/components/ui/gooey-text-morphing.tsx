@@ -106,7 +106,10 @@ export function GooeyText({
         isVisible = entry.isIntersecting
         if (isVisible) {
           time = 0
+          cancelAnimationFrame(animationFrameId)
           animationFrameId = requestAnimationFrame(animate)
+        } else {
+          cancelAnimationFrame(animationFrameId)
         }
       },
       { threshold: 0.1 }
@@ -115,8 +118,6 @@ export function GooeyText({
     if (containerRef.current) {
       observer.observe(containerRef.current)
     }
-
-    animationFrameId = requestAnimationFrame(animate)
 
     return () => {
       cancelAnimationFrame(animationFrameId)

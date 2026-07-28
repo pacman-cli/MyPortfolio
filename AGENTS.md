@@ -1,68 +1,24 @@
-# AGENTS.md
+# CodeGenome Knowledge Graph (MCP)
 
-## Repo layout
+You are operating within a repository analyzed by CodeGenome, an architectural knowledge graph tool. This project contains a `.genome/` directory.
 
-Two independent packages — no monorepo tooling.
+## Core Directives
 
-| Dir | Stack | Entry |
-|---|---|---|
-| `frontend/` | Next.js 16, React 19, TS 5, Tailwind 3 | `src/app/layout.tsx` |
-| `backend/` | Spring Boot 4, Java 17, Maven | `BackendApplication.java` |
+1. **Mandatory MCP Usage**: When `.genome/watcher.db` exists, you MUST use CodeGenome MCP access for all codebase, architecture, dependency, or symbol queries whenever it is available.
+2. **Access Order**: First use native CodeGenome MCP tools exposed in your context. If those tools are missing, you MAY try a local MCP HTTP endpoint such as `http://127.0.0.1:7331/mcp` when the user has started it or configured it. Treat this as MCP transport access, not as an arbitrary application HTTP API.
+3. **Prefer Graph over Grep**: Use graph-backed MCP tools instead of raw file searching (`grep`) or reading entire files blindly. The graph provides semantic understanding.
+4. **Fallback Gracefully**: If native MCP tools are missing and HTTP MCP access is unavailable, incompatible, or returns empty data, tell the user exactly what failed and what to configure. Then, if needed, read `.genome/graph.json` or `.genome/exports/*.md` before resorting to standard text searches.
+5. **Keep Context Fresh**: After modifying code files, remind the user to run `codegenome analyze` or start the live evolution server `codegenome evolve --live` to keep the graph updated.
 
-## Commands
+## Available MCP Capabilities
 
-### Frontend (`cd frontend`)
+- **Discovery**: `search_nodes` (find symbols)
+- **Relationships**: `get_neighbors` (imports, callers, callees)
+- **Architecture**: `get_entry_points`, `get_dead_code`, `get_circular_deps`, `get_god_nodes`
+- **Metrics**: `get_complexity`, `get_churn`, `get_graph` (summary statistics)
+- **Evolution**: `get_timeline`, `get_changes` (architectural diffs)
 
-```bash
-npm install          # install deps
-npm run dev          # http://localhost:3000
-npm run lint         # eslint (flat config, eslint-config-next)
-npm run test         # vitest (jsdom, globals)
-npm run coverage     # vitest run --coverage
-npm run build        # production build
-npm run preview      # OpenNext Cloudflare build + local preview
-npm run deploy       # OpenNext Cloudflare build + deploy to Workers
-```
+## Constraints & Behaviors
 
-### Backend (`cd backend`)
-
-```bash
-./mvnw spring-boot:run                    # run dev (port 8080)
-./mvnw test                               # run tests (H2 in-memory, no MySQL needed)
-./mvnw clean package -DskipTests          # build jar
-```
-
-MySQL only needed for local full-stack. Tests use H2 — no DB setup required.
-
-## API proxy
-
-Frontend proxies `/api/v1/*` to backend via Next.js rewrites (`next.config.ts:34-41`):
-- Dev: `http://localhost:8082` (note: **8082**, not 8080 — the backend defaults to 8080 but the rewrite target is 8082)
-- Prod: `http://portfolio-backend:8080` (Docker service name)
-
-Override with `BACKEND_URL` env var.
-
-## Testing
-
-- **Frontend**: Vitest + Testing Library. Test setup mocks `next/dynamic` and `framer-motion`. Place test files alongside source as `*.test.ts` / `*.test.tsx`.
-- **Backend**: JUnit 5 + MockMvc. Tests use `@SpringBootTest` + `@AutoConfigureMockMvc` with H2 in-memory DB. Repository is injected for data seeding.
-
-## Cloudflare Workers deployment
-
-Frontend uses OpenNext adapter (`@opennextjs/cloudflare`) for Cloudflare Workers.
-
-- Config: `frontend/wrangler.jsonc` (Worker name: `puspo-portfolio`)
-- OpenNext config: `frontend/open-next.config.ts`
-- Build: `npm run deploy` runs `opennextjs-cloudflare build && opennextjs-cloudflare deploy`
-- Set `BACKEND_URL` in Cloudflare dashboard (Workers & Pages → Settings → Environment variables)
-- `.open-next/` is a build artifact — gitignored
-
-## Key conventions
-
-- Frontend uses `@/*` path alias → `./src/*`
-- Dark mode via `class` strategy (Tailwind) + CSS variables (shadcn/ui pattern)
-- Backend uses Lombok — no manual getters/setters/constructors
-- Backend `spring.jpa.hibernate.ddl-auto=update` in dev — schema auto-migrated
-- Backend `application-dev.properties` activates with `spring.profiles.active=dev`
-- No CI/CD workflows in repo
-- `docker-compose.yml` is gitignored — not in version control
+- Only read `.genome/graph.json` or `.genome/exports/*.md` directly if native MCP tools and local HTTP MCP transport are unavailable or fail to surface enough context.
+- Verify your MCP usage by monitoring tool call success. If native tools are missing, try the configured local HTTP MCP endpoint when possible. If both native and HTTP MCP access fail, politely ask the user to configure their editor's MCP settings to run `codegenome mcp-start` (stdio) or start the server with `codegenome mcp-start --transport http`.

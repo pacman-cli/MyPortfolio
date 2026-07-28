@@ -6,9 +6,9 @@ import { motion } from 'framer-motion'
 import { SPRING_FADE_UP } from '@/lib/animations'
 import { ArrowUpRight, Folder, Github } from 'lucide-react'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, memo } from 'react'
 
-const ProjectRow = ({ project, index }: { project: Project; index: number }) => {
+const ProjectRow = memo(({ project, index }: { project: Project; index: number }) => {
   const direction = index % 2 === 0 ? -20 : 20
 
   return (
@@ -98,7 +98,9 @@ const ProjectRow = ({ project, index }: { project: Project; index: number }) => 
       </div>
     </motion.div>
   )
-}
+})
+ProjectRow.displayName = 'ProjectRow'
+
 
 // ============================================================================
 // MAIN COMPONENT

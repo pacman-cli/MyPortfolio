@@ -35,9 +35,9 @@ describe('Middleware', () => {
         },
       }
       
-      vi.mocked(NextResponse.next).mockReturnValue(mockResponse as any)
+      vi.mocked(NextResponse.next).mockReturnValue(mockResponse as unknown as NextResponse)
       
-      const response = middleware(mockRequest)
+      middleware(mockRequest)
       
       expect(mockResponse.headers.set).toHaveBeenCalledWith(
         'Link',
@@ -61,9 +61,9 @@ describe('Middleware', () => {
         },
       }
       
-      vi.mocked(NextResponse.next).mockReturnValue(mockResponse as any)
+      vi.mocked(NextResponse.next).mockReturnValue(mockResponse as unknown as NextResponse)
       
-      const response = middleware(mockRequest)
+      middleware(mockRequest)
       
       expect(mockResponse.headers.set).not.toHaveBeenCalled()
     })
@@ -102,7 +102,7 @@ describe('Middleware', () => {
         },
       }
       
-      vi.mocked(NextResponse.next).mockReturnValue(mockResponse as any)
+      vi.mocked(NextResponse.next).mockReturnValue(mockResponse as unknown as NextResponse)
       
       const response = middleware(mockRequest)
       

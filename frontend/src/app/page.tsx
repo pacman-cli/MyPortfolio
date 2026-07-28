@@ -1,6 +1,5 @@
 import { Footer } from '@/components/footer'
 import { Hero } from '@/components/sections/hero'
-import { ScrollProgress } from '@/components/ui/scroll-progress'
 import { getBlogSummaries } from '@/lib/api'
 import { getProjects } from '@/lib/projects'
 import dynamic from 'next/dynamic'
@@ -30,19 +29,34 @@ export default async function Home() {
 
   return (
     <main id="main-content" className="min-h-screen">
-      <ScrollProgress />
       <Hero />
       <Highlights />
-      <About />
-      <TechnicalExpertise />
-      <SelectedWork projects={projects} />
-      <Certifications />
-      <RecentBlogs blogs={blogs} />
-      <Suspense fallback={<SectionSkeleton />}>
-        <GithubActivity />
-      </Suspense>
-      <JourneyTimeline />
-      <ClosingSection />
+      <div className="cv-about">
+        <About />
+      </div>
+      <div className="cv-expertise">
+        <TechnicalExpertise />
+      </div>
+      <div className="cv-work">
+        <SelectedWork projects={projects} />
+      </div>
+      <div className="cv-certifications">
+        <Certifications />
+      </div>
+      <div className="cv-blogs">
+        <RecentBlogs blogs={blogs} />
+      </div>
+      <div className="cv-github">
+        <Suspense fallback={<SectionSkeleton />}>
+          <GithubActivity />
+        </Suspense>
+      </div>
+      <div className="cv-timeline">
+        <JourneyTimeline />
+      </div>
+      <div className="cv-closing">
+        <ClosingSection />
+      </div>
       <Footer />
     </main>
   )

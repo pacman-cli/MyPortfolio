@@ -1,45 +1,51 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 
 export function useActiveSection(sectionIds: string[], offset: number = 200) {
   const [activeSection, setActiveSection] = useState<string>('')
-  const activeSectionRef = useRef<string>('')
+  const serializedIds = sectionIds.join(',')
 
   useEffect(() => {
-    let ticking = false
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scrollPosition = window.scrollY + offset
+    const ids = serializedIds.split(',').filter(Boolean)
+    if (ids.length === 0) return
 
-          // Find the current active section
-          let current = ''
-          for (const id of sectionIds) {
-            const element = document.getElementById(id)
-            if (element) {
-              const top = element.offsetTop
-              const height = element.offsetHeight
-              if (scrollPosition >= top && scrollPosition < top + height) {
-                current = id
-              }
-            }
-          }
-
-          if (current !== activeSectionRef.current) {
-            activeSectionRef.current = current
-            setActiveSection(current)
-          }
-          ticking = false
-        })
-        ticking = true
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      const intersecting = entries.filter((entry) => entry.isIntersecting)
+      
+      if (intersecting.length === 0) {
+        // If no section is intersecting, check if we've scrolled back to the top
+        // (the first section is below the active offset)
+        const firstSection = document.getElementById(ids[0])
+        if (firstSection && firstSection.getBoundingClientRect().top > offset) {
+          setActiveSection('')
+        }
+        return
       }
+
+      // Find the one closest to the top of our tracking area
+      const closest = intersecting.reduce((prev, curr) => {
+        return Math.abs(curr.boundingClientRect.top) < Math.abs(prev.boundingClientRect.top) ? curr : prev
+      })
+
+      setActiveSection(closest.target.id)
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    // Initial check
-    handleScroll()
+    // Set up rootMargin to match the scroll offset
+    // Shifting top boundary by -offset px, and bottom by -60% to narrow down the active zone
+    const observer = new IntersectionObserver(handleIntersect, {
+      rootMargin: `-${offset}px 0px -60% 0px`,
+      threshold: [0, 0.1],
+    })
 
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [sectionIds, offset])
+    ids.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [serializedIds, offset])
 
   return activeSection
 }
+

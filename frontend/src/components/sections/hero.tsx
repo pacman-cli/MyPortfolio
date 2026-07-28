@@ -52,12 +52,12 @@ export const Hero = () => {
                     {/* Mobile Portrait — rendered before text on small screens */}
                     <div className="relative mx-auto h-[315px] w-full max-w-[430px] overflow-hidden rounded-[1.5rem] border border-emerald-400/15 bg-slate-950/40 shadow-2xl shadow-emerald-950/20 md:hidden">
                         <Image
-                            src="/profile.jpg"
+                            src="/profile.webp"
                             alt="MD Ashikur Rahman Puspo - Backend Developer"
                             fill
                             priority
                             className="object-cover object-[52%_45%]"
-                            sizes="92vw"
+                            sizes="(max-width: 768px) 92vw, (max-width: 1024px) 42vw, 45vw"
                             quality={90}
                             placeholder="blur"
                             blurDataURL={BLUR_DATA_URL}
@@ -203,6 +203,8 @@ const HeroMetric = React.memo(({ value, label }: { value: string; label: string 
         </div>
     </div>
 ))
+HeroMetric.displayName = 'HeroMetric'
+
 
 const TechChip = ({ icon, label, delay = 0 }: {
     icon: ReactNode

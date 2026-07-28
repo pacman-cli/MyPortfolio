@@ -140,10 +140,10 @@ export default function RootLayout({
       <head>
         <meta name="google-adsense-account" content="ca-pub-5094804024850501" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://pl30581252.effectivecpmnetwork.com" />
+        <link rel="dns-prefetch" href="https://pl30581253.effectivecpmnetwork.com" />
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {SAME_AS_LINKS.map((url) => (
           <link key={url} rel="me" href={url} />
         ))}
@@ -160,6 +160,16 @@ export default function RootLayout({
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5094804024850501"
           crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
+        {/* Ad Monetization: Popunder */}
+        <Script
+          src="https://pl30581252.effectivecpmnetwork.com/50/99/fe/5099feda8c8a88596b433fc62be99732.js"
+          strategy="afterInteractive"
+        />
+        {/* Ad Monetization: SocialBar */}
+        <Script
+          src="https://pl30581253.effectivecpmnetwork.com/cc/af/50/ccaf50bbf8e991a98dc6142e036ae00b.js"
           strategy="afterInteractive"
         />
         <a

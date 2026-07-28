@@ -10,7 +10,7 @@ export const HeroAvatar = () => {
       <div className="relative h-40 w-40 rounded-full border border-emerald-400/15 bg-card/80 p-2 shadow-2xl shadow-emerald-950/20 backdrop-blur-sm sm:h-56 sm:w-56 md:h-80 md:w-80">
         <div className="relative h-full w-full overflow-hidden rounded-full">
           <Image
-            src="/profile.jpg"
+            src="/profile.webp"
             alt="MD Ashikur Rahman Puspo"
             fill
             className="object-cover object-[52%_45%]"

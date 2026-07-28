@@ -233,4 +233,39 @@
   /* Chrome, Safari, Opera */
 }
 
+/* Content-visibility optimizations for below-the-fold sections to boost Speed Index and TBT */
+.cv-about {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+.cv-expertise {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+.cv-work {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+.cv-certifications {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+.cv-blogs {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+.cv-github {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+.cv-timeline {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
+}
+.cv-closing {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+
 
