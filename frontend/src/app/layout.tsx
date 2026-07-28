@@ -4,6 +4,7 @@ import { LazyCursorFollower } from "@/components/ui/cursor-follower-lazy"
 import { LightModeBackground } from "@/components/ui/light-mode-background"
 import { CookieConsent } from "@/components/ui/cookie-consent"
 import { WebMCPProvider } from "@/components/webmcp-provider"
+import { AdsterraSocialBar } from "@/components/ads"
 import { cn } from "@/lib/utils"
 import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
@@ -140,7 +141,6 @@ export default function RootLayout({
       <head>
         <meta name="google-adsense-account" content="ca-pub-5094804024850501" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
-        <link rel="dns-prefetch" href="https://pl30581252.effectivecpmnetwork.com" />
         <link rel="dns-prefetch" href="https://pl30581253.effectivecpmnetwork.com" />
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
@@ -162,16 +162,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />
-        {/* Ad Monetization: Popunder */}
-        <Script
-          src="https://pl30581252.effectivecpmnetwork.com/50/99/fe/5099feda8c8a88596b433fc62be99732.js"
-          strategy="afterInteractive"
-        />
-        {/* Ad Monetization: SocialBar */}
-        <Script
-          src="https://pl30581253.effectivecpmnetwork.com/cc/af/50/ccaf50bbf8e991a98dc6142e036ae00b.js"
-          strategy="afterInteractive"
-        />
+        <AdsterraSocialBar />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-emerald-500 focus:text-white focus:rounded-md focus:outline-none"
