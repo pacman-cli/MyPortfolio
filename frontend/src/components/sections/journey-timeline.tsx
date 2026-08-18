@@ -77,31 +77,49 @@ const milestones: Milestone[] = [
 // ANIMATION VARIANTS & EASING
 // ============================================================================
 
+const premiumEase = [0.16, 1, 0.3, 1] as const
 const smoothEase = [0.25, 0.1, 0.25, 1] as const
-const entryEase = [0.22, 1, 0.36, 1] as const
 
 const nodeVariants: Variants = {
   hidden: { scale: 0, opacity: 0 },
   visible: {
     scale: 1,
     opacity: 1,
-    transition: { type: 'spring', stiffness: 200, damping: 20 }
-  },
-  active: {
-    scale: 1.1,
-    transition: { type: 'spring', stiffness: 300, damping: 15 }
+    transition: { type: 'spring', stiffness: 260, damping: 20 }
   }
 }
 
-const contentVariants = {
+const contentVariants: Variants = {
   hidden: (direction: 'left' | 'right') => ({
     opacity: 0,
-    x: direction === 'left' ? -50 : 50,
+    y: 20,
+    x: direction === 'left' ? -20 : 20,
   }),
   visible: {
     opacity: 1,
+    y: 0,
     x: 0,
-    transition: { duration: 0.6, ease: entryEase }
+    transition: { duration: 0.7, ease: premiumEase as any }
+  }
+}
+
+const skillContainerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.04,
+      delayChildren: 0.1
+    }
+  }
+}
+
+const skillItemVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8, y: 5 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: 'spring' as const, stiffness: 300, damping: 15 }
   }
 }
 
@@ -140,60 +158,87 @@ const TimelineNode = ({ milestone, isActive, prefersReducedMotion }: TimelineNod
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.5 }}
-      whileHover={prefersReducedMotion ? undefined : { scale: 1.08 }}
-      whileFocus={prefersReducedMotion ? undefined : { scale: 1.08 }}
+      whileHover={prefersReducedMotion ? undefined : { scale: 1.1 }}
+      whileFocus={prefersReducedMotion ? undefined : { scale: 1.1 }}
       className={cn(
-        "group relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl",
-        "bg-card border-2 border-border/50 shadow-lg backdrop-blur-sm",
+        "group relative flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full",
+        "bg-background border-2 shadow-lg backdrop-blur-md",
         "transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-        isActive && "border-primary/50 shadow-xl"
+        isActive 
+          ? "border-primary shadow-xl scale-110" 
+          : "border-border hover:border-muted-foreground/30"
       )}
       aria-label={`${milestone.role} at ${milestone.organization}`}
       tabIndex={0}
     >
-      {/* Glow effect */}
+      {/* Background Glow */}
       {isActive && !prefersReducedMotion && (
         <motion.div
           className={cn(
-            "absolute inset-0 rounded-2xl opacity-40 blur-xl -z-10",
+            "absolute inset-0 rounded-full opacity-40 blur-xl -z-10",
             `bg-gradient-to-r ${getTypeColor()}`
           )}
           animate={{
-            opacity: [0.3, 0.5, 0.3],
-            scale: [1, 1.1, 1]
+            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.15, 1]
           }}
           transition={{
-            duration: 2,
+            duration: 2.5,
             repeat: Infinity,
-            ease: smoothEase
+            ease: "easeInOut"
           }}
         />
       )}
 
-      {/* Icon container */}
+      {/* Outer spinning ring for active state */}
+      {isActive && !prefersReducedMotion && (
+        <svg className="absolute inset-0 w-full h-full -m-0.5 pointer-events-none" viewBox="0 0 100 100">
+          <motion.circle
+            cx="50"
+            cy="50"
+            r="48"
+            fill="none"
+            stroke="url(#node-gradient)"
+            strokeWidth="2"
+            strokeDasharray="15 5"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          />
+          <defs>
+            <linearGradient id="node-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="hsl(var(--primary))" />
+              <stop offset="100%" stopColor="hsl(var(--accent))" />
+            </linearGradient>
+          </defs>
+        </svg>
+      )}
+
+      {/* Inner Icon container */}
       <div className={cn(
-        "p-3 rounded-xl transition-colors duration-300",
-        getTypeBgColor()
+        "p-3 rounded-full transition-all duration-300",
+        getTypeBgColor(),
+        isActive && "scale-105"
       )}>
         {milestone.icon}
       </div>
 
-      {/* Pulse ring on active */}
+      {/* Pulse rings */}
       {isActive && !prefersReducedMotion && (
         <motion.div
           className={cn(
-            "absolute inset-0 rounded-2xl border-2",
-            milestone.type === 'work' ? 'border-blue-500/50' :
-              milestone.type === 'education' ? 'border-purple-500/50' :
-                'border-emerald-500/50'
+            "absolute inset-0 rounded-full border-2",
+            milestone.type === 'work' ? 'border-blue-500/40' :
+              milestone.type === 'education' ? 'border-purple-500/40' :
+                'border-emerald-500/40'
           )}
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 0, 0.5]
+            scale: [1, 1.35, 1],
+            opacity: [0.4, 0, 0.4]
           }}
           transition={{
             duration: 2,
-            repeat: Infinity
+            repeat: Infinity,
+            ease: "easeOut"
           }}
         />
       )}
@@ -208,12 +253,15 @@ const TimelineNode = ({ milestone, isActive, prefersReducedMotion }: TimelineNod
 interface TimelineContentProps {
   milestone: Milestone
   direction: 'left' | 'right'
+  isActive?: boolean
   prefersReducedMotion: boolean | null
 }
 
-const TimelineContent = ({ milestone, direction, prefersReducedMotion }: TimelineContentProps) => {
+const TimelineContent = ({ milestone, direction, isActive: propIsActive, prefersReducedMotion }: TimelineContentProps) => {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const isInView = useInView(ref, { once: false, amount: 0.3 })
+
+  const isActive = propIsActive !== undefined ? propIsActive : isInView
 
   const getTypeBadgeColor = () => {
     switch (milestone.type) {
@@ -224,6 +272,16 @@ const TimelineContent = ({ milestone, direction, prefersReducedMotion }: Timelin
     }
   }
 
+  const getShadowColor = () => {
+    if (!isActive) return 'shadow-lg hover:shadow-xl hover:shadow-primary/5'
+    switch (milestone.type) {
+      case 'work': return 'shadow-[0_0_30px_rgba(59,130,246,0.12)]'
+      case 'education': return 'shadow-[0_0_30px_rgba(168,85,247,0.12)]'
+      case 'leadership': return 'shadow-[0_0_30px_rgba(16,185,129,0.12)]'
+      default: return 'shadow-[0_0_30px_rgba(59,130,246,0.12)]'
+    }
+  }
+
   return (
     <motion.div
       ref={ref}
@@ -231,15 +289,66 @@ const TimelineContent = ({ milestone, direction, prefersReducedMotion }: Timelin
       variants={prefersReducedMotion ? undefined : contentVariants}
       initial={prefersReducedMotion ? { opacity: 1 } : "hidden"}
       animate={isInView ? "visible" : "hidden"}
+      whileHover={prefersReducedMotion ? undefined : { y: -4, transition: { duration: 0.2, ease: "easeOut" } }}
       className={cn(
-        "relative p-5 md:p-6 rounded-2xl",
-        "bg-card/60 backdrop-blur-md border border-border/50",
-        "shadow-lg hover:shadow-xl transition-shadow duration-300"
+        "relative p-5 md:p-6 rounded-2xl border transition-all duration-500 overflow-hidden",
+        "bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-xl",
+        isActive ? "border-transparent scale-[1.01] md:scale-[1.02]" : "border-border/50",
+        getShadowColor()
       )}
     >
+      {/* Premium Active Gradient Border */}
+      {isActive && !prefersReducedMotion && (
+        <div
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          style={{
+            padding: '1px',
+            background: milestone.type === 'education'
+              ? 'linear-gradient(135deg, #c084fc, #f472b6, #c084fc)'
+              : milestone.type === 'leadership'
+                ? 'linear-gradient(135deg, #34d399, #2dd4bf, #34d399)'
+                : 'linear-gradient(135deg, #60a5fa, #22d3ee, #60a5fa)',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+          }}
+        />
+      )}
+
+      {/* Accent Strip inside card */}
+      <div className={cn(
+        "absolute top-0 bottom-0 w-[3px] transition-transform duration-500 origin-center",
+        direction === 'left' ? "right-0" : "left-0",
+        isActive ? "scale-y-100" : "scale-y-0",
+        milestone.type === 'education' ? 'bg-gradient-to-b from-purple-500 to-pink-500' :
+        milestone.type === 'leadership' ? 'bg-gradient-to-b from-emerald-500 to-teal-500' :
+        'bg-gradient-to-b from-blue-500 to-cyan-500'
+      )} />
+
+      {/* Horizontal Connector Line (Desktop Only) */}
+      {!prefersReducedMotion && (
+        <motion.div
+          className={cn(
+            "hidden lg:block absolute top-1/2 w-8 h-[2px] -translate-y-1/2 pointer-events-none",
+            direction === 'left' ? "right-[-2rem] origin-right" : "left-[-2rem] origin-left"
+          )}
+          style={{
+            background: milestone.type === 'education'
+              ? 'linear-gradient(to right, #a855f7, #ec4899)'
+              : milestone.type === 'leadership'
+                ? 'linear-gradient(to right, #10b981, #14b8a6)'
+                : 'linear-gradient(to right, #3b82f6, #06b6d4)',
+          }}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: isActive ? 1 : 0 }}
+          transition={{ duration: 0.4, ease: premiumEase }}
+        />
+      )}
+
       {/* Type badge */}
       <span className={cn(
-        "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border mb-3",
+        "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border mb-4",
+        "transition-colors duration-300",
         getTypeBadgeColor()
       )}>
         {milestone.type === 'work' && <Briefcase className="w-3 h-3" />}
@@ -249,41 +358,55 @@ const TimelineContent = ({ milestone, direction, prefersReducedMotion }: Timelin
       </span>
 
       {/* Header */}
-      <h3 className="text-lg md:text-xl font-bold text-foreground mb-1 leading-tight">
+      <h3 className={cn(
+        "text-lg md:text-xl font-bold mb-1 leading-tight transition-colors duration-300",
+        isActive ? "text-primary" : "text-foreground"
+      )}>
         {milestone.role}
       </h3>
-      <p className="text-sm font-medium text-muted-foreground mb-2">
+      <p className="text-sm font-semibold text-muted-foreground/80 mb-2">
         {milestone.organization}
       </p>
 
       {/* Period */}
-      <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+      <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-4">
         <Calendar className="w-3.5 h-3.5" />
         {milestone.period}
       </div>
 
       {/* Description */}
-      <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+      <p className="text-sm text-muted-foreground leading-relaxed mb-5">
         {milestone.description}
       </p>
 
       {/* Skills */}
-      <div className="flex flex-wrap gap-1.5">
+      <motion.div
+        variants={prefersReducedMotion ? undefined : skillContainerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className="flex flex-wrap gap-1.5"
+      >
         {milestone.skills.map((skill) => (
-          <span
+          <motion.span
             key={skill}
-            className="text-xs font-medium px-2 py-1 rounded-md bg-secondary text-secondary-foreground border border-border/50"
+            variants={prefersReducedMotion ? undefined : skillItemVariants}
+            className={cn(
+              "text-[10px] md:text-xs font-medium px-2 py-0.5 rounded-md border transition-all duration-300",
+              isActive
+                ? "bg-primary/10 text-primary border-primary/20 shadow-sm"
+                : "bg-secondary text-secondary-foreground border-border/50"
+            )}
           >
             {skill}
-          </span>
+          </motion.span>
         ))}
-      </div>
+      </motion.div>
     </motion.div>
   )
 }
 
 // ============================================================================
-// DESKTOP SVG PATH
+// DESKTOP SVG PATH & TIMELINE
 // ============================================================================
 
 interface DesktopTimelineProps {
@@ -305,7 +428,7 @@ const DesktopTimeline = ({ pathProgress, prefersReducedMotion }: DesktopTimeline
             setActiveIndex(index)
           }
         },
-        { threshold: 0.5, rootMargin: '-20% 0px -20% 0px' }
+        { threshold: 0.5, rootMargin: '-25% 0px -25% 0px' }
       )
       observer.observe(ref)
       return observer
@@ -316,41 +439,73 @@ const DesktopTimeline = ({ pathProgress, prefersReducedMotion }: DesktopTimeline
     }
   }, [])
 
+  // Floating progress dot calculation
+  const progressTop = useTransform(pathProgress, [0, 1], ["0%", "100%"])
+
   return (
     <div className="hidden lg:block relative" role="list" aria-label="Career journey timeline">
       {/* SVG Path Background */}
-      <svg
-        className="absolute left-1/2 top-0 h-full w-4 -translate-x-1/2"
-        viewBox="0 0 16 100"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        {/* Background path */}
-        <line
-          x1="8"
-          y1="0"
-          x2="8"
-          y2="100"
-          stroke="hsl(var(--border))"
-          strokeWidth="2"
-          strokeDasharray="4 4"
-          vectorEffect="non-scaling-stroke"
-        />
-        {/* Animated progress path */}
-        <motion.line
-          x1="8"
-          y1="0"
-          x2="8"
-          y2="100"
-          stroke="hsl(var(--primary))"
-          strokeWidth="3"
-          strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
-          style={{
-            pathLength: prefersReducedMotion ? 1 : pathProgress,
-          }}
-        />
-      </svg>
+      <div className="absolute left-1/2 top-0 bottom-0 w-4 -translate-x-1/2">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 16 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          {/* Background path */}
+          <line
+            x1="8"
+            y1="0"
+            x2="8"
+            y2="100"
+            stroke="hsl(var(--border))"
+            strokeWidth="2"
+            strokeDasharray="6 6"
+            vectorEffect="non-scaling-stroke"
+          />
+          {/* Animated progress path */}
+          <motion.line
+            x1="8"
+            y1="0"
+            x2="8"
+            y2="100"
+            stroke="url(#line-gradient)"
+            strokeWidth="3"
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            style={{
+              pathLength: prefersReducedMotion ? 1 : pathProgress,
+            }}
+          />
+          <defs>
+            <linearGradient id="line-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#3b82f6" />
+              <stop offset="50%" stopColor="#a855f7" />
+              <stop offset="100%" stopColor="#10b981" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Floating Glowing Progress Orb */}
+        {!prefersReducedMotion && (
+          <motion.div
+            className="absolute left-1/2 w-4 h-4 rounded-full -translate-x-1/2 -translate-y-1/2 z-10"
+            style={{
+              top: progressTop,
+              background: "linear-gradient(to right, #3b82f6, #a855f7, #10b981)",
+              boxShadow: "0 0 15px 4px rgba(168, 85, 247, 0.45)"
+            }}
+            animate={{
+              scale: [1, 1.25, 1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        )}
+      </div>
 
       {/* Milestones */}
       <div className="space-y-24">
@@ -371,6 +526,7 @@ const DesktopTimeline = ({ pathProgress, prefersReducedMotion }: DesktopTimeline
                   <TimelineContent
                     milestone={milestone}
                     direction="left"
+                    isActive={isActive}
                     prefersReducedMotion={prefersReducedMotion}
                   />
                 )}
@@ -389,6 +545,7 @@ const DesktopTimeline = ({ pathProgress, prefersReducedMotion }: DesktopTimeline
                   <TimelineContent
                     milestone={milestone}
                     direction="right"
+                    isActive={isActive}
                     prefersReducedMotion={prefersReducedMotion}
                   />
                 )}
@@ -411,21 +568,38 @@ interface MobileTimelineProps {
 }
 
 const MobileTimeline = ({ pathProgress, prefersReducedMotion }: MobileTimelineProps) => {
+  const progressTop = useTransform(pathProgress, [0, 1], ["0%", "100%"])
+
   return (
     <div className="lg:hidden relative" role="list" aria-label="Career journey timeline">
-      {/* Vertical line */}
-      <div className="absolute left-7 top-0 bottom-0 w-0.5 bg-border" aria-hidden="true">
+      {/* Vertical line container */}
+      <div className="absolute left-7 top-0 bottom-0 w-1" aria-hidden="true">
+        {/* Background path */}
+        <div className="absolute inset-0 bg-border/40 w-0.5 left-0.5 rounded-full border-dashed border-l border-border" />
+        {/* Progress path */}
         <motion.div
-          className="absolute top-0 left-0 w-full bg-primary rounded-full origin-top"
+          className="absolute top-0 left-0.5 w-0.5 rounded-full origin-top"
           style={{
             height: '100%',
             scaleY: prefersReducedMotion ? 1 : pathProgress,
+            background: "linear-gradient(to bottom, #3b82f6, #a855f7, #10b981)"
           }}
         />
+        {/* Floating dot for mobile */}
+        {!prefersReducedMotion && (
+          <motion.div
+            className="absolute left-0.5 w-3 h-3 rounded-full -translate-x-1/3 -translate-y-1/2 z-10"
+            style={{
+              top: progressTop,
+              background: "linear-gradient(to bottom, #3b82f6, #a855f7, #10b981)",
+              boxShadow: "0 0 10px 2px rgba(168, 85, 247, 0.4)"
+            }}
+          />
+        )}
       </div>
 
       {/* Milestones */}
-      <div className="space-y-8">
+      <div className="space-y-10">
         {milestones.map((milestone) => (
           <div
             key={milestone.id}
@@ -436,13 +610,13 @@ const MobileTimeline = ({ pathProgress, prefersReducedMotion }: MobileTimelinePr
             <div className="relative z-10 shrink-0">
               <TimelineNode
                 milestone={milestone}
-                isActive={false}
+                isActive={false} // Will fall back to local inView check inside TimelineContent
                 prefersReducedMotion={prefersReducedMotion}
               />
             </div>
 
             {/* Content */}
-            <div className="flex-1 pt-2">
+            <div className="flex-1 pt-1">
               <TimelineContent
                 milestone={milestone}
                 direction="right"
@@ -464,25 +638,26 @@ export const JourneyTimeline = () => {
   const containerRef = useRef<HTMLElement>(null)
   const prefersReducedMotion = useReducedMotion()
 
-  // Use the container to track scroll. Progress 0 to 1 as we scroll through it.
+  // Scroll tracking setup
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"]
   })
 
-  const pathProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
+  const pathProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 25 })
 
   return (
     <section
       id="experience"
       ref={containerRef}
-      className="py-20 md:py-28 bg-background/50 relative overflow-hidden"
+      className="py-24 md:py-32 bg-background/50 relative overflow-hidden"
       aria-labelledby="journey-heading"
     >
-      {/* Background accents */}
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+      {/* Premium ambient light backgrounds */}
+      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/4 -left-40 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-40 w-[400px] h-[400px] bg-emerald-500/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[150px]" />
       </div>
 
       <div className="container mx-auto px-6">
@@ -490,20 +665,20 @@ export const JourneyTimeline = () => {
         <motion.div
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: smoothEase }}
-          className="text-center mb-16 md:mb-20"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: premiumEase }}
+          className="text-center mb-20 md:mb-24"
         >
-          <h2 id="journey-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          <h2 id="journey-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
             My Journey
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 via-purple-500 to-emerald-500 mx-auto rounded-full" />
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
-            A path of continuous learning, leadership, and building impactful solutions.
+          <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 mx-auto rounded-full shadow-sm" />
+          <p className="mt-6 text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+            A path of continuous learning, leadership, and building impactful engineering solutions.
           </p>
         </motion.div>
 
-        {/* Desktop Timeline */}
+        {/* Timeline Grid */}
         <div className="max-w-5xl mx-auto">
           <DesktopTimeline
             pathProgress={pathProgress}
