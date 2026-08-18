@@ -486,25 +486,7 @@ const DesktopTimeline = ({ pathProgress, prefersReducedMotion }: DesktopTimeline
           </defs>
         </svg>
 
-        {/* Floating Glowing Progress Orb */}
-        {!prefersReducedMotion && (
-          <motion.div
-            className="absolute left-1/2 w-4 h-4 rounded-full -translate-x-1/2 -translate-y-1/2 z-10"
-            style={{
-              top: progressTop,
-              background: "linear-gradient(to right, #3b82f6, #a855f7, #10b981)",
-              boxShadow: "0 0 15px 4px rgba(168, 85, 247, 0.45)"
-            }}
-            animate={{
-              scale: [1, 1.25, 1],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        )}
+
       </div>
 
       {/* Milestones */}
@@ -585,17 +567,7 @@ const MobileTimeline = ({ pathProgress, prefersReducedMotion }: MobileTimelinePr
             background: "linear-gradient(to bottom, #3b82f6, #a855f7, #10b981)"
           }}
         />
-        {/* Floating dot for mobile */}
-        {!prefersReducedMotion && (
-          <motion.div
-            className="absolute left-0.5 w-3 h-3 rounded-full -translate-x-1/3 -translate-y-1/2 z-10"
-            style={{
-              top: progressTop,
-              background: "linear-gradient(to bottom, #3b82f6, #a855f7, #10b981)",
-              boxShadow: "0 0 10px 2px rgba(168, 85, 247, 0.4)"
-            }}
-          />
-        )}
+
       </div>
 
       {/* Milestones */}
