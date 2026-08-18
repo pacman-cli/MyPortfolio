@@ -4,7 +4,6 @@ import { LazyCursorFollower } from "@/components/ui/cursor-follower-lazy"
 import { LightModeBackground } from "@/components/ui/light-mode-background"
 import { CookieConsent } from "@/components/ui/cookie-consent"
 import { WebMCPProvider } from "@/components/webmcp-provider"
-import { AdsterraSocialBar } from "@/components/ads"
 import { cn } from "@/lib/utils"
 import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
@@ -139,9 +138,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <meta name="google-adsense-account" content="ca-pub-5094804024850501" />
-        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
-        <link rel="dns-prefetch" href="https://pl30581253.effectivecpmnetwork.com" />
+
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
         {SAME_AS_LINKS.map((url) => (
@@ -156,13 +153,7 @@ export default function RootLayout({
         ))}
       </head>
       <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-primary/20")} suppressHydrationWarning>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5094804024850501"
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
-        <AdsterraSocialBar />
+
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-emerald-500 focus:text-white focus:rounded-md focus:outline-none"
