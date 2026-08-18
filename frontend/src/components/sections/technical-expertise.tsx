@@ -1,8 +1,8 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { motion, useInView, Variants } from "framer-motion"
-import React, { useRef } from "react"
+import { motion, AnimatePresence, Variants } from "framer-motion"
+import React, { useState } from "react"
 import { SKILL_CATEGORIES, SkillCategory, SkillItem } from "@/lib/data/skills"
 
 // ============================================================================
@@ -17,24 +17,6 @@ const chipVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: { type: "spring", stiffness: 300, damping: 25 }
-  }
-}
-
-const nodeVariants: Variants = {
-  hidden: { scale: 0.9, opacity: 0 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: { duration: 0.4, ease: smoothEase }
-  }
-}
-
-const textContainerVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: smoothEase }
   }
 }
 
@@ -68,7 +50,7 @@ const SkillChip = ({ skill }: { skill: SkillItem }) => {
     >
       {/* Icon */}
       <span className={cn(
-        "text-base opacity-80 group-hover:opacity-100 transition-opacity duration-200",
+        "text-base opacity-85 group-hover:opacity-100 transition-opacity duration-200",
         isLightText && "dark:brightness-125 brightness-75"
       )}>
         {skill.icon}
@@ -83,74 +65,14 @@ const SkillChip = ({ skill }: { skill: SkillItem }) => {
 }
 
 // ============================================================================
-// CATEGORY NODE COMPONENT
-// ============================================================================
-
-const CategoryNode = ({ category }: { category: SkillCategory }) => {
-  const containerRef = useRef(null)
-  const isInView = useInView(containerRef, { once: true, amount: 0.2 })
-
-  return (
-    <div ref={containerRef} className="relative pl-12 md:pl-20 py-6 md:py-8 group/category">
-      
-      {/* Timeline Circle Badge */}
-      <motion.div
-        variants={nodeVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        className={cn(
-          "absolute left-[9px] md:left-[19px] top-8 md:top-10 -translate-x-1/2 z-10",
-          "w-8 h-8 md:w-10 md:h-10 rounded-full",
-          "flex items-center justify-center border bg-background border-border/60"
-        )}
-      >
-        <div className="w-full h-full rounded-full flex items-center justify-center bg-secondary/10 dark:bg-secondary/5">
-          {React.cloneElement(category.icon as React.ReactElement<{ className?: string }>, {
-            className: cn("w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover/category:scale-105", category.color)
-          })}
-        </div>
-      </motion.div>
-
-      {/* Category Content */}
-      <motion.div
-        variants={textContainerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        {/* Header */}
-        <div className="flex flex-col gap-0.5 mb-4">
-          <h3 className="text-lg md:text-xl font-semibold tracking-tight text-foreground/90 group-hover/category:text-foreground transition-colors">
-            {category.title}
-          </h3>
-          <p className="text-xs md:text-sm text-muted-foreground">
-            {category.subtitle}
-          </p>
-        </div>
-
-        {/* Skill Chips Grid */}
-        <motion.div 
-          variants={chipsContainerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="flex flex-wrap gap-2"
-        >
-          {category.skills.map((skill) => (
-            <SkillChip 
-              key={skill.name} 
-              skill={skill} 
-            />
-          ))}
-        </motion.div>
-      </motion.div>
-    </div>
-  )
-}
-
-// ============================================================================
 // MAIN SECTION COMPONENT
 // ============================================================================
 
 export const TechnicalExpertise = () => {
+  const [activeTab, setActiveTab] = useState(SKILL_CATEGORIES[0].id)
+
+  const activeCategory = SKILL_CATEGORIES.find((cat) => cat.id === activeTab) || SKILL_CATEGORIES[0]
+
   return (
     <section
       id="technical-expertise"
@@ -162,7 +84,7 @@ export const TechnicalExpertise = () => {
       <div className="container mx-auto px-6 max-w-4xl">
         
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="text-center max-w-2xl mx-auto mb-12">
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -184,23 +106,61 @@ export const TechnicalExpertise = () => {
           </motion.p>
         </div>
 
-        {/* Timeline Content */}
-        <div className="relative">
-          
-          {/* Static Timeline Line */}
-          <div className="absolute left-[9px] md:left-[19px] top-0 bottom-0 w-[1px] bg-border/40 dark:bg-border/20 rounded-full" />
-
-          {/* Categories */}
-          <div className="space-y-2 pb-6">
-            {SKILL_CATEGORIES.map((category) => (
-              <CategoryNode
+        {/* Dynamic Category Navigation Tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10 border-b border-border/40 pb-6 max-w-2xl mx-auto">
+          {SKILL_CATEGORIES.map((category) => {
+            const isActive = activeTab === category.id
+            return (
+              <button
                 key={category.id}
-                category={category}
-              />
-            ))}
-          </div>
-
+                onClick={() => setActiveTab(category.id)}
+                className={cn(
+                  "relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 focus:outline-none",
+                  isActive ? "text-primary-foreground dark:text-foreground" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <span className="relative z-10">{category.title}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="active-skill-tab"
+                    className="absolute inset-0 bg-secondary rounded-lg z-0"
+                    transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                  />
+                )}
+              </button>
+            )
+          })}
         </div>
+
+        {/* Dynamic Skills Display Panel */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: smoothEase }}
+            className="bg-card/25 border border-border/40 rounded-2xl p-6 md:p-8 backdrop-blur-md"
+          >
+            <div className="flex flex-col gap-1 mb-6">
+              <h3 className="text-xl font-semibold tracking-tight text-foreground/95">
+                {activeCategory.subtitle}
+              </h3>
+            </div>
+
+            <motion.div
+              variants={chipsContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-wrap gap-2.5"
+            >
+              {activeCategory.skills.map((skill) => (
+                <SkillChip key={skill.name} skill={skill} />
+              ))}
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
+
       </div>
     </section>
   )
