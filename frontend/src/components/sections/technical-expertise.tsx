@@ -1,116 +1,203 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useInView, useScroll, useSpring, useTransform, Variants } from "framer-motion"
 import React, { useRef } from "react"
 import { SKILL_CATEGORIES, SkillCategory, SkillItem } from "@/lib/data/skills"
 
-const SkillChip = ({ skill, index }: { skill: SkillItem; index: number }) => {
+// ============================================================================
+// ANIMATION CONFIGURATION
+// ============================================================================
+
+const snappySpring = { type: "spring", stiffness: 380, damping: 28 } as const
+const smoothEase = [0.16, 1, 0.3, 1] as const
+
+const chipVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.9, y: 8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: snappySpring
+  }
+}
+
+const nodeVariants: Variants = {
+  hidden: { scale: 0.8, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 200, damping: 20 }
+  }
+}
+
+const textContainerVariants: Variants = {
+  hidden: { opacity: 0, x: 15 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: smoothEase }
+  }
+}
+
+const chipsContainerVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.03,
+      delayChildren: 0.1
+    }
+  }
+}
+
+// ============================================================================
+// SKILL CHIP COMPONENT
+// ============================================================================
+
+const SkillChip = ({ skill, categoryColor }: { skill: SkillItem; categoryColor: string }) => {
+  const isLightText = skill.name === "Next.js" || skill.name === "Vercel" || skill.name === "Notion"
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: 10 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.4,
-        delay: index * 0.05,
-        ease: "backOut"
-      }}
+      variants={chipVariants}
       whileHover={{
-        scale: 1.05,
-        y: -4,
-        boxShadow: "0 10px 20px -10px rgba(0,0,0,0.1)"
+        y: -3,
+        scale: 1.02,
+        transition: { duration: 0.2, ease: "easeOut" }
       }}
       className={cn(
-        "group relative flex items-center gap-2 px-2.5 py-1.5",
-        "bg-secondary/40 hover:bg-secondary/60",
-        "border border-border/50 hover:border-primary/30",
+        "group relative flex items-center gap-2.5 px-3 py-1.5",
+        "bg-secondary/20 dark:bg-secondary/10 hover:bg-secondary/40",
+        "border border-border/40 hover:border-border/80",
         "rounded-xl transition-all duration-300 cursor-default",
-        "backdrop-blur-sm"
+        "backdrop-blur-[2px]"
       )}
     >
-      <span className={cn(
-        "text-xl filter grayscale group-hover:grayscale-0 transition-all duration-300",
-        "opacity-80 group-hover:opacity-100 group-hover:-translate-y-1 transform transition-transform"
-      )}>
+      {/* Dynamic Hover Glow based on Category Color */}
+      <div 
+        className={cn(
+          "absolute inset-0 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none",
+          categoryColor.replace('text-', 'bg-')
+        )}
+      />
+
+      {/* Icon with micro-rotation on hover */}
+      <motion.span 
+        whileHover={{ rotate: [0, -8, 8, 0] }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className={cn(
+          "text-lg opacity-85 group-hover:opacity-100 transition-opacity duration-300",
+          isLightText && "dark:brightness-125 brightness-75"
+        )}
+      >
         {skill.icon}
-      </span>
-      <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+      </motion.span>
+
+      {/* Skill Name */}
+      <span className="text-xs md:text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-200">
         {skill.name}
       </span>
-
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     </motion.div>
   )
 }
 
+// ============================================================================
+// CATEGORY NODE COMPONENT
+// ============================================================================
+
 const CategoryNode = ({ category }: { category: SkillCategory }) => {
+  const containerRef = useRef(null)
+  const isInView = useInView(containerRef, { once: true, amount: 0.25 })
+
+  // Extract Tailwind color base (e.g. text-blue-500 -> blue-500)
+  const colorBase = category.color.replace('text-', '')
+
   return (
-    <div className="relative pl-14 md:pl-24 py-1 md:py-2">
+    <div ref={containerRef} className="relative pl-14 md:pl-24 py-4 md:py-6 group/category">
+      
+      {/* Glowing Category Orb */}
       <motion.div
-        initial={{ scale: 1, borderColor: "hsl(var(--border) / 0.5)", filter: "grayscale(1)" }}
-        whileInView={{ scale: 1.1, borderColor: "var(--category-border)", filter: "grayscale(0)" }}
-        viewport={{ once: true, margin: "-20%" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        style={
-          {
-            "--category-border": category.borderColor,
-            boxShadow: "0 0 30px -5px rgba(var(--primary),0.3)",
-          } as React.CSSProperties
-        }
+        variants={nodeVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
         className={cn(
-          "absolute left-[9px] md:left-[29px] top-8 md:top-10 -translate-x-1/2 z-10",
-          "w-10 h-10 md:w-14 md:h-14 rounded-full",
-          "flex items-center justify-center",
-          "border-4 bg-background shadow-[0_0_30px_-5px_rgba(var(--primary),0.3)]"
+          "absolute left-[9px] md:left-[29px] top-6 md:top-8 -translate-x-1/2 z-10",
+          "w-9 h-9 md:w-12 md:h-12 rounded-full",
+          "flex items-center justify-center border bg-background shadow-sm",
+          "transition-colors duration-500",
+          isInView ? category.borderColor : "border-border/60"
         )}
+        style={{
+          boxShadow: isInView ? `0 0 20px rgba(var(--primary-rgb), 0.05)` : undefined
+        }}
       >
-        <motion.div
-          initial={{ color: "hsl(var(--muted-foreground))" }}
-          whileInView={{ color: category.color }}
-          viewport={{ once: true, margin: "-20%" }}
-          transition={{ duration: 0.3 }}
-          className={cn(
-            "w-full h-full rounded-full flex items-center justify-center",
-            "bg-secondary/50 backdrop-blur-md"
-          )}
-        >
+        {/* Soft Ambient aura around category circle */}
+        {isInView && (
+          <div 
+            className={cn(
+              "absolute inset-0 rounded-full blur-md opacity-15 -z-10 animate-pulse",
+              `bg-${colorBase}`
+            )} 
+            style={{ backgroundColor: `currentColor`, color: `var(--category-color)` }}
+          />
+        )}
+
+        <div className="w-full h-full rounded-full flex items-center justify-center bg-card/50 backdrop-blur-md">
           {React.cloneElement(category.icon as React.ReactElement<{ className?: string }>, {
-            className: "w-4 h-4 md:w-6 md:h-6"
+            className: cn("w-4 h-4 md:w-5 md:h-5 transition-transform duration-500 group-hover/category:scale-110", category.color)
           })}
-        </motion.div>
+        </div>
       </motion.div>
 
+      {/* Horizontal connector link */}
+      <div 
+        className={cn(
+          "absolute left-[9px] md:left-[29px] top-10 md:top-14 h-[1px] -z-10",
+          "bg-gradient-to-r from-border/80 to-transparent",
+          "w-6 md:w-12 transition-all duration-700",
+          isInView ? "opacity-100" : "opacity-0"
+        )}
+      />
+
+      {/* Category Content */}
       <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-10%" }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        variants={textContainerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
       >
-        <div className="flex flex-col gap-2 mb-2">
-          <motion.h3
-            initial={{ color: "hsl(var(--muted-foreground))" }}
-            whileInView={{ color: "hsl(var(--foreground))" }}
-            viewport={{ once: true, margin: "-20%" }}
-            transition={{ duration: 0.4 }}
-            className="text-2xl md:text-3xl font-bold tracking-tight"
-          >
+        {/* Header */}
+        <div className="flex flex-col gap-1 mb-4">
+          <h3 className="text-xl md:text-2xl font-bold tracking-tight text-foreground/90 group-hover/category:text-foreground transition-colors">
             {category.title}
-          </motion.h3>
-          <p className="text-sm md:text-base text-muted-foreground font-medium">
+          </h3>
+          <p className="text-xs md:text-sm text-muted-foreground font-medium">
             {category.subtitle}
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-1.5">
-          {category.skills.map((skill, skIndex) => (
-            <SkillChip key={skill.name} skill={skill} index={skIndex} />
+        {/* Skill Chips Grid */}
+        <motion.div 
+          variants={chipsContainerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="flex flex-wrap gap-2"
+        >
+          {category.skills.map((skill) => (
+            <SkillChip 
+              key={skill.name} 
+              skill={skill} 
+              categoryColor={category.color} 
+            />
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   )
 }
+
+// ============================================================================
+// MAIN SECTION COMPONENT
+// ============================================================================
 
 export const TechnicalExpertise = () => {
   const containerRef = useRef<HTMLElement>(null)
@@ -120,54 +207,65 @@ export const TechnicalExpertise = () => {
     offset: ["start end", "end start"]
   })
 
-  const pathScale = useTransform(scrollYProgress, [0, 0.8], [0, 1])
+  // Spring-smoothed scroll scale for timeline line
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 25 })
+  const pathScale = useTransform(smoothProgress, [0, 0.85], [0, 1])
 
   return (
     <section
       ref={containerRef}
       id="technical-expertise"
-      className="py-16 md:py-20 bg-background/50 relative overflow-hidden"
+      className="py-20 md:py-28 bg-background/50 relative overflow-hidden"
     >
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.05),transparent_40%)]" />
+      {/* Background radial accent grid */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.03),transparent_50%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_right,rgba(16,185,129,0.02),transparent_50%)]" />
 
-      <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-
-        <div className="text-center max-w-3xl mx-auto mb-6 md:mb-10">
+      <div className="container mx-auto px-6 max-w-4xl">
+        
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-2xl md:text-4xl font-bold mb-4 tracking-tight"
+            transition={{ duration: 0.6, ease: smoothEase }}
+            className="text-3xl md:text-4xl font-bold mb-4 tracking-tight"
           >
             Technical Expertise
           </motion.h2>
           <motion.div
             initial={{ width: 0 }}
-            whileInView={{ width: 100 }}
+            whileInView={{ width: 80 }}
             viewport={{ once: true }}
-            className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 mx-auto rounded-full mb-4"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 mx-auto rounded-full mb-6"
           />
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-muted-foreground text-sm md:text-base"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-muted-foreground text-sm md:text-base leading-relaxed"
           >
             My engineering toolkit, architecture patterns, and specialized capabilities.
           </motion.p>
         </div>
 
+        {/* Timeline Content */}
         <div className="relative">
+          
+          {/* Base Background Track Line */}
+          <div className="absolute left-[9px] md:left-[29px] top-0 bottom-0 w-0.5 bg-border/20 dark:bg-border/10 rounded-full" />
 
-          <div className="absolute left-[9px] md:left-[29px] top-0 bottom-0 w-1 bg-secondary/30 rounded-full" />
-
+          {/* Active Colored Progress Line */}
           <motion.div
             style={{ scaleY: pathScale, transformOrigin: "top" }}
-            className="absolute left-[9px] md:left-[29px] top-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-emerald-500 rounded-full z-0 will-change-transform"
+            className="absolute left-[9px] md:left-[29px] top-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-emerald-500 rounded-full z-0 will-change-transform"
           />
 
-          <div className="space-y-2 md:space-y-4 pb-8">
+          {/* Categories */}
+          <div className="space-y-4 pb-8">
             {SKILL_CATEGORIES.map((category) => (
               <CategoryNode
                 key={category.id}
