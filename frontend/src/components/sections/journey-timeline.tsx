@@ -78,7 +78,6 @@ const milestones: Milestone[] = [
 // ============================================================================
 
 const premiumEase = [0.16, 1, 0.3, 1] as const
-const smoothEase = [0.25, 0.1, 0.25, 1] as const
 
 const nodeVariants: Variants = {
   hidden: { scale: 0, opacity: 0 },
@@ -99,7 +98,7 @@ const contentVariants: Variants = {
     opacity: 1,
     y: 0,
     x: 0,
-    transition: { duration: 0.7, ease: premiumEase as any }
+    transition: { duration: 0.7, ease: premiumEase as [number, number, number, number] }
   }
 }
 
@@ -439,9 +438,6 @@ const DesktopTimeline = ({ pathProgress, prefersReducedMotion }: DesktopTimeline
     }
   }, [])
 
-  // Floating progress dot calculation
-  const progressTop = useTransform(pathProgress, [0, 1], ["0%", "100%"])
-
   return (
     <div className="hidden lg:block relative" role="list" aria-label="Career journey timeline">
       {/* SVG Path Background */}
@@ -550,8 +546,6 @@ interface MobileTimelineProps {
 }
 
 const MobileTimeline = ({ pathProgress, prefersReducedMotion }: MobileTimelineProps) => {
-  const progressTop = useTransform(pathProgress, [0, 1], ["0%", "100%"])
-
   return (
     <div className="lg:hidden relative" role="list" aria-label="Career journey timeline">
       {/* Vertical line container */}

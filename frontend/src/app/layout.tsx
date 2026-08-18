@@ -7,7 +7,6 @@ import { WebMCPProvider } from "@/components/webmcp-provider"
 import { cn } from "@/lib/utils"
 import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
-import Script from "next/script"
 import { SAME_AS_LINKS, SITE_NAVIGATION, siteConfig } from "@/lib/site"
 import "./globals.css"
 
