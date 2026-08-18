@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { motion, useInView, useScroll, useSpring, useTransform, Variants } from "framer-motion"
+import { motion, useInView, Variants } from "framer-motion"
 import React, { useRef } from "react"
 import { SKILL_CATEGORIES, SkillCategory, SkillItem } from "@/lib/data/skills"
 
@@ -9,34 +9,32 @@ import { SKILL_CATEGORIES, SkillCategory, SkillItem } from "@/lib/data/skills"
 // ANIMATION CONFIGURATION
 // ============================================================================
 
-const snappySpring = { type: "spring", stiffness: 380, damping: 28 } as const
 const smoothEase = [0.16, 1, 0.3, 1] as const
 
 const chipVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.9, y: 8 },
+  hidden: { opacity: 0, y: 6 },
   visible: {
     opacity: 1,
-    scale: 1,
     y: 0,
-    transition: snappySpring
+    transition: { type: "spring", stiffness: 300, damping: 25 }
   }
 }
 
 const nodeVariants: Variants = {
-  hidden: { scale: 0.8, opacity: 0 },
+  hidden: { scale: 0.9, opacity: 0 },
   visible: {
     scale: 1,
     opacity: 1,
-    transition: { type: "spring", stiffness: 200, damping: 20 }
+    transition: { duration: 0.4, ease: smoothEase }
   }
 }
 
 const textContainerVariants: Variants = {
-  hidden: { opacity: 0, x: 15 },
+  hidden: { opacity: 0, y: 10 },
   visible: {
     opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: smoothEase }
+    y: 0,
+    transition: { duration: 0.5, ease: smoothEase }
   }
 }
 
@@ -44,8 +42,7 @@ const chipsContainerVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.03,
-      delayChildren: 0.1
+      staggerChildren: 0.02
     }
   }
 }
@@ -54,44 +51,28 @@ const chipsContainerVariants: Variants = {
 // SKILL CHIP COMPONENT
 // ============================================================================
 
-const SkillChip = ({ skill, categoryColor }: { skill: SkillItem; categoryColor: string }) => {
+const SkillChip = ({ skill }: { skill: SkillItem }) => {
   const isLightText = skill.name === "Next.js" || skill.name === "Vercel" || skill.name === "Notion"
 
   return (
     <motion.div
       variants={chipVariants}
-      whileHover={{
-        y: -3,
-        scale: 1.02,
-        transition: { duration: 0.2, ease: "easeOut" }
-      }}
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.2 }}
       className={cn(
-        "group relative flex items-center gap-2.5 px-3 py-1.5",
-        "bg-secondary/20 dark:bg-secondary/10 hover:bg-secondary/40",
+        "group flex items-center gap-2 px-3 py-1.5",
+        "bg-secondary/10 hover:bg-secondary/20 dark:bg-secondary/5 dark:hover:bg-secondary/15",
         "border border-border/40 hover:border-border/80",
-        "rounded-xl transition-all duration-300 cursor-default",
-        "backdrop-blur-[2px]"
+        "rounded-lg transition-all duration-200 cursor-default"
       )}
     >
-      {/* Dynamic Hover Glow based on Category Color */}
-      <div 
-        className={cn(
-          "absolute inset-0 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none",
-          categoryColor.replace('text-', 'bg-')
-        )}
-      />
-
-      {/* Icon with micro-rotation on hover */}
-      <motion.span 
-        whileHover={{ rotate: [0, -8, 8, 0] }}
-        transition={{ duration: 0.35, ease: "easeInOut" }}
-        className={cn(
-          "text-lg opacity-85 group-hover:opacity-100 transition-opacity duration-300",
-          isLightText && "dark:brightness-125 brightness-75"
-        )}
-      >
+      {/* Icon */}
+      <span className={cn(
+        "text-base opacity-80 group-hover:opacity-100 transition-opacity duration-200",
+        isLightText && "dark:brightness-125 brightness-75"
+      )}>
         {skill.icon}
-      </motion.span>
+      </span>
 
       {/* Skill Name */}
       <span className="text-xs md:text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors duration-200">
@@ -107,57 +88,28 @@ const SkillChip = ({ skill, categoryColor }: { skill: SkillItem; categoryColor: 
 
 const CategoryNode = ({ category }: { category: SkillCategory }) => {
   const containerRef = useRef(null)
-  const isInView = useInView(containerRef, { once: true, amount: 0.25 })
-
-  // Extract Tailwind color base (e.g. text-blue-500 -> blue-500)
-  const colorBase = category.color.replace('text-', '')
+  const isInView = useInView(containerRef, { once: true, amount: 0.2 })
 
   return (
-    <div ref={containerRef} className="relative pl-14 md:pl-24 py-4 md:py-6 group/category">
+    <div ref={containerRef} className="relative pl-12 md:pl-20 py-6 md:py-8 group/category">
       
-      {/* Glowing Category Orb */}
+      {/* Timeline Circle Badge */}
       <motion.div
         variants={nodeVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         className={cn(
-          "absolute left-[9px] md:left-[29px] top-6 md:top-8 -translate-x-1/2 z-10",
-          "w-9 h-9 md:w-12 md:h-12 rounded-full",
-          "flex items-center justify-center border bg-background shadow-sm",
-          "transition-colors duration-500",
-          isInView ? category.borderColor : "border-border/60"
+          "absolute left-[9px] md:left-[19px] top-8 md:top-10 -translate-x-1/2 z-10",
+          "w-8 h-8 md:w-10 md:h-10 rounded-full",
+          "flex items-center justify-center border bg-background border-border/60"
         )}
-        style={{
-          boxShadow: isInView ? `0 0 20px rgba(var(--primary-rgb), 0.05)` : undefined
-        }}
       >
-        {/* Soft Ambient aura around category circle */}
-        {isInView && (
-          <div 
-            className={cn(
-              "absolute inset-0 rounded-full blur-md opacity-15 -z-10 animate-pulse",
-              `bg-${colorBase}`
-            )} 
-            style={{ backgroundColor: `currentColor`, color: `var(--category-color)` }}
-          />
-        )}
-
-        <div className="w-full h-full rounded-full flex items-center justify-center bg-card/50 backdrop-blur-md">
+        <div className="w-full h-full rounded-full flex items-center justify-center bg-secondary/10 dark:bg-secondary/5">
           {React.cloneElement(category.icon as React.ReactElement<{ className?: string }>, {
-            className: cn("w-4 h-4 md:w-5 md:h-5 transition-transform duration-500 group-hover/category:scale-110", category.color)
+            className: cn("w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover/category:scale-105", category.color)
           })}
         </div>
       </motion.div>
-
-      {/* Horizontal connector link */}
-      <div 
-        className={cn(
-          "absolute left-[9px] md:left-[29px] top-10 md:top-14 h-[1px] -z-10",
-          "bg-gradient-to-r from-border/80 to-transparent",
-          "w-6 md:w-12 transition-all duration-700",
-          isInView ? "opacity-100" : "opacity-0"
-        )}
-      />
 
       {/* Category Content */}
       <motion.div
@@ -166,11 +118,11 @@ const CategoryNode = ({ category }: { category: SkillCategory }) => {
         animate={isInView ? "visible" : "hidden"}
       >
         {/* Header */}
-        <div className="flex flex-col gap-1 mb-4">
-          <h3 className="text-xl md:text-2xl font-bold tracking-tight text-foreground/90 group-hover/category:text-foreground transition-colors">
+        <div className="flex flex-col gap-0.5 mb-4">
+          <h3 className="text-lg md:text-xl font-semibold tracking-tight text-foreground/90 group-hover/category:text-foreground transition-colors">
             {category.title}
           </h3>
-          <p className="text-xs md:text-sm text-muted-foreground font-medium">
+          <p className="text-xs md:text-sm text-muted-foreground">
             {category.subtitle}
           </p>
         </div>
@@ -186,7 +138,6 @@ const CategoryNode = ({ category }: { category: SkillCategory }) => {
             <SkillChip 
               key={skill.name} 
               skill={skill} 
-              categoryColor={category.color} 
             />
           ))}
         </motion.div>
@@ -200,52 +151,33 @@ const CategoryNode = ({ category }: { category: SkillCategory }) => {
 // ============================================================================
 
 export const TechnicalExpertise = () => {
-  const containerRef = useRef<HTMLElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  })
-
-  // Spring-smoothed scroll scale for timeline line
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 25 })
-  const pathScale = useTransform(smoothProgress, [0, 0.85], [0, 1])
-
   return (
     <section
-      ref={containerRef}
       id="technical-expertise"
-      className="py-20 md:py-28 bg-background/50 relative overflow-hidden"
+      className="py-20 md:py-24 bg-background/50 relative overflow-hidden"
     >
-      {/* Background radial accent grid */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.03),transparent_50%)]" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_right,rgba(16,185,129,0.02),transparent_50%)]" />
+      {/* Background ambient light */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(120,119,198,0.02),transparent_50%)]" />
 
       <div className="container mx-auto px-6 max-w-4xl">
         
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
+        <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.h2
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: smoothEase }}
-            className="text-3xl md:text-4xl font-bold mb-4 tracking-tight"
+            transition={{ duration: 0.5, ease: smoothEase }}
+            className="text-2xl md:text-3xl font-bold mb-3 tracking-tight"
           >
             Technical Expertise
           </motion.h2>
-          <motion.div
-            initial={{ width: 0 }}
-            whileInView={{ width: 80 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 mx-auto rounded-full mb-6"
-          />
+          <div className="w-12 h-1 bg-border mx-auto rounded-full mb-5" />
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
             className="text-muted-foreground text-sm md:text-base leading-relaxed"
           >
             My engineering toolkit, architecture patterns, and specialized capabilities.
@@ -255,17 +187,11 @@ export const TechnicalExpertise = () => {
         {/* Timeline Content */}
         <div className="relative">
           
-          {/* Base Background Track Line */}
-          <div className="absolute left-[9px] md:left-[29px] top-0 bottom-0 w-0.5 bg-border/20 dark:bg-border/10 rounded-full" />
-
-          {/* Active Colored Progress Line */}
-          <motion.div
-            style={{ scaleY: pathScale, transformOrigin: "top" }}
-            className="absolute left-[9px] md:left-[29px] top-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-emerald-500 rounded-full z-0 will-change-transform"
-          />
+          {/* Static Timeline Line */}
+          <div className="absolute left-[9px] md:left-[19px] top-0 bottom-0 w-[1px] bg-border/40 dark:bg-border/20 rounded-full" />
 
           {/* Categories */}
-          <div className="space-y-4 pb-8">
+          <div className="space-y-2 pb-6">
             {SKILL_CATEGORIES.map((category) => (
               <CategoryNode
                 key={category.id}
