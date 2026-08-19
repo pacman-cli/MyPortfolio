@@ -10,7 +10,7 @@ import { fadeUpVariant, SPRING_FADE_UP } from '@/lib/animations'
 
 export const About = () => {
   return (
-    <section id="about" className="py-20 md:py-28 bg-muted/30">
+    <section id="about" className="py-20 md:py-28 bg-muted/30 scroll-mt-20">
       <div className="container mx-auto px-6">
         <Reveal width="100%">
           <div className="text-center mb-16">

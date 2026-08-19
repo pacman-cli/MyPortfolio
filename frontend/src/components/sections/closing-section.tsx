@@ -66,7 +66,7 @@ export const ClosingSection = () => {
   return (
     <section
       id="contact"
-      className="relative py-24 md:py-32 bg-background overflow-hidden"
+      className="relative py-24 md:py-32 bg-background overflow-hidden scroll-mt-20"
       aria-labelledby="closing-heading"
     >
       <div className="absolute inset-0 -z-10" aria-hidden="true">

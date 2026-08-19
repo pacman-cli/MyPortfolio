@@ -117,7 +117,7 @@ export const SelectedWork = ({ projects = [] }: SelectedWorkProps) => {
     <section
       id="projects"
       ref={containerRef}
-      className="py-16 md:py-20 bg-background relative"
+      className="py-16 md:py-20 bg-background relative scroll-mt-20"
       aria-labelledby="work-heading"
     >
       <div className="container mx-auto px-6 max-w-5xl">

@@ -134,7 +134,7 @@ export const TechnicalExpertise = () => {
   return (
     <section
       id="technical-expertise"
-      className="py-20 md:py-28 bg-background/50 relative overflow-hidden"
+      className="py-20 md:py-28 bg-background/50 relative overflow-hidden scroll-mt-20"
     >
       {/* Background ambient light */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(120,119,198,0.02),transparent_50%)]" />

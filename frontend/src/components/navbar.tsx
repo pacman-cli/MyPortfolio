@@ -50,6 +50,19 @@ export const Navbar = () => {
     toggleRef.current?.focus()
   }, [])
 
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setIsMobileMenuOpen(false)
+    if (pathname === '/' && href.startsWith('/#')) {
+      e.preventDefault()
+      const id = href.substring(2)
+      const element = document.getElementById(id)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+        window.history.pushState(null, '', href)
+      }
+    }
+  }, [pathname])
+
   useEffect(() => {
     if (!isMobileMenuOpen) return
 
@@ -163,7 +176,7 @@ export const Navbar = () => {
                       ? "text-emerald-700 dark:text-emerald-400"
                       : "text-muted-foreground hover:text-emerald-700 dark:hover:text-emerald-400"
                   )}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   {...(isActive && { 'aria-current': 'page' as const })}
                 >
                   {link.name}
@@ -233,7 +246,7 @@ export const Navbar = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    onClick={closeMenu}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className={cn(
                       "block text-left text-lg font-medium py-2 border-b border-border last:border-0 hover:text-emerald-700 dark:hover:text-emerald-400",
                       isActiveLink(link.href, 'id' in link ? link.id : undefined) ? "text-emerald-700 dark:text-emerald-400" : "text-foreground"
