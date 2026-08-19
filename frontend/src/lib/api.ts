@@ -44,7 +44,18 @@ const STATIC_BLOGS: Blog[] = [
     tags: "LLM, Deep Learning, Reasoning, AI Architecture, Prompt Engineering",
     imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
     publishedAt: "2026-05-16T10:00:00",
-    content: "## Introduction\n\nFor most of their short history, large language models generated answers in a single pass — one forward propagation through the network, producing one token at a time from left to right with no revision, no second thoughts. That changed in late 2024.\n\nOpenAI's o1 preview introduced a new paradigm: reasoning models that spend extra compute at inference time to generate hidden thinking tokens before arriving at an answer. DeepSeek-R1 open-sourced a competitive approach days later. Anthropic added extended thinking to Claude. Google shipped Gemini 2.0 Flash Thinking. By 2026, almost every frontier model has some form of internal reasoning capability."
+    content: `## Introduction
+
+For most of their short history, large language models generated answers in a single pass — one forward propagation through the network, producing one token at a time from left to right with no回头, no revision, no second thoughts. That changed in late 2024.
+
+OpenAI's o1 preview introduced a new paradigm: **reasoning models** that spend extra compute at inference time to generate hidden "thinking" tokens before arriving at an answer. DeepSeek-R1 open-sourced a competitive approach days later. Anthropic added extended thinking to Claude. Google shipped Gemini 2.0 Flash Thinking. By 2026, almost every frontier model has some form of internal reasoning capability.
+
+This article covers the full landscape across four sections:
+
+1. **How reasoning models work** — the architecture and internals of o1, R1, Claude thinking, and others
+2. **Practical techniques** — prompting strategies that elicit deeper reasoning from any capable LLM
+3. **Evaluating reasoning** — benchmarks, failure modes, and what the numbers don't tell you
+4. **The road ahead** — history, open challenges, and future directions`
   },
   {
     id: 2,
@@ -54,7 +65,21 @@ const STATIC_BLOGS: Blog[] = [
     tags: "Spring Security, Java, Authentication, Backend",
     imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
     publishedAt: "2026-05-10T10:00:00",
-    content: "## The Authentication Architecture\n\nSpring Security's authentication system is built on a pipeline of filters, providers, and context holders. Understanding how they connect is key to configuring security correctly.\n\n### The Filter Chain\n\nEvery request passes through a chain of filters. The UsernamePasswordAuthenticationFilter (for form logins) or BearerTokenAuthenticationFilter (for JWT) extracts credentials and creates an Authentication object."
+    content: `## The Authentication Architecture
+
+Spring Security's authentication system is built on a pipeline of filters, providers, and context holders. Understanding how they connect is key to configuring security correctly.
+
+### The Filter Chain
+
+Every request passes through a chain of filters. The \`UsernamePasswordAuthenticationFilter\` (for form logins) or \`BearerTokenAuthenticationFilter\` (for JWT) extracts credentials and creates an \`Authentication\` object.
+
+### The Provider Manager
+
+The \`AuthenticationManager\` delegates to one or more \`AuthenticationProvider\`s. Each provider attempts to authenticate the request. Common providers include \`DaoAuthenticationProvider\` (username/password against a database) and \`JwtAuthenticationProvider\` (JWT token validation).
+
+### SecurityContextHolder
+
+On successful authentication, the \`SecurityContextHolder\` stores the \`Authentication\` object for the duration of the request. This is how controllers and services access the current user via \`SecurityContextHolder.getContext().getAuthentication()\`.`
   },
   {
     id: 3,
@@ -64,7 +89,28 @@ const STATIC_BLOGS: Blog[] = [
     tags: "Microservices, Spring Boot, Java, Architecture, Docker",
     imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop",
     publishedAt: "2026-05-05T10:00:00",
-    content: "## Introduction\n\nMicroservices architecture has become the de facto standard for building scalable, resilient, and maintainable applications. In this comprehensive guide, we'll explore how to leverage the power of Spring Boot and Spring Cloud to build a robust microservices ecosystem."
+    content: `## Introduction
+
+Microservices architecture has become the de facto standard for building scalable, resilient, and maintainable applications. In this comprehensive guide, we'll explore how to leverage the power of **Spring Boot** and **Spring Cloud** to build a robust microservices ecosystem.
+
+### Why Microservices?
+
+Monolithic applications, while easier to start with, often become difficult to maintain and scale as they grow. Microservices offer:
+
+- **Scalability**: Scale individual components based on demand.
+- **Resilience**: Failure in one service doesn't bring down the entire system.
+- **Technology Agnosticism**: Use the best tool for each job.
+
+### Key Components
+
+1. **Service Discovery** (Eureka)
+2. **API Gateway** (Spring Cloud Gateway)
+3. **Centralized Configuration** (Spring Cloud Config)
+4. **Circuit Breakers** (Resilience4j)
+
+### Deployment with Docker
+
+Each microservice is containerized using Docker, with Docker Compose orchestrating the entire system. This ensures consistent environments across development, staging, and production.`
   },
   {
     id: 4,
@@ -74,7 +120,28 @@ const STATIC_BLOGS: Blog[] = [
     tags: "Data Science, Machine Learning, Python, Data Engineering",
     imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
     publishedAt: "2026-04-28T10:00:00",
-    content: "## The Data Pipeline\n\nData cleaning is often the most time-consuming part of any machine learning project. This guide covers the essential steps to transform raw data into a model-ready format."
+    content: `## The Data Pipeline
+
+Data cleaning is often the most time-consuming part of any machine learning project. This guide covers the essential steps to transform raw data into a model-ready format.
+
+### 1. Handling Missing Values
+
+Missing data can significantly impact model performance. Common strategies include:
+- Removing rows with missing values (when the proportion is small)
+- Imputing with mean, median, or mode
+- Using model-based imputation for complex patterns
+
+### 2. Feature Engineering
+
+Creating informative features from raw data often makes the difference between a good model and a great one. Techniques include:
+- Encoding categorical variables
+- Creating interaction features
+- Extracting date/time components
+- Scaling numerical features
+
+### 3. Model Training and Evaluation
+
+Once the data is clean, split into training, validation, and test sets. Use cross-validation to ensure the model generalizes well, and track metrics like precision, recall, and F1-score.`
   }
 ]
 
