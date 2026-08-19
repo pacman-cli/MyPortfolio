@@ -74,12 +74,12 @@ const SkillChip = ({ skill }: { skill: SkillItem }) => {
 }
 
 // ============================================================================
-// CATEGORY CARD COMPONENT
+// CATEGORY ROW COMPONENT
 // ============================================================================
 
-const CategoryCard = ({ category }: { category: SkillCategory }) => {
+const CategoryRow = ({ category }: { category: SkillCategory }) => {
   const containerRef = useRef(null)
-  const isInView = useInView(containerRef, { once: true, amount: 0.15 })
+  const isInView = useInView(containerRef, { once: true, amount: 0.1 })
 
   return (
     <motion.div
@@ -88,15 +88,15 @@ const CategoryCard = ({ category }: { category: SkillCategory }) => {
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
       className={cn(
-        "group/category flex flex-col p-5 md:p-6 rounded-2xl",
+        "group/category flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 rounded-2xl",
         "bg-card/25 dark:bg-card/5 backdrop-blur-md",
         "border border-border/40 hover:border-border/80",
         "shadow-sm hover:shadow-md transition-all duration-300"
       )}
     >
-      {/* Header */}
-      <div className="flex items-center gap-3.5 mb-5">
-        <div className="p-2.5 rounded-xl bg-secondary/10 dark:bg-secondary/5 border border-border/40">
+      {/* Header section - Left aligned on desktop */}
+      <div className="flex items-center gap-4 min-w-[240px]">
+        <div className="p-3 rounded-xl bg-secondary/10 dark:bg-secondary/5 border border-border/40 shrink-0">
           {React.cloneElement(category.icon as React.ReactElement<{ className?: string }>, {
             className: cn("w-5 h-5 transition-transform duration-300 group-hover/category:scale-105", category.color)
           })}
@@ -111,12 +111,12 @@ const CategoryCard = ({ category }: { category: SkillCategory }) => {
         </div>
       </div>
 
-      {/* Skills Grid */}
+      {/* Skills Grid section - Right aligned on desktop */}
       <motion.div
         variants={chipsContainerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className="flex flex-wrap gap-2 mt-auto"
+        className="flex flex-wrap gap-2 md:justify-end flex-1"
       >
         {category.skills.map((skill) => (
           <SkillChip key={skill.name} skill={skill} />
@@ -139,7 +139,7 @@ export const TechnicalExpertise = () => {
       {/* Background ambient light */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,rgba(120,119,198,0.02),transparent_50%)]" />
 
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto px-6 max-w-4xl">
         
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
@@ -164,10 +164,10 @@ export const TechnicalExpertise = () => {
           </motion.p>
         </div>
 
-        {/* Categories Grid - showing all items inline */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Categories List - stacked in one column */}
+        <div className="flex flex-col gap-6">
           {SKILL_CATEGORIES.map((category) => (
-            <CategoryCard
+            <CategoryRow
               key={category.id}
               category={category}
             />
