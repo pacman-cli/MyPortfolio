@@ -46,25 +46,21 @@ const STATIC_BLOGS: Blog[] = [
     publishedAt: "2026-05-16T10:00:00",
     content: `## Introduction
 
-For most of their short history, large language models generated answers in a single pass — one forward propagation through the network, producing one token at a time from left to right with no backtracking, no revision, and no second thoughts. That changed in late 2024.
+For most of their short history, large language models (LLMs) generated answers in a single pass — one forward propagation through the network, producing one token at a time from left to right with no backtracking, no revision, and no second thoughts. This is analogous to human **System 1** thinking: fast, instinctive, and automatic.
 
-OpenAI's o1 preview introduced a new paradigm: **reasoning models** that spend extra compute at inference time to generate hidden "thinking" tokens before arriving at an answer. DeepSeek-R1 open-sourced a competitive approach days later. Anthropic added extended thinking to Claude. Google shipped Gemini 2.0 Flash Thinking. By 2026, almost every frontier model has some form of internal reasoning capability.
+That paradigm changed radically in late 2024. The release of OpenAI's o1 preview, followed rapidly by DeepSeek-R1, Anthropic's Claude 3.5 Sonnet (with extended thinking), and Google's Gemini Flash Thinking, introduced **System 2** thinking to AI: slow, deliberate, analytical, and logical. By spending extra compute at *inference time* (rather than just training time), these models generate hidden reasoning steps before outputting their final response.
 
-This article covers the full landscape across four sections:
-1. **How reasoning models work** — the architecture and internals of o1, R1, Claude thinking, and others
-2. **Practical techniques** — prompting strategies that elicit deeper reasoning from any capable LLM
-3. **Evaluating reasoning** — benchmarks, failure modes, and what the numbers don't tell you
-4. **The road ahead** — history, open challenges, and future directions
+In this deep dive, we explore how reasoning models work internally, techniques to leverage them, current evaluation benchmarks, and the frontier of System 2 scaling laws.
 
 ---
 
 ## 1. How Reasoning Models Work
 
-Unlike standard transformers that generate output immediately, reasoning models decouple the internal thinking process from the final output generation.
+Standard LLMs predict the next token based on raw statistical likelihood from their training data. If they start down a wrong logical path, they cannot correct themselves; they must continue generating text from that point. Reasoning models solve this by generating a structured **Chain of Thought (CoT)**.
 
-### The Inference-Time Compute Cycle
+### The Inference-Time Execution Cycle
 
-During inference, instead of feeding token $N$ directly back to generate $N+1$ for the user, the model outputs hidden reasoning tokens. This forms a "Chain of Thought" (CoT) where the model performs step-by-step logic, checks its assumptions, detects errors, and corrects its path before generating the final visible response.
+At runtime, the model decouples its internal thoughts from the final response. It iterates through planning, evaluating steps, correcting mistakes, and validating answers in a loop before returning the final text to the user.
 
 \`\`\`mermaid
 graph TD
@@ -82,64 +78,129 @@ graph TD
     style G fill:#064e3b,stroke:#059669,stroke-width:2px
 \`\`\`
 
-### Reinforcement Learning (RL) Bootstrapping
+### Reinforcement Learning (RL) and Process Rewards
 
-The core breakthrough in reasoning models is not just prompting, but how they are trained. Rather than purely utilizing supervised fine-tuning (SFT) on human reasoning data, models like DeepSeek-R1 and OpenAI's reasoning stack use large-scale Reinforcement Learning (RL).
+How do we train a model to think? The key is Reinforcement Learning (RL).
+1. **Outcome-based Reward Models (ORM)**: The model is rewarded only if the final answer is correct (ideal for code compilers and math problems).
+2. **Process-based Reward Models (PRM)**: The model is rewarded for *each correct step* in its reasoning chain. This prevents the model from arriving at the right answer via flawed logic.
 
-The RL process rewards:
-- Correctness of the final answer (especially in math, coding, and logic).
-- Step-by-step structure (using clear XML or markdown delimiters for thinking).
-- Self-correction patterns (finding errors and backtracking).
+During RL training, models spontaneously learn reasoning behaviors:
+* **Backtracking**: Deciding a step was wrong, declaring "Wait, that's incorrect. Let me re-calculate," and trying a different approach.
+* **Self-Verification**: Double-checking code or math calculations before formulating the final response.
+* **Reframing**: Translating a complex query into simpler sub-problems.
+
+> [!IMPORTANT]
+> The reasoning tokens are not just standard text; they represent a structured search space. Many API providers charge for these "thinking tokens" even though they are filtered out of the final user-facing response.
 
 ---
 
-## 2. Practical Elicitation Techniques
+## 2. Prompting Techniques for Reasoning Models
 
-How do we get the best out of these reasoning models? Traditional prompting techniques need adjustments.
+Traditional prompt engineering (e.g., "Think step-by-step") is redundant for reasoning models because they are trained to do this natively. However, new strategies have emerged to maximize their capability.
 
-### Frame-of-Reference Prompts
+### XML Structuring for Complex Constraints
 
-Give the model a solid framework to base its logic on. Clearly define the goal and constraints:
+Reasoning models perform exceptionally well when given structured constraints. Wrapping instructions in XML tags gives the model clear boundaries:
 
 \`\`\`xml
-<instruction>
-Please analyze the performance bottleneck of this Spring Boot controller.
-Break down your reasoning into separate sub-problems:
-1. DB Connection Pool configuration.
-2. Hibernate N+1 queries.
-3. Thread blockages.
-Explain your step-by-step reasoning in detail before showing any code.
-</instruction>
+<system_prompt>
+You are an expert systems architect. Analyze the provided Spring Boot controller.
+</system_prompt>
+
+<code_snippet>
+@GetMapping("/users/{id}")
+public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    // Potential performance issue: Lazy loading trigger inside DTO mapping
+    return ResponseEntity.ok(convertToDto(user));
+}
+</code_snippet>
+
+<instructions>
+1. Inspect the Hibernate session lifecycle.
+2. Identify N+1 query vulnerability during DTO conversion.
+3. Suggest a query optimization using EntityGraphs or Join Fetch.
+</instructions>
 \`\`\`
 
-### Letting the Model Dynamic-Plan
+### Dynamic Planning Prompts
 
-Avoid micro-managing the reasoning steps. Let the model choose its own logical divisions. Studies show that specifying rigid steps for a reasoning model actually *limits* its search space.
+Do not micro-manage the logical steps. Let the model dictate the planning phase. 
+Instead of:
+* *"First write the query, then write the controller, then write the test."*
+Use:
+* *"Analyze the requirements, establish a design plan, and implement the optimized solution."*
 
----
-
-## 3. Evaluation & Failure Modes
-
-Reasoning models excel at competitive programming, mathematics, and complex multi-step reasoning. However, they introduce unique challenges:
-
-- **Overthinking (CoT Bloat)**: The model spends thousands of tokens thinking about simple questions.
-- **Premature Halting**: Stopping the reasoning before solving the actual problem.
-- **Hallucinated Logic**: The reasoning looks flawless but starts from a false assumption.
-
-### Comparison Table
-
-| Metric / Capability | Standard Transformer (e.g., GPT-4o) | Reasoning Model (e.g., R1, o1) |
-| :--- | :--- | :--- |
-| **Math & Coding** | Moderate | High (Silver/Gold Olympiad) |
-| **Creative Writing** | High | Moderate (Often dry/formal) |
-| **Response Latency** | Low (Instant generation) | High (Reasoning delay) |
-| **Cost per Token** | Standard | Higher (due to hidden CoT tokens) |
+This allows the model to explore a wider search space during its hidden thinking phase.
 
 ---
 
-## 4. The Road Ahead
+## 3. Evaluation & Performance Comparison
 
-As we push the boundaries of LLM capabilities, inference-time compute scaling laws (System 2 thinking) are taking center stage. Scaling compute during training is starting to hit diminishing returns, but scaling compute during *inference* is showing exponential returns. The future lies in models that dynamically adjust their thinking time based on the difficulty of the problem.`
+How do reasoning models compare to standard frontier LLMs?
+
+### Benchmark Metrics
+
+In complex academic and logic benchmarks, System 2 models show a massive step-change.
+
+| Benchmark | Standard Model (GPT-4o) | Reasoning Model (DeepSeek-R1) | Focus Area |
+| :--- | :--- | :--- | :--- |
+| **AIME 2024** | 9.3% | 79.8% | High-level Mathematics |
+| **Codeforces** | 12.0% | 96.3% | Competitive Programming |
+| **GPQA Diamond** | 49.9% | 62.1% | Graduate-Level Science |
+| **MMLU** | 88.7% | 90.8% | General Academic Knowledge |
+
+### System 2 Failure Modes
+
+Despite their power, reasoning models are prone to unique failure modes:
+1. **CoT Bloat (Overthinking)**: The model spends 2,000 thinking tokens on a trivial query that requires a simple "yes" or "no".
+2. **Premature Halting**: The model assumes it has solved the problem when it has only solved a simplified sub-problem.
+3. **Logic Loop Lock**: The model gets stuck in an infinite backtracking loop, correcting the same step repeatedly until it hits maximum token limits.
+
+> [!TIP]
+> If a reasoning model gets stuck in a logic loop, re-run the query with a slight change in prompt wording or modify the temperature parameter to force alternative paths in the search tree.
+
+---
+
+## 4. How to Parse Thinking Tokens in Code
+
+If you are using reasoning models via raw APIs (like DeepSeek or OpenAI), the response payload typically contains a dedicated field for the reasoning tokens.
+
+Here is a Python example showing how to extract and display both the reasoning process and the final content:
+
+\`\`\`python
+import openai
+
+client = openai.OpenAI(
+    base_url="https://api.deepseek.com/v1",
+    api_key="your-api-key-here"
+)
+
+response = client.chat.completions.create(
+    model="deepseek-reasoning",
+    messages=[
+        {"role": "user", "content": "Prove that there are infinitely many primes."}
+    ],
+    stream=False
+)
+
+# Access the reasoning content (thinking tokens)
+thinking = response.choices[0].message.reasoning_content
+# Access the final output
+final_answer = response.choices[0].message.content
+
+print("=== THINKING PROCESS ===")
+print(thinking)
+print("\n=== FINAL ANSWER ===")
+print(final_answer)
+\`\`\`
+
+---
+
+## Conclusion
+
+Inference-time compute scaling is the new frontier of artificial intelligence. By allowing models to think, evaluate, and self-correct, we have unlocked capabilities once thought years away. As developers, understanding how to structure our queries and parse these outputs is crucial to building next-generation agentic workflows.`
   },
   {
     id: 2,
@@ -151,11 +212,13 @@ As we push the boundaries of LLM capabilities, inference-time compute scaling la
     publishedAt: "2026-05-10T10:00:00",
     content: `## The Authentication Architecture
 
-Spring Security's authentication system is built on a pipeline of filters, providers, and context holders. Understanding how they connect is key to configuring security correctly.
+Spring Security is arguably the most powerful yet misunderstood framework in the Java enterprise ecosystem. Many developers configure it using boilerplate code without understanding the underlying servlet architecture.
+
+At its core, Spring Security is built on a **chain of servlet filters**. It intercepts incoming HTTP requests, performs authentication and authorization checks, and either permits the request to pass to your Controller or rejects it with an appropriate HTTP error code.
 
 ### The Pipeline at a Glance
 
-When a client sends a request to your API, it passes through a servlet filter chain. Spring Security intercepts the request using the \`DelegatingFilterProxy\`, which forwards it to the \`FilterChainProxy\` containing the active \`SecurityFilterChain\`.
+When an API request arrives, it is intercepted by a special servlet filter called the \`DelegatingFilterProxy\`. This proxy delegates the work to the \`FilterChainProxy\`, which loads the active \`SecurityFilterChain\` matching the request URL.
 
 \`\`\`mermaid
 sequenceDiagram
@@ -180,45 +243,99 @@ sequenceDiagram
 
 ---
 
-## 1. Key Pipeline Components
+## 1. Trace the Authentication Lifecycle
 
-Let's trace how credentials are converted to a fully authenticated security context:
+Let's break down the execution steps when securing a REST endpoint with a stateless JSON Web Token (JWT):
 
-### The Authentication Filter
+### Step 1: Request Interception
+The request passes through a custom filter (typically extending \`OncePerRequestFilter\`).
+* The filter extracts the \`Authorization\` header.
+* It parses the token and checks if it starts with \`Bearer \`.
+* If a token is found, the filter constructs an unauthenticated \`UsernamePasswordAuthenticationToken\` (containing the principal/subject and the raw credentials).
 
-The entry point. For basic authentication, it's \`UsernamePasswordAuthenticationFilter\`. For JWTs, you typically write a custom filter extending \`OncePerRequestFilter\`. The filter:
-1. Extracts credentials from request headers (e.g., Bearer Token).
-2. Creates an unauthenticated \`Authentication\` object (like \`UsernamePasswordAuthenticationToken\`).
-3. Passes this token to the \`AuthenticationManager\`.
+### Step 2: Authentication Delegation
+The filter passes the unauthenticated token to the \`AuthenticationManager\` (usually implemented by \`ProviderManager\`).
+* The \`AuthenticationManager\` iterates through a list of configured \`AuthenticationProvider\`s.
+* An \`AuthenticationProvider\` (like \`DaoAuthenticationProvider\` or a custom \`JwtAuthenticationProvider\`) loads user details from a database using \`UserDetailsService\`.
+* It verifies the password hashes or token signatures.
 
-### The Authentication Manager & Providers
-
-The \`AuthenticationManager\` (usually \`ProviderManager\`) orchestrates authentication. It delegates the check to registered \`AuthenticationProvider\`s.
-- Each provider checks if it supports the authentication token type.
-- The provider queries user records (using \`UserDetailsService\` or OAuth token resolvers).
-- If credentials match, the provider returns a fully populated, authenticated \`Authentication\` object.
-
-### The SecurityContextHolder
-
-Once authenticated, the filter places the \`Authentication\` token in the \`SecurityContext\`:
+### Step 3: Storing Context
+If authentication is successful, the provider returns a fully populated, authenticated \`Authentication\` object (which includes authorities/roles).
+* The filter takes this authenticated token and stores it in the \`SecurityContextHolder\`'s \`SecurityContext\`.
 
 \`\`\`java
 SecurityContext context = SecurityContextHolder.createEmptyContext();
-context.setAuthentication(authResult);
+context.setAuthentication(authentication);
 SecurityContextHolder.setContext(context);
 \`\`\`
 
-For subsequent requests, Spring Security loads this context, allowing you to access the current user globally.
+> [!NOTE]
+> Always use \`SecurityContextHolder.createEmptyContext()\` instead of \`SecurityContextHolder.getContext().setAuthentication()\` to avoid multi-threaded race conditions in high-concurrency environments.
 
 ---
 
-## 2. Configuration Best Practices
+## 2. Complete Code Implementation
 
-Here is a modern Spring Boot Security configuration class implementing Stateless JWT Authentication:
+Here is a modern, production-ready Spring Security configuration utilizing a stateless JWT filter.
+
+### Custom JWT Authentication Filter
+
+\`\`\`java
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JwtService jwtService;
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+        this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Override
+    protected void doFilterInternal(
+        @NonNull HttpServletRequest request,
+        @NonNull HttpServletResponse response,
+        @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
+        final String authHeader = request.getHeader("Authorization");
+        final String jwt;
+        final String userEmail;
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        jwt = authHeader.substring(7);
+        userEmail = jwtService.extractUsername(jwt);
+
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+                );
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
+                context.setAuthentication(authToken);
+                SecurityContextHolder.setContext(context);
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
+}
+\`\`\`
+
+### Security Configuration Class
 
 \`\`\`java
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -232,9 +349,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api/v1/public/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
@@ -248,10 +367,27 @@ public class SecurityConfig {
 }
 \`\`\`
 
-### Critical Checklist:
-- **Disable Session State**: Ensure your API is completely stateless when using tokens (\`SessionCreationPolicy.STATELESS\`).
-- **Handle CORS First**: Configure CORS filters before the security filter chain to avoid pre-flight options request failures.
-- **Never Hardcode Secrets**: Store token signing keys in secure environment variables or vault systems.`
+---
+
+## 3. Advanced Context Propagation in Async Threads
+
+By default, the \`SecurityContextHolder\` uses a \`ThreadLocal\` strategy. This means the authentication details are only bound to the specific thread handling the request.
+
+If you spawn asynchronous background jobs using Spring's \`@Async\`, the security context is lost.
+
+> [!TIP]
+> To propagate security context to child threads, configure the Strategy Name during application startup:
+> \`\`\`java
+> @PostConstruct
+> public void enableAuthPropagation() {
+>     SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+> }
+> \`\`\`
+
+### Common Pitfalls to Avoid:
+1. **Not disabling CSRF for stateless APIs**: If your backend is a stateless REST API (no cookies, only JWT/Headers), CSRF tokens are unnecessary. Disable them to improve latency.
+2. **Missing CorsFilter Order**: Standard CORS configuration must run *before* Spring Security filter chain checks, or browser pre-flight \`OPTIONS\` requests will be rejected with HTTP 403.
+3. **Leaving default Exception Handling**: Customize \`AuthenticationEntryPoint\` and \`AccessDeniedHandler\` to return standardized JSON error bodies instead of raw HTML error pages.`
   },
   {
     id: 3,
@@ -263,21 +399,15 @@ public class SecurityConfig {
     publishedAt: "2026-05-05T10:00:00",
     content: `## Introduction
 
-Microservices architecture has become the de facto standard for building scalable, resilient, and maintainable applications. In this comprehensive guide, we'll explore how to leverage the power of **Spring Boot** and **Spring Cloud** to build a robust microservices ecosystem.
+Building microservices is easy. Building *production-ready* microservices that scale, handle network partitions, and maintain consistency is incredibly difficult. 
 
-### Why Microservices?
-
-Monolithic applications, while easier to start with, often become difficult to maintain and scale as they grow. Microservices offer:
-
-- **Scalability**: Scale individual components based on demand.
-- **Resilience**: Failure in one service doesn't bring down the entire system.
-- **Technology Agnosticism**: Use the best tool for each job.
+When transitioning from a monolith to microservices, we trade simple in-memory function calls for unpredictable network hops. In this guide, we map the essential components of a Spring Boot microservices ecosystem, focusing on architectural resiliency, load balancing, and container orchestration.
 
 ---
 
 ## 1. System Architecture Blueprint
 
-A production-grade microservices system requires infrastructure services surrounding your core business microservices.
+In a production microservices topology, core business microservices (e.g., Order Service, Catalog Service) are supported by dynamic discovery, configuration, and routing layers.
 
 \`\`\`mermaid
 graph TD
@@ -295,19 +425,23 @@ graph TD
     SvcA -. Resilience4j Circuit Breaker .-> SvcB
 \`\`\`
 
-### The Infrastructure Core:
-1. **Service Registry (Eureka)**: Acts as the address book. Microservices register their IPs and ports here dynamically.
-2. **API Gateway (Spring Cloud Gateway)**: The single entry point. Handles routing, load balancing, security rate limiting, and SSL termination.
-3. **Config Server (Spring Cloud Config)**: Externalizes configuration. Reads properties files from a secure git repository or vault.
-4. **Circuit Breaker (Resilience4j)**: Prevents cascading failures. If a service goes down, fallback mechanisms gracefully return static/cached data.
+### Core Infrastructure Services:
+
+1. **Spring Cloud Gateway**: The entry point. It manages path-based routing, intercepts authentication (JWT decoding), rate limits clients, and handles CORS headers.
+2. **Eureka Service Registry**: Coordinates network locations. Microservices register their dynamic IP addresses and ports with Eureka, and Feign/LoadBalancer queries Eureka for routing lookups.
+3. **Spring Cloud Config Server**: Centralized configuration store. Externalizes environment settings by pulling YAML files directly from a private Git repository or HashiCorp Vault.
+4. **Resilience4j**: Implements circuit breakers and rate limiters to prevent cascading system failures.
 
 ---
 
-## 2. Implementing Circuit Breakers
+## 2. Implementing Circuit Breakers with Resilience4j
 
-In microservices, networks are unreliable. If Service A makes a direct REST call to Service B, and Service B is slow or offline, Service A can run out of thread pool capacity and fail. We wrap the call in a Circuit Breaker.
+If Service A queries Service B via HTTP, and Service B experiences database locking, Service A's thread pool will fill up with blocked threads waiting for socket timeouts. This causes a cascade failure across the system.
 
-### Maven Dependency
+We resolve this by implementing a **Circuit Breaker** using **Resilience4j**.
+
+### Maven Configuration
+
 \`\`\`xml
 <dependency>
     <groupId>org.springframework.cloud</groupId>
@@ -315,8 +449,7 @@ In microservices, networks are unreliable. If Service A makes a direct REST call
 </dependency>
 \`\`\`
 
-### Code Implementation
-We use \`@CircuitBreaker\` annotation on our Feign clients or service layers:
+### Java Code Annotation
 
 \`\`\`java
 @Service
@@ -328,43 +461,108 @@ public class OrderService {
         this.inventoryClient = inventoryClient;
     }
 
-    @CircuitBreaker(name = "inventoryService", fallbackMethod = "fallbackVerifyInventory")
+    @CircuitBreaker(name = "inventoryBreaker", fallbackMethod = "handleInventoryFallback")
     public OrderResponse createOrder(OrderRequest request) {
-        // This network call is monitored by Resilience4j
-        boolean available = inventoryClient.verifyStock(request.getProductId(), request.getQuantity());
+        // Monitored network call
+        boolean inStock = inventoryClient.checkStock(request.getProductId(), request.getQuantity());
         
-        if (!available) {
+        if (!inStock) {
             throw new OutOfStockException("Product out of stock");
         }
-        return processOrder(request);
+        return saveOrderToDb(request);
     }
 
-    // Fallback method executed when circuit is OPEN or call fails
-    public OrderResponse fallbackVerifyInventory(OrderRequest request, Throwable throwable) {
+    // Executed when call fails or circuit is OPEN
+    public OrderResponse handleInventoryFallback(OrderRequest request, Throwable t) {
         return OrderResponse.builder()
-            .status("PENDING")
-            .message("Inventory verification is temporarily unavailable. Order queued.")
+            .status("FALLBACK_PENDING")
+            .message("Inventory service is currently busy. Your order is queued for async processing.")
             .build();
     }
 }
 \`\`\`
 
+### Config properties (\`application.yml\`)
+
+\`\`\`yaml
+resilience4j.circuitbreaker:
+  instances:
+    inventoryBreaker:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 5
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000ms
+      permittedNumberOfCallsInHalfOpenState: 3
+\`\`
+
+> [!TIP]
+> Always configure separate fallback methods depending on the type of Exception. For instance, throw an immediate 404 for \`EntityNotFoundException\`, but trigger the fallback behavior for \`ConnectException\` or \`TimeoutException\`.
+
 ---
 
-## 3. Containerization & Orchestration
+## 3. Local Orchestration with Docker Compose
 
-Deploying multiple microservices requires absolute consistency. We use Docker to containerize our Spring Boot apps:
+To run a microservices ecosystem locally for development, we containerize our build artifacts and use Docker Compose to spin up the architecture.
 
-\`\`\`dockerfile
-# Dockerfile for Spring Boot
-FROM eclipse-temurin:17-jdk-alpine
-VOLUME /tmp
-ARG JAR_FILE=target/*.jar
-COPY \${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+Here is a sample \`docker-compose.yml\` coordinating the config server, discovery registry, and database dependency:
+
+\`\`\`yaml
+version: '3.8'
+
+services:
+  eureka-server:
+    image: my-registry/eureka-server:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - portfolio-network
+
+  config-server:
+    image: my-registry/config-server:latest
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=git
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/my-org/config-repo
+    networks:
+      - portfolio-network
+
+  mysql-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD=root
+      MYSQL_DATABASE=orders_db
+    ports:
+      - "3306:3306"
+    networks:
+      - portfolio-network
+
+  order-service:
+    image: my-registry/order-service:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/orders_db
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
+    depends_on:
+      - eureka-server
+      - config-server
+      - mysql-db
+    networks:
+      - portfolio-network
+
+networks:
+  portfolio-network:
+    driver: bridge
 \`\`\`
 
-And coordinate them locally using Docker Compose, wiring dependencies like MySQL and Redis automatically.`
+---
+
+## Conclusion
+
+Transitioning to microservices involves trading development simplicity for operational complexity. Using Spring Boot and Spring Cloud, we can build robust components like API Gateways, Eureka Discovery Registries, and Resilience4j Circuit Breakers to manage this complexity, keeping our distributed applications fast and resilient.`
   },
   {
     id: 4,
@@ -376,7 +574,9 @@ And coordinate them locally using Docker Compose, wiring dependencies like MySQL
     publishedAt: "2026-04-28T10:00:00",
     content: `## The Data Pipeline
 
-Data cleaning is often the most time-consuming part of any machine learning project. This guide covers the essential steps to transform raw data into a model-ready format.
+It is a common adage in data science: *"Garbage in, garbage out."* Even the most sophisticated neural networks or gradient-boosted trees will perform poorly if they are trained on messy, biased, or unaligned data.
+
+A professional machine learning pipeline follows a disciplined, step-by-step approach to ingest, clean, encode, scale, and evaluate data before models are shipped to production.
 
 \`\`\`mermaid
 graph LR
@@ -394,70 +594,119 @@ graph LR
 
 ## 1. Step 1: Handling Missing Values
 
-Missing data is a common issue in real-world datasets. Standard algorithms like XGBoost, LightGBM, or Scikit-learn models may throw errors or behave unexpectedly when encountering \`NaN\` values.
+Missing data is not just an inconvenience; it represents a key statistical challenge. We must first diagnose the mechanism of missingness:
+* **Missing Completely at Random (MCAR)**: The missingness has no relationship with any data values.
+* **Missing at Random (MAR)**: The missingness depends on observed features (e.g., older users skipping the "salary" field).
+* **Missing Not at Random (MNAR)**: The missingness depends on the unobserved value itself (e.g., high-income earners refusing to disclose their wealth).
 
 ### Common Imputation Strategies:
-- **Deletion**: Remove rows with missing targets if they represent <2% of the dataset.
-- **Central Tendency Imputation**: Replace missing continuous values with the \`mean\` (if symmetric) or \`median\` (if skewed).
-- **Categorical Imputation**: Replace missing text classes with the \`mode\` (most frequent value) or assign a new category tag: \`"Unknown"\`.
 
-### Code Implementation (Python & Pandas)
+* **Median Imputation**: Ideal for skewed numeric values (like income).
+* **Constant Value (e.g., -1 or "Missing")**: Ensures the model is aware that the values are absent (useful for tree-based algorithms).
+* **KNN Imputation**: Uses nearest neighbor algorithms to estimate missing entries based on similar profiles.
+
 \`\`\`python
 import pandas as pd
 import numpy as np
+from sklearn.impute import KNNImputer
 
-# Load dataset
-df = pd.read_csv("data.csv")
+df = pd.read_csv("dataset.csv")
 
-# Impute continuous feature with median
-df["age"] = df["age"].fillna(df["age"].median())
+# Identify null percentages
+print(df.isnull().sum() / len(df) * 100)
 
-# Impute categorical feature with mode/Unknown
-df["department"] = df["department"].fillna("Unknown")
+# Replace missing values using KNN Imputer
+imputer = KNNImputer(n_neighbors=5)
+numerical_cols = ["age", "income", "credit_score"]
+df[numerical_cols] = imputer.fit_transform(df[numerical_cols])
 \`\`\`
 
 ---
 
-## 2. Step 2: Feature Engineering
+## 2. Step 2: Outlier Handling & Feature Scaling
 
-Feature engineering translates raw numbers into meaningful vectors that algorithms can train on.
+### Outlier Filtration via Interquartile Range (IQR)
 
-### Encoding Categorical Variables
-Machine learning models only process numeric values. We use:
-- **One-Hot Encoding**: For nominal categories with low cardinality (e.g., \`gender\`, \`country\`).
-- **Target/Label Encoding**: For ordinal categories or features with high cardinality (e.g., \`zip_code\`, \`device_model\`).
+Outliers can heavily skew linear regression, SVMs, and neural networks. We can identify anomalies using the IQR method:
 
-### Scaling Numerical Features
-Features on wildly different scales (e.g., \`income\` up to 1,000,000 and \`age\` up to 100) will cause distance-based models (like SVM or KNN) and gradient descent to fail to converge properly. We apply **StandardScaler** (Z-score normalization) or **MinMaxScaler**:
+$$\\text{IQR} = Q_3 - Q_1$$
+$$\\text{Lower Bound} = Q_1 - 1.5 \\times \\text{IQR}$$
+$$\\text{Upper Bound} = Q_3 + 1.5 \\times \\text{IQR}$$
 
-$$x_{scaled} = \\frac{x - \\mu}{\\sigma}$$
+\`\`\`python
+# Filter outliers from column 'income'
+q1 = df["income"].quantile(0.25)
+q3 = df["income"].quantile(0.75)
+iqr = q3 - q1
+
+lower_bound = q1 - 1.5 * iqr
+upper_bound = q3 + 1.5 * iqr
+
+df_clean = df[(df["income"] >= lower_bound) & (df["income"] <= upper_bound)]
+\`\`\`
+
+### Feature Scaling: MinMax vs. StandardScaler
+
+Gradient descent converges significantly faster when features reside on similar bounds (typically $[0, 1]$ or mean $0$, standard deviation $1$).
+
+* **MinMaxScaler**: Scale values between 0 and 1. Highly sensitive to outliers.
+* **StandardScaler**: Transform features to have a mean of 0 and variance of 1. Ideal for algorithms assuming normal distribution.
+
+> [!WARNING]
+> Always fit your scaling transformers *only* on the training dataset to prevent **data leakage**. Transform the test dataset using the parameters fitted during the training step.
 
 ---
 
-## 3. Step 3: Model Training and Evaluation
+## 3. Step 3: End-to-End Scikit-Learn Pipeline
 
-With clean data, we split our dataset to evaluate generalization performance:
+Using isolated script commands can lead to processing errors during deployment. The best practice is compiling the cleaning and training processes into a single Scikit-Learn \`Pipeline\`.
 
 \`\`\`python
-from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 
-# Split dataset (80% Train, 20% Test)
+# Define preprocessing for numerical columns
+num_features = ["age", "income", "credit_score"]
+num_transformer = Pipeline(steps=[
+    ("imputer", KNNImputer(n_neighbors=5)),
+    ("scaler", StandardScaler())
+])
+
+# Define preprocessing for categorical columns
+cat_features = ["occupation", "gender", "has_loan"]
+cat_transformer = Pipeline(steps=[
+    ("encoder", OneHotEncoder(handle_unknown="ignore"))
+])
+
+# Combine preprocessing
+preprocessor = ColumnTransformer(transformers=[
+    ("num", num_transformer, num_features),
+    ("cat", cat_transformer, cat_features)
+])
+
+# Define the full model pipeline
+model_pipeline = Pipeline(steps=[
+    ("preprocessor", preprocessor),
+    ("classifier", RandomForestClassifier(n_estimators=100, random_state=42))
+])
+
+# Split and train
 X = df.drop(columns=["target"])
 y = df["target"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train model
-model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
+model_pipeline.fit(X_train, y_train)
 
-# Evaluate
-y_pred = model.predict(X_test)
-print(classification_report(y_test, y_pred))
+# Evaluate model
+predictions = model_pipeline.predict(X_test)
+print(classification_report(y_test, predictions))
 \`\`\`
 
-Always use cross-validation (e.g., K-Fold Cross-Validation) to get a robust estimate of performance across different subsets of the data!`
+Using this pipeline pattern, deploying your model is simple: you can dump the entire pipeline object as a serialization file (using \`pickle\` or \`joblib\`) and execute it on raw input request objects instantly in your production server.`
   }
 ]
 
