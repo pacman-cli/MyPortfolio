@@ -12,20 +12,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BlogController {
 
-    private final BlogService blogService;
+  private final BlogService blogService;
 
-    @GetMapping
-    public ResponseEntity<PagedResponse<BlogDTO>> getAllBlogs(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(blogService.getAllBlogs(page, size));
-    }
+  @GetMapping
+  public ResponseEntity<PagedResponse<BlogDTO>> getAllBlogs(
+      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    return ResponseEntity.ok(blogService.getAllBlogs(page, size));
+  }
 
-    @GetMapping("/{slug}")
-    public ResponseEntity<BlogDTO> getBlogBySlug(@PathVariable String slug) {
-        return blogService.getBlogBySlug(slug)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
+  @GetMapping("/{slug}")
+  public ResponseEntity<BlogDTO> getBlogBySlug(@PathVariable String slug) {
+    return blogService
+        .getBlogBySlug(slug)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
 }
