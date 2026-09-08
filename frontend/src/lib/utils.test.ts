@@ -13,4 +13,8 @@ describe('cn utility', () => {
   it('should handle conditional classes', () => {
     expect(cn('a', true && 'b', false && 'c')).toBe('a b')
   })
+
+  it('merges linear-style background and border classes cleanly', () => {
+    expect(cn('bg-zinc-950 border-zinc-800', 'p-4')).toBe('bg-zinc-950 border-zinc-800 p-4')
+  })
 })
