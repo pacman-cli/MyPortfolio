@@ -13,15 +13,30 @@ vi.mock('next/dynamic', () => ({
   },
 }))
 
+// Mock IntersectionObserver
+if (typeof window !== 'undefined' && !window.IntersectionObserver) {
+  class MockIntersectionObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+  window.IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver
+}
+
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => <div {...props}>{children}</div>,
-    section: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => <section {...props}>{children}</section>,
-    h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => <h1 {...props}>{children}</h1>,
-    p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => <p {...props}>{children}</p>,
-    span: ({ children, ...props }: React.HTMLAttributes<HTMLSpanElement>) => <span {...props}>{children}</span>,
-  },
+  motion: new Proxy(
+    {},
+    {
+      get: (_target, prop: string) => {
+        const Component = ({ children, whileTap, whileHover, animate, initial, exit, transition, ...props }: React.HTMLAttributes<HTMLElement> & Record<string, unknown>) => {
+          const Tag = prop as keyof React.JSX.IntrinsicElements
+          return <Tag {...(props as Record<string, unknown>)}>{children}</Tag>
+        }
+        return Component
+      },
+    }
+  ),
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   useReducedMotion: () => true,
 }))

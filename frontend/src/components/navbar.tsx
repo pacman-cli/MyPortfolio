@@ -103,7 +103,7 @@ export const Navbar = () => {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 print:hidden",
-        isScrolled ? "bg-background/80 backdrop-blur-md border-b border-border py-3" : "bg-transparent py-5"
+        isScrolled ? "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 py-3" : "bg-transparent py-5"
       )}
       aria-label="Main navigation"
     >
