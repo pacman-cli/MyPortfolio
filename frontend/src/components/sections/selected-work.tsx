@@ -4,7 +4,8 @@ import { getTechIcon, getTechIconColor } from '@/lib/tech-icons'
 import type { Project } from '@/types'
 import { motion } from 'framer-motion'
 import { SPRING_FADE_UP } from '@/lib/animations'
-import { ArrowUpRight, Folder, Github } from 'lucide-react'
+import { ArrowUpRight, Folder } from 'lucide-react'
+import { SiGithub } from 'react-icons/si'
 import Link from 'next/link'
 import { useRef, memo } from 'react'
 
@@ -22,7 +23,7 @@ const ProjectRow = memo(({ project, index }: { project: Project; index: number }
       viewport={{ once: true }}
       className="group transition-all duration-300"
     >
-      <div className="glass glass-hover rounded-xl overflow-hidden">
+      <div className="border border-zinc-200/80 dark:border-zinc-800/80 bg-white/50 dark:bg-zinc-900/40 backdrop-blur-md rounded-xl overflow-hidden hover:border-zinc-300 dark:hover:border-zinc-700 transition-all">
         <div className="accent-bar-left" />
 
         <div className="flex flex-col md:flex-row gap-4 p-4 md:px-6 md:py-5 md:items-start">
@@ -73,7 +74,7 @@ const ProjectRow = memo(({ project, index }: { project: Project; index: number }
                 className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-full transition-all"
                 aria-label="GitHub Repo"
               >
-                <Github className="w-5 h-5" />
+                <SiGithub className="w-5 h-5" />
               </Link>
             )}
             {project.demoUrl && (
