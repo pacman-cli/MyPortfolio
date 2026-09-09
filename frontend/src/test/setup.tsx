@@ -29,9 +29,18 @@ vi.mock('framer-motion', () => ({
     {},
     {
       get: (_target, prop: string) => {
-        const Component = ({ children, whileTap, whileHover, animate, initial, exit, transition, ...props }: React.HTMLAttributes<HTMLElement> & Record<string, unknown>) => {
+        const Component = ({ children, ...props }: React.HTMLAttributes<HTMLElement> & Record<string, unknown>) => {
+          const restProps = { ...props }
+          delete restProps.whileTap
+          delete restProps.whileHover
+          delete restProps.whileInView
+          delete restProps.animate
+          delete restProps.initial
+          delete restProps.exit
+          delete restProps.transition
+          delete restProps.viewport
           const Tag = prop as keyof React.JSX.IntrinsicElements
-          return <Tag {...(props as Record<string, unknown>)}>{children}</Tag>
+          return <Tag {...(restProps as Record<string, unknown>)}>{children}</Tag>
         }
         return Component
       },
@@ -39,4 +48,8 @@ vi.mock('framer-motion', () => ({
   ),
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
   useReducedMotion: () => true,
+  useInView: () => true,
+  useScroll: () => ({ scrollYProgress: { get: () => 0 } }),
+  useSpring: (v: unknown) => v,
+  useTransform: (v: unknown, _in: unknown, out: Array<unknown>) => out ? out[0] : v,
 }))

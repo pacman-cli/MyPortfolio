@@ -39,7 +39,7 @@ export const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, ...SPRING_FADE_UP }}
                   viewport={{ once: true }}
-                  className="glass p-4 rounded-xl text-center"
+                  className="bg-white/50 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 p-4 rounded-xl text-center backdrop-blur-md"
                 >
                   <div className="text-2xl font-bold text-primary">2023</div>
                   <div className="text-xs text-muted-foreground/60">Started Journey</div>
@@ -49,7 +49,7 @@ export const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15, ...SPRING_FADE_UP }}
                   viewport={{ once: true }}
-                  className="glass p-4 rounded-xl text-center"
+                  className="bg-white/50 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 p-4 rounded-xl text-center backdrop-blur-md"
                 >
                   <div className="text-2xl font-bold text-primary">10+</div>
                   <div className="text-xs text-muted-foreground/60">Projects Built</div>
