@@ -32,17 +32,8 @@ export const Hero = () => {
             {!prefersReducedMotion && <ScrollProgressBar />}
 
             {/* Background Atmosphere */}
-            <div className="absolute inset-0 -z-10" aria-hidden="true">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(16,185,129,0.10),transparent_28%),radial-gradient(circle_at_78%_18%,rgba(45,212,191,0.08),transparent_30%),linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--background)/0.94)_55%,hsl(var(--background))_100%)]" />
-                <div className="absolute left-0 top-24 h-px w-full bg-gradient-to-r from-transparent via-emerald-400/25 to-transparent" />
-                <div
-                    className="absolute inset-0 bg-[linear-gradient(rgba(16,185,129,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.028)_1px,transparent_1px)] bg-[size:36px_36px]"
-                    style={{
-                        maskImage: 'linear-gradient(90deg, black 0%, black 48%, transparent 78%)',
-                        WebkitMaskImage: 'linear-gradient(90deg, black 0%, black 48%, transparent 78%)'
-                    }}
-                />
-                <div className="absolute inset-0 opacity-[0.035] [background-image:radial-gradient(currentColor_0.7px,transparent_0.7px)] [background-size:12px_12px] text-foreground" />
+            <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+                <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-500/10 blur-[120px] rounded-full" />
             </div>
 
             {/* Main Container */}
