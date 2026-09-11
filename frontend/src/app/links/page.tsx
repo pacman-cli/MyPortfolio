@@ -5,8 +5,8 @@ import { constructMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Github, Instagram, Linkedin, Mail, Youtube, ExternalLink } from 'lucide-react'
-import { SiX, SiFacebook, SiLeetcode, SiThreads } from 'react-icons/si'
+import { Mail, ExternalLink } from 'lucide-react'
+import { SiX, SiFacebook, SiLeetcode, SiThreads, SiGithub, SiLinkedin, SiYoutube, SiInstagram } from 'react-icons/si'
 
 export const metadata: Metadata = constructMetadata({
   title: 'Social Links | MD Ashikur Rahman Puspo — Connect With Me',
@@ -33,76 +33,66 @@ const socialLinks = [
     handle: '@pacman-cli',
     url: 'https://github.com/pacman-cli',
     description: 'Open-source projects, contributions, and code repositories.',
-    icon: <Github className="w-6 h-6" />,
-    color: 'hover:border-gray-400 dark:hover:border-gray-500',
+    icon: <SiGithub className="w-5 h-5" />,
   },
   {
     name: 'LinkedIn',
     handle: '@iampuspo',
     url: 'https://www.linkedin.com/in/iampuspo/',
     description: 'Professional network, career updates, and industry connections.',
-    icon: <Linkedin className="w-6 h-6" />,
-    color: 'hover:border-blue-500',
+    icon: <SiLinkedin className="w-5 h-5" />,
   },
   {
     name: 'LeetCode',
     handle: '@pacman-cli',
     url: 'https://leetcode.com/u/pacman-cli/',
     description: 'Competitive programming, data structures, and algorithm practice.',
-    icon: <SiLeetcode className="w-6 h-6" />,
-    color: 'hover:border-amber-500',
+    icon: <SiLeetcode className="w-5 h-5" />,
   },
   {
     name: 'YouTube',
     handle: '@springCraftDev',
     url: 'https://www.youtube.com/@springCraftDev',
     description: 'Tech tutorials, coding content, and developer vlogs.',
-    icon: <Youtube className="w-6 h-6" />,
-    color: 'hover:border-red-500',
+    icon: <SiYoutube className="w-5 h-5" />,
   },
   {
     name: 'Facebook',
     handle: '@pacman.puspo',
     url: 'https://www.facebook.com/pacman.puspo/',
     description: 'Personal updates, community engagement, and social content.',
-    icon: <SiFacebook className="w-6 h-6" />,
-    color: 'hover:border-blue-600',
+    icon: <SiFacebook className="w-5 h-5" />,
   },
   {
     name: 'Instagram',
     handle: '@iampuspoo',
     url: 'https://www.instagram.com/iampuspoo/',
     description: 'Behind-the-scenes, lifestyle, and visual storytelling.',
-    icon: <Instagram className="w-6 h-6" />,
-    color: 'hover:border-pink-500',
+    icon: <SiInstagram className="w-5 h-5" />,
   },
   {
     name: 'X (Twitter)',
     handle: '@iam_puspo',
     url: 'https://x.com/iam_puspo',
     description: 'Tech opinions, industry thoughts, and real-time updates.',
-    icon: <SiX className="w-5 h-5" />,
-    color: 'hover:border-gray-500',
+    icon: <SiX className="w-4 h-4" />,
   },
   {
     name: 'Threads',
     handle: '@pacman.puspo',
     url: 'https://www.threads.net/@pacman.puspo',
     description: 'Conversations, threads, and casual tech discussions.',
-    icon: <SiThreads className="w-6 h-6" />,
-    color: 'hover:border-gray-400',
+    icon: <SiThreads className="w-5 h-5" />,
   },
   {
     name: 'Email',
     handle: 'puspopuspo520@gmail.com',
     url: 'mailto:puspopuspo520@gmail.com',
     description: 'Business inquiries, collaborations, and professional contact.',
-    icon: <Mail className="w-6 h-6" />,
-    color: 'hover:border-emerald-500',
+    icon: <Mail className="w-5 h-5" />,
   },
 ]
 
-// JSON-LD for this specific page — explicitly marks each social as a linked WebPage
 const linksPageJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
@@ -131,7 +121,7 @@ const linksPageJsonLd = {
 
 export default function LinksPage() {
   return (
-    <main className="min-h-screen pt-24 pb-16">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-16">
       <JsonLd data={linksPageJsonLd} />
       <BreadcrumbSchema
         items={[
@@ -139,31 +129,31 @@ export default function LinksPage() {
           { name: 'Social Links', item: '/links' },
         ]}
       />
-      <div className="container mx-auto px-6 max-w-3xl">
+      <div className="max-w-3xl mx-auto px-6">
         {/* Header */}
         <section className="mb-12 text-center">
-          <div className="relative w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border-2 border-emerald-500/30 shadow-lg">
+          <div className="relative w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border border-zinc-800 shadow-2xl">
             <Image
               src="/profile.webp"
               alt="MD Ashikur Rahman Puspo"
               fill
-              className="object-cover"
+              className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
               sizes="96px"
               priority
             />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-zinc-100 mb-2">
             MD Ashikur Rahman Puspo
           </h1>
-          <p className="text-muted-foreground text-lg mb-1">
+          <p className="text-zinc-400 text-base mb-1">
             Backend Developer &middot; Software Engineer
           </p>
-          <p className="text-muted-foreground text-sm max-w-md mx-auto">
+          <p className="text-zinc-500 text-sm max-w-md mx-auto">
             Building scalable systems with Spring Boot, Java, and AWS. Connect with me across platforms.
           </p>
         </section>
 
-        {/* Social Links Grid */}
+        {/* Social Links */}
         <section className="space-y-3">
           {socialLinks.map((link) => (
             <Link
@@ -171,28 +161,28 @@ export default function LinksPage() {
               href={link.url}
               target={link.url.startsWith('mailto:') ? undefined : '_blank'}
               rel={link.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-              className={`group flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${link.color}`}
+              className="group flex items-center gap-4 p-4 rounded-xl border border-zinc-800/80 bg-zinc-900/50 hover:border-emerald-500/50 hover:bg-zinc-900 transition-all duration-300"
             >
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 group-hover:text-emerald-500 transition-colors shrink-0">
+              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-400 group-hover:text-emerald-400 transition-colors shrink-0">
                 {link.icon}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-foreground">{link.name}</span>
-                  <span className="text-sm text-muted-foreground">{link.handle}</span>
+                  <span className="font-bold text-zinc-100 text-sm group-hover:text-emerald-400 transition-colors">{link.name}</span>
+                  <span className="text-xs text-zinc-500">{link.handle}</span>
                 </div>
-                <p className="text-sm text-muted-foreground truncate">{link.description}</p>
+                <p className="text-xs text-zinc-400 truncate">{link.description}</p>
               </div>
-              <ExternalLink className="w-4 h-4 text-muted-foreground/50 group-hover:text-emerald-500 transition-colors shrink-0" />
+              <ExternalLink className="w-4 h-4 text-zinc-600 group-hover:text-emerald-400 transition-colors shrink-0" />
             </Link>
           ))}
         </section>
 
         {/* Website CTA */}
-        <section className="mt-10 text-center">
+        <section className="mt-12 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold transition-all hover:-translate-y-0.5 shadow-md"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-sm transition-all duration-300 shadow-lg shadow-emerald-500/20"
           >
             Visit Portfolio Website
             <ExternalLink className="w-4 h-4" />
