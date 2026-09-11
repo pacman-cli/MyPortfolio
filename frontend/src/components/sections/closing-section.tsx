@@ -1,32 +1,11 @@
 "use client"
 
 import { SocialQuietLinks } from '@/components/ui/social-links'
-import { AvailabilityBadge } from '@/components/ui/availability-badge'
 import { siteConfig } from '@/lib/site'
 import { motion } from 'framer-motion'
-import { SPRING_FADE_UP } from '@/lib/animations'
 import { Check, Copy, Download } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: SPRING_FADE_UP,
-  },
-}
 
 const CopyEmailButton = () => {
   const [copied, setCopied] = useState(false)
@@ -43,20 +22,18 @@ const CopyEmailButton = () => {
   }
 
   return (
-    <motion.button
+    <button
       onClick={handleCopy}
-      className="group relative inline-flex items-center gap-3 px-6 py-3 rounded-full bg-card/60 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
+      className="group inline-flex items-center gap-3 px-6 py-3 rounded-full bg-zinc-900/60 border border-zinc-800 hover:border-emerald-500/50 hover:bg-zinc-900 transition-all duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
       aria-label={copied ? "Email copied" : "Copy email address"}
     >
-      <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+      <span className="text-sm font-medium text-zinc-400 group-hover:text-zinc-200 transition-colors">
         {email}
       </span>
-      <span className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary/50 group-hover:bg-primary/10 transition-colors duration-300">
-        {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />}
+      <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-800 group-hover:bg-emerald-500/15 transition-colors duration-300">
+        {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 transition-colors" />}
       </span>
-    </motion.button>
+    </button>
   )
 }
 
@@ -66,69 +43,62 @@ export const ClosingSection = () => {
   return (
     <section
       id="contact"
-      className="relative py-24 md:py-32 bg-background overflow-hidden scroll-mt-20"
+      className="relative py-28 md:py-36 overflow-hidden scroll-mt-20"
       aria-labelledby="closing-heading"
     >
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/3 rounded-full blur-3xl" />
+      {/* Ambient glow */}
+      <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-emerald-500/8 rounded-full blur-[120px]" />
       </div>
 
-      <div className="container mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={containerVariants}
+      <div className="max-w-3xl mx-auto px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-widest block mb-6">
+            Open to Opportunities
+          </span>
+
+          <h2
+            id="closing-heading"
+            className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-zinc-100 leading-[1.08] mb-6"
           >
-            <motion.div variants={itemVariants}>
-              <AvailabilityBadge label="Open to opportunities" />
-            </motion.div>
+            Let&apos;s build something{" "}
+            <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+              that matters.
+            </span>
+          </h2>
 
-            <motion.h2
-              variants={itemVariants}
-              id="closing-heading"
-              className="mt-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.1]"
-            >
-              Let&apos;s build something
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-emerald-500">
-                that matters.
-              </span>
-            </motion.h2>
+          <p className="text-zinc-400 text-base sm:text-lg max-w-md mx-auto leading-relaxed mb-10">
+            I enjoy hard problems and clean solutions.
+            <br className="hidden sm:block" />
+            If something here resonated, let&apos;s talk.
+          </p>
 
-            <motion.div variants={itemVariants} className="mt-8 h-px w-24 mx-auto bg-gradient-to-r from-transparent via-border to-transparent" aria-hidden="true" />
+          <div className="mb-6">
+            <CopyEmailButton />
+          </div>
 
-            <motion.p variants={itemVariants} className="mt-8 text-base md:text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed">
-              I enjoy hard problems and clean solutions.
-              <br className="hidden sm:block" />
-              If something here resonated, let&apos;s talk.
-            </motion.p>
+          <Link
+            href={resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-zinc-200 transition-colors duration-300"
+          >
+            <Download className="w-4 h-4" />
+            Download Resume
+          </Link>
 
-            <motion.div variants={itemVariants} className="mt-10">
-              <CopyEmailButton />
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="mt-6">
-              <Link
-                href={resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300"
-              >
-                <Download className="w-4 h-4" />
-                Download Resume
-              </Link>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="mt-12 flex flex-col items-center justify-center gap-4">
-              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-2">Find Me Online</h3>
-              <div className="flex flex-wrap items-center justify-center gap-6">
-                <SocialQuietLinks />
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
+          <div className="mt-14 flex flex-col items-center gap-4">
+            <h3 className="text-xs font-semibold text-zinc-600 uppercase tracking-widest">Find Me Online</h3>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              <SocialQuietLinks />
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
