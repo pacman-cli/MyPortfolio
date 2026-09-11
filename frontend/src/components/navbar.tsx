@@ -118,47 +118,11 @@ export const Navbar = () => {
             }
           }}
         >
-          <div className="flex items-center gap-2">
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="overflow-visible transition-transform duration-300 group-hover:-translate-y-0.5"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient id="paint_green_linear" x1="10" y1="8" x2="30" y2="32" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#4ADE80" />
-                  <stop offset="1" stopColor="#2DD4BF" />
-                </linearGradient>
-              </defs>
-
-              <rect
-                x="10"
-                y="8"
-                width="7"
-                height="24"
-                rx="3.5"
-                fill="url(#paint_green_linear)"
-              />
-
-              <path
-                d="M20 12H24C27.3137 12 30 14.6863 30 18V18C30 21.3137 27.3137 24 24 24H20"
-                stroke="url(#paint_green_linear)"
-                strokeWidth="6"
-                strokeLinecap="round"
-              />
-
-              <circle
-                cx="27"
-                cy="18"
-                r="2"
-                fill="#F0FDF4"
-              />
-            </svg>
-            <span className="sr-only">Home</span>
+          <div className="flex items-center gap-2.5">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
+            <span className="text-sm font-bold tracking-wider text-zinc-100 uppercase">
+              Puspo
+            </span>
           </div>
         </Link>
 
@@ -171,10 +135,10 @@ export const Navbar = () => {
                 <Link
                   href={link.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:scale-105 active:scale-95 inline-block origin-center",
+                    "text-sm font-medium transition-colors inline-block",
                     isActive
-                      ? "text-emerald-700 dark:text-emerald-400"
-                      : "text-muted-foreground hover:text-emerald-700 dark:hover:text-emerald-400"
+                      ? "text-emerald-400"
+                      : "text-zinc-400 hover:text-zinc-100"
                   )}
                   onClick={(e) => handleNavClick(e, link.href)}
                   {...(isActive && { 'aria-current': 'page' as const })}
@@ -182,7 +146,7 @@ export const Navbar = () => {
                   {link.name}
                 </Link>
                 {isActive && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-600 dark:bg-emerald-400 rounded-full origin-left animate-[scaleX_0.2s_ease-out]" />
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-400 rounded-full" />
                 )}
               </div>
             )
