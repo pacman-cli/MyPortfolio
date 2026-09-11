@@ -4,7 +4,6 @@ import { getBlogs } from '@/lib/api'
 import { absoluteUrl, siteConfig } from '@/lib/site'
 import { constructMetadata } from '@/lib/seo'
 import { calculateReadTime } from '@/lib/utils'
-import { BookOpen } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { BlogList } from './_components/blog-list'
@@ -51,7 +50,7 @@ export default async function BlogPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-20">
       <JsonLd data={blogPageJsonLd} />
       <BreadcrumbSchema
         items={[
@@ -59,44 +58,35 @@ export default async function BlogPage() {
           { name: 'Blog', item: '/blog' },
         ]}
       />
-      <div className="container mx-auto px-6 max-w-4xl pt-28 pb-20">
+      <div className="max-w-4xl mx-auto px-6">
         {/* Header */}
-        <div className="relative mb-16 overflow-hidden">
-          <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
-          <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl -z-10" />
-
-          <div className="flex items-start gap-4">
-            <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20 shrink-0">
-              <BookOpen className="w-8 h-8 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-3">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/90 to-foreground/60">
-                  Blog
-                </span>
-              </h1>
-              <p className="text-muted-foreground max-w-2xl text-base md:text-lg leading-relaxed">
-                Technical articles on backend engineering, system design, and software architecture.
-              </p>
-              <p className="mt-3 text-xs text-muted-foreground/50 font-mono">
-                {blogs.length} {blogs.length === 1 ? 'article' : 'articles'} &middot; ~{totalReadTime} min total reading
-              </p>
-            </div>
-          </div>
+        <div className="mb-14">
+          <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-widest block mb-2">
+            Writing & Insights
+          </span>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-100 mb-3">
+            Technical Articles
+          </h1>
+          <p className="text-zinc-400 max-w-xl text-base leading-relaxed">
+            Articles on backend engineering, system design, and software architecture.
+          </p>
+          <p className="mt-3 text-xs text-zinc-500 font-mono">
+            {blogs.length} {blogs.length === 1 ? 'article' : 'articles'} &middot; ~{totalReadTime} min total reading
+          </p>
         </div>
 
         {/* Blog List */}
         <BlogList blogs={blogs} />
 
         {/* CTA */}
-        <div className="mt-12 pt-8 border-t border-border/40 text-center">
-          <p className="text-muted-foreground text-sm">
+        <div className="mt-16 pt-8 border-t border-zinc-800/80 text-center">
+          <p className="text-zinc-500 text-sm">
             More articles coming soon. Follow me on{' '}
             <Link
               href="https://www.linkedin.com/in/iampuspo/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline font-medium"
+              className="text-emerald-400 hover:underline font-medium"
             >
               LinkedIn
             </Link>{' '}
@@ -104,7 +94,9 @@ export default async function BlogPage() {
           </p>
         </div>
       </div>
-      <Footer />
+      <div className="mt-20">
+        <Footer />
+      </div>
     </main>
   )
 }
