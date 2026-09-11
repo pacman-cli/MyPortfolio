@@ -6,7 +6,8 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Mail, ExternalLink } from 'lucide-react'
-import { SiX, SiFacebook, SiLeetcode, SiThreads, SiGithub, SiLinkedin, SiYoutube, SiInstagram } from 'react-icons/si'
+import { SiX, SiFacebook, SiLeetcode, SiThreads, SiGithub, SiYoutube, SiInstagram } from 'react-icons/si'
+import { FaLinkedin } from 'react-icons/fa'
 
 export const metadata: Metadata = constructMetadata({
   title: 'Social Links | MD Ashikur Rahman Puspo — Connect With Me',
@@ -40,7 +41,7 @@ const socialLinks = [
     handle: '@iampuspo',
     url: 'https://www.linkedin.com/in/iampuspo/',
     description: 'Professional network, career updates, and industry connections.',
-    icon: <SiLinkedin className="w-5 h-5" />,
+    icon: <FaLinkedin className="w-5 h-5" />,
   },
   {
     name: 'LeetCode',
