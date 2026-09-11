@@ -1,29 +1,15 @@
 "use client"
 
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { motion } from 'framer-motion'
 import { Download, ExternalLink, Mail, Phone } from 'lucide-react'
 import { FaGithub, FaInstagram, FaLinkedin } from 'react-icons/fa'
 import { SiDocker, SiPostgresql, SiPython, SiSpringboot } from 'react-icons/si'
+import React from 'react'
 
 export default function ResumePage() {
-
-  // Animation Variants
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-
-
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-[#020817] pt-24 pb-16 px-4 md:px-8 print:p-0 print:bg-white print:text-black">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-16 px-4 md:px-8 print:p-0 print:bg-white print:text-black">
       <div className="max-w-4xl mx-auto print:max-w-none">
 
         {/* Actions Bar - Hidden in Print */}
@@ -31,7 +17,7 @@ export default function ResumePage() {
           <Button
             asChild
             variant="outline"
-            className="gap-2"
+            className="gap-2 border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-300 hover:text-white rounded-full"
           >
             <a href="https://drive.google.com/uc?export=download&id=1kdsPhac4EReNEXJU6WfuNg9RPe4d2FvJ" target="_blank" rel="noopener noreferrer">
               <Download className="w-4 h-4" /> Download PDF
@@ -40,141 +26,101 @@ export default function ResumePage() {
         </div>
 
         <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="space-y-6 print:space-y-4"
         >
           {/* Header Section */}
-          <div className="print:block">
-            <Card className="p-8 border-l-4 border-l-emerald-500 shadow-lg dark:bg-slate-900/50 backdrop-blur print:border-0 print:shadow-none print:p-0 print:bg-transparent">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <div>
-                  <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 print:text-black print:text-2xl">
-                    MD. ASHIKUR RAHMAN PUSPO
-                  </h1>
-                  <p className="text-lg md:text-xl text-emerald-600 dark:text-emerald-400 font-medium mb-4 print:text-black print:text-lg">
-                    Backend Developer | System Architect | Database Specialist
-                  </p>
-                  <div className="flex flex-wrap gap-4 text-sm text-slate-600 dark:text-slate-400 print:text-black print:gap-2 print:text-xs">
-                    <a href="mailto:puspopuspo520@gmail.com" className="flex items-center gap-1 hover:text-emerald-500 transition-colors">
-                      <Mail className="w-4 h-4 print:w-3 print:h-3" /> puspopuspo520@gmail.com
-                    </a>
-                    <a href="tel:+8801990866142" className="flex items-center gap-1 hover:text-emerald-500 transition-colors">
-                      <Phone className="w-4 h-4 print:w-3 print:h-3" /> +880 1990866142
-                    </a>
-                    <a href="https://www.puspo.online" className="flex items-center gap-1 hover:text-emerald-500 transition-colors">
-                      <ExternalLink className="w-4 h-4 print:w-3 print:h-3" /> www.puspo.online
-                    </a>
-                  </div>
-                  <div className="flex gap-4 mt-4 print:mt-2">
-                    <a href="https://linkedin.com/in/iampuspo" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-slate-800 rounded-full hover:bg-blue-500 hover:text-white transition-all print:bg-transparent print:p-0 print:text-black">
-                      <FaLinkedin className="w-5 h-5 print:hidden" />
-                      <span className="hidden print:inline text-xs underline">linkedin.com/in/iampuspo</span>
-                      {/* Screen only icon view */}
-                      <span className="print:hidden sr-only">LinkedIn</span>
-                    </a>
-                    <a href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-slate-800 rounded-full hover:bg-slate-900 hover:text-white transition-all print:bg-transparent print:p-0 print:text-black">
-                      <FaGithub className="w-5 h-5 print:hidden" />
-                      <span className="hidden print:inline text-xs underline">github.com/pacman-cli</span>
-                      {/* Screen only icon view */}
-                      <span className="print:hidden sr-only">GitHub</span>
-                    </a>
-                    <a href="https://www.instagram.com/iampuspoo/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 bg-slate-100 dark:bg-slate-800 rounded-full hover:bg-pink-600 hover:text-white transition-all print:bg-transparent print:p-0 print:text-black">
-                      <FaInstagram className="w-5 h-5 print:hidden" />
-                      <span className="hidden print:inline text-xs underline">instagram.com/iampuspoo</span>
-                      {/* Screen only icon view */}
-                      <span className="print:hidden sr-only">Instagram</span>
-                    </a>
-                  </div>
+          <div className="p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 print:border-0 print:p-0 print:bg-transparent">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-100 mb-2 print:text-black print:text-2xl">
+                  MD. ASHIKUR RAHMAN PUSPO
+                </h1>
+                <p className="text-lg md:text-xl text-emerald-400 font-medium mb-4 print:text-black print:text-lg">
+                  Backend Developer | System Architect | Database Specialist
+                </p>
+                <div className="flex flex-wrap gap-4 text-sm text-zinc-400 print:text-black print:gap-2 print:text-xs">
+                  <a href="mailto:puspopuspo520@gmail.com" className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors">
+                    <Mail className="w-4 h-4" /> puspopuspo520@gmail.com
+                  </a>
+                  <a href="tel:+8801990866142" className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors">
+                    <Phone className="w-4 h-4" /> +880 1990866142
+                  </a>
+                  <a href="https://www.puspo.online" className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors">
+                    <ExternalLink className="w-4 h-4" /> www.puspo.online
+                  </a>
+                </div>
+                <div className="flex gap-3 mt-4 print:mt-2">
+                  <a href="https://linkedin.com/in/iampuspo" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-zinc-800 hover:bg-emerald-500/20 hover:text-emerald-400 text-zinc-400 transition-all">
+                    <FaLinkedin className="w-4 h-4" />
+                    <span className="sr-only">LinkedIn</span>
+                  </a>
+                  <a href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-zinc-800 hover:bg-emerald-500/20 hover:text-emerald-400 text-zinc-400 transition-all">
+                    <FaGithub className="w-4 h-4" />
+                    <span className="sr-only">GitHub</span>
+                  </a>
+                  <a href="https://www.instagram.com/iampuspoo/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-zinc-800 hover:bg-emerald-500/20 hover:text-emerald-400 text-zinc-400 transition-all">
+                    <FaInstagram className="w-4 h-4" />
+                    <span className="sr-only">Instagram</span>
+                  </a>
                 </div>
               </div>
-            </Card>
-          </div>
-
-          {/* Summary Section */}
-          <div className="print:block">
-            <Card className="p-8 shadow-sm dark:bg-slate-900/30 print:border-0 print:shadow-none print:p-0 print:bg-transparent">
-              <h2 className="text-xl font-bold border-b border-slate-200 dark:border-slate-800 pb-2 mb-4 text-slate-900 dark:text-white print:text-black print:border-black print:mb-2 print:text-lg">
-                Professional Summary
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed print:text-black print:text-sm">
-                Results-driven Backend Engineer with strong expertise in <strong className="text-emerald-600 dark:text-emerald-400 print:text-black">Spring Boot</strong>,
-                <strong className="text-emerald-600 dark:text-emerald-400 print:text-black"> microservices architecture</strong>, and
-                <strong className="text-emerald-600 dark:text-emerald-400 print:text-black"> cloud deployment</strong>.
-                Proven track record of architecting 8+ production-grade systems handling 10K+ concurrent users.
-                Skilled in database optimization with 35-40% performance improvement and designing secure authentication systems.
-                Passionate about building scalable, maintainable, and cost-efficient backend architectures using Java, PostgreSQL, and AWS.
-              </p>
-            </Card>
-          </div>
-
-          {/* Technical Skills - Grid Layout */}
-          {/* In print, we probably want a list instead of grid cards to save space, or simple minimal grid */}
-          <div className="print:block">
-            <h2 className="text-xl font-bold border-b border-slate-200 dark:border-slate-800 pb-2 mb-4 text-slate-900 dark:text-white print:text-black print:border-black print:mb-2 print:text-lg">
-              Technical Skills
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-2 print:gap-2">
-              <SkillCard
-                category="Programming Languages"
-                skills={["Java", "Python", "C++"]}
-                icon={<SiPython />}
-              />
-              <SkillCard
-                category="Backend Frameworks"
-                skills={["Spring Boot", "Spring Security", "Spring AI", "REST APIs", "Microservices"]}
-                icon={<SiSpringboot />}
-              />
-              <SkillCard
-                category="Databases & Caching"
-                skills={["PostgreSQL", "MySQL", "Redis", "Query Optimization"]}
-                icon={<SiPostgresql />}
-              />
-              <SkillCard
-                category="DevOps & Infrastructure"
-                skills={["Docker", "AWS EC2", "Azure", "CI/CD Pipelines", "Linux"]}
-                icon={<SiDocker />}
-              />
             </div>
           </div>
 
+          {/* Summary */}
+          <div className="p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 print:border-0 print:p-0 print:bg-transparent">
+            <h2 className="text-xl font-bold text-zinc-100 border-b border-zinc-800 pb-3 mb-4 tracking-tight print:text-black print:border-black">
+              Professional Summary
+            </h2>
+            <p className="text-zinc-400 leading-relaxed text-sm md:text-base print:text-black">
+              Results-driven Backend Engineer with strong expertise in <strong className="text-zinc-200">Spring Boot</strong>, <strong className="text-zinc-200">microservices architecture</strong>, and <strong className="text-zinc-200">cloud deployment</strong>. Proven track record of architecting 8+ production-grade systems handling 10K+ concurrent users. Skilled in database optimization with 35-40% performance improvement and designing secure authentication systems.
+            </p>
+          </div>
 
-          {/* Experience Section - Vertical Stack */}
-          <div className="print:block">
-            <h2 className="text-xl font-bold border-b border-slate-200 dark:border-slate-800 pb-2 mb-4 text-slate-900 dark:text-white print:text-black print:border-black print:mb-2 print:text-lg">
+          {/* Skills Grid */}
+          <div>
+            <h2 className="text-xl font-bold text-zinc-100 border-b border-zinc-800 pb-3 mb-4 tracking-tight print:text-black print:border-black">
+              Technical Skills
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:grid-cols-2">
+              <SkillCard category="Languages" skills={["Java", "Python", "C++"]} icon={<SiPython />} />
+              <SkillCard category="Backend Frameworks" skills={["Spring Boot", "Spring Security", "Spring AI", "REST APIs", "Microservices"]} icon={<SiSpringboot />} />
+              <SkillCard category="Databases & Caching" skills={["PostgreSQL", "MySQL", "Redis", "Query Optimization"]} icon={<SiPostgresql />} />
+              <SkillCard category="DevOps & Infrastructure" skills={["Docker", "AWS EC2", "Azure", "CI/CD Pipelines", "Linux"]} icon={<SiDocker />} />
+            </div>
+          </div>
+
+          {/* Experience */}
+          <div>
+            <h2 className="text-xl font-bold text-zinc-100 border-b border-zinc-800 pb-3 mb-4 tracking-tight print:text-black print:border-black">
               Professional Experience
             </h2>
 
-            <div className="relative border-l-2 border-slate-200 dark:border-slate-800 ml-3 space-y-8 pl-8 py-2 print:border-l print:ml-0 print:pl-4 print:space-y-4">
-              <div className="relative">
-                {/* Bullet Node */}
-                <div className="absolute -left-[41px] top-1 h-5 w-5 rounded-full border-4 border-white dark:border-slate-950 bg-emerald-500 print:hidden" />
-
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 print:mb-1">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white print:text-black print:text-base">Backend Developer & Project Lead</h3>
-                  <span className="text-sm font-medium text-emerald-600 dark:text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 px-3 py-1 rounded-full w-fit print:bg-transparent print:text-black print:p-0 print:text-xs">2023 – Present</span>
-                </div>
-                <p className="text-slate-500 dark:text-slate-400 mb-4 font-medium print:text-black print:mb-1 print:text-sm">University Projects | Dhaka, Bangladesh</p>
-
-                <ul className="space-y-2 text-slate-600 dark:text-slate-300 list-disc list-outside ml-4 print:text-black print:text-sm print:space-y-1">
-                  <li>Architected and delivered <strong>8 backend systems</strong> using Spring Boot, serving <strong>10K+ concurrent users</strong> with PostgreSQL, Redis, and Docker on AWS EC2.</li>
-                  <li>Optimized database queries by <strong>35-40%</strong>, successfully reducing API response times from <strong>2s to 500ms</strong> through strategic indexing and caching mechanisms.</li>
-                  <li>Designed and implemented microservices architecture featuring REST APIs with <strong>JWT-based authentication</strong> and RBAC.</li>
-                  <li>Deployed dockerized applications establishing <strong>CI/CD pipelines</strong> and automated testing, achieving <strong>80%+ code coverage</strong>.</li>
-                  <li>Mentored junior developers on best practices and conducted peer code reviews.</li>
-                </ul>
+            <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 print:border-0 print:p-0 print:bg-transparent">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                <h3 className="text-lg font-bold text-zinc-100 print:text-black">Backend Developer & Project Lead</h3>
+                <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full w-fit">2023 – Present</span>
               </div>
+              <p className="text-xs text-zinc-500 mb-4 font-mono">University Projects | Dhaka, Bangladesh</p>
+
+              <ul className="space-y-2 text-zinc-400 text-sm list-disc list-outside ml-4 print:text-black">
+                <li>Architected and delivered <strong className="text-zinc-200">8 backend systems</strong> using Spring Boot, serving <strong className="text-zinc-200">10K+ concurrent users</strong> with PostgreSQL, Redis, and Docker on AWS EC2.</li>
+                <li>Optimized database queries by <strong className="text-zinc-200">35-40%</strong>, successfully reducing API response times from <strong className="text-zinc-200">2s to 500ms</strong> through strategic indexing and caching mechanisms.</li>
+                <li>Designed and implemented microservices architecture featuring REST APIs with <strong className="text-zinc-200">JWT-based authentication</strong> and RBAC.</li>
+                <li>Deployed dockerized applications establishing <strong className="text-zinc-200">CI/CD pipelines</strong> and automated testing, achieving <strong className="text-zinc-200">80%+ code coverage</strong>.</li>
+              </ul>
             </div>
           </div>
 
-          {/* Projects Section */}
-          {/* Grid view in print is okay if minimal */}
-          <div className="print:block print:break-before-page">
-            <h2 className="text-xl font-bold border-b border-slate-200 dark:border-slate-800 pb-2 mb-4 text-slate-900 dark:text-white print:text-black print:border-black print:mb-2 print:text-lg">
+          {/* Projects */}
+          <div>
+            <h2 className="text-xl font-bold text-zinc-100 border-b border-zinc-800 pb-3 mb-4 tracking-tight print:text-black print:border-black">
               Key Projects
             </h2>
-            <div className="grid gap-6 md:grid-cols-2 print:grid-cols-2 print:gap-4">
+            <div className="grid gap-4 md:grid-cols-2 print:grid-cols-2">
               <ProjectCard
                 title="StayMate"
                 subtitle="Hostel Booking Platform"
@@ -203,20 +149,15 @@ export default function ResumePage() {
           </div>
 
           {/* Education */}
-          <div className="print:block">
-            <Card className="p-6 bg-slate-50 dark:bg-slate-900/50 border-0 print:p-0 print:bg-transparent">
-              <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-white print:text-black print:mb-2 print:text-lg">Education</h2>
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                <div>
-                  <h3 className="font-bold text-lg print:text-base">B.Sc. in Computer Science & Engineering</h3>
-                  <p className="text-slate-600 dark:text-slate-400 print:text-black print:text-sm">United International University, Dhaka</p>
-                </div>
-                <span className="mt-2 md:mt-0 px-3 py-1 bg-slate-200 dark:bg-slate-800 rounded text-sm font-medium print:bg-transparent print:p-0 print:text-black print:text-xs">Expected 2027</span>
+          <div className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 print:border-0 print:p-0 print:bg-transparent">
+            <h2 className="text-xl font-bold text-zinc-100 mb-3 tracking-tight print:text-black">Education</h2>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+              <div>
+                <h3 className="font-bold text-base text-zinc-100 print:text-black">B.Sc. in Computer Science & Engineering</h3>
+                <p className="text-zinc-400 text-sm print:text-black">United International University, Dhaka</p>
               </div>
-              <p className="mt-2 text-sm text-slate-500 print:text-black">
-                <strong>Coursework:</strong> Database Systems, Software Engineering, Data Structures, Microservices Architecture
-              </p>
-            </Card>
+              <span className="mt-2 md:mt-0 text-xs font-mono text-zinc-500">Expected 2027</span>
+            </div>
           </div>
 
         </motion.div>
@@ -225,44 +166,41 @@ export default function ResumePage() {
   )
 }
 
-// Helper Components
-
-function SkillCard({ category, skills, icon }: { category: string, skills: string[], icon: React.ReactNode }) {
+function SkillCard({ category, skills, icon }: { category: string; skills: string[]; icon: React.ReactNode }) {
   return (
-    <Card className="p-5 hover:shadow-md transition-shadow dark:bg-slate-900/40 print:shadow-none print:border print:border-gray-300 print:p-3 print:bg-transparent">
-      {/* Hide colorful icon in print */}
-      <div className="flex items-center gap-3 mb-3 text-emerald-600 dark:text-emerald-500 print:text-black print:mb-1">
-        <span className="text-xl print:hidden">{icon}</span>
-        <h3 className="font-semibold text-slate-900 dark:text-white print:text-black print:text-sm">{category}</h3>
+    <div className="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 print:border print:p-3 print:bg-transparent">
+      <div className="flex items-center gap-2.5 mb-3 text-emerald-400 print:text-black">
+        <span className="text-lg print:hidden">{icon}</span>
+        <h3 className="font-bold text-zinc-100 text-sm tracking-tight print:text-black">{category}</h3>
       </div>
-      <div className="flex flex-wrap gap-2">
-        {skills.map(skill => (
-          <span key={skill} className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs rounded-md print:bg-transparent print:border print:border-gray-200 print:text-black print:px-1 print:py-0">
+      <div className="flex flex-wrap gap-1.5">
+        {skills.map((skill) => (
+          <span key={skill} className="px-2.5 py-1 bg-zinc-950/80 border border-zinc-800 text-zinc-300 text-xs rounded-full print:bg-transparent print:border print:text-black">
             {skill}
           </span>
         ))}
       </div>
-    </Card>
+    </div>
   )
 }
 
-function ProjectCard({ title, subtitle, tech, description }: { title: string, subtitle: string, tech: string[], description: string }) {
+function ProjectCard({ title, subtitle, tech, description }: { title: string; subtitle: string; tech: string[]; description: string }) {
   return (
-    <Card className="p-5 flex flex-col h-full hover:border-emerald-500/50 transition-colors dark:bg-slate-900/40 print:shadow-none print:border print:border-gray-300 print:p-3 print:bg-transparent">
-      <div className="mb-3 print:mb-1">
-        <h3 className="font-bold text-lg text-slate-900 dark:text-white print:text-black print:text-base">{title}</h3>
-        <p className="text-sm text-emerald-600 dark:text-emerald-400 font-medium print:text-black print:text-xs">{subtitle}</p>
+    <div className="p-5 rounded-2xl bg-zinc-900/50 border border-zinc-800/80 flex flex-col justify-between print:border print:p-3 print:bg-transparent">
+      <div>
+        <h3 className="font-bold text-base text-zinc-100 tracking-tight mb-0.5 print:text-black">{title}</h3>
+        <p className="text-xs text-emerald-400 font-medium mb-3 print:text-black">{subtitle}</p>
+        <p className="text-zinc-400 text-sm leading-relaxed mb-4 print:text-black">
+          {description}
+        </p>
       </div>
-      <p className="text-slate-600 dark:text-slate-400 text-sm mb-4 flex-grow print:text-black print:mb-2">
-        {description}
-      </p>
-      <div className="flex flex-wrap gap-2 mt-auto pt-3 border-t border-slate-100 dark:border-slate-800 print:border-t print:border-gray-200 print:pt-2">
-        {tech.map(t => (
-          <span key={t} className="text-[10px] uppercase tracking-wider font-semibold text-slate-500 print:text-black">
+      <div className="flex flex-wrap gap-1.5 pt-3 border-t border-zinc-800/60 print:border-t">
+        {tech.map((t) => (
+          <span key={t} className="text-[10px] uppercase font-mono tracking-wider font-semibold text-zinc-500 print:text-black">
             {t}
           </span>
         ))}
       </div>
-    </Card>
+    </div>
   )
 }
