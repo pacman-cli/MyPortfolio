@@ -3,7 +3,6 @@ import { Footer } from '@/components/footer'
 import { absoluteUrl, siteConfig } from '@/lib/site'
 import { getProjects } from '@/lib/projects'
 import { constructMetadata } from '@/lib/seo'
-import { Folder } from 'lucide-react'
 import type { Metadata } from 'next'
 import { ProjectList } from './_components/project-list'
 
@@ -46,7 +45,7 @@ export default async function ProjectsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-20">
       <JsonLd data={projectsPageJsonLd} />
       <BreadcrumbSchema
         items={[
@@ -54,30 +53,26 @@ export default async function ProjectsPage() {
           { name: 'Projects', item: '/projects' },
         ]}
       />
-      <div className="container mx-auto px-6 max-w-5xl pt-28 pb-20">
+      <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
-        <div className="mb-16">
-          <div className="flex items-start gap-4">
-            <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 shrink-0">
-              <Folder className="w-8 h-8 text-emerald-500" />
-            </div>
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground/90 to-foreground/60">
-                  All Projects
-                </span>
-              </h1>
-              <p className="text-muted-foreground max-w-2xl text-base md:text-lg leading-relaxed">
-                A collection of projects reflecting my passion for backend architecture, full-stack engineering, and system design.
-              </p>
-            </div>
-          </div>
+        <div className="mb-14">
+          <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-widest block mb-2">
+            Showcase
+          </span>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-100 mb-3">
+            All Projects
+          </h1>
+          <p className="text-zinc-400 max-w-xl text-base leading-relaxed">
+            Full-stack architectures, high-concurrency backends, and cloud engineering solutions.
+          </p>
         </div>
 
         {/* Project List */}
         <ProjectList projects={projects} />
       </div>
-      <Footer />
+      <div className="mt-20">
+        <Footer />
+      </div>
     </main>
   )
 }
