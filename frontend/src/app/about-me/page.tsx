@@ -37,9 +37,21 @@ const aboutPageJsonLd = {
   mainEntity: { '@id': `${siteConfig.url}/#person` },
 }
 
+const SOCIAL_LINKS = [
+  { label: 'GitHub', href: 'https://github.com/pacman-cli' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/iampuspo/' },
+  { label: 'LeetCode', href: 'https://leetcode.com/u/pacman-cli/' },
+  { label: 'Instagram', href: 'https://www.instagram.com/iampuspoo/' },
+  { label: 'Facebook', href: 'https://www.facebook.com/pacman.puspo/' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@springCraftDev' },
+  { label: 'X (Twitter)', href: 'https://x.com/iam_puspo' },
+  { label: 'Threads', href: 'https://www.threads.net/@pacman.puspo' },
+  { label: 'Email', href: 'mailto:puspopuspo520@gmail.com' },
+]
+
 export default function AboutPage() {
   return (
-    <main className="min-h-screen pt-24 pb-16">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-16">
       <JsonLd data={aboutPageJsonLd} />
       <BreadcrumbSchema
         items={[
@@ -47,19 +59,22 @@ export default function AboutPage() {
           { name: 'About Me', item: '/about-me' },
         ]}
       />
-      <div className="container mx-auto px-6 max-w-4xl">
+      <div className="max-w-4xl mx-auto px-6">
 
-        {/* Header Section */}
-        <section className="mb-16 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-            About <span className="text-emerald-600 dark:text-emerald-400">MD Ashikur Rahman Puspo</span>
+        {/* Header */}
+        <section className="mb-16">
+          <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-widest block mb-3">
+            About
+          </span>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-100 mb-4">
+            MD Ashikur Rahman <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Puspo</span>
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
+          <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
             Computer Science Student, Backend Developer, and Software Engineer.
           </p>
         </section>
 
-        {/* Narrative Content */}
+        {/* Content Grid */}
         <div className="grid md:grid-cols-3 gap-12">
 
           {/* Main Text */}
@@ -67,32 +82,34 @@ export default function AboutPage() {
             <AboutContent />
           </div>
 
-          {/* Sidebar / Image */}
+          {/* Sidebar */}
           <div className="space-y-8">
-            <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border-2 border-border/30 shadow-lg glass">
+            <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-zinc-800/80 shadow-2xl">
               <Image
                 src="/profile.webp"
                 alt="MD Ashikur Rahman Puspo - Backend Developer"
                 fill
-                className="object-cover"
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 loading="lazy"
                 sizes="(max-width: 768px) 100vw, 400px"
                 quality={75}
               />
             </div>
 
-            <div className="glass rounded-xl p-6 space-y-4">
-              <h3 className="font-bold text-lg tracking-tight">Connect</h3>
+            <div className="rounded-xl p-6 bg-zinc-900/50 border border-zinc-800/80 space-y-4">
+              <h3 className="font-bold text-base text-zinc-100 tracking-tight">Connect</h3>
               <div className="flex flex-col gap-2.5">
-                <a href="https://github.com/pacman-cli" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">GitHub</a>
-                <a href="https://www.linkedin.com/in/iampuspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">LinkedIn</a>
-                <a href="https://leetcode.com/u/pacman-cli/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">LeetCode</a>
-                <a href="https://www.instagram.com/iampuspoo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">Instagram</a>
-                <a href="https://www.facebook.com/pacman.puspo/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">Facebook</a>
-                <a href="https://www.youtube.com/@springCraftDev" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">YouTube</a>
-                <a href="https://x.com/iam_puspo" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">X (Twitter)</a>
-                <a href="https://www.threads.net/@pacman.puspo" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">Threads</a>
-                <a href="mailto:puspopuspo520@gmail.com" className="text-emerald-600 dark:text-emerald-400 hover:underline text-sm">Email</a>
+                {SOCIAL_LINKS.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                    rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                    className="text-sm text-zinc-400 hover:text-emerald-400 transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
