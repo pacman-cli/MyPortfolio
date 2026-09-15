@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { SocialHeroLinks } from '@/components/ui/social-links'
 import { siteConfig } from '@/lib/site'
+import { EmailOff } from '@/components/seo/email-off'
 
 const fieldVariants = {
   hidden: { opacity: 0, y: 16 },
@@ -174,19 +175,22 @@ export const Contact = () => {
           >
             {/* Contact info cards */}
             <div className="space-y-4">
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className="group flex items-center gap-4 p-4 rounded-2xl bg-background/60 backdrop-blur-sm border border-border/50 hover:border-emerald-300/50 dark:hover:border-emerald-700/50 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition-all duration-300"
-              >
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Mail className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-muted-foreground">Email</p>
-                  <p className="font-medium truncate">{siteConfig.email}</p>
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
+              <EmailOff>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  data-cfemail="false"
+                  className="group flex items-center gap-4 p-4 rounded-2xl bg-background/60 backdrop-blur-sm border border-border/50 hover:border-emerald-300/50 dark:hover:border-emerald-700/50 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition-all duration-300"
+                >
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Mail className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-muted-foreground">Email</p>
+                    <p className="font-medium truncate">{siteConfig.email}</p>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </EmailOff>
 
               <div className="flex items-center gap-4 p-4 rounded-2xl bg-background/60 backdrop-blur-sm border border-border/50">
                 <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">

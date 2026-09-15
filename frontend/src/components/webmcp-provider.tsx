@@ -34,7 +34,7 @@ export function WebMCPProvider() {
               title: 'Backend Engineer & Software Developer',
               location: 'Dhaka, Bangladesh',
               education: 'United International University',
-              email: 'puspopuspo520@gmail.com',
+              email: 'hello@puspo.online',
               skills: [
                 'Spring Boot',
                 'Java',

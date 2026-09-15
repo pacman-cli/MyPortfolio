@@ -30,6 +30,11 @@ interface ProjectDTO {
 
 const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
   takatrack: {
+    name: "TakaTrack - Personal Finance Tracker",
+    description: "Full-stack personal finance app for real-time expense tracking, savings goals, and category analytics.",
+    techStack: ["Spring Boot", "MySQL", "Next.js", "JWT", "Docker"],
+    githubUrl: "https://github.com/pacman-cli/TakaTrack",
+    demoUrl: "https://takatrack.puspo.online",
     longDescription:
       "TakaTrack is a full-stack personal finance application designed to help users take control of their financial life. It features real-time expense tracking, interactive charts, savings goal management, and category-based analytics — all backed by a robust Spring Boot API and MySQL database.",
     category: "fullstack",
@@ -64,6 +69,11 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     relatedBlogSlugs: ["microservices-spring-boot-architecture"],
   },
   staymate: {
+    name: "StayMate - Rental Property Marketplace",
+    description: "Rental property platform connecting landlords and tenants with property listing management and advanced search.",
+    techStack: ["Spring Boot", "MySQL", "Next.js", "JWT", "Cloud Storage"],
+    githubUrl: "https://github.com/pacman-cli/StayMate",
+    demoUrl: "https://staymate-demo.puspo.online",
     longDescription:
       "StayMate is a production-grade rental property marketplace that connects landlords with tenants. It features property listing management, search with filters, user authentication via JWT, real-time messaging, and image uploads — built with a clean separation between the Next.js frontend and Spring Boot backend.",
     category: "fullstack",
@@ -98,6 +108,11 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     relatedBlogSlugs: ["spring-security-architecture-linkedin"],
   },
   portfolio: {
+    name: "Developer Portfolio Website",
+    description: "Modern developer portfolio built with Next.js 16, featuring scroll-driven animations, dark mode, and dynamic SEO.",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    githubUrl: "https://github.com/pacman-cli/MyPortfolio",
+    demoUrl: "https://www.puspo.online",
     category: "frontend",
     featured: true,
     longDescription:
@@ -129,6 +144,11 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     ],
   },
   "e-commerce": {
+    name: "E-Commerce Platform",
+    description: "Full-stack e-commerce platform with product management, persistent shopping cart, and secure multi-step checkout.",
+    techStack: ["Spring Boot", "MySQL", "Redis", "Next.js", "Docker"],
+    githubUrl: "https://github.com/pacman-cli/e-commerce",
+    demoUrl: "https://ecommerce.puspo.online/",
     category: "fullstack",
     longDescription:
       "A comprehensive e-commerce platform with product management, shopping cart functionality, and secure checkout processes built with Next.js and Spring Boot.",
@@ -161,6 +181,10 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     ],
   },
   "java-learning": {
+    name: "Java Core & Design Patterns",
+    description: "Comprehensive Java reference repository covering core OOP, GoF design patterns, data structures, and multithreading.",
+    techStack: ["Java", "OOP", "Design Patterns", "Concurrency"],
+    githubUrl: "https://github.com/pacman-cli/java-learning",
     category: "backend",
     longDescription:
       "A comprehensive repository of Java learning projects covering core language concepts, data structures, algorithms, design patterns, and advanced OOP principles — organized by topic with detailed documentation.",
@@ -191,6 +215,10 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     ],
   },
   "business-analytics": {
+    name: "Business Analytics Platform",
+    description: "Data-driven analytics platform featuring customizable widgets, automated report generation, and ETL pipelines.",
+    techStack: ["Spring Boot", "MySQL", "ETL", "REST API", "Chart.js"],
+    githubUrl: "https://github.com/pacman-cli/business-analytics",
     category: "backend",
     longDescription:
       "A data-driven analytics platform for business insights, featuring interactive visualizations, custom report generation, and real-time data processing pipelines for informed decision-making.",
@@ -257,15 +285,15 @@ async function fetchProjectsFromApi(): Promise<Project[]> {
 
 function getStaticProjects(): Project[] {
   return Object.entries(STATIC_RICH_DATA).map(([slug, rich]) => {
-    const name = slug
+    const fallbackName = slug
       .replace(/-/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase())
     return {
       slug,
-      name,
-      description: (rich.longDescription ?? "").slice(0, 120) + "...",
-      techStack: [],
-      githubUrl: "",
+      name: rich.name ?? fallbackName,
+      description: rich.description ?? (rich.longDescription ?? "").slice(0, 120) + "...",
+      techStack: rich.techStack ?? [],
+      githubUrl: rich.githubUrl ?? "",
       ...rich,
     } as Project
   })
@@ -290,7 +318,17 @@ export async function getProjectBySlug(
     console.error(`Failed to fetch project "${slug}", using static fallback:`, error)
     const rich = STATIC_RICH_DATA[slug]
     if (!rich) return null
-    return { slug, ...rich } as Project
+    const fallbackName = slug
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase())
+    return {
+      slug,
+      name: rich.name ?? fallbackName,
+      description: rich.description ?? (rich.longDescription ?? "").slice(0, 120) + "...",
+      techStack: rich.techStack ?? [],
+      githubUrl: rich.githubUrl ?? "",
+      ...rich,
+    } as Project
   }
 }
 

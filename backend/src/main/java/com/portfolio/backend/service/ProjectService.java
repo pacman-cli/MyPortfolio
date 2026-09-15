@@ -5,6 +5,7 @@ import com.portfolio.backend.dto.ProjectDTO;
 import java.util.Optional;
 
 public interface ProjectService {
-    PagedResponse<ProjectDTO> getAllProjects(int page, int size);
-    Optional<ProjectDTO> getProjectBySlug(String slug);
+  PagedResponse<ProjectDTO> getAllProjects(int page, int size);
+
+  Optional<ProjectDTO> getProjectBySlug(String slug);
 }

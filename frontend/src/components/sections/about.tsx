@@ -1,112 +1,85 @@
-"use client"
-
 import { BLUR_DATA_URL } from '@/lib/blur'
-import { Code2, GraduationCap, Rocket } from 'lucide-react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-const ABOUT_CARDS = [
+const ABOUT_HIGHLIGHTS = [
   {
-    icon: <GraduationCap className="w-5 h-5" />,
-    title: 'The Scholar',
-    content: 'Computer Science & Engineering student at United International University, focused on building clean, scalable, and efficient software systems.',
+    title: 'Computer Science & Engineering',
+    institution: 'United International University',
+    description: 'Specializing in backend system design, database architecture, and object-oriented paradigms.',
   },
   {
-    icon: <Code2 className="w-5 h-5" />,
-    title: 'The Builder',
-    content: 'Full-Stack Developer specializing in Spring Boot, Next.js, and MySQL. Passionate about solving complex problems and creating high-impact applications.',
-  },
-  {
-    icon: <Rocket className="w-5 h-5" />,
-    title: 'The Visionary',
-    content: 'Exploring Docker, Cloud Architecture, and Microservices. Building software that is functional, elegant, and user-friendly.',
+    title: 'Backend Systems Engineer',
+    institution: 'Spring Boot & Microservices',
+    description: 'Architecting RESTful APIs, securing endpoints, optimizing JPA/Hibernate queries, and containerizing with Docker.',
   },
 ]
 
 export const About = () => {
   return (
-    <section id="about" className="py-24 md:py-32 scroll-mt-20">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Section Header */}
-        <div className="mb-16">
-          <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-widest block mb-2">
-            Background
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 tracking-tight">
-            About Me
-          </h2>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left: Bio Cards */}
-          <div className="space-y-5 order-2 md:order-1">
-            {ABOUT_CARDS.map((card, i) => (
-              <motion.div
-                key={card.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
-                className="p-5 rounded-xl bg-zinc-900/50 border border-zinc-800/80 hover:border-zinc-700 transition-all duration-300"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-400 shrink-0">
-                    {card.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-zinc-100 mb-1.5 tracking-tight">{card.title}</h3>
-                    <p className="text-zinc-400 text-sm leading-relaxed">{card.content}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="pt-4"
-            >
-              <Link
-                href="/about-me"
-                className="text-emerald-400 font-semibold text-sm hover:text-emerald-300 transition-colors inline-flex items-center gap-1.5"
-              >
-                Read full bio &rarr;
-              </Link>
-            </motion.div>
+    <section id="about" className="scroll-mt-24">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="flex flex-col gap-6">
+          <div className="border-b border-border/80 pb-4">
+            <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">
+              About
+            </h2>
           </div>
 
-          {/* Right: Portrait + Stats */}
-          <div className="relative order-1 md:order-2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-zinc-800/80 shadow-2xl"
-            >
-              <Image
-                src="/profile.webp"
-                alt="MD Ashikur Rahman Puspo"
-                fill
-                sizes="(max-width: 768px) 90vw, 40vw"
-                loading="lazy"
-                placeholder="blur"
-                blurDataURL={BLUR_DATA_URL}
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-              />
-            </motion.div>
+          <div className="grid md:grid-cols-12 gap-8 items-start">
+            <div className="md:col-span-8 flex flex-col gap-6">
+              <p className="text-base text-foreground leading-relaxed">
+                I am a Software Engineer centered on backend development. My focus is engineering resilient server-side architectures, robust data pipelines, and clean API boundaries using Java, Spring Boot, and relational databases.
+              </p>
 
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800/80 text-center">
-                <div className="text-2xl font-bold text-emerald-400">2023</div>
-                <div className="text-xs text-zinc-500 mt-1">Started Journey</div>
+              <div className="space-y-4">
+                {ABOUT_HIGHLIGHTS.map((item) => (
+                  <div
+                    key={item.title}
+                    className="p-4 rounded-lg border border-border bg-card/50 hover:bg-card transition-colors"
+                  >
+                    <div className="flex justify-between items-baseline mb-1">
+                      <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
+                      <span className="text-xs font-mono text-muted-foreground">{item.institution}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
+                  </div>
+                ))}
               </div>
-              <div className="p-4 rounded-xl bg-zinc-900/50 border border-zinc-800/80 text-center">
-                <div className="text-2xl font-bold text-emerald-400">10+</div>
-                <div className="text-xs text-zinc-500 mt-1">Projects Built</div>
+
+              <div>
+                <Link
+                  href="/about-me"
+                  className="text-xs font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
+                >
+                  Read full biography &rarr;
+                </Link>
+              </div>
+            </div>
+
+            <div className="md:col-span-4 flex flex-col gap-4">
+              <div className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted">
+                <Image
+                  src="/profile.webp"
+                  alt="MD Ashikur Rahman Puspo"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 300px"
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-center">
+                <div className="p-3 rounded-md border border-border bg-card">
+                  <div className="text-sm font-bold text-foreground">Java / Spring</div>
+                  <div className="text-[10px] font-mono text-muted-foreground">Core Focus</div>
+                </div>
+                <div className="p-3 rounded-md border border-border bg-card">
+                  <div className="text-sm font-bold text-foreground">Dhaka, BD</div>
+                  <div className="text-[10px] font-mono text-muted-foreground">Location</div>
+                </div>
               </div>
             </div>
           </div>

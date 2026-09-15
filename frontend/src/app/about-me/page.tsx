@@ -7,22 +7,9 @@ import Image from 'next/image'
 import { AboutContent } from './_components/about-content'
 
 export const metadata: Metadata = constructMetadata({
-  title: 'About MD Ashikur Rahman Puspo | Backend Developer & Software Engineer',
-  description: 'Learn about MD Ashikur Rahman Puspo — a Backend Developer specializing in Spring Boot, Java, MySQL, Docker, and Cloud Architecture. Discover his journey, skills, and professional background.',
-  url: 'https://www.puspo.online/about-me',
-  keywords: [
-    'About Puspo',
-    'MD Ashikur Rahman Puspo',
-    'Ashikur Rahman Puspo',
-    'Backend Developer Bangladesh',
-    'Software Engineer',
-    'Spring Boot Developer',
-    'pacman-cli',
-    'pacman.puspo',
-    'springCraftDev',
-    'LeetCode pacman-cli',
-    'iampuspo LinkedIn',
-  ],
+  title: 'About MD Ashikur Rahman Puspo | Backend Developer',
+  description: 'Learn about MD Ashikur Rahman Puspo, a Backend Engineer specializing in Java, Spring Boot, Microservices, and System Design.',
+  url: absoluteUrl('/about-me'),
 })
 
 const aboutPageJsonLd = {
@@ -41,17 +28,14 @@ const SOCIAL_LINKS = [
   { label: 'GitHub', href: 'https://github.com/pacman-cli' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/iampuspo/' },
   { label: 'LeetCode', href: 'https://leetcode.com/u/pacman-cli/' },
-  { label: 'Instagram', href: 'https://www.instagram.com/iampuspoo/' },
-  { label: 'Facebook', href: 'https://www.facebook.com/pacman.puspo/' },
   { label: 'YouTube', href: 'https://www.youtube.com/@springCraftDev' },
   { label: 'X (Twitter)', href: 'https://x.com/iam_puspo' },
-  { label: 'Threads', href: 'https://www.threads.net/@pacman.puspo' },
-  { label: 'Email', href: 'mailto:puspopuspo520@gmail.com' },
+  { label: 'Email', href: 'mailto:hello@puspo.online' },
 ]
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-16">
+    <main className="min-h-screen bg-background text-foreground pt-32 pb-16">
       <JsonLd data={aboutPageJsonLd} />
       <BreadcrumbSchema
         items={[
@@ -60,65 +44,56 @@ export default function AboutPage() {
         ]}
       />
       <div className="max-w-4xl mx-auto px-6">
-
-        {/* Header */}
-        <section className="mb-16">
-          <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-widest block mb-3">
-            About
+        <div className="border-b border-border/80 pb-6 mb-10">
+          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground block mb-2">
+            Biography
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-100 mb-4">
-            MD Ashikur Rahman <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Puspo</span>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            MD Ashikur Rahman Puspo
           </h1>
-          <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
-            Computer Science Student, Backend Developer, and Software Engineer.
+          <p className="text-sm text-muted-foreground mt-1">
+            Backend Software Engineer & System Architect
           </p>
-        </section>
+        </div>
 
-        {/* Content Grid */}
-        <div className="grid md:grid-cols-3 gap-12">
-
-          {/* Main Text */}
-          <div className="md:col-span-2 space-y-6">
+        <div className="grid md:grid-cols-12 gap-8 items-start">
+          <div className="md:col-span-8">
             <AboutContent />
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-8">
-            <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-zinc-800/80 shadow-2xl">
+          <div className="md:col-span-4 flex flex-col gap-6">
+            <div className="relative aspect-square w-full rounded-lg overflow-hidden border border-border bg-muted">
               <Image
                 src="/profile.webp"
-                alt="MD Ashikur Rahman Puspo - Backend Developer"
+                alt="MD Ashikur Rahman Puspo"
                 fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
                 loading="lazy"
-                sizes="(max-width: 768px) 100vw, 400px"
+                sizes="(max-width: 768px) 100vw, 300px"
                 quality={75}
               />
             </div>
 
-            <div className="rounded-xl p-6 bg-zinc-900/50 border border-zinc-800/80 space-y-4">
-              <h3 className="font-bold text-base text-zinc-100 tracking-tight">Connect</h3>
-              <div className="flex flex-col gap-2.5">
+            <div className="rounded-lg p-5 border border-border bg-card/50 flex flex-col gap-3">
+              <h3 className="font-semibold text-xs font-mono uppercase tracking-wider text-foreground">Social & Contact</h3>
+              <div className="flex flex-col gap-2">
                 {SOCIAL_LINKS.map((link) => (
                   <a
                     key={link.label}
                     href={link.href}
                     target={link.href.startsWith('mailto:') ? undefined : '_blank'}
                     rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                    className="text-sm text-zinc-400 hover:text-emerald-400 transition-colors"
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono"
                   >
-                    {link.label}
+                    {link.label} &rarr;
                   </a>
                 ))}
               </div>
             </div>
           </div>
-
         </div>
       </div>
-      <div className="mt-20">
-        <Footer />
-      </div>
+      <Footer />
     </main>
   )
 }

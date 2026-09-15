@@ -1,9 +1,7 @@
 "use client"
 
-import { Button } from '@/components/ui/button'
 import { ThemeTabs } from '@/components/ui/theme-tabs'
 import { cn } from '@/lib/utils'
-import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -14,7 +12,7 @@ const NAV_LINKS = [
   { name: 'About', href: '/#about', id: 'about' },
   { name: 'Skills', href: '/#technical-expertise', id: 'technical-expertise' },
   { name: 'Projects', href: '/#projects', id: 'projects' },
-  { name: 'Latest Insights', href: '/#blogs', id: 'blogs' },
+  { name: 'Writing', href: '/#blogs', id: 'blogs' },
   { name: 'Contact', href: '/#contact', id: 'contact' },
   { name: 'Gallery', href: '/gallery' },
 ] as const
@@ -63,35 +61,6 @@ export const Navbar = () => {
     }
   }, [pathname])
 
-  useEffect(() => {
-    if (!isMobileMenuOpen) return
-
-    const menu = menuRef.current
-    if (!menu) return
-
-    const focusable = menu.querySelectorAll<HTMLElement>(
-      'a[href], button, [tabindex]:not([tabindex="-1"])'
-    )
-    if (focusable.length) focusable[0].focus()
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { closeMenu(); return }
-      if (e.key !== 'Tab') return
-
-      const first = focusable[0]
-      const last = focusable[focusable.length - 1]
-
-      if (e.shiftKey) {
-        if (document.activeElement === first) { e.preventDefault(); last.focus() }
-      } else {
-        if (document.activeElement === last) { e.preventDefault(); first.focus() }
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isMobileMenuOpen, closeMenu])
-
   const isActiveLink = (href: string, id?: string) => {
     if (id && pathname === '/') {
       return activeSection === id
@@ -102,15 +71,17 @@ export const Navbar = () => {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 print:hidden",
-        isScrolled ? "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 py-3" : "bg-transparent py-5"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-200 print:hidden",
+        isScrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border py-3.5"
+          : "bg-transparent py-5"
       )}
       aria-label="Main navigation"
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-4xl mx-auto px-6 flex items-center justify-between">
         <Link
           href="/"
-          className="group"
+          className="group flex items-center gap-2"
           onClick={() => {
             setIsMobileMenuOpen(false)
             if (pathname === '/') {
@@ -118,125 +89,103 @@ export const Navbar = () => {
             }
           }}
         >
-          <div className="flex items-center gap-2.5">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
-            <span className="text-sm font-bold tracking-wider text-zinc-100 uppercase">
-              Puspo
-            </span>
-          </div>
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <span className="text-sm font-semibold tracking-tight text-foreground">
+            Ashikur Rahman
+          </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map((link) => {
             const isActive = isActiveLink(link.href, 'id' in link ? link.id : undefined)
 
             return (
-              <div key={link.name} className="relative">
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "text-sm font-medium transition-colors inline-block",
-                    isActive
-                      ? "text-emerald-400"
-                      : "text-zinc-400 hover:text-zinc-100"
-                  )}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  {...(isActive && { 'aria-current': 'page' as const })}
-                >
-                  {link.name}
-                </Link>
-                {isActive && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-400 rounded-full" />
+              <Link
+                key={link.name}
+                href={link.href}
+                className={cn(
+                  "text-xs font-medium transition-colors",
+                  isActive
+                    ? "text-foreground font-semibold"
+                    : "text-muted-foreground hover:text-foreground"
                 )}
-              </div>
+                onClick={(e) => handleNavClick(e, link.href)}
+                {...(isActive && { 'aria-current': 'page' as const })}
+              >
+                {link.name}
+              </Link>
             )
           })}
 
-          <Button
-            asChild
-            variant="ghost"
+          <Link
+            href="/resume"
             className={cn(
-              "text-sm font-medium transition-colors hover:text-emerald-600 hover:bg-emerald-500/10",
-              pathname === '/resume' ? "text-emerald-600 bg-emerald-500/10" : "text-muted-foreground"
+              "text-xs font-medium transition-colors",
+              pathname === '/resume' ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
             )}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
-            <Link
-              href="/resume"
-              onClick={() => setIsMobileMenuOpen(false)}
-              {...(pathname === '/resume' && { 'aria-current': 'page' as const })}
-            >
-              Resume
-            </Link>
-          </Button>
+            Resume
+          </Link>
 
-          <div className="hidden lg:flex items-center gap-2 mr-2">
+          <div className="pl-2 border-l border-border">
             <ThemeTabs />
           </div>
         </div>
 
-        <div className="flex items-center gap-4 md:hidden">
+        <div className="flex items-center gap-3 md:hidden">
           <ThemeTabs />
-          <motion.button
+          <button
             ref={toggleRef}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
-            className="w-11 h-11 flex items-center justify-center text-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            whileTap={{ scale: 0.9 }}
           >
-            <motion.div
-              animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
-              transition={{ stiffness: 300, damping: 20 }}
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </motion.div>
-          </motion.button>
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            ref={menuRef}
-            id="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border overflow-y-auto max-h-[85dvh]"
-          >
-            <ul className="container mx-auto px-6 py-6 flex flex-col gap-4">
-              {NAV_LINKS.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className={cn(
-                      "block text-left text-lg font-medium py-2 border-b border-border last:border-0 hover:text-emerald-700 dark:hover:text-emerald-400",
-                      isActiveLink(link.href, 'id' in link ? link.id : undefined) ? "text-emerald-700 dark:text-emerald-400" : "text-foreground"
-                    )}
-                    {...(isActiveLink(link.href, 'id' in link ? link.id : undefined) && { 'aria-current': 'page' as const })}
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-              <li>
+      {isMobileMenuOpen && (
+        <div
+          ref={menuRef}
+          id="mobile-menu"
+          className="md:hidden bg-background border-b border-border px-6 py-4 transition-all"
+        >
+          <ul className="flex flex-col gap-3">
+            {NAV_LINKS.map((link) => (
+              <li key={link.name}>
                 <Link
-                  href="/resume"
-                  onClick={closeMenu}
-                    className={cn(
-                      "block text-left text-lg font-medium py-2 border-b border-border last:border-0 hover:text-emerald-700 dark:hover:text-emerald-400",
-                      pathname === '/resume' ? "text-emerald-700 dark:text-emerald-400" : "text-foreground"
-                    )}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={cn(
+                    "block text-sm font-medium py-1.5 transition-colors",
+                    isActiveLink(link.href, 'id' in link ? link.id : undefined)
+                      ? "text-foreground font-semibold"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
                 >
-                  Resume
+                  {link.name}
                 </Link>
               </li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ))}
+            <li>
+              <Link
+                href="/resume"
+                onClick={closeMenu}
+                className={cn(
+                  "block text-sm font-medium py-1.5 transition-colors",
+                  pathname === '/resume' ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                Resume
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
     </nav>
   )
 }

@@ -6,57 +6,34 @@
   .text-balance {
     text-wrap: balance;
   }
-
-  .animate-fade-in {
-    animation: fadeIn 1.5s ease-out forwards;
-  }
-
-  .blog-bg {
-    background:
-      radial-gradient(ellipse 90% 50% at 50% -15%, hsl(var(--primary) / 0.06), transparent 60%),
-      radial-gradient(ellipse 50% 30% at 80% 20%, hsl(var(--primary) / 0.03), transparent 50%),
-      hsl(var(--background));
-  }
-
-  .dark .blog-bg {
-    background:
-      radial-gradient(ellipse 90% 50% at 50% -15%, hsl(var(--primary) / 0.08), transparent 60%),
-      radial-gradient(ellipse 50% 30% at 80% 20%, hsl(var(--primary) / 0.04), transparent 50%),
-      hsl(var(--background));
-  }
 }
 
 @layer components {
   .prose-blog {
-    --tw-prose-body: hsl(var(--foreground) / 0.88);
+    --tw-prose-body: hsl(var(--foreground) / 0.9);
     --tw-prose-headings: hsl(var(--foreground));
     --tw-prose-links: hsl(var(--primary));
     --tw-prose-bold: hsl(var(--foreground));
     --tw-prose-quotes: hsl(var(--foreground) / 0.85);
-    --tw-prose-quote-borders: hsl(var(--primary) / 0.25);
+    --tw-prose-quote-borders: hsl(var(--border));
     --tw-prose-code: hsl(var(--foreground));
-    --tw-prose-hr: hsl(var(--border) / 0.5);
+    --tw-prose-hr: hsl(var(--border));
     --tw-prose-th-borders: hsl(var(--border));
-    --tw-prose-td-borders: hsl(var(--border) / 0.3);
+    --tw-prose-td-borders: hsl(var(--border) / 0.5);
     --tw-prose-captions: hsl(var(--muted-foreground));
     --tw-prose-bullets: hsl(var(--muted-foreground));
     --tw-prose-counters: hsl(var(--muted-foreground));
   }
 
   .prose-blog p {
-    line-height: 1.85;
+    line-height: 1.8;
     margin-bottom: 1.25em;
   }
 
   .prose-blog a {
-    text-decoration: none;
-    border-bottom: 1px solid hsl(var(--primary) / 0.25);
-    transition: border-color 0.2s ease;
+    text-decoration: underline;
+    text-underline-offset: 4px;
     font-weight: 500;
-  }
-
-  .prose-blog a:hover {
-    border-bottom-color: hsl(var(--primary) / 0.7);
   }
 
   .prose-blog ul,
@@ -64,90 +41,14 @@
     line-height: 1.8;
   }
 
-  .prose-blog ul > li::marker {
-    color: hsl(var(--muted-foreground) / 0.5);
-  }
-
   .prose-blog img {
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06);
+    border-radius: 0.5rem;
   }
-
-  .prose-blog strong {
-    font-weight: 600;
-  }
-
-  .prose-blog li {
-    margin-bottom: 0.25em;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) translateX(0);
-    opacity: 0.3;
-  }
-  25% {
-    transform: translateY(-20px) translateX(5px);
-    opacity: 0.6;
-  }
-  50% {
-    transform: translateY(-10px) translateX(-5px);
-    opacity: 0.4;
-  }
-  75% {
-    transform: translateY(-25px) translateX(3px);
-    opacity: 0.7;
-  }
-}
-
-.glass {
-  background: hsl(var(--card) / 0.4);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid hsl(var(--border) / 0.3);
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.04);
-}
-
-.glass-hover {
-  transition: all 0.3s ease;
-}
-.glass-hover:hover {
-  background: hsl(var(--card) / 0.6);
-  border-color: hsl(var(--primary) / 0.2);
-  box-shadow: 0 4px 12px 0 hsl(var(--primary) / 0.05);
-}
-
-.accent-bar-left {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, hsl(var(--primary) / 0.5), hsl(var(--primary) / 0.3), transparent);
-  opacity: 0;
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: all 0.5s;
-}
-.group:hover .accent-bar-left {
-  opacity: 1;
-  transform: scaleY(1);
 }
 
 @layer base {
   :root {
-    --background: 240 5% 98%;
+    --background: 0 0% 98%;
     --foreground: 240 10% 4%;
 
     --card: 0 0% 100%;
@@ -156,8 +57,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 4%;
 
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
 
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -169,7 +70,7 @@
     --accent-foreground: 240 5.9% 10%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
@@ -181,23 +82,31 @@
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
+
     --card: 240 10% 6%;
     --card-foreground: 0 0% 98%;
+
     --popover: 240 10% 6%;
     --popover-foreground: 0 0% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
   }
 }
 
@@ -207,7 +116,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased selection:bg-zinc-800 selection:text-zinc-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900;
   }
 
   :focus-visible {
@@ -215,57 +124,11 @@
   }
 }
 
-.custom-cursor-active,
-.custom-cursor-active * {
-  cursor: none !important;
-}
-
-/* Hide scrollbar for mobile horizontal scroll containers */
 .scrollbar-hide {
   -ms-overflow-style: none;
-  /* IE and Edge */
   scrollbar-width: none;
-  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, Opera */
 }
-
-/* Content-visibility optimizations for below-the-fold sections to boost Speed Index and TBT */
-.cv-about {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 700px;
-}
-.cv-expertise {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
-}
-.cv-work {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 800px;
-}
-.cv-certifications {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
-}
-.cv-blogs {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
-}
-.cv-github {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 500px;
-}
-.cv-timeline {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 1200px;
-}
-.cv-closing {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 600px;
-}
-
-
-

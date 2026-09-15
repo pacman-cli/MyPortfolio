@@ -1,7 +1,5 @@
 import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
-import { LazyCursorFollower } from "@/components/ui/cursor-follower-lazy"
-import { LightModeBackground } from "@/components/ui/light-mode-background"
 import { CookieConsent } from "@/components/ui/cookie-consent"
 import { WebMCPProvider } from "@/components/webmcp-provider"
 import { cn } from "@/lib/utils"
@@ -17,8 +15,8 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
-    { media: '(prefers-color-scheme: dark)', color: '#020817' },
+    { media: '(prefers-color-scheme: light)', color: '#fafafa' },
+    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
   ],
 }
 
@@ -137,7 +135,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
         {SAME_AS_LINKS.map((url) => (
@@ -151,11 +148,10 @@ export default function RootLayout({
           />
         ))}
       </head>
-      <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-primary/20")} suppressHydrationWarning>
-
+      <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-zinc-800 selection:text-zinc-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900")} suppressHydrationWarning>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-emerald-500 focus:text-white focus:rounded-md focus:outline-none"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-zinc-900 focus:text-zinc-100 focus:rounded-md focus:outline-none"
         >
           Skip to main content
         </a>
@@ -165,8 +161,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LightModeBackground />
-          <LazyCursorFollower />
           <Navbar />
           {children}
           <CookieConsent />

@@ -10,22 +10,9 @@ import { SiX, SiFacebook, SiLeetcode, SiThreads, SiGithub, SiYoutube, SiInstagra
 import { FaLinkedin } from 'react-icons/fa'
 
 export const metadata: Metadata = constructMetadata({
-  title: 'Social Links | MD Ashikur Rahman Puspo — Connect With Me',
-  description:
-    'Official social links and profiles of MD Ashikur Rahman Puspo. Connect on GitHub, LinkedIn, LeetCode, YouTube @springCraftDev, Instagram, Facebook, X, and Threads.',
+  title: 'Social Links | MD Ashikur Rahman Puspo',
+  description: 'Connect with Ashikur Rahman Puspo across GitHub, LinkedIn, LeetCode, YouTube, and social media channels in one official hub.',
   url: absoluteUrl('/links'),
-  keywords: [
-    'MD Ashikur Rahman Puspo social links',
-    'Ashikur Rahman Puspo profiles',
-    'pacman-cli GitHub',
-    'iampuspo LinkedIn',
-    'iampuspoo Instagram',
-    'pacman.puspo Facebook',
-    'springCraftDev YouTube',
-    'pacman-cli LeetCode',
-    'Puspo social media',
-    'Ashikur Rahman Puspo contact',
-  ],
 })
 
 const socialLinks = [
@@ -33,64 +20,64 @@ const socialLinks = [
     name: 'GitHub',
     handle: '@pacman-cli',
     url: 'https://github.com/pacman-cli',
-    description: 'Open-source projects, contributions, and code repositories.',
-    icon: <SiGithub className="w-5 h-5" />,
+    description: 'Open-source projects and code repositories.',
+    icon: <SiGithub className="w-4 h-4" />,
   },
   {
     name: 'LinkedIn',
     handle: '@iampuspo',
     url: 'https://www.linkedin.com/in/iampuspo/',
-    description: 'Professional network, career updates, and industry connections.',
-    icon: <FaLinkedin className="w-5 h-5" />,
+    description: 'Professional network and career updates.',
+    icon: <FaLinkedin className="w-4 h-4" />,
   },
   {
     name: 'LeetCode',
     handle: '@pacman-cli',
     url: 'https://leetcode.com/u/pacman-cli/',
-    description: 'Competitive programming, data structures, and algorithm practice.',
-    icon: <SiLeetcode className="w-5 h-5" />,
+    description: 'Data structures and algorithm practice.',
+    icon: <SiLeetcode className="w-4 h-4" />,
   },
   {
     name: 'YouTube',
     handle: '@springCraftDev',
     url: 'https://www.youtube.com/@springCraftDev',
-    description: 'Tech tutorials, coding content, and developer vlogs.',
-    icon: <SiYoutube className="w-5 h-5" />,
+    description: 'Tech tutorials and developer vlogs.',
+    icon: <SiYoutube className="w-4 h-4" />,
   },
   {
     name: 'Facebook',
     handle: '@pacman.puspo',
     url: 'https://www.facebook.com/pacman.puspo/',
-    description: 'Personal updates, community engagement, and social content.',
-    icon: <SiFacebook className="w-5 h-5" />,
+    description: 'Personal updates and social content.',
+    icon: <SiFacebook className="w-4 h-4" />,
   },
   {
     name: 'Instagram',
     handle: '@iampuspoo',
     url: 'https://www.instagram.com/iampuspoo/',
-    description: 'Behind-the-scenes, lifestyle, and visual storytelling.',
-    icon: <SiInstagram className="w-5 h-5" />,
+    description: 'Visual moments and behind-the-scenes.',
+    icon: <SiInstagram className="w-4 h-4" />,
   },
   {
     name: 'X (Twitter)',
     handle: '@iam_puspo',
     url: 'https://x.com/iam_puspo',
-    description: 'Tech opinions, industry thoughts, and real-time updates.',
-    icon: <SiX className="w-4 h-4" />,
+    description: 'Industry thoughts and real-time updates.',
+    icon: <SiX className="w-3.5 h-3.5" />,
   },
   {
     name: 'Threads',
     handle: '@pacman.puspo',
     url: 'https://www.threads.net/@pacman.puspo',
-    description: 'Conversations, threads, and casual tech discussions.',
-    icon: <SiThreads className="w-5 h-5" />,
+    description: 'Conversations and casual tech thoughts.',
+    icon: <SiThreads className="w-4 h-4" />,
   },
   {
     name: 'Email',
-    handle: 'puspopuspo520@gmail.com',
-    url: 'mailto:puspopuspo520@gmail.com',
-    description: 'Business inquiries, collaborations, and professional contact.',
-    icon: <Mail className="w-5 h-5" />,
+    handle: 'hello@puspo.online',
+    url: 'mailto:hello@puspo.online',
+    description: 'Direct email contact.',
+    icon: <Mail className="w-4 h-4" />,
   },
 ]
 
@@ -122,7 +109,7 @@ const linksPageJsonLd = {
 
 export default function LinksPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-16">
+    <main className="min-h-screen bg-background text-foreground pt-32 pb-16">
       <JsonLd data={linksPageJsonLd} />
       <BreadcrumbSchema
         items={[
@@ -131,68 +118,60 @@ export default function LinksPage() {
         ]}
       />
       <div className="max-w-3xl mx-auto px-6">
-        {/* Header */}
-        <section className="mb-12 text-center">
-          <div className="relative w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border border-zinc-800 shadow-2xl">
+        <section className="mb-10 text-center flex flex-col items-center">
+          <div className="relative w-20 h-20 mb-4 rounded-full overflow-hidden border border-border bg-muted">
             <Image
               src="/profile.webp"
               alt="MD Ashikur Rahman Puspo"
               fill
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
-              sizes="96px"
+              className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
+              sizes="80px"
               priority
             />
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-zinc-100 mb-2">
+          <h1 className="text-2xl font-bold text-foreground">
             MD Ashikur Rahman Puspo
           </h1>
-          <p className="text-zinc-400 text-base mb-1">
+          <p className="text-xs font-mono text-muted-foreground mt-1">
             Backend Developer &middot; Software Engineer
-          </p>
-          <p className="text-zinc-500 text-sm max-w-md mx-auto">
-            Building scalable systems with Spring Boot, Java, and AWS. Connect with me across platforms.
           </p>
         </section>
 
-        {/* Social Links */}
-        <section className="space-y-3">
+        <section className="space-y-2.5">
           {socialLinks.map((link) => (
             <Link
               key={link.name}
               href={link.url}
               target={link.url.startsWith('mailto:') ? undefined : '_blank'}
               rel={link.url.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-              className="group flex items-center gap-4 p-4 rounded-xl border border-zinc-800/80 bg-zinc-900/50 hover:border-emerald-500/50 hover:bg-zinc-900 transition-all duration-300"
+              className="flex items-center gap-4 p-3.5 rounded-lg border border-border bg-card/50 hover:border-foreground/30 transition-colors group block"
             >
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-zinc-950/80 border border-zinc-800 text-zinc-400 group-hover:text-emerald-400 transition-colors shrink-0">
+              <div className="flex items-center justify-center w-8 h-8 rounded bg-muted text-muted-foreground group-hover:text-foreground transition-colors shrink-0">
                 {link.icon}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-zinc-100 text-sm group-hover:text-emerald-400 transition-colors">{link.name}</span>
-                  <span className="text-xs text-zinc-500">{link.handle}</span>
+                  <span className="font-semibold text-foreground text-xs">{link.name}</span>
+                  <span className="text-[11px] font-mono text-muted-foreground">{link.handle}</span>
                 </div>
-                <p className="text-xs text-zinc-400 truncate">{link.description}</p>
+                <p className="text-xs text-muted-foreground truncate">{link.description}</p>
               </div>
-              <ExternalLink className="w-4 h-4 text-zinc-600 group-hover:text-emerald-400 transition-colors shrink-0" />
+              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
             </Link>
           ))}
         </section>
 
-        {/* Website CTA */}
-        <section className="mt-12 text-center">
+        <section className="mt-10 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-sm transition-all duration-300 shadow-lg shadow-emerald-500/20"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-foreground text-background text-xs font-semibold hover:bg-foreground/90 transition-colors"
           >
             Visit Portfolio Website
-            <ExternalLink className="w-4 h-4" />
+            <ExternalLink className="w-3.5 h-3.5" />
           </Link>
         </section>
       </div>
-      <div className="mt-20">
-        <Footer />
-      </div>
+      <Footer />
     </main>
   )
 }

@@ -245,7 +245,7 @@ Same as Railway — set `BACKEND_URL` in Vercel environment variables:
 | `SPRING_DATASOURCE_URL` | `jdbc:mysql://mysql:3306/portfolio_db?useSSL=false&...` |
 | `SPRING_DATASOURCE_PASSWORD` | `root` |
 | `RESEND_FROM_EMAIL` | `Portfolio Contact <onboarding@resend.dev>` |
-| `RECIPIENT_EMAIL` | `puspopuspo520@gmail.com` |
+| `RECIPIENT_EMAIL` | `hello@puspo.online` |
 
 ---
 

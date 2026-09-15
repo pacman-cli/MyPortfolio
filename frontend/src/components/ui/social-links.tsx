@@ -2,6 +2,7 @@ import { ArrowUpRight, Github, Instagram, Linkedin, Mail, Youtube } from 'lucide
 import Link from 'next/link'
 import { SiX, SiFacebook, SiLeetcode } from "react-icons/si"
 import { SOCIAL_PROFILES, siteConfig } from '@/lib/site'
+import { EmailOff } from '@/components/seo/email-off'
 
 const iconMap: Record<string, React.ElementType> = {
   GitHub: Github,
@@ -49,14 +50,18 @@ export function SocialLinks({ excludeEmail }: { excludeEmail?: boolean }) {
           <SocialIconLink key={name} name={name} url={url} icon={Icon} />
         )
       })}
+
       {!excludeEmail && (
-        <a
-          href={`mailto:${siteConfig.email}`}
-          aria-label="Email Me"
-          className="text-muted-foreground hover:text-primary hover:scale-110 transition-all inline-flex"
-        >
-          <Mail className={iconSize} aria-hidden="true" />
-        </a>
+        <EmailOff>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            data-cfemail="false"
+            aria-label="Email Me"
+            className="text-muted-foreground hover:text-primary hover:scale-110 transition-all inline-flex"
+          >
+            <Mail className={iconSize} aria-hidden="true" />
+          </a>
+        </EmailOff>
       )}
     </>
   )

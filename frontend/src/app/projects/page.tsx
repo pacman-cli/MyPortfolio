@@ -8,18 +8,8 @@ import { ProjectList } from './_components/project-list'
 
 export const metadata: Metadata = constructMetadata({
   title: 'Projects | MD Ashikur Rahman Puspo',
-  description:
-    'Explore my portfolio of full-stack projects built with Spring Boot, Next.js, Docker, and MySQL. Each project includes architecture details, challenges, and results.',
+  description: 'Explore full-stack portfolio projects built with Spring Boot, Next.js, Docker, and MySQL, featuring architecture design and live demos.',
   url: absoluteUrl('/projects'),
-  keywords: [
-    'Backend Developer Projects',
-    'Spring Boot Projects',
-    'Full Stack Portfolio',
-    'Java Projects',
-    'Next.js Projects',
-    'System Design Projects',
-    'API Development Portfolio',
-  ],
 })
 
 export default async function ProjectsPage() {
@@ -45,7 +35,7 @@ export default async function ProjectsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-20">
+    <main className="min-h-screen bg-background text-foreground pt-32 pb-16">
       <JsonLd data={projectsPageJsonLd} />
       <BreadcrumbSchema
         items={[
@@ -53,26 +43,22 @@ export default async function ProjectsPage() {
           { name: 'Projects', item: '/projects' },
         ]}
       />
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <div className="mb-14">
-          <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-widest block mb-2">
-            Showcase
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="border-b border-border/80 pb-6 mb-8">
+          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground block mb-2">
+            Project Index
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-100 mb-3">
-            All Projects
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Featured Projects & Architecture
           </h1>
-          <p className="text-zinc-400 max-w-xl text-base leading-relaxed">
-            Full-stack architectures, high-concurrency backends, and cloud engineering solutions.
+          <p className="text-xs text-muted-foreground mt-2">
+            Full-stack systems, high-concurrency microservices, and distributed cloud applications.
           </p>
         </div>
 
-        {/* Project List */}
         <ProjectList projects={projects} />
       </div>
-      <div className="mt-20">
-        <Footer />
-      </div>
+      <Footer />
     </main>
   )
 }

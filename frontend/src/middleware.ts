@@ -327,7 +327,7 @@ For MCP tool access, see the [MCP Server Card](${SITE_URL}/.well-known/mcp/serve
 
 ## Contact
 For questions or to report issues:
-- **Email:** puspopuspo520@gmail.com
+- **Email:** <!--email_off-->hello@puspo.online<!--/email_off-->
 - **GitHub:** https://github.com/pacman-cli/MyPortfolio
 
 ## Rate Limiting

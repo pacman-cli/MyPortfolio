@@ -7,6 +7,7 @@ import { getBlogBySlug, getBlogs, STATIC_BLOG_SLUGS } from '@/lib/api'
 import { absoluteUrl } from '@/lib/site'
 import { calculateReadTime } from '@/lib/utils'
 import { constructMetadata } from '@/lib/seo'
+import type { Metadata } from 'next'
 import { ArrowLeft, Clock, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -47,16 +48,21 @@ export async function generateStaticParams() {
   return STATIC_BLOG_SLUGS.map((slug) => ({ slug }))
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const blog = await getBlogBySlug(slug)
 
   if (!blog) return { title: 'Blog Not Found' }
 
   const blogUrl = absoluteUrl(`/blog/${blog.slug}`)
+  let description = blog.excerpt || ''
+  if (description.length > 155) {
+    description = description.slice(0, 152) + '...'
+  }
+
   return constructMetadata({
     title: `${blog.title} | Ashikur Rahman Puspo`,
-    description: blog.excerpt,
+    description,
     url: blogUrl,
     type: 'article',
     publishedTime: blog.publishedAt,

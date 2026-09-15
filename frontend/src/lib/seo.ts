@@ -4,8 +4,8 @@ import { absoluteUrl, siteConfig } from './site'
 const SITE_URL = siteConfig.url
 
 const defaultMeta = {
-    title: 'Ashikur Rahman Puspo | Backend Engineer & Software Developer',
-    description: 'Official portfolio of Ashikur Rahman Puspo — Backend Engineer, Software Developer, and DevOps enthusiast from Dhaka, Bangladesh. Explore projects, skills, experience, GitHub, LinkedIn, and contact information.',
+    title: 'Ashikur Rahman Puspo | Backend Engineer & Developer',
+    description: 'Portfolio of Ashikur Rahman Puspo — Backend Engineer specializing in Java, Spring Boot, Microservices, and System Design in Dhaka.',
     url: SITE_URL,
     image: siteConfig.ogImage,
     twitterHandle: siteConfig.twitterHandle,

@@ -1,3 +1,4 @@
+import { BreadcrumbSchema } from '@/components/seo/json-ld'
 import { Footer } from '@/components/footer'
 import { constructMetadata } from '@/lib/seo'
 import { absoluteUrl } from '@/lib/site'
@@ -6,31 +7,35 @@ import { GalleryGrid } from '@/components/gallery/gallery-grid'
 
 export const metadata: Metadata = constructMetadata({
   title: 'Gallery | MD Ashikur Rahman Puspo',
-  description: 'A curated collection of personal photos by MD Ashikur Rahman Puspo.',
+  description: 'A curated collection of personal photography, travel memories, and visual stories by MD Ashikur Rahman Puspo.',
   url: absoluteUrl('/gallery'),
 })
 
 export default function GalleryPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-20">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="mb-14">
-          <span className="text-xs font-mono font-semibold text-emerald-400 uppercase tracking-widest block mb-2">
-            Moments
+    <main className="min-h-screen bg-background text-foreground pt-32 pb-16">
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', item: '/' },
+          { name: 'Gallery', item: '/gallery' },
+        ]}
+      />
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="border-b border-border/80 pb-6 mb-8">
+          <span className="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground block mb-2">
+            Photography Grid
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-100 mb-3">
-            Gallery
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Moments & Perspectives
           </h1>
-          <p className="text-zinc-400 max-w-xl text-base leading-relaxed">
-            A curated collection of personal moments and memories.
+          <p className="text-xs text-muted-foreground mt-2">
+            A curated visual collection of personal memories and travel photography.
           </p>
         </div>
 
         <GalleryGrid />
       </div>
-      <div className="mt-20">
-        <Footer />
-      </div>
+      <Footer />
     </main>
   )
 }
