@@ -148,7 +148,7 @@ export default function RootLayout({
           />
         ))}
       </head>
-      <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased bg-background text-foreground selection:bg-zinc-800 selection:text-zinc-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900")} suppressHydrationWarning>
+      <body className={cn(inter.variable, jakarta.variable, "font-sans min-h-screen antialiased text-foreground selection:bg-zinc-800 selection:text-zinc-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900")} suppressHydrationWarning>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-zinc-900 focus:text-zinc-100 focus:rounded-md focus:outline-none"
@@ -161,10 +161,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
-          <CookieConsent />
-          <WebMCPProvider />
+          <div className="min-h-screen max-w-5xl mx-auto bg-background border-x border-border/40 shadow-2xl relative">
+            <Navbar />
+            {children}
+            <CookieConsent />
+            <WebMCPProvider />
+          </div>
         </ThemeProvider>
       </body>
     </html>

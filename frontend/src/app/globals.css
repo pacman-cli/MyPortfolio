@@ -48,6 +48,7 @@
 
 @layer base {
   :root {
+    --outer-bg: #faedcd;
     --background: 0 0% 98%;
     --foreground: 240 10% 4%;
 
@@ -80,6 +81,7 @@
   }
 
   .dark {
+    --outer-bg: #14213d;
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
 
@@ -116,7 +118,8 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased selection:bg-zinc-800 selection:text-zinc-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900;
+    background-color: var(--outer-bg);
+    @apply text-foreground antialiased selection:bg-zinc-800 selection:text-zinc-100 dark:selection:bg-zinc-200 dark:selection:text-zinc-900;
   }
 
   :focus-visible {
