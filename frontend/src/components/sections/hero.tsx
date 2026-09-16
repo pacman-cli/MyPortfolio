@@ -1,211 +1,248 @@
 "use client"
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowUpRight, FileText, Server, Database, Layers, CheckCircle2 } from 'lucide-react'
+import { ArrowUpRight, FileText, Server, Database, Cpu, Activity, ShieldCheck, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SocialHeroLinks } from '@/components/ui/social-links'
 
-const TECH_TAGS = [
-  'JAVA',
-  'SPRING BOOT',
-  'MICROSERVICES',
-  'POSTGRESQL',
-  'REST APIs',
-  'DOCKER',
+const CORE_TECH = [
+  { name: 'JAVA 21', category: 'LANG' },
+  { name: 'SPRING BOOT 3', category: 'FRAMEWORK' },
+  { name: 'POSTGRESQL', category: 'DATABASE' },
+  { name: 'MICROSERVICES', category: 'ARCH' },
+  { name: 'REST APIs', category: 'PROTOCOL' },
+  { name: 'DOCKER', category: 'DEVOPS' },
 ] as const
 
 export const Hero = () => {
   const prefersReducedMotion = useReducedMotion()
 
   const fadeIn = (delay: number) => ({
-    initial: prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 },
+    initial: prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5, delay, ease: 'easeOut' as const },
+    transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] as const },
   })
 
   return (
     <section
-      className="relative pt-28 pb-16 md:pt-36 md:pb-24 border-b border-border/40 overflow-hidden"
+      className="relative min-h-[85vh] lg:min-h-[90vh] flex flex-col justify-center pt-28 pb-16 md:pt-36 md:pb-20 border-b border-border/50 overflow-hidden"
       aria-labelledby="hero-heading"
     >
-      {/* Background architectural grid lines */}
-      <div className="absolute inset-0 -z-10 pointer-events-none opacity-40 dark:opacity-20 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      {/* Background Subtle Grid & Focal Radial Mask */}
+      <div
+        className="absolute inset-0 -z-10 pointer-events-none opacity-30 dark:opacity-15 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_10%,#000_60%,transparent_100%)]"
+        aria-hidden="true"
+      />
 
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="grid md:grid-cols-12 gap-10 lg:gap-14 items-center">
+      {/* Decorative Subtle Corner Index Tag */}
+      <div className="absolute top-24 left-6 hidden lg:flex items-center gap-2 text-[10px] font-mono text-muted-foreground/60 tracking-widest uppercase pointer-events-none select-none">
+        <span>SYS.ID // 2026-PORTFOLIO</span>
+        <span>&bull;</span>
+        <span>VERIFIED_SOURCE</span>
+      </div>
 
-          {/* LEFT COLUMN: Editorial Content & Hierarchy */}
-          <div className="md:col-span-7 flex flex-col items-start gap-6">
+      <div className="max-w-5xl mx-auto px-6 w-full">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
 
-            {/* Meta Eyebrow & Status */}
-            <motion.div {...fadeIn(0)} className="flex flex-wrap items-center gap-3">
+          {/* LEFT COLUMN: Editorial Content & Typography Hierarchy (7 Cols) */}
+          <div className="lg:col-span-7 flex flex-col items-start gap-7">
+
+            {/* Meta Eyebrow, Identity & Availability */}
+            <motion.div {...fadeIn(0)} className="flex flex-wrap items-center gap-2.5">
               <span className="text-[11px] font-mono tracking-widest text-muted-foreground uppercase font-semibold">
                 01 // INTRO
               </span>
-              <span className="h-3 w-px bg-border" aria-hidden="true" />
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm border border-emerald-500/30 bg-emerald-500/10 text-[11px] font-mono font-medium text-emerald-800 dark:text-emerald-300">
+              <span className="h-3 w-px bg-border/80" aria-hidden="true" />
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-xs border border-emerald-500/30 bg-emerald-500/10 text-[11px] font-mono font-medium text-emerald-800 dark:text-emerald-300">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
                 </span>
-                <span>OPEN TO BACKEND & FULL-STACK ROLES</span>
+                <span>OPEN TO BACKEND ROLES</span>
               </div>
             </motion.div>
 
-            {/* Name Identity */}
-            <motion.div {...fadeIn(0.1)} className="space-y-1">
-              <p className="text-xs font-mono tracking-wider text-muted-foreground uppercase font-semibold">
-                MD ASHIKUR RAHMAN PUSPO &middot; SOFTWARE ENGINEER
-              </p>
+            {/* Identity & Dramatic Editorial Headline */}
+            <motion.div {...fadeIn(0.1)} className="space-y-3">
+              <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-muted-foreground uppercase font-semibold">
+                <span className="text-foreground">MD ASHIKUR RAHMAN PUSPO</span>
+                <span>&bull;</span>
+                <span>SOFTWARE ENGINEER</span>
+              </div>
 
-              {/* Dramatic Editorial Headline */}
               <h1
                 id="hero-heading"
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.05] font-heading text-balance"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-foreground leading-[1.02] font-heading uppercase text-balance"
               >
-                BUILDING BACKEND SYSTEMS THAT SCALE.
+                BUILDING <br className="hidden sm:inline" />
+                BACKEND SYSTEMS <br />
+                <span className="text-emerald-700 dark:text-emerald-400 font-serif italic font-normal tracking-normal lowercase text-[0.88em] sm:text-[0.88em]">
+                  that scale.
+                </span>
               </h1>
             </motion.div>
 
-            {/* Tech Stack Micro-Layer */}
+            {/* Core Tech Stack Micro-Layer */}
             <motion.div
               {...fadeIn(0.2)}
-              className="w-full py-2.5 px-3 rounded-sm border border-border/60 bg-card/40 backdrop-blur-sm flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] font-mono text-muted-foreground"
+              className="w-full py-2.5 px-3.5 rounded-xs border border-border/80 bg-card/60 backdrop-blur-xs flex flex-wrap items-center gap-x-3.5 gap-y-2 text-[11px] font-mono text-muted-foreground"
             >
-              <span className="font-semibold text-foreground uppercase tracking-wider text-[10px]">
-                CORE STACK &rarr;
+              <span className="font-bold text-foreground uppercase tracking-widest text-[10px] flex items-center gap-1.5">
+                <Cpu className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                CORE STACK:
               </span>
-              {TECH_TAGS.map((tag, i) => (
-                <span key={tag} className="flex items-center gap-2">
-                  <span className="hover:text-foreground transition-colors">{tag}</span>
-                  {i < TECH_TAGS.length - 1 && (
-                    <span className="text-border" aria-hidden="true">/</span>
+              {CORE_TECH.map((tech, i) => (
+                <span key={tech.name} className="flex items-center gap-2">
+                  <span className="hover:text-foreground transition-colors font-medium">
+                    {tech.name}
+                  </span>
+                  {i < CORE_TECH.length - 1 && (
+                    <span className="text-border/70" aria-hidden="true">&bull;</span>
                   )}
                 </span>
               ))}
             </motion.div>
 
-            {/* Concise Supporting Description */}
+            {/* Concise Supporting Bio Description */}
             <motion.p
               {...fadeIn(0.3)}
-              className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl"
+              className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl font-normal"
             >
-              Architecting resilient server-side microservices, high-performance database flows, and production REST APIs using Java and Spring Boot.
+              Architecting resilient server-side microservices, high-throughput REST APIs, and production database flows with Java &amp; Spring Boot — engineered for clarity and performance.
             </motion.p>
 
-            {/* Action CTAs */}
+            {/* Action CTAs Cluster */}
             <motion.div
               {...fadeIn(0.4)}
-              className="flex flex-wrap items-center gap-3 pt-2"
+              className="flex flex-wrap items-center gap-3.5 pt-1"
             >
               <Link
                 href="#projects"
-                className="inline-flex items-center gap-2 px-6 py-3 text-xs font-mono font-semibold uppercase tracking-wider rounded-sm bg-foreground text-background hover:bg-foreground/90 transition-all shadow-md active:scale-[0.98]"
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 text-xs font-mono font-bold uppercase tracking-wider rounded-xs bg-foreground text-background hover:bg-foreground/90 transition-all shadow-lg active:scale-[0.98] group"
               >
-                EXPLORE MY WORK
-                <ArrowUpRight className="w-4 h-4" />
+                <span>EXPLORE MY WORK</span>
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
 
               <Link
                 href="#contact"
-                className="inline-flex items-center gap-2 px-5 py-3 text-xs font-mono font-medium uppercase tracking-wider rounded-sm border border-border bg-card text-foreground hover:bg-muted transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-3.5 text-xs font-mono font-semibold uppercase tracking-wider rounded-xs border border-border bg-card/80 text-foreground hover:bg-muted/80 transition-colors"
               >
                 LET&apos;S TALK
               </Link>
 
               <Link
                 href="/resume"
-                className="inline-flex items-center gap-1.5 px-3 py-3 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors ml-1"
+                className="inline-flex items-center gap-1.5 px-3.5 py-3.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors group"
               >
-                <FileText className="w-3.5 h-3.5" />
-                <span>RESUME ↗</span>
+                <FileText className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span className="group-hover:underline underline-offset-4">RESUME ↗</span>
               </Link>
             </motion.div>
 
-            {/* Social Metadata Row */}
+            {/* Refined Horizontal Social Metadata Row */}
             <motion.div
               {...fadeIn(0.5)}
               className="pt-6 border-t border-border/60 w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-muted-foreground"
             >
-              <span className="uppercase tracking-wider text-[10px]">
-                CONNECT & VERIFIED PROFILES
+              <span className="uppercase tracking-widest text-[10px] font-semibold text-muted-foreground/80 flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                VERIFIED PROFILES
               </span>
               <SocialHeroLinks />
             </motion.div>
 
           </div>
 
-          {/* RIGHT COLUMN: Editorial Portrait & Architectural System Annotation (Hybrid) */}
+          {/* RIGHT COLUMN: Architectural Hybrid Portrait & System Telemetry Card (5 Cols) */}
           <motion.div
-            {...fadeIn(0.2)}
-            className="md:col-span-5 flex flex-col items-center md:items-end w-full"
+            {...fadeIn(0.25)}
+            className="lg:col-span-5 flex flex-col items-center lg:items-end w-full"
           >
-            <div className="relative w-full max-w-sm">
+            <div className="relative w-full max-w-md">
 
-              {/* Outer Architectural Framing */}
-              <div className="relative rounded-sm border border-border/80 bg-card p-2 shadow-2xl">
+              {/* Decorative Background Offset Frame */}
+              <div className="absolute -inset-1.5 rounded-sm border border-border/40 bg-muted/20 -z-10 translate-x-2 translate-y-2 pointer-events-none" />
 
-                {/* Header Metadata Bar */}
-                <div className="flex items-center justify-between px-3 py-2 border-b border-border/60 text-[10px] font-mono text-muted-foreground mb-2">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                    <span className="font-semibold text-foreground uppercase">SYSTEM ARCHITECT</span>
+              {/* Outer Architectural Container Card */}
+              <div className="relative rounded-sm border border-border/90 bg-card p-3 shadow-2xl space-y-3">
+
+                {/* Card Header Metadata Bar */}
+                <div className="flex items-center justify-between px-3 py-2 border-b border-border/60 text-[10px] font-mono text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="font-bold text-foreground uppercase tracking-wider">
+                      SYSTEM ARCHITECT
+                    </span>
                   </div>
-                  <span>DHAKA, BD</span>
+                  <div className="flex items-center gap-1 text-muted-foreground">
+                    <MapPin className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                    <span>DHAKA, BD</span>
+                  </div>
                 </div>
 
-                {/* Editorial Portrait Image */}
-                <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden bg-muted group border border-border/50">
+                {/* Editorial Portrait Frame */}
+                <div className="relative aspect-[4/5] w-full rounded-xs overflow-hidden bg-muted group border border-border/70 shadow-inner">
                   <Image
                     src="/profile.webp"
-                    alt="MD Ashikur Rahman Puspo"
+                    alt="MD Ashikur Rahman Puspo - Software Engineer"
                     fill
                     priority
-                    sizes="(max-width: 768px) 100vw, 380px"
+                    sizes="(max-width: 768px) 100vw, 420px"
                     className="object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
                   />
-                  {/* Subtle gradient vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+                  {/* Subtle Gradient Vignette Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90" />
 
-                  {/* Overlay text on portrait */}
-                  <div className="absolute bottom-3 left-3 right-3 text-white text-xs font-mono">
-                    <p className="font-semibold tracking-wide">MD Ashikur Rahman Puspo</p>
-                    <p className="text-[10px] text-zinc-300">Backend Software Engineer</p>
+                  {/* Overlaid Editorial Metadata */}
+                  <div className="absolute bottom-3.5 left-3.5 right-3.5 text-white text-xs font-mono space-y-1">
+                    <div className="flex items-center justify-between">
+                      <p className="font-bold tracking-wider text-sm">MD ASHIKUR RAHMAN PUSPO</p>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded-xs bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-semibold">
+                        JAVA / SPRING
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-zinc-300 font-normal">
+                      Sr. Backend Engineer &bull; System Architect
+                    </p>
                   </div>
                 </div>
 
-                {/* Technical System Annotation Micro-Card */}
-                <div className="mt-2.5 p-3 rounded-sm border border-border/60 bg-muted/30 text-xs font-mono flex flex-col gap-2">
-                  <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                    <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
-                      <CheckCircle2 className="w-3 h-3" /> ACTIVE SYSTEM
+                {/* Live Architecture Data Flow & Telemetry Widget */}
+                <div className="p-3 rounded-xs border border-border/70 bg-muted/40 text-xs font-mono space-y-2.5">
+                  <div className="flex items-center justify-between text-[10px] font-semibold text-muted-foreground">
+                    <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+                      <Activity className="w-3 h-3 animate-pulse" /> SYSTEM FLOW DIAGRAM
                     </span>
-                    <span>SPRING BOOT 3.x</span>
+                    <span className="text-[9px] text-muted-foreground/70">LATENCY &lt; 25ms</span>
                   </div>
 
-                  {/* Architecture Data Flow Annotation */}
-                  <div className="grid grid-cols-3 gap-1.5 text-center text-[10px]">
-                    <div className="p-1.5 rounded border border-border/50 bg-background flex flex-col items-center gap-0.5">
-                      <Server className="w-3 h-3 text-emerald-500" />
-                      <span className="text-foreground font-semibold">API</span>
+                  {/* Architecture Request Flow Diagram */}
+                  <div className="grid grid-cols-3 gap-2 text-center text-[10px]">
+                    <div className="p-2 rounded-xs border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
+                      <Server className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <span className="text-foreground font-bold uppercase tracking-wider">REST API</span>
+                      <span className="text-[8px] text-muted-foreground">CONTROLLER</span>
                     </div>
-                    <div className="p-1.5 rounded border border-border/50 bg-background flex flex-col items-center gap-0.5">
-                      <Layers className="w-3 h-3 text-blue-500" />
-                      <span className="text-foreground font-semibold">SERVICES</span>
+                    <div className="p-2 rounded-xs border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
+                      <Cpu className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                      <span className="text-foreground font-bold uppercase tracking-wider">SPRING BOOT</span>
+                      <span className="text-[8px] text-muted-foreground">SERVICE</span>
                     </div>
-                    <div className="p-1.5 rounded border border-border/50 bg-background flex flex-col items-center gap-0.5">
-                      <Database className="w-3 h-3 text-amber-500" />
-                      <span className="text-foreground font-semibold">DATA</span>
+                    <div className="p-2 rounded-xs border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
+                      <Database className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                      <span className="text-foreground font-bold uppercase tracking-wider">POSTGRES</span>
+                      <span className="text-[8px] text-muted-foreground">PERSISTENCE</span>
                     </div>
                   </div>
                 </div>
 
               </div>
 
-              {/* Decorative Accent Marker */}
-              <div className="absolute -bottom-3 -left-3 px-2 py-1 bg-foreground text-background text-[9px] font-mono uppercase tracking-widest rounded-xs hidden sm:block shadow-md">
-                JAVA &bull; SPRING &bull; SQL
+              {/* Decorative Corner Label Tag */}
+              <div className="absolute -bottom-3 -left-3 px-2.5 py-1 bg-foreground text-background text-[9px] font-mono uppercase tracking-widest rounded-xs hidden sm:block shadow-md">
+                ENGINEERING EXCELLENCE
               </div>
 
             </div>
