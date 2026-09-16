@@ -412,7 +412,7 @@ export default async function ProjectCaseStudy({ params }: PageProps) {
         <SectionReveal delay={0.1}>
           <div className="mt-16 pt-8 border-t border-border/50">
             <div className="glass rounded-2xl p-8 text-center border-emerald-500/10">
-              <h3 className="text-xl font-bold mb-2">Want to see more?</h3>
+              <h2 className="text-xl font-bold mb-2">Want to see more?</h2>
               <p className="text-muted-foreground/80 mb-6">
                 Check out my other projects or read my technical blog posts.
               </p>

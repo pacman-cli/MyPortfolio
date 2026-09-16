@@ -478,6 +478,15 @@ Visit ${SITE_URL}${pathname} for the full page.
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const accept = request.headers.get('accept') || ''
+  const host = request.headers.get('host') || ''
+
+  // 0. Non-WWW to WWW 301 Redirect for canonical hostname alignment
+  if (host === 'puspo.online') {
+    const redirectUrl = request.nextUrl.clone()
+    redirectUrl.hostname = 'www.puspo.online'
+    redirectUrl.port = ''
+    return NextResponse.redirect(redirectUrl, 301)
+  }
 
   // 1. Handle .well-known routes
   if (pathname.startsWith('/.well-known/')) {

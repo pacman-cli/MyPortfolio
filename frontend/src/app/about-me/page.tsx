@@ -1,4 +1,5 @@
 import { BreadcrumbSchema, JsonLd } from '@/components/seo/json-ld'
+import { EmailOff } from '@/components/seo/email-off'
 import { absoluteUrl, siteConfig } from '@/lib/site'
 import { Footer } from '@/components/footer'
 import { constructMetadata } from '@/lib/seo'
@@ -78,15 +79,17 @@ export default function AboutPage() {
               <h3 className="font-semibold text-xs font-mono uppercase tracking-wider text-foreground">Social & Contact</h3>
               <div className="flex flex-col gap-2">
                 {SOCIAL_LINKS.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-                    rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                    className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono"
-                  >
-                    {link.label} &rarr;
-                  </a>
+                  <EmailOff key={link.label}>
+                    <a
+                      href={link.href}
+                      data-cfemail={link.href.startsWith('mailto:') ? 'false' : undefined}
+                      target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                      rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono block"
+                    >
+                      {link.label} &rarr;
+                    </a>
+                  </EmailOff>
                 ))}
               </div>
             </div>

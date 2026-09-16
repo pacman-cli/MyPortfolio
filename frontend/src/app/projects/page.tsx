@@ -59,6 +59,7 @@ export default async function ProjectsPage() {
 
         {/* Server-rendered architectural principles summary */}
         <section className="grid sm:grid-cols-2 gap-4 mb-10 text-xs text-muted-foreground">
+          <h2 className="sr-only">Architectural Pillars</h2>
           <div className="p-4 rounded-xl border border-border/60 bg-card/40 flex items-start gap-3">
             <Cpu className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
             <div>
@@ -104,7 +105,7 @@ export default async function ProjectsPage() {
 
         {/* Detailed architectural methodology note */}
         <section className="mt-16 pt-8 border-t border-border/60 text-xs text-muted-foreground space-y-4">
-          <h3 className="text-sm font-semibold text-foreground tracking-tight">Engineering Methodology & Code Quality</h3>
+          <h2 className="text-sm font-semibold text-foreground tracking-tight">Engineering Methodology & Code Quality</h2>
           <p className="leading-relaxed">
             Every project listed above represents hands-on implementation of software design patterns including Singleton, Builder, Factory, and Observer patterns. Systems are designed with domain-driven boundaries, automated testing via Vitest and JUnit, and comprehensive error handling.
           </p>

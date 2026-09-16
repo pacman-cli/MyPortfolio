@@ -1,15 +1,16 @@
-import { ArrowUpRight, Github, Instagram, Linkedin, Mail, Youtube } from 'lucide-react'
+import { ArrowUpRight, Mail } from 'lucide-react'
 import Link from 'next/link'
-import { SiX, SiFacebook, SiLeetcode } from "react-icons/si"
+import { SiX, SiFacebook, SiLeetcode, SiGithub, SiYoutube, SiInstagram } from "react-icons/si"
+import { FaLinkedin } from "react-icons/fa"
 import { SOCIAL_PROFILES, siteConfig } from '@/lib/site'
 import { EmailOff } from '@/components/seo/email-off'
 
 const iconMap: Record<string, React.ElementType> = {
-  GitHub: Github,
-  LinkedIn: Linkedin,
+  GitHub: SiGithub,
+  LinkedIn: FaLinkedin,
   LeetCode: SiLeetcode,
-  YouTube: Youtube,
-  Instagram: Instagram,
+  YouTube: SiYoutube,
+  Instagram: SiInstagram,
   Facebook: SiFacebook,
   X: SiX,
 }
@@ -68,11 +69,13 @@ export function SocialLinks({ excludeEmail }: { excludeEmail?: boolean }) {
 }
 
 export function SocialHeroLinks({ className }: { className?: string }) {
+  const heroProfiles = ['GitHub', 'LinkedIn', 'YouTube', 'X']
+  const items = SOCIAL_PROFILES.filter(p => heroProfiles.includes(p.name))
+
   return (
-    <div className={className ?? "flex gap-3 items-center"}>
-      {profiles.slice(0, 7).map(({ name, url }) => {
+    <div className={className ?? "flex flex-wrap gap-x-5 gap-y-2 items-center text-xs font-mono"}>
+      {items.map(({ name, url }) => {
         const Icon = iconMap[name]
-        if (!Icon) return null
         return (
           <Link
             key={name}
@@ -80,9 +83,13 @@ export function SocialHeroLinks({ className }: { className?: string }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={name}
-            className="p-3 text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 rounded-full transition-all duration-200 hover:-translate-y-1 hover:scale-110 bg-muted/50 border border-border inline-flex"
+            className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors group"
           >
-            <Icon className="w-5 h-5" aria-hidden="true" />
+            {Icon && <Icon className="w-3.5 h-3.5" aria-hidden="true" />}
+            <span className="relative">
+              {name}
+              <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-foreground group-hover:w-full transition-all duration-200" />
+            </span>
           </Link>
         )
       })}
