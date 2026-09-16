@@ -1,5 +1,3 @@
-import { BLUR_DATA_URL } from '@/lib/blur'
-import Image from 'next/image'
 import Link from 'next/link'
 
 const ABOUT_HIGHLIGHTS = [
@@ -57,29 +55,14 @@ export const About = () => {
               </div>
             </div>
 
-            <div className="md:col-span-4 flex flex-col gap-4">
-              <div className="relative aspect-square rounded-lg overflow-hidden border border-border bg-muted">
-                <Image
-                  src="/profile.webp"
-                  alt="MD Ashikur Rahman Puspo"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 300px"
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL={BLUR_DATA_URL}
-                  className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
-                />
+            <div className="md:col-span-4 flex flex-col gap-3">
+              <div className="p-3 rounded-md border border-border bg-card text-center">
+                <div className="text-sm font-bold text-foreground">Java / Spring</div>
+                <div className="text-[10px] font-mono text-muted-foreground">Core Focus</div>
               </div>
-
-              <div className="grid grid-cols-2 gap-2 text-center">
-                <div className="p-3 rounded-md border border-border bg-card">
-                  <div className="text-sm font-bold text-foreground">Java / Spring</div>
-                  <div className="text-[10px] font-mono text-muted-foreground">Core Focus</div>
-                </div>
-                <div className="p-3 rounded-md border border-border bg-card">
-                  <div className="text-sm font-bold text-foreground">Dhaka, BD</div>
-                  <div className="text-[10px] font-mono text-muted-foreground">Location</div>
-                </div>
+              <div className="p-3 rounded-md border border-border bg-card text-center">
+                <div className="text-sm font-bold text-foreground">Dhaka, BD</div>
+                <div className="text-[10px] font-mono text-muted-foreground">Location</div>
               </div>
             </div>
           </div>
