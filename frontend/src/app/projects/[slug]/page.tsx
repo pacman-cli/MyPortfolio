@@ -114,15 +114,30 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const project = await getProjectBySlug(slug)
-  if (!project) return { title: 'Project Not Found' }
+  if (!project) return { title: 'Project Not Found | Puspo' }
+
+  // Target title length: 50-60 chars max
+  const baseTitle = `${project.name} | Case Study`
+  const title = baseTitle.length <= 50 ? `${baseTitle} — Puspo` : baseTitle
+
+  // Target description length: 70-155 chars max
+  let description = project.description || project.longDescription || ''
+  if (description.length > 155) {
+    description = description.slice(0, 152) + '...'
+  } else if (description.length < 70) {
+    description = `${description} Detailed architecture and technical case study.`
+    if (description.length > 155) {
+      description = description.slice(0, 152) + '...'
+    }
+  }
 
   return constructMetadata({
-    title: `${project.name} — Case Study | MD Ashikur Rahman Puspo`,
-    description: project.longDescription || project.description,
+    title,
+    description,
     url: absoluteUrl(`/projects/${project.slug}`),
     keywords: [
       project.name,
-      ...project.techStack,
+      ...(project.techStack || []),
       'Case Study',
       'Backend Project',
       'Full Stack Project',

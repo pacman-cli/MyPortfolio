@@ -52,16 +52,31 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params
   const blog = await getBlogBySlug(slug)
 
-  if (!blog) return { title: 'Blog Not Found' }
+  if (!blog) return { title: 'Blog Not Found | Puspo' }
 
   const blogUrl = absoluteUrl(`/blog/${blog.slug}`)
   let description = blog.excerpt || ''
   if (description.length > 155) {
     description = description.slice(0, 152) + '...'
+  } else if (description.length < 70) {
+    description = `${description} Technical deep dive and architectural principles.`
+    if (description.length > 155) {
+      description = description.slice(0, 152) + '...'
+    }
+  }
+
+  const rawTitle = blog.title
+  let title = rawTitle
+  if (rawTitle.length + ' | Puspo'.length <= 60) {
+    title = `${rawTitle} | Puspo`
+  } else if (rawTitle.length <= 60) {
+    title = rawTitle
+  } else {
+    title = rawTitle.slice(0, 57) + '...'
   }
 
   return constructMetadata({
-    title: `${blog.title} | Ashikur Rahman Puspo`,
+    title,
     description,
     url: blogUrl,
     type: 'article',

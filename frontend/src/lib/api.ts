@@ -42,7 +42,7 @@ const STATIC_BLOGS: Blog[] = [
     slug: "llm-deep-thinking",
     excerpt: "A deep dive into how large language models think — exploring internal architectures like o1, R1, and Claude, prompting techniques, and evaluation methods.",
     tags: "LLM, Deep Learning, Reasoning, AI Architecture, Prompt Engineering",
-    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
     publishedAt: "2026-05-16T10:00:00",
     content: `## Introduction
 
@@ -208,7 +208,7 @@ Inference-time compute scaling is the new frontier of artificial intelligence. B
     slug: "spring-security-architecture-linkedin",
     excerpt: "A deep dive into Spring Security's authentication architecture — how filters, providers, and SecurityContextHolder work together to secure your application.",
     tags: "Spring Security, Java, Authentication, Backend",
-    imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
     publishedAt: "2026-05-10T10:00:00",
     content: `## The Authentication Architecture
 
@@ -395,7 +395,7 @@ If you spawn asynchronous background jobs using Spring's \`@Async\`, the securit
     slug: "microservices-spring-boot-architecture",
     excerpt: "A complete guide to building production microservices with Spring Boot — covering service discovery, API gateways, resilience patterns, and Docker deployment.",
     tags: "Microservices, Spring Boot, Java, Architecture, Docker",
-    imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2070&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=800&auto=format&fit=crop",
     publishedAt: "2026-05-05T10:00:00",
     content: `## Introduction
 
@@ -570,7 +570,7 @@ Transitioning to microservices involves trading development simplicity for opera
     slug: "data-cleaning-model-training",
     excerpt: "A practical guide to data cleaning, preprocessing, and model training — from handling missing values to feature engineering and evaluation metrics.",
     tags: "Data Science, Machine Learning, Python, Data Engineering",
-    imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
     publishedAt: "2026-04-28T10:00:00",
     content: `## The Data Pipeline
 

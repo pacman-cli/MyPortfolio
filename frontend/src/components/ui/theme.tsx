@@ -54,7 +54,7 @@ export function Theme({
                 />
               )}
               <div className="relative z-10 flex items-center gap-1">
-                <Icon size={size === "sm" ? 12 : size === "md" ? 14 : 16} />
+                <Icon size={size === "sm" ? 12 : size === "md" ? 14 : 16} aria-hidden="true" />
               </div>
             </TabsTrigger>
           )
