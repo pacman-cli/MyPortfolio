@@ -3,7 +3,17 @@ import type { NextConfig } from "next"
 const nextConfig: NextConfig = {
   cacheComponents: true,
   experimental: {
-    optimizePackageImports: ['lucide-react', 'react-icons', 'framer-motion'],
+    optimizePackageImports: [
+      'lucide-react',
+      'react-icons',
+      'framer-motion',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-tabs',
+      '@radix-ui/react-label',
+      '@radix-ui/react-radio-group',
+      '@radix-ui/react-slot',
+      'react-activity-calendar',
+    ],
   },
   images: {
     formats: ['image/avif', 'image/webp'],

@@ -189,6 +189,7 @@ export const Hero = () => {
                     alt="MD Ashikur Rahman Puspo - Software Engineer"
                     fill
                     priority
+                    fetchPriority="high"
                     sizes="(max-width: 768px) 100vw, 420px"
                     className="object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
                   />

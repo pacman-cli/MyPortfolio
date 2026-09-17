@@ -8,8 +8,8 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google"
 import { SAME_AS_LINKS, SITE_NAVIGATION, siteConfig } from "@/lib/site"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: 'swap' })
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-heading", display: 'swap' })
+const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: 'swap', preload: true })
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-heading", display: 'swap', preload: true })
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -135,7 +135,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://api.github.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://api.github.com" />
+        <link rel="preconnect" href="https://github-contributions-api.jogruber.de" crossOrigin="" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
         {SAME_AS_LINKS.map((url) => (
           <link key={url} rel="me" href={url} />
