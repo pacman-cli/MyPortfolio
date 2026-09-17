@@ -174,6 +174,14 @@ export default async function BlogPost({ params }: PageProps) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
+                img: ({ ...props }) => (
+                  <img
+                    className="w-full h-auto rounded-xl aspect-[16/9] object-cover bg-muted border border-border/40 my-6"
+                    loading="lazy"
+                    decoding="async"
+                    {...props}
+                  />
+                ),
                 h2: ({ ...props }) => (
                   <h2
                     className="mt-14 mb-6 scroll-mt-24 text-foreground font-heading text-2xl md:text-3xl border-b border-border/15 pb-3"

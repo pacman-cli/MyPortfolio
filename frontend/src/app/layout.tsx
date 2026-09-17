@@ -1,12 +1,14 @@
 import { Navbar } from "@/components/navbar"
 import { ThemeProvider } from "@/components/theme-provider"
-import { CookieConsent } from "@/components/ui/cookie-consent"
-import { WebMCPProvider } from "@/components/webmcp-provider"
 import { cn } from "@/lib/utils"
 import type { Metadata, Viewport } from "next"
 import { Inter, Plus_Jakarta_Sans } from "next/font/google"
 import { SAME_AS_LINKS, SITE_NAVIGATION, siteConfig } from "@/lib/site"
+import dynamic from "next/dynamic"
 import "./globals.css"
+
+const CookieConsent = dynamic(() => import("@/components/ui/cookie-consent").then(m => m.CookieConsent))
+const WebMCPProvider = dynamic(() => import("@/components/webmcp-provider").then(m => m.WebMCPProvider))
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: 'swap', preload: true })
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-heading", display: 'swap', preload: true })

@@ -5,8 +5,8 @@ import { getProjects } from '@/lib/projects'
 import dynamic from 'next/dynamic'
 
 const SectionSkeleton = () => (
-  <div className="py-20 flex items-center justify-center">
-    <div className="w-12 h-12 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+  <div className="min-h-[400px] py-20 flex items-center justify-center">
+    <div className="w-10 h-10 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
   </div>
 )
 

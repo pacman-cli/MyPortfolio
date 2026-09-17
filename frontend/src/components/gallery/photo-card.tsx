@@ -12,7 +12,6 @@ interface PhotoCardProps {
 export const PhotoCard = ({ photo, index, onClick }: PhotoCardProps) => {
   const width = photo.width && photo.width > 0 ? photo.width : 600
   const height = photo.height && photo.height > 0 ? photo.height : 450
-  const calculatedHeight = Math.round((height / width) * 600)
   const isPriority = index < 4
 
   return (
@@ -27,7 +26,7 @@ export const PhotoCard = ({ photo, index, onClick }: PhotoCardProps) => {
         src={photo.url}
         alt={photo.name}
         width={width}
-        height={calculatedHeight}
+        height={height}
         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
         loading={isPriority ? 'eager' : 'lazy'}
         priority={isPriority}
