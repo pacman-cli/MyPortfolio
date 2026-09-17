@@ -2,6 +2,7 @@
 
 import { SocialQuietLinks } from '@/components/ui/social-links'
 import { siteConfig } from '@/lib/site'
+import { EmailOff } from '@/components/seo/email-off'
 import { Check, Copy, Download } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -26,7 +27,9 @@ const CopyEmailButton = () => {
       className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border bg-card text-foreground text-xs font-mono hover:bg-muted transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       aria-label={copied ? "Email copied" : "Copy email address"}
     >
-      <span>{email}</span>
+      <EmailOff>
+        <span>{email}</span>
+      </EmailOff>
       {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 text-muted-foreground" />}
     </button>
   )
