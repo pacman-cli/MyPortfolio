@@ -54,7 +54,7 @@ export const Hero = () => {
                 01 // INTRO
               </span>
               <span className="h-3 w-px bg-border/80" aria-hidden="true" />
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-xs border border-emerald-500/30 bg-emerald-500/10 text-[11px] font-mono font-medium text-emerald-800 dark:text-emerald-300">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-[11px] font-mono font-medium text-emerald-800 dark:text-emerald-300">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
@@ -86,7 +86,7 @@ export const Hero = () => {
             {/* Core Tech Stack Micro-Layer */}
             <motion.div
               {...fadeIn(0.2)}
-              className="w-full py-2.5 px-3.5 rounded-xs border border-border/80 bg-card/60 backdrop-blur-xs flex flex-wrap items-center gap-x-3.5 gap-y-2 text-[11px] font-mono text-muted-foreground"
+              className="w-full py-2.5 px-3.5 rounded-lg border border-border/80 bg-card/60 backdrop-blur-xs flex flex-wrap items-center gap-x-3.5 gap-y-2 text-[11px] font-mono text-muted-foreground"
             >
               <span className="font-bold text-foreground uppercase tracking-widest text-[10px] flex items-center gap-1.5">
                 <Cpu className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
@@ -119,7 +119,7 @@ export const Hero = () => {
             >
               <Link
                 href="#projects"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 text-xs font-mono font-bold uppercase tracking-wider rounded-xs bg-foreground text-background hover:bg-foreground/90 transition-all shadow-lg active:scale-[0.98] group"
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 text-xs font-mono font-bold uppercase tracking-wider rounded-md bg-foreground text-background hover:bg-foreground/90 transition-all shadow-lg active:scale-[0.98] group"
               >
                 <span>EXPLORE MY WORK</span>
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -127,7 +127,7 @@ export const Hero = () => {
 
               <Link
                 href="#contact"
-                className="inline-flex items-center gap-2 px-5 py-3.5 text-xs font-mono font-semibold uppercase tracking-wider rounded-xs border border-border bg-card/80 text-foreground hover:bg-muted/80 transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-3.5 text-xs font-mono font-semibold uppercase tracking-wider rounded-md border border-border bg-card/80 text-foreground hover:bg-muted/80 transition-colors"
               >
                 LET&apos;S TALK
               </Link>
@@ -163,10 +163,10 @@ export const Hero = () => {
             <div className="relative w-full max-w-md">
 
               {/* Decorative Background Offset Frame */}
-              <div className="absolute -inset-1.5 rounded-sm border border-border/40 bg-muted/20 -z-10 translate-x-2 translate-y-2 pointer-events-none" />
+              <div className="absolute -inset-1.5 rounded-xl border border-border/40 bg-muted/20 -z-10 translate-x-2 translate-y-2 pointer-events-none" />
 
               {/* Outer Architectural Container Card */}
-              <div className="relative rounded-sm border border-border/90 bg-card p-3 shadow-2xl space-y-3">
+              <div className="relative rounded-xl border border-border/90 bg-card p-3 shadow-2xl space-y-3">
 
                 {/* Card Header Metadata Bar */}
                 <div className="flex items-center justify-between px-3 py-2 border-b border-border/60 text-[10px] font-mono text-muted-foreground">
@@ -183,7 +183,7 @@ export const Hero = () => {
                 </div>
 
                 {/* Editorial Portrait Frame */}
-                <div className="relative aspect-[4/5] w-full rounded-xs overflow-hidden bg-muted group border border-border/70 shadow-inner">
+                <div className="relative aspect-[4/5] w-full rounded-lg overflow-hidden bg-muted group border border-border/70 shadow-inner">
                   <Image
                     src="/profile.webp"
                     alt="MD Ashikur Rahman Puspo - Software Engineer"
@@ -200,7 +200,7 @@ export const Hero = () => {
                   <div className="absolute bottom-3.5 left-3.5 right-3.5 text-white text-xs font-mono space-y-1">
                     <div className="flex items-center justify-between">
                       <p className="font-bold tracking-wider text-sm">MD ASHIKUR RAHMAN PUSPO</p>
-                      <span className="text-[9px] px-1.5 py-0.5 rounded-xs bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-semibold">
+                      <span className="text-[9px] px-1.5 py-0.5 rounded-sm bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-semibold">
                         JAVA / SPRING
                       </span>
                     </div>
@@ -211,7 +211,7 @@ export const Hero = () => {
                 </div>
 
                 {/* Live Architecture Data Flow & Telemetry Widget */}
-                <div className="p-3 rounded-xs border border-border/70 bg-muted/40 text-xs font-mono space-y-2.5">
+                <div className="p-3 rounded-lg border border-border/70 bg-muted/40 text-xs font-mono space-y-2.5">
                   <div className="flex items-center justify-between text-[10px] font-semibold text-muted-foreground">
                     <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
                       <Activity className="w-3 h-3 animate-pulse" /> SYSTEM FLOW DIAGRAM
@@ -221,17 +221,17 @@ export const Hero = () => {
 
                   {/* Architecture Request Flow Diagram */}
                   <div className="grid grid-cols-3 gap-2 text-center text-[10px]">
-                    <div className="p-2 rounded-xs border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
+                    <div className="p-2 rounded-md border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
                       <Server className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                       <span className="text-foreground font-bold uppercase tracking-wider">REST API</span>
                       <span className="text-[8px] text-muted-foreground">CONTROLLER</span>
                     </div>
-                    <div className="p-2 rounded-xs border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
+                    <div className="p-2 rounded-md border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
                       <Cpu className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                       <span className="text-foreground font-bold uppercase tracking-wider">SPRING BOOT</span>
                       <span className="text-[8px] text-muted-foreground">SERVICE</span>
                     </div>
-                    <div className="p-2 rounded-xs border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
+                    <div className="p-2 rounded-md border border-border/60 bg-background flex flex-col items-center gap-1 shadow-2xs">
                       <Database className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                       <span className="text-foreground font-bold uppercase tracking-wider">POSTGRES</span>
                       <span className="text-[8px] text-muted-foreground">PERSISTENCE</span>
@@ -242,7 +242,7 @@ export const Hero = () => {
               </div>
 
               {/* Decorative Corner Label Tag */}
-              <div className="absolute -bottom-3 -left-3 px-2.5 py-1 bg-foreground text-background text-[9px] font-mono uppercase tracking-widest rounded-xs hidden sm:block shadow-md">
+              <div className="absolute -bottom-3 -left-3 px-2.5 py-1 bg-foreground text-background text-[9px] font-mono uppercase tracking-widest rounded-md hidden sm:block shadow-md">
                 ENGINEERING EXCELLENCE
               </div>
 

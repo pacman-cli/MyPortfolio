@@ -44,7 +44,7 @@ export const About = () => {
             <div className="md:col-span-8 flex flex-col justify-between gap-6">
 
               {/* Primary Philosophy Callout */}
-              <div className="relative p-5 rounded-xs border border-border/80 bg-card/60 backdrop-blur-xs space-y-3 shadow-sm">
+              <div className="relative p-5 rounded-lg border border-border/80 bg-card/60 backdrop-blur-xs space-y-3 shadow-sm">
                 <div className="flex items-center gap-2 text-[10px] font-mono font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-widest">
                   <Terminal className="w-3.5 h-3.5" />
                   <span>ENGINEERING PERSPECTIVE</span>
@@ -61,11 +61,11 @@ export const About = () => {
                   return (
                     <div
                       key={item.title}
-                      className="group p-4 rounded-xs border border-border/80 bg-card/40 hover:bg-card hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between gap-3 shadow-2xs"
+                      className="group p-4 rounded-lg border border-border/80 bg-card/40 hover:bg-card hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between gap-3 shadow-2xs"
                     >
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <div className="p-1.5 rounded-xs bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                          <div className="p-1.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
                             <Icon className="w-4 h-4" />
                           </div>
                           <span className="text-[10px] font-mono text-muted-foreground/80 font-medium">
@@ -99,7 +99,7 @@ export const About = () => {
             {/* Right Column: Architectural Telemetry Cards */}
             <div className="md:col-span-4 flex flex-col gap-3 justify-between">
 
-              <div className="p-4 rounded-xs border border-border/80 bg-card/60 backdrop-blur-xs flex flex-col gap-1.5 shadow-2xs">
+              <div className="p-4 rounded-lg border border-border/80 bg-card/60 backdrop-blur-xs flex flex-col gap-1.5 shadow-2xs">
                 <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground uppercase font-semibold">
                   <Cpu className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>CORE FOCUS</span>
@@ -112,7 +112,7 @@ export const About = () => {
                 </div>
               </div>
 
-              <div className="p-4 rounded-xs border border-border/80 bg-card/60 backdrop-blur-xs flex flex-col gap-1.5 shadow-2xs">
+              <div className="p-4 rounded-lg border border-border/80 bg-card/60 backdrop-blur-xs flex flex-col gap-1.5 shadow-2xs">
                 <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground uppercase font-semibold">
                   <MapPin className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>LOCATION</span>
@@ -125,7 +125,7 @@ export const About = () => {
                 </div>
               </div>
 
-              <div className="p-4 rounded-xs border border-emerald-500/30 bg-emerald-500/5 flex flex-col gap-1.5 shadow-2xs">
+              <div className="p-4 rounded-lg border border-emerald-500/30 bg-emerald-500/5 flex flex-col gap-1.5 shadow-2xs">
                 <div className="flex items-center justify-between text-[10px] font-mono text-emerald-800 dark:text-emerald-300 font-semibold uppercase">
                   <span>STATUS</span>
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
