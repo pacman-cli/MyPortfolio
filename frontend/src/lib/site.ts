@@ -15,7 +15,7 @@ export const siteConfig = {
   email: "hello@puspo.online",
   image: `${SITE_URL}/profile.webp`,
   ogImage: `${SITE_URL}/opengraph-image`,
-  twitterHandle: "@iam_puspo",
+  twitterHandle: "@iampuspo",
   youtubeHandle: "@springCraftDev",
   resumeDownloadUrl: "https://drive.google.com/uc?export=download&id=1kdsPhac4EReNEXJU6WfuNg9RPe4d2FvJ",
 } as const
@@ -38,8 +38,8 @@ export const SOCIAL_PROFILES = [
   },
   {
     name: "X",
-    handle: "iam_puspo",
-    url: "https://x.com/iam_puspo",
+    handle: "iampuspo",
+    url: "https://x.com/iampuspo",
   },
   {
     name: "Instagram",

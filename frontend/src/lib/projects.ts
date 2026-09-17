@@ -33,7 +33,7 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     name: "TakaTrack - Personal Finance Tracker",
     description: "Full-stack personal finance app for real-time expense tracking, savings goals, and category analytics.",
     techStack: ["Spring Boot", "MySQL", "Next.js", "JWT", "Docker"],
-    githubUrl: "https://github.com/pacman-cli/TakaTrack",
+    githubUrl: "https://github.com/pacman-cli/expense-tracker",
     demoUrl: "https://takatrack.puspo.online",
     longDescription:
       "TakaTrack is a full-stack personal finance application designed to help users take control of their financial life. It features real-time expense tracking, interactive charts, savings goal management, and category-based analytics — all backed by a robust Spring Boot API and MySQL database.",
@@ -147,7 +147,7 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     name: "E-Commerce Platform",
     description: "Full-stack e-commerce platform with product management, persistent shopping cart, and secure multi-step checkout.",
     techStack: ["Spring Boot", "MySQL", "Redis", "Next.js", "Docker"],
-    githubUrl: "https://github.com/pacman-cli/e-commerce",
+    githubUrl: "https://github.com/pacman-cli/ecommarce-medi-backend",
     demoUrl: "https://ecommerce.puspo.online/",
     category: "fullstack",
     longDescription:
@@ -184,7 +184,7 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     name: "Java Core & Design Patterns",
     description: "Comprehensive Java reference repository covering core OOP, GoF design patterns, data structures, and multithreading.",
     techStack: ["Java", "OOP", "Design Patterns", "Concurrency"],
-    githubUrl: "https://github.com/pacman-cli/java-learning",
+    githubUrl: "https://github.com/pacman-cli/DSA",
     category: "backend",
     longDescription:
       "A comprehensive repository of Java learning projects covering core language concepts, data structures, algorithms, design patterns, and advanced OOP principles — organized by topic with detailed documentation.",
@@ -218,7 +218,7 @@ const STATIC_RICH_DATA: Record<string, Partial<Project>> = {
     name: "Business Analytics Platform",
     description: "Data-driven analytics platform featuring customizable widgets, automated report generation, and ETL pipelines.",
     techStack: ["Spring Boot", "MySQL", "ETL", "REST API", "Chart.js"],
-    githubUrl: "https://github.com/pacman-cli/business-analytics",
+    githubUrl: "https://github.com/pacman-cli/Marketrix",
     category: "backend",
     longDescription:
       "A data-driven analytics platform for business insights, featuring interactive visualizations, custom report generation, and real-time data processing pipelines for informed decision-making.",

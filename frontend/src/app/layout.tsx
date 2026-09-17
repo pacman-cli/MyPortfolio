@@ -54,7 +54,7 @@ const jsonLdData = [
       { '@type': 'PropertyValue', name: 'LinkedIn', value: 'iampuspo', url: 'https://www.linkedin.com/in/iampuspo/' },
       { '@type': 'PropertyValue', name: 'GitHub', value: 'pacman-cli', url: 'https://github.com/pacman-cli' },
       { '@type': 'PropertyValue', name: 'YouTube', value: 'springCraftDev', url: 'https://www.youtube.com/@springCraftDev' },
-      { '@type': 'PropertyValue', name: 'X', value: 'iam_puspo', url: 'https://x.com/iam_puspo' },
+      { '@type': 'PropertyValue', name: 'X', value: 'iampuspo', url: 'https://x.com/iampuspo' },
       { '@type': 'PropertyValue', name: 'Instagram', value: 'iampuspoo', url: 'https://www.instagram.com/iampuspoo/' },
       { '@type': 'PropertyValue', name: 'Facebook', value: 'pacman.puspo', url: 'https://www.facebook.com/pacman.puspo/' },
       { '@type': 'PropertyValue', name: 'LeetCode', value: 'pacman-cli', url: 'https://leetcode.com/u/pacman-cli/' },

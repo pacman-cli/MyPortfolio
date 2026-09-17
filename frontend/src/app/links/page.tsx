@@ -47,8 +47,8 @@ const socialLinks = [
   },
   {
     name: 'X (Twitter)',
-    handle: '@iam_puspo',
-    url: 'https://x.com/iam_puspo',
+    handle: '@iampuspo',
+    url: 'https://x.com/iampuspo',
     description: 'Read short-form tech observations, software industry updates, and backend development thoughts.',
     icon: <SiX className="w-3.5 h-3.5" />,
   },

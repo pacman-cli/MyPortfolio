@@ -61,10 +61,8 @@ export const ClosingSection = () => {
             </Link>
           </div>
 
-          <div className="pt-4 border-t border-border/60">
-            <div className="flex flex-wrap items-center gap-4">
-              <SocialQuietLinks />
-            </div>
+          <div className="pt-4 border-t border-border/60 flex items-center justify-between">
+            <SocialQuietLinks />
           </div>
         </div>
       </div>
