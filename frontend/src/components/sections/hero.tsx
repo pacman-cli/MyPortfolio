@@ -1,6 +1,3 @@
-"use client"
-
-import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, FileText, Server, Database, Cpu, Activity, ShieldCheck, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,14 +13,6 @@ const CORE_TECH = [
 ] as const
 
 export const Hero = () => {
-  const prefersReducedMotion = useReducedMotion()
-
-  const fadeIn = (delay: number) => ({
-    initial: prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] as const },
-  })
-
   return (
     <section
       className="relative min-h-[85vh] lg:min-h-[90vh] flex flex-col justify-center pt-28 pb-16 md:pt-36 md:pb-20 border-b border-border/50 overflow-hidden"
@@ -36,7 +25,7 @@ export const Hero = () => {
       />
 
       {/* Decorative Subtle Corner Index Tag */}
-      <div className="absolute top-24 left-6 hidden lg:flex items-center gap-2 text-[10px] font-mono text-muted-foreground/60 tracking-widest uppercase pointer-events-none select-none">
+      <div className="absolute top-24 left-6 hidden lg:flex items-center gap-2 text-[10px] font-mono text-muted-foreground font-medium tracking-widest uppercase pointer-events-none select-none">
         <span>SYS.ID // 2026-PORTFOLIO</span>
         <span>&bull;</span>
         <span>VERIFIED_SOURCE</span>
@@ -49,22 +38,22 @@ export const Hero = () => {
           <div className="lg:col-span-7 flex flex-col items-start gap-7">
 
             {/* Meta Eyebrow, Identity & Availability */}
-            <motion.div {...fadeIn(0)} className="flex flex-wrap items-center gap-2.5">
+            <div className="animate-hero-fade flex flex-wrap items-center gap-2.5" style={{ animationDelay: '0ms' }}>
               <span className="text-[11px] font-mono tracking-widest text-muted-foreground uppercase font-semibold">
                 01 // INTRO
               </span>
               <span className="h-3 w-px bg-border/80" aria-hidden="true" />
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-[11px] font-mono font-medium text-emerald-800 dark:text-emerald-300">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md border border-emerald-500/40 bg-emerald-500/10 text-[11px] font-mono font-semibold text-emerald-900 dark:text-emerald-300">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
                 </span>
                 <span>OPEN TO BACKEND ROLES</span>
               </div>
-            </motion.div>
+            </div>
 
             {/* Identity & Dramatic Editorial Headline */}
-            <motion.div {...fadeIn(0.1)} className="space-y-3">
+            <div className="animate-hero-fade space-y-3" style={{ animationDelay: '80ms' }}>
               <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-muted-foreground uppercase font-semibold">
                 <span className="text-foreground">MD ASHIKUR RAHMAN PUSPO</span>
                 <span>&bull;</span>
@@ -81,12 +70,12 @@ export const Hero = () => {
                   that scale.
                 </span>
               </h1>
-            </motion.div>
+            </div>
 
             {/* Core Tech Stack Micro-Layer */}
-            <motion.div
-              {...fadeIn(0.2)}
-              className="w-full py-2.5 px-3.5 rounded-lg border border-border/80 bg-card/60 backdrop-blur-xs flex flex-wrap items-center gap-x-3.5 gap-y-2 text-[11px] font-mono text-muted-foreground"
+            <div
+              className="animate-hero-fade w-full py-2.5 px-3.5 rounded-lg border border-border/80 bg-card/60 flex flex-wrap items-center gap-x-3.5 gap-y-2 text-[11px] font-mono text-muted-foreground"
+              style={{ animationDelay: '160ms' }}
             >
               <span className="font-bold text-foreground uppercase tracking-widest text-[10px] flex items-center gap-1.5">
                 <Cpu className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
@@ -98,24 +87,24 @@ export const Hero = () => {
                     {tech.name}
                   </span>
                   {i < CORE_TECH.length - 1 && (
-                    <span className="text-border/70" aria-hidden="true">&bull;</span>
+                    <span className="text-muted-foreground" aria-hidden="true">&bull;</span>
                   )}
                 </span>
               ))}
-            </motion.div>
+            </div>
 
             {/* Concise Supporting Bio Description */}
-            <motion.p
-              {...fadeIn(0.3)}
-              className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl font-normal"
+            <p
+              className="animate-hero-fade text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl font-normal"
+              style={{ animationDelay: '240ms' }}
             >
               Architecting resilient server-side microservices, high-throughput REST APIs, and production database flows with Java &amp; Spring Boot — engineered for clarity and performance.
-            </motion.p>
+            </p>
 
             {/* Action CTAs Cluster */}
-            <motion.div
-              {...fadeIn(0.4)}
-              className="flex flex-wrap items-center gap-3.5 pt-1"
+            <div
+              className="animate-hero-fade flex flex-wrap items-center gap-3.5 pt-1"
+              style={{ animationDelay: '320ms' }}
             >
               <Link
                 href="#projects"
@@ -139,26 +128,26 @@ export const Hero = () => {
                 <FileText className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span className="group-hover:underline underline-offset-4">RESUME ↗</span>
               </Link>
-            </motion.div>
+            </div>
 
             {/* Refined Horizontal Social Metadata Row */}
-            <motion.div
-              {...fadeIn(0.5)}
-              className="pt-6 border-t border-border/60 w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-muted-foreground"
+            <div
+              className="animate-hero-fade pt-6 border-t border-border/60 w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-muted-foreground"
+              style={{ animationDelay: '400ms' }}
             >
-              <span className="uppercase tracking-widest text-[10px] font-semibold text-muted-foreground/80 flex items-center gap-1.5">
+              <span className="uppercase tracking-widest text-[10px] font-semibold text-muted-foreground flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 VERIFIED PROFILES
               </span>
               <SocialHeroLinks />
-            </motion.div>
+            </div>
 
           </div>
 
           {/* RIGHT COLUMN (FIRST ON MOBILE): Architectural Hybrid Portrait & System Telemetry Card (5 Cols) */}
-          <motion.div
-            {...fadeIn(0.25)}
-            className="lg:col-span-5 flex flex-col items-center lg:items-end w-full order-first lg:order-last"
+          <div
+            className="animate-hero-fade lg:col-span-5 flex flex-col items-center lg:items-end w-full order-first lg:order-last"
+            style={{ animationDelay: '120ms' }}
           >
             <div className="relative w-full max-w-md">
 
@@ -190,7 +179,7 @@ export const Hero = () => {
                     fill
                     priority
                     fetchPriority="high"
-                    sizes="(max-width: 768px) 100vw, 420px"
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 380px, 420px"
                     className="object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
                   />
                   {/* Subtle Gradient Vignette Overlay */}
@@ -216,7 +205,7 @@ export const Hero = () => {
                     <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
                       <Activity className="w-3 h-3 animate-pulse" /> SYSTEM FLOW DIAGRAM
                     </span>
-                    <span className="text-[9px] text-muted-foreground/70">LATENCY &lt; 25ms</span>
+                    <span className="text-[9px] text-muted-foreground">LATENCY &lt; 25ms</span>
                   </div>
 
                   {/* Architecture Request Flow Diagram */}
@@ -247,10 +236,11 @@ export const Hero = () => {
               </div>
 
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>
     </section>
   )
 }
+
