@@ -155,10 +155,10 @@ export const Hero = () => {
 
           </div>
 
-          {/* RIGHT COLUMN: Architectural Hybrid Portrait & System Telemetry Card (5 Cols) */}
+          {/* RIGHT COLUMN (FIRST ON MOBILE): Architectural Hybrid Portrait & System Telemetry Card (5 Cols) */}
           <motion.div
             {...fadeIn(0.25)}
-            className="lg:col-span-5 flex flex-col items-center lg:items-end w-full"
+            className="lg:col-span-5 flex flex-col items-center lg:items-end w-full order-first lg:order-last"
           >
             <div className="relative w-full max-w-md">
 
