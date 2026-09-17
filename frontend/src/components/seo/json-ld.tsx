@@ -55,6 +55,7 @@ export function BlogPostingSchema({ blog, url }: { blog: Blog; url: string }) {
     datePublished: blog.publishedAt,
     dateModified: blog.publishedAt,
     url,
+    image: siteConfig.image,
     author: {
       '@type': 'Person',
       name: siteConfig.fullName,
@@ -64,6 +65,10 @@ export function BlogPostingSchema({ blog, url }: { blog: Blog; url: string }) {
       '@type': 'Person',
       name: siteConfig.fullName,
       url: siteConfig.url,
+      logo: {
+        '@type': 'ImageObject',
+        url: siteConfig.image,
+      },
     },
     keywords: blog.tags,
     mainEntityOfPage: {

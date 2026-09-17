@@ -68,10 +68,10 @@ export default function AboutPage() {
                 src="/profile.webp"
                 alt="MD Ashikur Rahman Puspo"
                 fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
-                loading="lazy"
+                priority
                 sizes="(max-width: 768px) 100vw, 300px"
-                quality={75}
+                quality={85}
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-300"
               />
             </div>
 

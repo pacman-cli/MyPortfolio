@@ -1,7 +1,7 @@
-import { BreadcrumbSchema } from '@/components/seo/json-ld'
+import { BreadcrumbSchema, JsonLd } from '@/components/seo/json-ld'
 import { Footer } from '@/components/footer'
 import { constructMetadata } from '@/lib/seo'
-import { absoluteUrl } from '@/lib/site'
+import { absoluteUrl, siteConfig } from '@/lib/site'
 import type { Metadata } from 'next'
 import { GalleryGrid } from '@/components/gallery/gallery-grid'
 import { Camera, MapPin, Sparkles } from 'lucide-react'
@@ -12,9 +12,20 @@ export const metadata: Metadata = constructMetadata({
   url: absoluteUrl('/gallery'),
 })
 
+const galleryJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageGallery',
+  '@id': `${absoluteUrl('/gallery')}#webpage`,
+  url: absoluteUrl('/gallery'),
+  name: 'Photo Gallery | MD Ashikur Rahman Puspo',
+  description: 'A curated collection of personal photography, travel memories, and visual stories.',
+  author: { '@id': `${siteConfig.url}/#person` },
+}
+
 export default function GalleryPage() {
   return (
     <main className="min-h-screen bg-background text-foreground pt-32 pb-16">
+      <JsonLd data={galleryJsonLd} />
       <BreadcrumbSchema
         items={[
           { name: 'Home', item: '/' },

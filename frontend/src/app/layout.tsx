@@ -139,6 +139,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://api.github.com" />
         <link rel="preconnect" href="https://github-contributions-api.jogruber.de" crossOrigin="" />
         <link rel="dns-prefetch" href="https://github-contributions-api.jogruber.de" />
+        <link rel="preconnect" href="https://lh3.googleusercontent.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
         {SAME_AS_LINKS.map((url) => (
           <link key={url} rel="me" href={url} />
         ))}

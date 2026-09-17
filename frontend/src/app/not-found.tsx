@@ -12,9 +12,9 @@ export default function NotFound() {
           </span>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <p className="text-2xl md:text-3xl font-bold tracking-tight mb-2">
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">
                 Page not found
-              </p>
+              </h1>
               <p className="text-muted-foreground text-base md:text-lg">
                 The page you&apos;re looking for doesn&apos;t exist or has been moved.
               </p>
