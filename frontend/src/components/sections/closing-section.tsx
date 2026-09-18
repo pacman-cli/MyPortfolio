@@ -1,6 +1,5 @@
 "use client"
 
-import { SocialQuietLinks } from '@/components/ui/social-links'
 import { siteConfig } from '@/lib/site'
 import { EmailOff } from '@/components/seo/email-off'
 import { Check, Copy, Download } from 'lucide-react'
@@ -62,10 +61,6 @@ export const ClosingSection = () => {
               <Download className="w-3.5 h-3.5" />
               Download Resume
             </Link>
-          </div>
-
-          <div className="pt-4 border-t border-border/60 flex items-center justify-between">
-            <SocialQuietLinks />
           </div>
         </div>
       </div>
