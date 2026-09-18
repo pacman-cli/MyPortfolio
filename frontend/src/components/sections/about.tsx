@@ -25,7 +25,7 @@ export const About = () => {
           {/* Section Header */}
           <div className="flex items-center justify-between border-b border-border/80 pb-4">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono tracking-widest text-emerald-700 dark:text-emerald-400 font-bold uppercase">
+              <span className="text-[10px] font-mono tracking-widest text-emerald-800 dark:text-emerald-300 font-bold uppercase">
                 02 // BACKGROUND
               </span>
               <span className="h-3 w-px bg-border/80" aria-hidden="true" />
@@ -33,7 +33,7 @@ export const About = () => {
                 About Me
               </h2>
             </div>
-            <span className="text-[10px] font-mono text-muted-foreground/60 hidden sm:inline">
+            <span className="text-[10px] font-mono text-muted-foreground hidden sm:inline">
               SYS.BIO // ARCHITECTURE
             </span>
           </div>
@@ -45,7 +45,7 @@ export const About = () => {
 
               {/* Primary Philosophy Callout */}
               <div className="relative p-5 rounded-lg border border-border/80 bg-card/60 backdrop-blur-xs space-y-3 shadow-sm">
-                <div className="flex items-center gap-2 text-[10px] font-mono font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-widest">
+                <div className="flex items-center gap-2 text-[10px] font-mono font-semibold text-emerald-800 dark:text-emerald-300 uppercase tracking-widest">
                   <Terminal className="w-3.5 h-3.5" />
                   <span>ENGINEERING PERSPECTIVE</span>
                 </div>
@@ -65,14 +65,14 @@ export const About = () => {
                     >
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <div className="p-1.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                          <div className="p-1.5 rounded-md bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 border border-emerald-500/20">
                             <Icon className="w-4 h-4" />
                           </div>
-                          <span className="text-[10px] font-mono text-muted-foreground/80 font-medium">
+                          <span className="text-[10px] font-mono text-muted-foreground font-medium">
                             {item.institution}
                           </span>
                         </div>
-                        <h3 className="text-xs font-mono font-bold text-foreground tracking-tight uppercase group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                        <h3 className="text-xs font-mono font-bold text-foreground tracking-tight uppercase group-hover:text-emerald-800 dark:group-hover:text-emerald-300 transition-colors">
                           {item.title}
                         </h3>
                       </div>
@@ -88,10 +88,10 @@ export const About = () => {
               <div>
                 <Link
                   href="/about-me"
-                  className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-foreground uppercase tracking-wider hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors group"
+                  className="inline-flex items-center gap-2 text-xs font-mono font-semibold text-foreground uppercase tracking-wider hover:text-emerald-800 dark:hover:text-emerald-300 transition-colors group"
                 >
                   <span>Read Full Biography</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-emerald-600 dark:text-emerald-400" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-emerald-700 dark:text-emerald-300" />
                 </Link>
               </div>
             </div>
@@ -101,26 +101,26 @@ export const About = () => {
 
               <div className="p-4 rounded-lg border border-border/80 bg-card/60 backdrop-blur-xs flex flex-col gap-1.5 shadow-2xs">
                 <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground uppercase font-semibold">
-                  <Cpu className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <Cpu className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-300" />
                   <span>CORE FOCUS</span>
                 </div>
                 <div className="text-sm font-bold font-mono text-foreground uppercase tracking-wider">
                   JAVA / SPRING BOOT
                 </div>
-                <div className="text-[10px] font-mono text-muted-foreground/80">
+                <div className="text-[10px] font-mono text-muted-foreground">
                   Microservices &amp; REST APIs
                 </div>
               </div>
 
               <div className="p-4 rounded-lg border border-border/80 bg-card/60 backdrop-blur-xs flex flex-col gap-1.5 shadow-2xs">
                 <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground uppercase font-semibold">
-                  <MapPin className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <MapPin className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-300" />
                   <span>LOCATION</span>
                 </div>
                 <div className="text-sm font-bold font-mono text-foreground uppercase tracking-wider">
                   DHAKA, BANGLADESH
                 </div>
-                <div className="text-[10px] font-mono text-muted-foreground/80">
+                <div className="text-[10px] font-mono text-muted-foreground">
                   UTC +6 &bull; Remote Available
                 </div>
               </div>

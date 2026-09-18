@@ -12,7 +12,7 @@ export const Footer = () => {
             &copy; {CURRENT_YEAR} MD Ashikur Rahman Puspo
           </span>
           <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-mono text-muted-foreground">
-            <Link href="/about-me" className="hover:text-foreground transition-colors">About</Link>
+            <Link href="/about-me" aria-label="Full Biography (About Me)" className="hover:text-foreground transition-colors">About Me</Link>
             <Link href="/projects" className="hover:text-foreground transition-colors">Projects</Link>
             <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
             <Link href="/gallery" className="hover:text-foreground transition-colors">Gallery</Link>

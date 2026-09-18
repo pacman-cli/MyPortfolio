@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./button"
 
 export const CookieConsent = () => {
@@ -10,8 +9,25 @@ export const CookieConsent = () => {
 
   useEffect(() => {
     const hasConsented = localStorage.getItem("cookieConsent")
-    if (!hasConsented) {
-      const timer = setTimeout(() => setShowConsent(true), 1000)
+    if (hasConsented) return
+
+    // Defer showing consent until after initial LCP calculation and main-thread idle
+    const show = () => setShowConsent(true)
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const handle = (window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(
+        () => {
+          setTimeout(show, 2500)
+        },
+        { timeout: 4000 }
+      )
+      return () => {
+        if ("cancelIdleCallback" in window) {
+          (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(handle)
+        }
+      }
+    } else {
+      const timer = setTimeout(show, 3500)
       return () => clearTimeout(timer)
     }
   }, [])
@@ -55,36 +71,30 @@ export const CookieConsent = () => {
     setShowConsent(false)
   }
 
+  if (!showConsent) return null
+
   return (
-    <AnimatePresence>
-      {showConsent && (
-        <motion.div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Cookie consent"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed bottom-4 left-4 right-4 md:left-auto md:right-8 md:bottom-8 z-50 md:max-w-md"
-        >
-          <div className="bg-background/95 backdrop-blur-lg border border-border shadow-2xl p-6 rounded-2xl">
-            <h3 className="text-lg font-semibold mb-2">We value your privacy</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              We use cookies to analyze site traffic and enhance your experience. By accepting, you consent to our use of cookies.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <Button onClick={handleAccept} className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white">
-                Accept All
-              </Button>
-              <Button onClick={handleDecline} variant="outline" className="w-full sm:w-auto">
-                Decline Essential
-              </Button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Cookie consent"
+      className="fixed bottom-4 left-4 right-4 md:left-auto md:right-8 md:bottom-8 z-50 md:max-w-md animate-hero-fade"
+    >
+      <div className="bg-background/95 border border-border shadow-2xl p-6 rounded-2xl">
+        <h3 className="text-lg font-semibold mb-2">We value your privacy</h3>
+        <p className="text-sm text-muted-foreground mb-4">
+          We use cookies to analyze site traffic and enhance your experience. By accepting, you consent to our use of cookies.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button onClick={handleAccept} className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white">
+            Accept All
+          </Button>
+          <Button onClick={handleDecline} variant="outline" className="w-full sm:w-auto">
+            Decline Essential
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }
