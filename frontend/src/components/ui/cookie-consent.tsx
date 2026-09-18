@@ -87,7 +87,7 @@ export const CookieConsent = () => {
           We use cookies to analyze site traffic and enhance your experience. By accepting, you consent to our use of cookies.
         </p>
         <div className="flex flex-col sm:flex-row gap-2">
-          <Button onClick={handleAccept} className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white">
+          <Button onClick={handleAccept} className="w-full sm:w-auto bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-semibold">
             Accept All
           </Button>
           <Button onClick={handleDecline} variant="outline" className="w-full sm:w-auto">

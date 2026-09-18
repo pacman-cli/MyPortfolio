@@ -12,12 +12,12 @@ export const Footer = () => {
             &copy; {CURRENT_YEAR} MD Ashikur Rahman Puspo
           </span>
           <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-mono text-muted-foreground">
-            <Link href="/about-me" aria-label="Full Biography (About Me)" className="hover:text-foreground transition-colors">About Me</Link>
-            <Link href="/projects" className="hover:text-foreground transition-colors">Projects</Link>
-            <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
-            <Link href="/gallery" className="hover:text-foreground transition-colors">Gallery</Link>
-            <Link href="/resume" className="hover:text-foreground transition-colors">Resume</Link>
-            <Link href="/links" className="hover:text-foreground transition-colors">Links</Link>
+            <Link href="/about-me" aria-label="About Me Page — Full Biography" className="hover:text-foreground transition-colors">About Me</Link>
+            <Link href="/projects" aria-label="Projects Page — Portfolio Archive" className="hover:text-foreground transition-colors">Projects</Link>
+            <Link href="/blog" aria-label="Blog Page — Technical Articles" className="hover:text-foreground transition-colors">Blog</Link>
+            <Link href="/gallery" aria-label="Gallery Page — Photo Journal" className="hover:text-foreground transition-colors">Gallery</Link>
+            <Link href="/resume" aria-label="Resume Page — Interactive & PDF" className="hover:text-foreground transition-colors">Resume</Link>
+            <Link href="/links" aria-label="Links Page — Verified Profiles" className="hover:text-foreground transition-colors">Links</Link>
           </nav>
         </div>
 

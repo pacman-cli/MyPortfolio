@@ -9,12 +9,12 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useActiveSection } from '@/hooks/useActiveSection'
 
 const NAV_LINKS = [
-  { name: 'About', href: '/#about', id: 'about' },
-  { name: 'Skills', href: '/#technical-expertise', id: 'technical-expertise' },
-  { name: 'Projects', href: '/#projects', id: 'projects' },
-  { name: 'Writing', href: '/#blogs', id: 'blogs' },
-  { name: 'Contact', href: '/#contact', id: 'contact' },
-  { name: 'Gallery', href: '/gallery' },
+  { name: 'About', href: '/#about', id: 'about', label: 'Scroll to About section' },
+  { name: 'Skills', href: '/#technical-expertise', id: 'technical-expertise', label: 'Scroll to Technical Expertise section' },
+  { name: 'Projects', href: '/#projects', id: 'projects', label: 'Scroll to Projects showcase section' },
+  { name: 'Writing', href: '/#blogs', id: 'blogs', label: 'Scroll to Recent Articles section' },
+  { name: 'Contact', href: '/#contact', id: 'contact', label: 'Scroll to Contact section' },
+  { name: 'Gallery', href: '/gallery', label: 'View Photo Gallery page' },
 ] as const
 
 const SECTION_IDS = NAV_LINKS.map(link => 'id' in link ? link.id : null).filter(Boolean) as string[]
@@ -103,6 +103,7 @@ export const Navbar = () => {
               <Link
                 key={link.name}
                 href={link.href}
+                aria-label={'label' in link ? link.label : undefined}
                 className={cn(
                   "text-xs font-medium transition-colors",
                   isActive
@@ -159,6 +160,7 @@ export const Navbar = () => {
               <li key={link.name}>
                 <Link
                   href={link.href}
+                  aria-label={'label' in link ? link.label : undefined}
                   onClick={(e) => handleNavClick(e, link.href)}
                   className={cn(
                     "block text-sm font-medium py-1.5 transition-colors",
