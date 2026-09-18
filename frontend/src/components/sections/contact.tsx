@@ -28,7 +28,7 @@ const fieldVariants = {
 
 const fieldSchemas = {
   name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
+  email: z.string().email({ message: 'Please enter a valid email address' }),
   message: z.string().min(10, 'Message must be at least 10 characters'),
 }
 
@@ -64,7 +64,7 @@ export const Contact = () => {
     setErrors((prev) => ({ ...prev, [field]: validateField(field, formData[field]) }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const result = contactSchema.safeParse(formData)
@@ -241,6 +241,9 @@ export const Contact = () => {
                 onSubmit={handleSubmit}
                 className="space-y-6"
                 noValidate
+                name="contactForm"
+                aria-label="Send Contact Message"
+                data-webmcp-tool="sendContactMessage"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}

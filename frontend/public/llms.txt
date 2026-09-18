@@ -1,0 +1,31 @@
+# Ashikur Rahman Puspo — Portfolio & Developer Documentation
+
+> Backend Software Engineer & System Architect specializing in Java, Spring Boot, Microservices, and Relational Databases in Dhaka, Bangladesh.
+
+## Overview
+
+Ashikur Rahman Puspo is a software developer with core expertise in Java 21, Spring Boot 3, Microservices Architecture, RESTful API design, PostgreSQL, MySQL, Docker, and Cloud Systems.
+
+## Key Pages & Documentation
+
+- [About Me](https://www.puspo.online/about-me): Full biography, education, technical skills, and experience summary.
+- [Projects](https://www.puspo.online/projects): Portfolio of production-grade backend and full-stack applications with architecture diagrams.
+- [Technical Blog](https://www.puspo.online/blog): Technical articles on Spring Boot, Microservices, Spring Security, System Design, and LLM reasoning models.
+- [Photo Gallery](https://www.puspo.online/gallery): Curated photography archive and travel memories.
+- [Resume](https://www.puspo.online/resume): Online printable resume and downloadable PDF.
+- [Social & Contact Hub](https://www.puspo.online/links): Verified links to GitHub, LinkedIn, YouTube, LeetCode, and X profiles.
+
+## Core Technical Competencies
+
+- **Languages:** Java 21, SQL, TypeScript, HTML5/CSS3
+- **Frameworks & Libraries:** Spring Boot 3, Spring Security, Spring Data JPA, Hibernate, Next.js 16, React 19, Tailwind CSS
+- **Backend Architecture:** Microservices, RESTful APIs, Event-Driven Architecture, System Design, Data Pipelines, JWT Auth
+- **Databases & Caching:** PostgreSQL, MySQL, Redis, H2 In-Memory DB
+- **DevOps & Infrastructure:** Docker, Docker Compose, Kubernetes, AWS, Git, Maven, Cloudflare Workers
+
+## Agentic & API Interfaces
+
+- RFC 9727 API Catalog: https://www.puspo.online/.well-known/api-catalog
+- MCP Server Card: https://www.puspo.online/.well-known/mcp/server-card.json
+- Agent Skills Index: https://www.puspo.online/.well-known/agent-skills/index.json
+- Agent Auth Metadata: https://www.puspo.online/auth.md
