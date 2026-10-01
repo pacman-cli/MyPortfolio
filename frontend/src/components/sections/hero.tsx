@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { SocialHeroLinks } from '@/components/ui/social-links'
 
 const CORE_TECH = [
-  { name: 'JAVA 21', category: 'LANG' },
+  { name: 'JAVA 17', category: 'LANG' },
   { name: 'SPRING BOOT 3', category: 'FRAMEWORK' },
   { name: 'POSTGRESQL', category: 'DATABASE' },
   { name: 'MICROSERVICES', category: 'ARCH' },

@@ -4,7 +4,7 @@
 
 ## Overview
 
-Ashikur Rahman Puspo is a software developer with core expertise in Java 21, Spring Boot 3, Microservices Architecture, RESTful API design, PostgreSQL, MySQL, Docker, and Cloud Systems.
+Ashikur Rahman Puspo is a software developer with core expertise in Java 17, Spring Boot 3, Microservices Architecture, RESTful API design, PostgreSQL, MySQL, Docker, and Cloud Systems.
 
 ## Key Pages & Documentation
 
@@ -17,7 +17,7 @@ Ashikur Rahman Puspo is a software developer with core expertise in Java 21, Spr
 
 ## Core Technical Competencies
 
-- **Languages:** Java 21, SQL, TypeScript, HTML5/CSS3
+- **Languages:** Java 17, SQL, TypeScript, HTML5/CSS3
 - **Frameworks & Libraries:** Spring Boot 3, Spring Security, Spring Data JPA, Hibernate, Next.js 16, React 19, Tailwind CSS
 - **Backend Architecture:** Microservices, RESTful APIs, Event-Driven Architecture, System Design, Data Pipelines, JWT Auth
 - **Databases & Caching:** PostgreSQL, MySQL, Redis, H2 In-Memory DB
