@@ -1,5 +1,6 @@
 import { Blog, Project } from '@/types'
 import { absoluteUrl, siteConfig } from '@/lib/site'
+import { PERSON_ID } from '@/lib/schema'
 
 type JsonLdValue = Record<string, unknown> | Array<Record<string, unknown>>
 
@@ -16,6 +17,15 @@ export function JsonLd({ data }: { data: JsonLdValue }) {
   )
 }
 
+/**
+ * Canonical author reference. Every page that publishes content links its
+ * author/publisher back to the single Person node (`/#person`) declared in the
+ * root layout graph — this is what makes Google treat all pages as one entity.
+ */
+function authorRef() {
+  return { '@id': PERSON_ID }
+}
+
 /** SoftwareSourceCode schema for project pages */
 export function SoftwareSourceCodeSchema({ project }: { project: Project }) {
   const data = {
@@ -26,11 +36,7 @@ export function SoftwareSourceCodeSchema({ project }: { project: Project }) {
     codeRepository: project.githubUrl,
     url: project.demoUrl || project.githubUrl,
     programmingLanguage: project.techStack,
-    author: {
-      '@type': 'Person',
-      name: siteConfig.fullName,
-      url: siteConfig.url,
-    },
+    author: authorRef(),
     ...(project.demoUrl && {
       targetProduct: {
         '@type': 'WebApplication',
@@ -56,11 +62,7 @@ export function BlogPostingSchema({ blog, url }: { blog: Blog; url: string }) {
     dateModified: blog.publishedAt,
     url,
     image: siteConfig.image,
-    author: {
-      '@type': 'Person',
-      name: siteConfig.fullName,
-      url: siteConfig.url,
-    },
+    author: authorRef(),
     publisher: {
       '@type': 'Person',
       name: siteConfig.fullName,

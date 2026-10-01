@@ -1,6 +1,7 @@
 import { BreadcrumbSchema, JsonLd } from '@/components/seo/json-ld'
 import { Footer } from '@/components/footer'
 import { absoluteUrl, siteConfig } from '@/lib/site'
+import { personSchema, webPageSchema } from '@/lib/schema'
 import { constructMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Image from 'next/image'
@@ -75,20 +76,26 @@ const socialLinks = [
   },
 ]
 
+/**
+ * ProfilePage tells Google this page is the canonical hub describing the Person
+ * entity — the strongest signal for the knowledge panel + social profile links.
+ */
 const linksPageJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  '@id': `${absoluteUrl('/links')}#webpage`,
-  name: 'Social Links — MD Ashikur Rahman Puspo',
-  description: 'Official profile directory and contact links for MD Ashikur Rahman Puspo.',
-  url: absoluteUrl('/links'),
-  isPartOf: {
-    '@id': `${siteConfig.url}/#website`,
+  ...webPageSchema({
+    path: '/links',
+    name: 'Social Links — MD Ashikur Rahman Puspo',
+    description: 'Official profile directory and contact links for MD Ashikur Rahman Puspo.',
+    type: 'ProfilePage',
+  }),
+  mainEntity: personSchema(),
+  mainEntityOfPage: {
+    '@id': `${absoluteUrl('/links')}#webpage`,
   },
   about: {
     '@id': `${siteConfig.url}/#person`,
   },
-  mainEntity: {
+  /** ItemList of each profile with its handle, mirroring the visible content */
+  subjectOf: {
     '@type': 'ItemList',
     itemListElement: socialLinks.map((link, index) => ({
       '@type': 'ListItem',

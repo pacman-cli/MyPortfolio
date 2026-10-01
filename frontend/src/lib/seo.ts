@@ -23,6 +23,7 @@ const DEFAULT_KEYWORDS = [
     'MD Ashikur Rahman Puspo',
     // Usernames
     'pacman-cli',
+    'pacman.puspo',
     'springCraftDev',
     // Professional titles
     'Backend Engineer',
