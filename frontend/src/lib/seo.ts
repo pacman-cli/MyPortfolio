@@ -3,6 +3,15 @@ import { absoluteUrl, siteConfig } from './site'
 
 const SITE_URL = siteConfig.url
 
+/**
+ * Google Search Console verification token. Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+ * in your environment (e.g. Cloudflare/Vercel dashboard) to the token value from
+ * Search Console → Settings → Ownership verification → HTML tag.
+ * Rendered as <meta name="google-site-verification" ...> on every page.
+ */
+const GOOGLE_SITE_VERIFICATION =
+    process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() || ''
+
 const defaultMeta = {
     title: 'Ashikur Rahman Puspo | Backend Engineer & Developer',
     description: 'Portfolio of Ashikur Rahman Puspo — Backend Engineer specializing in Java, Spring Boot, Microservices, and System Design in Dhaka.',
@@ -136,5 +145,10 @@ export function constructMetadata({
                     'max-video-preview': -1,
                 },
             },
+        ...(GOOGLE_SITE_VERIFICATION && {
+            verification: {
+                google: GOOGLE_SITE_VERIFICATION,
+            },
+        }),
     }
 }
