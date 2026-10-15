@@ -16,7 +16,6 @@ export const siteConfig = {
   image: `${SITE_URL}/profile.webp`,
   ogImage: `${SITE_URL}/opengraph-image`,
   twitterHandle: "@iampuspo",
-  youtubeHandle: "@springCraftDev",
   resumeDownloadUrl: "https://drive.google.com/uc?export=download&id=1kdsPhac4EReNEXJU6WfuNg9RPe4d2FvJ",
 } as const
 
@@ -32,11 +31,6 @@ export const SOCIAL_PROFILES = [
     url: "https://github.com/pacman-cli",
   },
   {
-    name: "YouTube",
-    handle: "springCraftDev",
-    url: "https://www.youtube.com/@springCraftDev",
-  },
-  {
     name: "X",
     handle: "iampuspo",
     url: "https://x.com/iampuspo",
@@ -48,8 +42,8 @@ export const SOCIAL_PROFILES = [
   },
   {
     name: "Facebook",
-    handle: "pacman.puspo",
-    url: "https://www.facebook.com/pacman.puspo/",
+    handle: "iampuspoo",
+    url: "https://www.facebook.com/iampuspoo/",
   },
   {
     name: "LeetCode",

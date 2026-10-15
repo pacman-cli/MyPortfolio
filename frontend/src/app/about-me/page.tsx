@@ -29,7 +29,6 @@ const SOCIAL_LINKS = [
   { label: 'GitHub', href: 'https://github.com/pacman-cli' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/iampuspo/' },
   { label: 'LeetCode', href: 'https://leetcode.com/u/pacman-cli/' },
-  { label: 'YouTube', href: 'https://www.youtube.com/@springCraftDev' },
   { label: 'X (Twitter)', href: 'https://x.com/iampuspo' },
   { label: 'Email', href: 'mailto:hello@puspo.online' },
 ]

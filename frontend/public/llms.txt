@@ -13,7 +13,7 @@ Ashikur Rahman Puspo is a software developer with core expertise in Java 17, Spr
 - [Technical Blog](https://www.puspo.online/blog): Technical articles on Spring Boot, Microservices, Spring Security, System Design, and LLM reasoning models.
 - [Photo Gallery](https://www.puspo.online/gallery): Curated photography archive and travel memories.
 - [Resume](https://www.puspo.online/resume): Online printable resume and downloadable PDF.
-- [Social & Contact Hub](https://www.puspo.online/links): Verified links to GitHub, LinkedIn, YouTube, LeetCode, and X profiles.
+- [Social & Contact Hub](https://www.puspo.online/links): Verified links to GitHub, LinkedIn, Facebook, LeetCode, and X profiles.
 
 ## Core Technical Competencies
 

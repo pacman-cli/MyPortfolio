@@ -33,7 +33,6 @@ const DEFAULT_KEYWORDS = [
     // Usernames
     'pacman-cli',
     'pacman.puspo',
-    'springCraftDev',
     // Professional titles
     'Backend Engineer',
     'Backend Developer',

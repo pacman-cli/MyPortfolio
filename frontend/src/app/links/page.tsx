@@ -7,13 +7,13 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Mail, ExternalLink, Code2, MessageSquare } from 'lucide-react'
-import { SiX, SiFacebook, SiLeetcode, SiThreads, SiGithub, SiYoutube, SiInstagram } from 'react-icons/si'
+import { SiX, SiFacebook, SiLeetcode, SiThreads, SiGithub, SiInstagram } from 'react-icons/si'
 import { FaLinkedin } from 'react-icons/fa'
 import { EmailOff } from '@/components/seo/email-off'
 
 export const metadata: Metadata = constructMetadata({
   title: 'Social Links | MD Ashikur Rahman Puspo',
-  description: 'Connect with Ashikur Rahman Puspo across GitHub, LinkedIn, LeetCode, YouTube, and social media channels in one official hub.',
+  description: 'Connect with Ashikur Rahman Puspo across GitHub, LinkedIn, LeetCode, Facebook, and social media channels in one official hub.',
   url: absoluteUrl('/links'),
 })
 
@@ -40,13 +40,6 @@ const socialLinks = [
     icon: <SiLeetcode className="w-4 h-4" />,
   },
   {
-    name: 'YouTube',
-    handle: '@springCraftDev',
-    url: 'https://www.youtube.com/@springCraftDev',
-    description: 'Watch technical tutorials, Spring Boot guides, microservice tutorials, and developer workflow breakdowns.',
-    icon: <SiYoutube className="w-4 h-4" />,
-  },
-  {
     name: 'X (Twitter)',
     handle: '@iampuspo',
     url: 'https://x.com/iampuspo',
@@ -55,8 +48,8 @@ const socialLinks = [
   },
   {
     name: 'Facebook',
-    handle: '@pacman.puspo',
-    url: 'https://www.facebook.com/pacman.puspo/',
+    handle: '@iampuspoo',
+    url: 'https://www.facebook.com/iampuspoo/',
     description: 'Personal life updates, community events, and social connections.',
     icon: <SiFacebook className="w-4 h-4" />,
   },
@@ -135,7 +128,7 @@ export default function LinksPage() {
             Backend Developer &middot; System Architect &middot; Dhaka, Bangladesh
           </p>
           <p className="text-xs text-muted-foreground mt-3 max-w-md leading-relaxed">
-            Welcome to my official link directory. Here you can find all my verified developer profiles, open-source code repositories, video tutorials, and social channels.
+            Welcome to my official link directory. Here you can find all my verified developer profiles, open-source code repositories, and social channels.
           </p>
         </header>
 
@@ -152,7 +145,7 @@ export default function LinksPage() {
             <MessageSquare className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
             <div>
               <span className="font-semibold text-foreground block mb-0.5">Community & Content</span>
-              <span>Watch tech content on YouTube (@springCraftDev) and join conversations on LinkedIn & X.</span>
+              <span>Explore code on GitHub and join conversations on LinkedIn & X.</span>
             </div>
           </div>
         </section>

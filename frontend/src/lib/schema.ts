@@ -28,7 +28,6 @@ export function personSchema() {
       'iampuspo',
       'pacman-cli',
       'pacman.puspo',
-      'springCraftDev',
     ],
     additionalName: 'Puspo',
     url: siteConfig.url,

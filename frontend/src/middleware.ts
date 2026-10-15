@@ -383,10 +383,9 @@ Specializing in Spring Boot, Java, Microservices, System Design, Docker, Kuberne
 ## Social Profiles
 - LinkedIn: https://www.linkedin.com/in/iampuspo/
 - GitHub: https://github.com/pacman-cli
-- YouTube: https://www.youtube.com/@springCraftDev
 - X: https://x.com/iampuspo
 - Instagram: https://www.instagram.com/iampuspoo/
-- Facebook: https://www.facebook.com/pacman.puspo/
+- Facebook: https://www.facebook.com/iampuspoo/
 - LeetCode: https://leetcode.com/u/pacman-cli/
 - Threads: https://www.threads.net/@pacman.puspo
 `
@@ -441,10 +440,9 @@ Visit ${SITE_URL}/resume for the online resume viewer.
 
 - LinkedIn: https://www.linkedin.com/in/iampuspo/
 - GitHub: https://github.com/pacman-cli
-- YouTube: https://www.youtube.com/@springCraftDev
 - X: https://x.com/iampuspo
 - Instagram: https://www.instagram.com/iampuspoo/
-- Facebook: https://www.facebook.com/pacman.puspo/
+- Facebook: https://www.facebook.com/iampuspoo/
 - LeetCode: https://leetcode.com/u/pacman-cli/
 - Threads: https://www.threads.net/@pacman.puspo
 

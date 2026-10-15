@@ -1,6 +1,6 @@
 import { ArrowUpRight, Mail } from 'lucide-react'
 import Link from 'next/link'
-import { SiX, SiFacebook, SiLeetcode, SiGithub, SiYoutube, SiInstagram } from "react-icons/si"
+import { SiX, SiFacebook, SiLeetcode, SiGithub, SiInstagram } from "react-icons/si"
 import { FaLinkedin } from "react-icons/fa"
 import { SOCIAL_PROFILES, siteConfig } from '@/lib/site'
 import { EmailOff } from '@/components/seo/email-off'
@@ -9,7 +9,6 @@ const iconMap: Record<string, React.ElementType> = {
   GitHub: SiGithub,
   LinkedIn: FaLinkedin,
   LeetCode: SiLeetcode,
-  YouTube: SiYoutube,
   Instagram: SiInstagram,
   Facebook: SiFacebook,
   X: SiX,
@@ -69,7 +68,7 @@ export function SocialLinks({ excludeEmail }: { excludeEmail?: boolean }) {
 }
 
 export function SocialHeroLinks({ className }: { className?: string }) {
-  const heroProfiles = ['GitHub', 'LinkedIn', 'YouTube', 'X']
+  const heroProfiles = ['GitHub', 'LinkedIn', 'X']
   const items = SOCIAL_PROFILES.filter(p => heroProfiles.includes(p.name))
 
   return (
@@ -102,7 +101,7 @@ export function SocialFooterLinks() {
 }
 
 export function SocialQuietLinks() {
-  const keyProfiles = ['GitHub', 'LinkedIn', 'YouTube', 'Facebook', 'LeetCode', 'X', 'Instagram']
+  const keyProfiles = ['GitHub', 'LinkedIn', 'Facebook', 'LeetCode', 'X', 'Instagram']
   const items = SOCIAL_PROFILES.filter(p => keyProfiles.includes(p.name))
 
   return (

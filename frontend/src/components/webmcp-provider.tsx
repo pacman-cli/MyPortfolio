@@ -52,10 +52,9 @@ export function WebMCPProvider() {
               social: {
                 github: 'https://github.com/pacman-cli',
                 linkedin: 'https://www.linkedin.com/in/iampuspo/',
-                youtube: 'https://www.youtube.com/@springCraftDev',
                 x: 'https://x.com/iampuspo',
                 instagram: 'https://www.instagram.com/iampuspoo/',
-                facebook: 'https://www.facebook.com/pacman.puspo/',
+                facebook: 'https://www.facebook.com/iampuspoo/',
                 leetcode: 'https://leetcode.com/u/pacman-cli/',
                 threads: 'https://www.threads.net/@pacman.puspo',
               },
@@ -187,10 +186,9 @@ export function WebMCPProvider() {
             execute: async () => ({
               linkedin: 'https://www.linkedin.com/in/iampuspo/',
               github: 'https://github.com/pacman-cli',
-              youtube: 'https://www.youtube.com/@springCraftDev',
               x: 'https://x.com/iampuspo',
               instagram: 'https://www.instagram.com/iampuspoo/',
-              facebook: 'https://www.facebook.com/pacman.puspo/',
+              facebook: 'https://www.facebook.com/iampuspoo/',
               leetcode: 'https://leetcode.com/u/pacman-cli/',
               threads: 'https://www.threads.net/@pacman.puspo',
             }),
