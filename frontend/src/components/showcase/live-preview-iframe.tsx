@@ -5,6 +5,9 @@ import type { ShowcaseProject } from '@/data/showcase-projects'
 import { BlockedEmbedCard } from './blocked-embed-card'
 import { ArrowUpRight, Globe, Loader2, Sparkles } from 'lucide-react'
 
+const VIRTUAL_WIDTH = 1280
+const VIRTUAL_HEIGHT = 800
+
 interface LivePreviewIFrameProps {
   project: ShowcaseProject
   isActive: boolean
@@ -20,11 +23,24 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
   const containerRef = useRef<HTMLDivElement>(null)
 
   // Once activated, keep mounted to prevent reloading (sticky session cache)
-  if (isActive && !hasLoadedEver) {
-    setHasLoadedEver(true)
-  }
+  useEffect(() => {
+    if (isActive) {
+      setHasLoadedEver(true)
+    }
+  }, [isActive])
 
-  // Measure container width for responsive 1280px scaling
+  // Fallback timeout: If iframe fails to fire onLoad within 8s, exit loading state
+  useEffect(() => {
+    if (!isActive || isIframeLoaded) return
+
+    const timer = setTimeout(() => {
+      setIsIframeLoaded(true)
+    }, 8000)
+
+    return () => clearTimeout(timer)
+  }, [isActive, isIframeLoaded])
+
+  // Measure container width for responsive virtual scaling
   useEffect(() => {
     if (!containerRef.current) return
 
@@ -47,8 +63,8 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
     return <BlockedEmbedCard project={project} />
   }
 
-  const scale = containerWidth > 0 ? containerWidth / 1280 : 0.3125
-  const iframeHeight = containerWidth > 0 ? (containerWidth * 10) / 16 / scale : 800
+  const scale = containerWidth > 0 ? containerWidth / VIRTUAL_WIDTH : 0.3125
+  const iframeHeight = containerWidth > 0 ? (containerWidth * 10) / 16 / scale : VIRTUAL_HEIGHT
 
   return (
     <div
@@ -96,17 +112,23 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${
             isActive && isIframeLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
+          } ${!isActive ? 'invisible' : ''}`}
+          aria-hidden={!isActive}
+          inert={!isActive ? true : undefined}
           style={{ pointerEvents: 'none' }}
         >
           <iframe
             src={project.url}
             title={`${project.title} live preview`}
             loading="lazy"
+            tabIndex={-1}
+            aria-hidden={!isActive}
+            sandbox="allow-scripts allow-same-origin allow-forms"
+            allow="autoplay 'none'; camera 'none'; microphone 'none'; geolocation 'none'"
             onLoad={() => setIsIframeLoaded(true)}
             className="border-0 bg-white"
             style={{
-              width: '1280px',
+              width: `${VIRTUAL_WIDTH}px`,
               height: `${iframeHeight}px`,
               transform: `scale(${scale})`,
               transformOrigin: 'top left',

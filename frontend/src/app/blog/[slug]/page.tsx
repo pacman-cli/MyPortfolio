@@ -176,6 +176,7 @@ export default async function BlogPost({ params }: PageProps) {
               components={{
                 img: ({ ...props }) => (
                   <img
+                    alt={props.alt ?? ''}
                     className="w-full h-auto rounded-xl aspect-[16/9] object-cover bg-muted border border-border/40 my-6"
                     loading="lazy"
                     decoding="async"

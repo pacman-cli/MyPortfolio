@@ -14,6 +14,7 @@ export interface ProjectCardProps {
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const [isActive, setIsActive] = useState(false)
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const cardRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     return () => {
@@ -30,6 +31,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 
   const handleMouseLeave = useCallback(() => {
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current)
+    if (
+      typeof document !== 'undefined' &&
+      cardRef.current?.contains(document.activeElement)
+    ) {
+      return
+    }
     setIsActive(false)
   }, [])
 
@@ -51,6 +58,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
 
   return (
     <article
+      ref={cardRef}
       data-testid={`project-card-${project.id}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

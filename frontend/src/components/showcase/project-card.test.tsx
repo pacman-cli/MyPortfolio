@@ -91,6 +91,30 @@ describe('ProjectCard', () => {
     expect(card.className).not.toContain('ring-1')
   })
 
+  it('keeps preview active on mouse leave if focus is still within the card', () => {
+    render(<ProjectCard project={project} index={0} />)
+    const card = screen.getByTestId(`project-card-${project.id}`)
+    const visitLink = screen.getByRole('link', {
+      name: new RegExp(`Visit ${project.title} live website`, 'i'),
+    })
+
+    // Focus a child link inside the card
+    act(() => {
+      visitLink.focus()
+      fireEvent.focus(visitLink)
+    })
+    expect(document.activeElement).toBe(visitLink)
+    expect(card.className).toContain('ring-1')
+
+    // Cursor leaves card while link is still focused
+    act(() => {
+      fireEvent.mouseLeave(card)
+    })
+
+    // Preview should stay active because keyboard focus is within card
+    expect(card.className).toContain('ring-1')
+  })
+
   it('activates on focus and deactivates on blur', () => {
     render(<ProjectCard project={project} index={0} />)
     const card = screen.getByTestId(`project-card-${project.id}`)

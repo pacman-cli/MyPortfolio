@@ -11,8 +11,8 @@ export const BlockedEmbedCard: React.FC<{ project: ShowcaseProject }> = ({
     <div className="w-full h-full p-4 flex flex-col justify-between bg-gradient-to-br from-card via-card/90 to-background/95 border border-border/60 rounded-b-lg select-none text-left">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-mono">
-            <ShieldCheck className="w-3 h-3 text-amber-400" />
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-[10px] font-mono">
+            <ShieldCheck className="w-3 h-3 text-amber-700 dark:text-amber-400" />
             <span>Embed Protected by Host</span>
           </div>
           <span className="text-[10px] font-mono text-muted-foreground flex items-center gap-1">
@@ -22,7 +22,7 @@ export const BlockedEmbedCard: React.FC<{ project: ShowcaseProject }> = ({
 
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Wrench className="w-4 h-4 text-emerald-400" />
+            <Wrench className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
             <h4 className="text-sm font-semibold text-foreground tracking-tight">
               <span>{project.shortTitle}</span> Workspace
             </h4>

@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import { SHOWCASE_PROJECTS } from '@/data/showcase-projects'
 import { ProjectCard } from './project-card'
