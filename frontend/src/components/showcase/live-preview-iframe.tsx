@@ -2,21 +2,33 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import type { ShowcaseProject } from '@/data/showcase-projects'
-import { BlockedEmbedCard } from './blocked-embed-card'
 import { ArrowUpRight, Globe, Loader2, Sparkles } from 'lucide-react'
 
 const VIRTUAL_WIDTH = 1280
 const VIRTUAL_HEIGHT = 800
 
-interface LivePreviewIFrameProps {
-  project: ShowcaseProject
+export interface PreviewItem {
+  id: string
+  title: string
+  shortTitle?: string
+  description?: string
+  url: string
+  displayDomain: string
+  canEmbed?: boolean
+}
+
+export interface LivePreviewIFrameProps {
+  project?: ShowcaseProject | null
+  target?: PreviewItem | null
   isActive: boolean
 }
 
 export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
   project,
+  target,
   isActive,
 }) => {
+  const item = target || project
   const [hasLoadedEver, setHasLoadedEver] = useState(false)
   const [isIframeLoaded, setIsIframeLoaded] = useState(false)
   const [containerWidth, setContainerWidth] = useState(400)
@@ -56,10 +68,14 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
     }
   }, [])
 
-  // If project is blocked by X-Frame-Options (e.g. DevForge), render custom card
-  if (!project.canEmbed) {
-    return <BlockedEmbedCard project={project} />
-  }
+  if (!item) return null
+
+  const isInternal = item.url.startsWith('/')
+  const iframeSrc = isInternal
+    ? item.url
+    : item.canEmbed
+      ? item.url
+      : `/api/preview-proxy?url=${encodeURIComponent(item.url)}`
 
   const scale = containerWidth > 0 ? containerWidth / VIRTUAL_WIDTH : 0.3125
   const iframeHeight = containerWidth > 0 ? (containerWidth * 10) / 16 / scale : VIRTUAL_HEIGHT
@@ -85,7 +101,7 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
 
           <div className="space-y-1">
             <span className="text-xs font-semibold text-foreground tracking-tight block">
-              {project.shortTitle}
+              {item.shortTitle || item.title}
             </span>
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-muted/50 border border-border/40 text-muted-foreground group-hover:border-foreground/30 group-hover:text-foreground transition-all">
               {isActive && !isIframeLoaded ? (
@@ -116,8 +132,8 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
           style={{ pointerEvents: 'none' }}
         >
           <iframe
-            src={project.url}
-            title={`${project.title} live preview`}
+            src={iframeSrc}
+            title={`${item.title} live preview`}
             loading="lazy"
             tabIndex={-1}
             aria-hidden={!isActive}

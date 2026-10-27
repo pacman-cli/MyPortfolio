@@ -215,7 +215,7 @@ describe('CursorFloatingPreview Component', () => {
     expect(iframe.getAttribute('src')).toBe(embeddableProject.url)
   })
 
-  it('embeds BlockedEmbedCard for DevForge fallback with zero iframe created', () => {
+  it('embeds LivePreviewIFrame with preview-proxy for DevForge', () => {
     render(
       <CursorFloatingPreview
         project={devforge}
@@ -224,23 +224,11 @@ describe('CursorFloatingPreview Component', () => {
       />
     )
 
-    // Verify BlockedEmbedCard elements
-    expect(screen.getByText(/Embed Protected by Host/i)).toBeDefined()
-    expect(screen.getByText('DevForge Studio')).toBeDefined()
-    expect(screen.getByText('JSON Formatter')).toBeDefined()
-
-    // External launch button
-    const launchLink = screen.getByRole('link', {
-      name: new RegExp(`Launch ${devforge.shortTitle}`, 'i'),
-      hidden: true,
-    })
-    expect(launchLink).toBeDefined()
-    expect(launchLink.getAttribute('href')).toBe('https://devforge.puspo.online')
-    expect(launchLink.getAttribute('target')).toBe('_blank')
-    expect(launchLink.getAttribute('rel')).toContain('noopener')
-
-    // Zero iframe created for DevForge
-    expect(screen.queryByTitle(`${devforge.title} live preview`)).toBeNull()
+    const iframe = screen.getByTitle(`${devforge.title} live preview`)
+    expect(iframe).toBeDefined()
+    expect(iframe.getAttribute('src')).toBe(
+      `/api/preview-proxy?url=${encodeURIComponent(devforge.url)}`
+    )
   })
 
   it('maintains sticky session caching across project changes', () => {
@@ -276,7 +264,7 @@ describe('CursorFloatingPreview Component', () => {
       />
     )
 
-    expect(screen.getByText('DevForge Studio')).toBeDefined()
+    expect(screen.getByTitle(`${devforge.title} live preview`)).toBeDefined()
     expect(screen.getByText(devforge.displayDomain)).toBeDefined()
   })
 })

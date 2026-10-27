@@ -33,10 +33,13 @@ describe('LivePreviewIFrame', () => {
     expect(iframe.getAttribute('allow')).toBe("autoplay 'none'; camera 'none'; microphone 'none'; geolocation 'none'")
   })
 
-  it('renders BlockedEmbedCard when project.canEmbed is false even if active', () => {
+  it('renders iframe with preview-proxy when project.canEmbed is false even if active', () => {
     render(<LivePreviewIFrame project={devforge} isActive={true} />)
-    expect(screen.getByText(/Embed Protected by Host/i)).toBeDefined()
-    expect(screen.queryByTitle(`${devforge.title} live preview`)).toBeNull()
+    const iframe = screen.getByTitle(`${devforge.title} live preview`)
+    expect(iframe).toBeDefined()
+    expect(iframe.getAttribute('src')).toBe(
+      `/api/preview-proxy?url=${encodeURIComponent(devforge.url)}`
+    )
   })
 
   it('shows connecting state while active and iframe is loading, then reveals iframe after load', () => {

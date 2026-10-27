@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react'
 import type { ShowcaseProject } from '@/data/showcase-projects'
-import { LivePreviewIFrame } from './live-preview-iframe'
+import { LivePreviewIFrame, type PreviewItem } from './live-preview-iframe'
+export type { PreviewItem } from './live-preview-iframe'
 import { Lock } from 'lucide-react'
 
 export const PREVIEW_WIDTH = 340
@@ -66,33 +67,37 @@ export function calculateClampedPosition(
 }
 
 export interface CursorFloatingPreviewProps {
-  project: ShowcaseProject | null
+  project?: ShowcaseProject | null
+  target?: PreviewItem | null
   cursorPosition: { x: number; y: number }
   isVisible: boolean
 }
 
 export const CursorFloatingPreview: React.FC<CursorFloatingPreviewProps> = ({
   project,
+  target,
   cursorPosition,
   isVisible,
 }) => {
-  const [prevProject, setPrevProject] = useState<ShowcaseProject | null>(project)
-  const [activeProject, setActiveProject] = useState<ShowcaseProject | null>(project)
-  const [visitedMap, setVisitedMap] = useState<Record<string, ShowcaseProject>>(() =>
-    project ? { [project.id]: project } : {}
+  const currentItem = target || project || null
+
+  const [prevItem, setPrevItem] = useState<PreviewItem | null>(currentItem)
+  const [activeItem, setActiveItem] = useState<PreviewItem | null>(currentItem)
+  const [visitedMap, setVisitedMap] = useState<Record<string, PreviewItem>>(() =>
+    currentItem ? { [currentItem.id]: currentItem } : {}
   )
 
-  if (project !== prevProject) {
-    setPrevProject(project)
-    if (project) {
-      setActiveProject(project)
-      if (!visitedMap[project.id]) {
-        setVisitedMap({ ...visitedMap, [project.id]: project })
+  if (currentItem !== prevItem) {
+    setPrevItem(currentItem)
+    if (currentItem) {
+      setActiveItem(currentItem)
+      if (!visitedMap[currentItem.id]) {
+        setVisitedMap({ ...visitedMap, [currentItem.id]: currentItem })
       }
     }
   }
 
-  const visitedProjects = Object.values(visitedMap)
+  const visitedItems = Object.values(visitedMap)
 
   const clampedPos =
     typeof window !== 'undefined'
@@ -104,14 +109,14 @@ export const CursorFloatingPreview: React.FC<CursorFloatingPreviewProps> = ({
         )
       : { x: 0, y: 0 }
 
-  if (!activeProject) return null
+  if (!activeItem) return null
 
   return (
     <div
       data-testid="cursor-floating-preview"
       aria-hidden="true"
       className={`fixed top-0 left-0 pointer-events-none z-50 hidden md:block ${
-        isVisible && project ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+        isVisible && currentItem ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
       }`}
       style={{
         transform: `translate3d(${clampedPos.x}px, ${clampedPos.y}px, 0)`,
@@ -132,9 +137,9 @@ export const CursorFloatingPreview: React.FC<CursorFloatingPreviewProps> = ({
           </div>
 
           {/* Address Bar Pill */}
-          <div className="flex-1 max-w-[200px] mx-auto flex items-center justify-center gap-1.5 px-2 py-0.5 rounded-md bg-background/80 border border-border/50 text-[10px] font-mono text-muted-foreground truncate">
+          <div className="flex-1 max-w-[200px] mx-auto flex items-center justify-center gap-1.5 px-2.5 py-0.5 rounded-md bg-background/80 border border-border/50 text-[10px] font-mono text-muted-foreground truncate">
             <Lock className="w-2.5 h-2.5 text-emerald-500 shrink-0" aria-hidden="true" />
-            <span className="truncate">{activeProject.displayDomain}</span>
+            <span className="truncate">{activeItem.displayDomain}</span>
           </div>
 
           {/* Status badge */}
@@ -146,15 +151,15 @@ export const CursorFloatingPreview: React.FC<CursorFloatingPreviewProps> = ({
 
         {/* Viewport Area */}
         <div className="relative w-full aspect-[16/10] bg-background/95 overflow-hidden">
-          {visitedProjects.map((p) => {
-            const isCurrent = p.id === activeProject.id
+          {visitedItems.map((item) => {
+            const isCurrent = item.id === activeItem.id
             return (
               <div
-                key={p.id}
+                key={item.id}
                 className={`absolute inset-0 ${isCurrent ? 'block' : 'hidden'}`}
               >
                 <LivePreviewIFrame
-                  project={p}
+                  target={item}
                   isActive={isVisible && isCurrent}
                 />
               </div>

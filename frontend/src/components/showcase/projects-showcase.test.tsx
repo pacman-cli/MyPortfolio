@@ -169,8 +169,8 @@ describe('ProjectsShowcase Section', () => {
     })
   })
 
-  describe('DevForge BlockedEmbedCard fallback', () => {
-    it('renders BlockedEmbedCard instead of iframe when hovering over DevForge row', () => {
+  describe('Live preview iframe loading across projects', () => {
+    it('renders live iframe with preview-proxy when hovering over DevForge row', () => {
       render(<ProjectsShowcase />)
       const devforge = SHOWCASE_PROJECTS.find((p) => p.id === 'devforge')!
       expect(devforge).toBeDefined()
@@ -183,24 +183,12 @@ describe('ProjectsShowcase Section', () => {
       const preview = screen.getByTestId('cursor-floating-preview')
       expect(preview.className).toContain('opacity-100')
 
-      // BlockedEmbedCard elements are visible inside the preview
-      expect(within(preview).getByText(/Embed Protected by Host/i)).toBeDefined()
-      expect(within(preview).getByText('DevForge Studio')).toBeDefined()
-      expect(within(preview).getAllByText(/0ms Latency/i).length).toBeGreaterThanOrEqual(1)
-      expect(within(preview).getByText('JSON Formatter')).toBeDefined()
-      expect(within(preview).getByText('JWT Inspector')).toBeDefined()
-      expect(within(preview).getByText('UUID Gen')).toBeDefined()
-      expect(within(preview).getByText('Regex Tester')).toBeDefined()
-
-      // Launch button exists pointing to DevForge live URL
-      const launchLink = within(preview).getByRole('link', { name: /Launch DevForge/i, hidden: true })
-      expect(launchLink).toBeDefined()
-      expect(launchLink.getAttribute('href')).toBe('https://devforge.puspo.online')
-      expect(launchLink.getAttribute('target')).toBe('_blank')
-      expect(launchLink.getAttribute('rel')).toContain('noopener')
-
-      // No iframe is rendered for DevForge
-      expect(screen.queryByTitle(`${devforge.title} live preview`)).toBeNull()
+      // Iframe is rendered using preview-proxy
+      const iframe = within(preview).getByTitle(`${devforge.title} live preview`)
+      expect(iframe).toBeDefined()
+      expect(iframe.getAttribute('src')).toBe(
+        `/api/preview-proxy?url=${encodeURIComponent(devforge.url)}`
+      )
     })
   })
 })
