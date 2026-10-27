@@ -80,7 +80,7 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
 
         <div className="relative z-10 flex flex-col items-center gap-3">
           <div className="w-12 h-12 rounded-2xl bg-card border border-border/80 flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-300">
-            <Globe className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
+            <Globe className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" aria-hidden="true" />
           </div>
 
           <div className="space-y-1">
@@ -90,14 +90,14 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-muted/50 border border-border/40 text-muted-foreground group-hover:border-foreground/30 group-hover:text-foreground transition-all">
               {isActive && !isIframeLoaded ? (
                 <>
-                  <Loader2 className="w-3 h-3 animate-spin text-emerald-500" />
+                  <Loader2 className="w-3 h-3 animate-spin text-emerald-500" aria-hidden="true" />
                   <span>Connecting live site...</span>
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-3 h-3 text-emerald-500" />
+                  <Sparkles className="w-3 h-3 text-emerald-500" aria-hidden="true" />
                   <span>Hover to preview</span>
-                  <ArrowUpRight className="w-3 h-3 opacity-60" />
+                  <ArrowUpRight className="w-3 h-3 opacity-60" aria-hidden="true" />
                 </>
               )}
             </span>

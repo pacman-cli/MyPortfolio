@@ -22,7 +22,7 @@ export const BrowserWindow: React.FC<BrowserWindowProps> = ({
       {/* Browser Toolbar Chrome */}
       <div className="h-9 px-3 bg-muted/40 border-b border-border/70 flex items-center justify-between gap-2 select-none">
         {/* Window controls (traffic lights) */}
-        <div className="flex items-center gap-1.5 w-14 shrink-0">
+        <div className="flex items-center gap-1.5 w-14 shrink-0" aria-hidden="true">
           <span className="w-2.5 h-2.5 rounded-full bg-border/90 group-hover:bg-rose-500/80 transition-colors" />
           <span className="w-2.5 h-2.5 rounded-full bg-border/90 group-hover:bg-amber-500/80 transition-colors" />
           <span className="w-2.5 h-2.5 rounded-full bg-border/90 group-hover:bg-emerald-500/80 transition-colors" />
@@ -30,7 +30,7 @@ export const BrowserWindow: React.FC<BrowserWindowProps> = ({
 
         {/* Address Bar */}
         <div className="flex-1 max-w-[200px] sm:max-w-[240px] mx-auto flex items-center justify-center gap-1.5 px-2.5 py-0.5 rounded-md bg-background/80 border border-border/50 text-[11px] font-mono text-muted-foreground truncate">
-          <Lock className="w-2.5 h-2.5 text-emerald-500 shrink-0" />
+          <Lock className="w-2.5 h-2.5 text-emerald-500 shrink-0" aria-hidden="true" />
           <span className="truncate">{project.displayDomain}</span>
         </div>
 
@@ -45,9 +45,9 @@ export const BrowserWindow: React.FC<BrowserWindowProps> = ({
               aria-label={isActive ? 'Close live preview' : 'Open live preview'}
             >
               {isActive ? (
-                <EyeOff className="w-3.5 h-3.5" />
+                <EyeOff className="w-3.5 h-3.5" aria-hidden="true" />
               ) : (
-                <Eye className="w-3.5 h-3.5" />
+                <Eye className="w-3.5 h-3.5" aria-hidden="true" />
               )}
             </button>
           )}
@@ -60,7 +60,7 @@ export const BrowserWindow: React.FC<BrowserWindowProps> = ({
             title="Open in new tab"
             aria-label={`Open ${project.title} in a new tab`}
           >
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
           </a>
         </div>
       </div>
