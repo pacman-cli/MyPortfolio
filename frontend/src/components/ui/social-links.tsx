@@ -18,14 +18,22 @@ const iconSize = "w-5 h-5"
 
 const profiles = SOCIAL_PROFILES.filter(p => p.name !== 'Threads')
 
+export type SocialProfileItem = (typeof SOCIAL_PROFILES)[number]
+
 function SocialIconLink({
   name,
   url,
   icon: Icon,
+  onHover,
+  onMove,
+  onLeave,
 }: {
   name: string
   url: string
   icon: React.ElementType
+  onHover?: (e: React.MouseEvent) => void
+  onMove?: (e: React.MouseEvent) => void
+  onLeave?: () => void
 }) {
   return (
     <a
@@ -33,6 +41,9 @@ function SocialIconLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${name} Profile`}
+      onMouseEnter={onHover}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
       className="text-muted-foreground hover:text-primary hover:scale-110 transition-all inline-flex"
     >
       <Icon className={iconSize} aria-hidden="true" />
@@ -40,14 +51,33 @@ function SocialIconLink({
   )
 }
 
-export function SocialLinks({ excludeEmail }: { excludeEmail?: boolean }) {
+export function SocialLinks({
+  excludeEmail,
+  onHoverItem,
+  onMoveItem,
+  onLeaveItem,
+}: {
+  excludeEmail?: boolean
+  onHoverItem?: (profile: SocialProfileItem, e: React.MouseEvent) => void
+  onMoveItem?: (e: React.MouseEvent) => void
+  onLeaveItem?: () => void
+}) {
   return (
     <>
-      {profiles.map(({ name, url }) => {
+      {profiles.map((profile) => {
+        const { name, url } = profile
         const Icon = iconMap[name]
         if (!Icon) return null
         return (
-          <SocialIconLink key={name} name={name} url={url} icon={Icon} />
+          <SocialIconLink
+            key={name}
+            name={name}
+            url={url}
+            icon={Icon}
+            onHover={onHoverItem ? (e) => onHoverItem(profile, e) : undefined}
+            onMove={onMoveItem}
+            onLeave={onLeaveItem}
+          />
         )
       })}
 
@@ -96,8 +126,23 @@ export function SocialHeroLinks({ className }: { className?: string }) {
   )
 }
 
-export function SocialFooterLinks() {
-  return <SocialLinks excludeEmail />
+export function SocialFooterLinks({
+  onHoverItem,
+  onMoveItem,
+  onLeaveItem,
+}: {
+  onHoverItem?: (profile: SocialProfileItem, e: React.MouseEvent) => void
+  onMoveItem?: (e: React.MouseEvent) => void
+  onLeaveItem?: () => void
+}) {
+  return (
+    <SocialLinks
+      excludeEmail
+      onHoverItem={onHoverItem}
+      onMoveItem={onMoveItem}
+      onLeaveItem={onLeaveItem}
+    />
+  )
 }
 
 export function SocialQuietLinks() {
