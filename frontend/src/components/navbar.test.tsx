@@ -7,8 +7,11 @@ vi.mock("next/navigation", () => ({
 }))
 
 describe("Navbar Component", () => {
-  it("renders brand logo and main nav links", () => {
+  it("renders brand logo with animated photo avatar and main nav links", () => {
     render(<Navbar />)
+    expect(screen.getByText("Ashikur Rahman")).toBeInTheDocument()
+    const avatar = screen.getByAltText("Ashikur Rahman")
+    expect(avatar).toBeInTheDocument()
     expect(screen.getByText("About")).toBeInTheDocument()
     expect(screen.getByText("Projects")).toBeInTheDocument()
   })
