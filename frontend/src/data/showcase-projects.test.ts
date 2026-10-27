@@ -10,7 +10,7 @@ describe('SHOWCASE_PROJECTS Registry', () => {
   it('contains all required exact URLs', () => {
     const urls = SHOWCASE_PROJECTS.map((p) => p.url)
     expect(urls).toContain('https://marketrix-xi.vercel.app/marketplace')
-    expect(urls).toContain('https://expense-tracker-3eh1j64an-puspos-projects.vercel.app')
+    expect(urls).toContain('https://expense-tracker-seven-chi-92.vercel.app/')
     expect(urls).toContain('https://shelf-to-tales-rho.vercel.app')
     expect(urls).toContain('https://uptime-monitoring-orcin.vercel.app')
     expect(urls).toContain('https://ecommare-medi-frontend.vercel.app')
@@ -19,7 +19,7 @@ describe('SHOWCASE_PROJECTS Registry', () => {
   })
 
   it('marks embed-restricted projects as non-embeddable and others as embeddable', () => {
-    const nonEmbeddableIds = ['devforge', 'stay-mate', 'expense-tracker', 'shelf-to-tales']
+    const nonEmbeddableIds = ['devforge', 'stay-mate', 'shelf-to-tales']
     nonEmbeddableIds.forEach((id) => {
       const proj = SHOWCASE_PROJECTS.find((p) => p.id === id)
       expect(proj).toBeDefined()

@@ -30,10 +30,10 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
     shortTitle: 'Expense Tracker',
     description:
       'Personal finance platform with real-time expense logging, savings goal progress tracking, and interactive category breakdowns.',
-    url: 'https://expense-tracker-3eh1j64an-puspos-projects.vercel.app',
-    displayDomain: 'expense-tracker.vercel.app',
+    url: 'https://expense-tracker-seven-chi-92.vercel.app/',
+    displayDomain: 'expense-tracker-seven-chi-92.vercel.app',
     techStack: ['Next.js', 'Spring Boot', 'MySQL', 'JWT', 'Docker'],
-    canEmbed: false,
+    canEmbed: true,
     highlights: ['Expense Analytics', 'Savings Goals', 'Budget Tracking', 'Multi-Device Sync'],
   },
   {
