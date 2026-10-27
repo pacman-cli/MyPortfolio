@@ -1,13 +1,68 @@
-import { Blog } from '@/types'
+'use client'
+
+import React, { useState, useRef, useCallback } from 'react'
+import type { Blog } from '@/types'
 import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
+import {
+  CursorFloatingPreview,
+  type PreviewItem,
+} from '@/components/showcase/cursor-floating-preview'
 
 interface RecentBlogsProps {
   blogs: Blog[]
 }
 
-export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
+export const RecentBlogs: React.FC<RecentBlogsProps> = ({ blogs = [] }) => {
   const displayBlogs = blogs.length > 0 ? blogs.slice(0, 5) : []
+
+  const [hoveredTarget, setHoveredTarget] = useState<PreviewItem | null>(null)
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
+  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleMouseEnter = useCallback(
+    (blog: Blog, e: React.MouseEvent) => {
+      if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current)
+      const x = e.clientX
+      const y = e.clientY
+      setCursorPosition({ x, y })
+
+      const isExternal = Boolean(blog.externalUrl)
+      const url = isExternal ? blog.externalUrl! : `/blog/${blog.slug}`
+      let domain = 'puspo.online'
+      if (isExternal) {
+        try {
+          domain = new URL(url).hostname
+        } catch {
+          domain = 'external'
+        }
+      }
+
+      const item: PreviewItem = {
+        id: blog.slug,
+        title: blog.title,
+        shortTitle: blog.title,
+        description: blog.excerpt,
+        url,
+        displayDomain: domain,
+        canEmbed: !isExternal,
+      }
+
+      hoverTimerRef.current = setTimeout(() => {
+        setHoveredTarget(item)
+      }, 200)
+    },
+    []
+  )
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    setCursorPosition({ x: e.clientX, y: e.clientY })
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current)
+    setHoveredTarget(null)
+  }, [])
 
   if (displayBlogs.length === 0) return null
 
@@ -29,7 +84,7 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
 
           <div className="space-y-3">
             {displayBlogs.map((blog) => {
-              const isExternal = !!blog.externalUrl
+              const isExternal = Boolean(blog.externalUrl)
               const href = isExternal ? blog.externalUrl! : `/blog/${blog.slug}`
               const target = isExternal ? '_blank' : undefined
               const rel = isExternal ? 'noopener noreferrer' : undefined
@@ -40,7 +95,11 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
                   href={href}
                   target={target}
                   rel={rel}
-                  className="p-4 rounded-lg border border-border bg-card/50 flex items-start justify-between gap-4 hover:border-foreground/30 transition-colors group block"
+                  data-testid={`blog-row-${blog.slug}`}
+                  onMouseEnter={(e) => handleMouseEnter(blog, e)}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleMouseLeave}
+                  className="p-4 rounded-lg border border-border bg-card/50 flex items-start justify-between gap-4 hover:border-foreground/30 transition-colors group block cursor-pointer"
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground mb-1">
@@ -75,6 +134,13 @@ export const RecentBlogs = ({ blogs = [] }: RecentBlogsProps) => {
           </div>
         </div>
       </div>
+
+      {/* Floating live preview following cursor */}
+      <CursorFloatingPreview
+        target={hoveredTarget}
+        cursorPosition={cursorPosition}
+        isVisible={Boolean(hoveredTarget)}
+      />
     </section>
   )
 }

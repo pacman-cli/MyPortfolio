@@ -6,10 +6,10 @@ import { constructMetadata } from '@/lib/seo'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Mail, ExternalLink, Code2, MessageSquare } from 'lucide-react'
+import { ExternalLink, Code2, MessageSquare } from 'lucide-react'
 import { SiX, SiFacebook, SiLeetcode, SiThreads, SiGithub, SiInstagram } from 'react-icons/si'
 import { FaLinkedin } from 'react-icons/fa'
-import { EmailOff } from '@/components/seo/email-off'
+import { SocialDirectory } from './_components/social-directory'
 
 export const metadata: Metadata = constructMetadata({
   title: 'Social Links | MD Ashikur Rahman Puspo',
@@ -150,51 +150,7 @@ export default function LinksPage() {
           </div>
         </section>
 
-        <section className="space-y-2.5">
-          <h2 className="sr-only">Directory of Verified Profiles</h2>
-          {socialLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 p-3.5 rounded-lg border border-border bg-card/50 hover:border-foreground/30 transition-colors group block"
-            >
-              <div className="flex items-center justify-center w-8 h-8 rounded bg-muted text-muted-foreground group-hover:text-foreground transition-colors shrink-0">
-                {link.icon}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-foreground text-xs">{link.name}</span>
-                  <span className="text-[11px] font-mono text-muted-foreground">{link.handle}</span>
-                </div>
-                <p className="text-xs text-muted-foreground truncate">{link.description}</p>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
-            </Link>
-          ))}
-
-          {/* Email link with Cloudflare EmailOff protection */}
-          <EmailOff>
-            <a
-              href="mailto:hello@puspo.online"
-              data-cfemail="false"
-              className="flex items-center gap-4 p-3.5 rounded-lg border border-border bg-card/50 hover:border-foreground/30 transition-colors group block"
-            >
-              <div className="flex items-center justify-center w-8 h-8 rounded bg-muted text-muted-foreground group-hover:text-foreground transition-colors shrink-0">
-                <Mail className="w-4 h-4" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-foreground text-xs">Direct Email</span>
-                  <span className="text-[11px] font-mono text-muted-foreground">hello@puspo.online</span>
-                </div>
-                <p className="text-xs text-muted-foreground truncate">Send direct inquiries for project collaborations or technical consulting.</p>
-              </div>
-              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
-            </a>
-          </EmailOff>
-        </section>
+        <SocialDirectory socialLinks={socialLinks} />
 
         <section className="mt-10 text-center space-y-3">
           <Link

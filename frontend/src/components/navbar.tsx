@@ -3,6 +3,7 @@
 import { ThemeTabs } from '@/components/ui/theme-tabs'
 import { cn } from '@/lib/utils'
 import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -81,17 +82,41 @@ export const Navbar = () => {
       <div className="max-w-4xl mx-auto px-6 flex items-center justify-between">
         <Link
           href="/"
-          className="group flex items-center gap-2"
+          className="group flex items-center gap-2.5"
           onClick={() => {
             setIsMobileMenuOpen(false)
             if (pathname === '/') {
               window.scrollTo({ top: 0, behavior: 'smooth' })
             }
           }}
+          aria-label="Ashikur Rahman — Home"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span className="text-sm font-semibold tracking-tight text-foreground">
-            Ashikur Rahman
+          {/* Animated Avatar Logo */}
+          <div className="relative flex items-center justify-center shrink-0">
+            {/* Ambient rotating gradient halo on hover */}
+            <div className="absolute -inset-0.5 rounded-full bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-500 opacity-0 group-hover:opacity-100 blur-[2px] transition-opacity duration-500 animate-pulse" />
+
+            <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden border border-border/80 bg-muted ring-1 ring-border group-hover:scale-105 transition-transform duration-300 shadow-sm">
+              <Image
+                src="/profile.webp"
+                alt="Ashikur Rahman"
+                fill
+                sizes="32px"
+                className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                priority
+              />
+            </div>
+
+            {/* Pulsing online status indicator */}
+            <span className="absolute -bottom-0.5 -right-0.5 flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 border-2 border-background" />
+            </span>
+          </div>
+
+          <span className="text-sm font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
+            <span>Ashikur Rahman</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse hidden sm:inline-block" />
           </span>
         </Link>
 
