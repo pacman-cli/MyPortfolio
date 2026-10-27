@@ -103,8 +103,10 @@ describe('calculateClampedPosition (Boundary Clamping Calculation)', () => {
 })
 
 describe('CursorFloatingPreview Component', () => {
-  const embeddableProject = SHOWCASE_PROJECTS[0]
-  const secondProject = SHOWCASE_PROJECTS[1]
+  const embeddableProject = SHOWCASE_PROJECTS.find((p) => p.canEmbed)!
+  const secondEmbeddableProject = SHOWCASE_PROJECTS.find(
+    (p) => p.canEmbed && p.id !== embeddableProject.id
+  )!
   const devforge = SHOWCASE_PROJECTS.find((p) => p.id === 'devforge')!
 
   beforeEach(() => {
@@ -224,14 +226,14 @@ describe('CursorFloatingPreview Component', () => {
 
     // Verify BlockedEmbedCard elements
     expect(screen.getByText(/Embed Protected by Host/i)).toBeDefined()
-    expect(screen.getByText('DevForge')).toBeDefined()
-    expect(
-      screen.getByRole('heading', { level: 4, name: /DevForge Workspace/i, hidden: true })
-    ).toBeDefined()
-    expect(screen.getByText(devforge.description)).toBeDefined()
+    expect(screen.getByText('DevForge Studio')).toBeDefined()
+    expect(screen.getByText('JSON Formatter')).toBeDefined()
 
     // External launch button
-    const launchLink = screen.getByRole('link', { name: /Launch DevForge/i, hidden: true })
+    const launchLink = screen.getByRole('link', {
+      name: new RegExp(`Launch ${devforge.shortTitle}`, 'i'),
+      hidden: true,
+    })
     expect(launchLink).toBeDefined()
     expect(launchLink.getAttribute('href')).toBe('https://devforge.puspo.online')
     expect(launchLink.getAttribute('target')).toBe('_blank')
@@ -252,18 +254,18 @@ describe('CursorFloatingPreview Component', () => {
 
     expect(screen.getByTitle(`${embeddableProject.title} live preview`)).toBeDefined()
 
-    // Switch to second project
+    // Switch to second embeddable project
     rerender(
       <CursorFloatingPreview
-        project={secondProject}
+        project={secondEmbeddableProject}
         cursorPosition={{ x: 180, y: 220 }}
         isVisible={true}
       />
     )
 
     // Both projects remain in the DOM, but only second is active/visible in header
-    expect(screen.getByTitle(`${secondProject.title} live preview`)).toBeDefined()
-    expect(screen.getByText(secondProject.displayDomain)).toBeDefined()
+    expect(screen.getByTitle(`${secondEmbeddableProject.title} live preview`)).toBeDefined()
+    expect(screen.getByText(secondEmbeddableProject.displayDomain)).toBeDefined()
 
     // Switch to DevForge
     rerender(
@@ -274,10 +276,7 @@ describe('CursorFloatingPreview Component', () => {
       />
     )
 
-    expect(screen.getByText('DevForge')).toBeDefined()
-    expect(
-      screen.getByRole('heading', { level: 4, name: /DevForge Workspace/i, hidden: true })
-    ).toBeDefined()
+    expect(screen.getByText('DevForge Studio')).toBeDefined()
     expect(screen.getByText(devforge.displayDomain)).toBeDefined()
   })
 })

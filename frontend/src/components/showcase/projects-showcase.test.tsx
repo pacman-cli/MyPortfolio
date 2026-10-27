@@ -108,8 +108,8 @@ describe('ProjectsShowcase Section', () => {
 
     it('switches active project in preview when hovering between different rows', () => {
       render(<ProjectsShowcase />)
-      const project1 = SHOWCASE_PROJECTS[0]
-      const project2 = SHOWCASE_PROJECTS[1]
+      const project1 = SHOWCASE_PROJECTS.find((p) => p.canEmbed)!
+      const project2 = SHOWCASE_PROJECTS.find((p) => p.canEmbed && p.id !== project1.id)!
 
       const row1 = screen.getByTestId(`project-card-${project1.id}`)
       const row2 = screen.getByTestId(`project-card-${project2.id}`)
@@ -185,15 +185,12 @@ describe('ProjectsShowcase Section', () => {
 
       // BlockedEmbedCard elements are visible inside the preview
       expect(within(preview).getByText(/Embed Protected by Host/i)).toBeDefined()
-      expect(
-        within(preview).getByRole('heading', { level: 4, name: /DevForge Workspace/i, hidden: true })
-      ).toBeDefined()
-      expect(within(preview).getAllByText(/Zero Latency/i).length).toBeGreaterThanOrEqual(1)
+      expect(within(preview).getByText('DevForge Studio')).toBeDefined()
+      expect(within(preview).getAllByText(/0ms Latency/i).length).toBeGreaterThanOrEqual(1)
       expect(within(preview).getByText('JSON Formatter')).toBeDefined()
       expect(within(preview).getByText('JWT Inspector')).toBeDefined()
-      expect(within(preview).getByText('UUID Generator')).toBeDefined()
+      expect(within(preview).getByText('UUID Gen')).toBeDefined()
       expect(within(preview).getByText('Regex Tester')).toBeDefined()
-      expect(within(preview).getByText('Standalone App')).toBeDefined()
 
       // Launch button exists pointing to DevForge live URL
       const launchLink = within(preview).getByRole('link', { name: /Launch DevForge/i, hidden: true })

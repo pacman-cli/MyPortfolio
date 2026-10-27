@@ -2,38 +2,56 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { BlockedEmbedCard } from './blocked-embed-card'
-import { SHOWCASE_PROJECTS, type ShowcaseProject } from '@/data/showcase-projects'
+import { SHOWCASE_PROJECTS } from '@/data/showcase-projects'
 
-describe('BlockedEmbedCard', () => {
+describe('BlockedEmbedCard UI Previews', () => {
   const devforge = SHOWCASE_PROJECTS.find((p) => p.id === 'devforge')!
+  const staymate = SHOWCASE_PROJECTS.find((p) => p.id === 'stay-mate')!
+  const expenseTracker = SHOWCASE_PROJECTS.find((p) => p.id === 'expense-tracker')!
+  const shelfToTales = SHOWCASE_PROJECTS.find((p) => p.id === 'shelf-to-tales')!
 
-  it('renders project title and highlights', () => {
+  it('renders DevForge developer tools studio preview', () => {
     render(<BlockedEmbedCard project={devforge} />)
-    expect(screen.getByText('DevForge')).toBeDefined()
+    expect(screen.getByText('DevForge Studio')).toBeDefined()
     expect(screen.getByText('JSON Formatter')).toBeDefined()
-    expect(screen.getByText('JWT Inspector')).toBeDefined()
-  })
-
-  it('renders embed-protection indicator and launch button', () => {
-    render(<BlockedEmbedCard project={devforge} />)
-    expect(screen.getByText(/Embed Protected/i)).toBeDefined()
-    const launchLink = screen.getByRole('link', { name: /Launch DevForge/i })
-    expect(launchLink).toBeDefined()
+    expect(screen.getByText('Valid JSON')).toBeDefined()
+    const launchLink = screen.getByRole('link', {
+      name: new RegExp(`Launch ${devforge.shortTitle}`, 'i'),
+    })
     expect(launchLink.getAttribute('href')).toBe('https://devforge.puspo.online')
-    expect(launchLink.getAttribute('target')).toBe('_blank')
-    expect(launchLink.getAttribute('rel')).toContain('noopener')
   })
 
-  it('renders correctly when project has no highlights', () => {
-    const projectWithoutHighlights: ShowcaseProject = {
-      ...devforge,
-      id: 'custom-blocked',
-      title: 'Custom Blocked Project',
-      shortTitle: 'Custom Blocked',
-      highlights: undefined,
-    }
-    render(<BlockedEmbedCard project={projectWithoutHighlights} />)
-    expect(screen.getByText('Custom Blocked')).toBeDefined()
-    expect(screen.getByText(/Embed Protected/i)).toBeDefined()
+  it('renders StayMate roommate and rental housing preview', () => {
+    render(<BlockedEmbedCard project={staymate} />)
+    expect(screen.getByText('StayMate')).toBeDefined()
+    expect(screen.getByText(/Master Bed w\/ Balcony/i)).toBeDefined()
+    expect(screen.getByText(/Cozy Studio Flat/i)).toBeDefined()
+    expect(screen.getByText(/Roommate Compatibility AI/i)).toBeDefined()
+    const launchLink = screen.getByRole('link', {
+      name: new RegExp(`Launch ${staymate.shortTitle}`, 'i'),
+    })
+    expect(launchLink.getAttribute('href')).toBe(staymate.url)
+  })
+
+  it('renders Expense Tracker personal finance dashboard preview', () => {
+    render(<BlockedEmbedCard project={expenseTracker} />)
+    expect(screen.getByText('TakaTrack')).toBeDefined()
+    expect(screen.getByText('$14,850.00')).toBeDefined()
+    expect(screen.getByText(/Savings Target: Emergency Fund/i)).toBeDefined()
+    const launchLink = screen.getByRole('link', {
+      name: new RegExp(`Launch ${expenseTracker.shortTitle}`, 'i'),
+    })
+    expect(launchLink.getAttribute('href')).toBe(expenseTracker.url)
+  })
+
+  it('renders Shelf to Tales bookstore and reading catalog preview', () => {
+    render(<BlockedEmbedCard project={shelfToTales} />)
+    expect(screen.getByText('ShelfToTales')).toBeDefined()
+    expect(screen.getByText(/Designing Systems/i)).toBeDefined()
+    expect(screen.getByText(/Clean Codecraft/i)).toBeDefined()
+    const launchLink = screen.getByRole('link', {
+      name: new RegExp(`Launch ${shelfToTales.shortTitle}`, 'i'),
+    })
+    expect(launchLink.getAttribute('href')).toBe(shelfToTales.url)
   })
 })

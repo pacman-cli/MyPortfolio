@@ -18,12 +18,15 @@ describe('SHOWCASE_PROJECTS Registry', () => {
     expect(urls).toContain('https://devforge.puspo.online')
   })
 
-  it('marks DevForge as non-embeddable and others as embeddable', () => {
-    const devforge = SHOWCASE_PROJECTS.find((p) => p.id === 'devforge')
-    expect(devforge).toBeDefined()
-    expect(devforge?.canEmbed).toBe(false)
+  it('marks embed-restricted projects as non-embeddable and others as embeddable', () => {
+    const nonEmbeddableIds = ['devforge', 'stay-mate', 'expense-tracker', 'shelf-to-tales']
+    nonEmbeddableIds.forEach((id) => {
+      const proj = SHOWCASE_PROJECTS.find((p) => p.id === id)
+      expect(proj).toBeDefined()
+      expect(proj?.canEmbed).toBe(false)
+    })
 
-    const embeddable = SHOWCASE_PROJECTS.filter((p) => p.id !== 'devforge')
+    const embeddable = SHOWCASE_PROJECTS.filter((p) => !nonEmbeddableIds.includes(p.id))
     embeddable.forEach((p) => {
       expect(p.canEmbed).toBe(true)
     })

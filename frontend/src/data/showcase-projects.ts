@@ -33,7 +33,8 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
     url: 'https://expense-tracker-3eh1j64an-puspos-projects.vercel.app',
     displayDomain: 'expense-tracker.vercel.app',
     techStack: ['Next.js', 'Spring Boot', 'MySQL', 'JWT', 'Docker'],
-    canEmbed: true,
+    canEmbed: false,
+    highlights: ['Expense Analytics', 'Savings Goals', 'Budget Tracking', 'Multi-Device Sync'],
   },
   {
     id: 'shelf-to-tales',
@@ -44,7 +45,8 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
     url: 'https://shelf-to-tales-rho.vercel.app',
     displayDomain: 'shelf-to-tales-rho.vercel.app',
     techStack: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
-    canEmbed: true,
+    canEmbed: false,
+    highlights: ['Book Catalog', 'Reading Lists', 'Curated Reviews', 'Community Shelves'],
   },
   {
     id: 'uptime-monitoring',
@@ -77,7 +79,8 @@ export const SHOWCASE_PROJECTS: ShowcaseProject[] = [
     url: 'https://stay-mate-puspos-projects.vercel.app',
     displayDomain: 'stay-mate.vercel.app',
     techStack: ['Next.js', 'TypeScript', 'Spring Boot', 'MySQL', 'JWT'],
-    canEmbed: true,
+    canEmbed: false,
+    highlights: ['Roommate Finder', 'Verified Listings', 'Search Filters', 'Direct Messaging'],
   },
   {
     id: 'devforge',
