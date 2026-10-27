@@ -23,11 +23,9 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
   const containerRef = useRef<HTMLDivElement>(null)
 
   // Once activated, keep mounted to prevent reloading (sticky session cache)
-  useEffect(() => {
-    if (isActive) {
-      setHasLoadedEver(true)
-    }
-  }, [isActive])
+  if (isActive && !hasLoadedEver) {
+    setHasLoadedEver(true)
+  }
 
   // Fallback timeout: If iframe fails to fire onLoad within 8s, exit loading state
   useEffect(() => {
