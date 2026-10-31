@@ -37,6 +37,12 @@ const FOOTER_NAV_LINKS: NavLinkMeta[] = [
     description: 'Deep dives on Spring Boot, microservices, and AI engineering.',
   },
   {
+    href: '/resources',
+    label: 'Resources',
+    ariaLabel: 'Resources Page — Free AI & Developer Hub',
+    description: 'Curated directory of free LLM APIs, GPU compute, cloud credits, and AI tools.',
+  },
+  {
     href: '/gallery',
     label: 'Gallery',
     ariaLabel: 'Gallery Page — Photo Journal',

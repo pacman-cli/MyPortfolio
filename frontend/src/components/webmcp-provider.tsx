@@ -206,6 +206,7 @@ export function WebMCPProvider() {
               aboutMe: `${SITE_URL}/about-me`,
               projects: `${SITE_URL}/projects`,
               blog: `${SITE_URL}/blog`,
+              resources: `${SITE_URL}/resources`,
               gallery: `${SITE_URL}/gallery`,
               resume: `${SITE_URL}/resume`,
               socialLinks: `${SITE_URL}/links`,
