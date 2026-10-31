@@ -28,6 +28,7 @@ mvnw.cmd
 .opencode/
 .mcp.json
 .claude/
+.genome/
 .kiro/
 *.bak
 
