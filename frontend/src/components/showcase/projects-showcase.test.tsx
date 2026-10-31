@@ -191,4 +191,28 @@ describe('ProjectsShowcase Section', () => {
       )
     })
   })
+
+  describe('Mobile preview sheet interaction', () => {
+    it('opens MobilePreviewSheet when clicking mobile preview button on a card', () => {
+      render(<ProjectsShowcase />)
+
+      const targetProject = SHOWCASE_PROJECTS[0]
+      const previewBtn = screen.getByRole('button', {
+        name: new RegExp(`Preview ${targetProject.shortTitle || targetProject.title}`, 'i'),
+      })
+
+      fireEvent.click(previewBtn)
+
+      // Dialog is now open
+      const dialog = screen.getByRole('dialog')
+      expect(dialog).toBeDefined()
+      expect(dialog.getAttribute('aria-label')).toContain(targetProject.title)
+
+      // Close button closes the dialog
+      const closeBtn = screen.getByRole('button', { name: /Close preview/i })
+      fireEvent.click(closeBtn)
+
+      expect(screen.queryByRole('dialog')).toBeNull()
+    })
+  })
 })

@@ -4,10 +4,12 @@ import React, { useState, useCallback } from 'react'
 import { SHOWCASE_PROJECTS, type ShowcaseProject } from '@/data/showcase-projects'
 import { ProjectCard } from './project-card'
 import { CursorFloatingPreview } from './cursor-floating-preview'
+import { MobilePreviewSheet } from './mobile-preview-sheet'
 import Link from 'next/link'
 
 export const ProjectsShowcase: React.FC = () => {
   const [activeProject, setActiveProject] = useState<ShowcaseProject | null>(null)
+  const [mobilePreviewProject, setMobilePreviewProject] = useState<ShowcaseProject | null>(null)
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
 
@@ -23,6 +25,14 @@ export const ProjectsShowcase: React.FC = () => {
 
   const handleRowLeave = useCallback(() => {
     setIsHovering(false)
+  }, [])
+
+  const handleMobilePreview = useCallback((project: ShowcaseProject) => {
+    setMobilePreviewProject(project)
+  }, [])
+
+  const handleCloseMobilePreview = useCallback(() => {
+    setMobilePreviewProject(null)
   }, [])
 
   return (
@@ -52,6 +62,7 @@ export const ProjectsShowcase: React.FC = () => {
                 onHover={handleRowHover}
                 onLeave={handleRowLeave}
                 onMouseMove={handleMouseMove}
+                onPreview={handleMobilePreview}
               />
             ))}
           </div>
@@ -63,6 +74,12 @@ export const ProjectsShowcase: React.FC = () => {
         project={activeProject}
         cursorPosition={cursorPos}
         isVisible={isHovering}
+      />
+
+      {/* Slide-up bottom sheet preview on mobile touch devices */}
+      <MobilePreviewSheet
+        project={mobilePreviewProject}
+        onClose={handleCloseMobilePreview}
       />
     </section>
   )
