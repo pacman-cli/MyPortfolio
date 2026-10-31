@@ -60,4 +60,35 @@ describe('ProjectCard / ProjectRow', () => {
     fireEvent.mouseLeave(row)
     expect(onLeave).toHaveBeenCalledTimes(1)
   })
+
+  it('renders a mobile-only preview button with Eye icon', () => {
+    render(<ProjectCard project={project} index={0} />)
+
+    const previewBtn = screen.getByRole('button', { name: new RegExp(`Preview ${project.shortTitle || project.title}`, 'i') })
+    expect(previewBtn).toBeDefined()
+    expect(previewBtn.className).toContain('md:hidden')
+  })
+
+  it('triggers onPreview callback and prevents navigation when mobile preview button is clicked', () => {
+    const onPreview = vi.fn()
+    render(<ProjectCard project={project} index={0} onPreview={onPreview} />)
+
+    const previewBtn = screen.getByRole('button', { name: new RegExp(`Preview ${project.shortTitle || project.title}`, 'i') })
+    fireEvent.click(previewBtn)
+
+    expect(onPreview).toHaveBeenCalledTimes(1)
+    expect(onPreview).toHaveBeenCalledWith(project)
+  })
+
+  it('triggers onPreview callback when Enter or Space is pressed on mobile preview button', () => {
+    const onPreview = vi.fn()
+    render(<ProjectCard project={project} index={0} onPreview={onPreview} />)
+
+    const previewBtn = screen.getByRole('button', { name: new RegExp(`Preview ${project.shortTitle || project.title}`, 'i') })
+    fireEvent.keyDown(previewBtn, { key: 'Enter' })
+    expect(onPreview).toHaveBeenCalledTimes(1)
+
+    fireEvent.keyDown(previewBtn, { key: ' ' })
+    expect(onPreview).toHaveBeenCalledTimes(2)
+  })
 })
