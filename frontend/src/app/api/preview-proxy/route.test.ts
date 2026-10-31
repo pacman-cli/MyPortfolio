@@ -84,4 +84,22 @@ describe('Preview Proxy API Route', () => {
     expect(body).toContain('StayMate')
     expect(body).not.toContain('Login – Vercel')
   })
+
+  it('rejects SSRF attempts to private and loopback network addresses', async () => {
+    const forbiddenUrls = [
+      'http://localhost:8080',
+      'http://127.0.0.1:8082',
+      'http://10.0.0.1:3000',
+      'http://192.168.1.1:80',
+      'http://169.254.169.254/latest/meta-data',
+      'http://portfolio-backend:8080/api',
+    ]
+
+    for (const url of forbiddenUrls) {
+      const req = new NextRequest(`http://localhost:3000/api/preview-proxy?url=${encodeURIComponent(url)}`)
+      const res = await GET(req)
+      expect(res.status).toBe(403)
+      expect(await res.text()).toContain('forbidden')
+    }
+  })
 })
