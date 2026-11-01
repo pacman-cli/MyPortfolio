@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { name: 'Skills', href: '/#technical-expertise', id: 'technical-expertise', label: 'Scroll to Technical Expertise section' },
   { name: 'Projects', href: '/#projects', id: 'projects', label: 'Scroll to Projects showcase section' },
   { name: 'Writing', href: '/#blogs', id: 'blogs', label: 'Scroll to Recent Articles section' },
+  { name: 'Resources', href: '/resources', label: 'Explore Free AI Developer Resources & APIs' },
   { name: 'Contact', href: '/#contact', id: 'contact', label: 'Scroll to Contact section' },
   { name: 'Gallery', href: '/gallery', label: 'View Photo Gallery page' },
 ] as const

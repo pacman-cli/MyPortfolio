@@ -63,6 +63,7 @@ export const SITE_NAVIGATION = [
   { name: "About Me", url: absoluteUrl("/about-me") },
   { name: "Projects", url: absoluteUrl("/projects") },
   { name: "Blog", url: absoluteUrl("/blog") },
+  { name: "Resources", url: absoluteUrl("/resources") },
   { name: "Gallery", url: absoluteUrl("/gallery") },
   { name: "Resume", url: absoluteUrl("/resume") },
   { name: "Social Links", url: absoluteUrl("/links") },

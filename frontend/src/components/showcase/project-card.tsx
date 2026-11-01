@@ -2,7 +2,7 @@
 
 import React from 'react'
 import type { ShowcaseProject } from '@/data/showcase-projects'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Eye } from 'lucide-react'
 
 export interface ProjectCardProps {
   project: ShowcaseProject
@@ -10,6 +10,7 @@ export interface ProjectCardProps {
   onHover?: (project: ShowcaseProject, e: React.MouseEvent) => void
   onLeave?: () => void
   onMouseMove?: (e: React.MouseEvent) => void
+  onPreview?: (project: ShowcaseProject) => void
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -18,8 +19,23 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   onHover,
   onLeave,
   onMouseMove,
+  onPreview,
 }) => {
   const formattedIndex = index + 1 < 10 ? `0${index + 1}` : `${index + 1}`
+
+  const handlePreviewClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onPreview?.(project)
+  }
+
+  const handlePreviewKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      e.stopPropagation()
+      onPreview?.(project)
+    }
+  }
 
   return (
     <a
@@ -64,7 +80,22 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
       </div>
 
-      <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground shrink-0 mt-1 transition-colors" aria-hidden="true" />
+      <div className="flex items-center gap-2 shrink-0 mt-1">
+        {/* Mobile Preview Button Trigger */}
+        <span
+          role="button"
+          tabIndex={0}
+          aria-label={`Preview ${project.shortTitle || project.title}`}
+          onClick={handlePreviewClick}
+          onKeyDown={handlePreviewKeyDown}
+          className="md:hidden inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-mono font-medium bg-muted/80 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/60 transition-colors"
+        >
+          <Eye className="w-3.5 h-3.5 text-primary" aria-hidden="true" />
+          <span>Preview</span>
+        </span>
+
+        <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" aria-hidden="true" />
+      </div>
     </a>
   )
 }

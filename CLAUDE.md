@@ -4,165 +4,152 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repo layout
 
-Two independent packages — no monorepo tooling. Each has its own README with deployment and env-var details:
+Two independent packages — no monorepo tooling:
 
 | Dir | Stack | Entry |
 |---|---|---|
 | `frontend/` | Next.js 16.2 (App Router), React 19, TS 5, Tailwind 3, Vitest | `src/app/layout.tsx` |
 | `backend/` | Spring Boot 4, Java 17, Maven, MySQL (H2 in tests), Lombok | `BackendApplication.java` |
 
+The `frontend/` directory is the primary frontend working directory; `backend/` is a sibling package.
+
 ## CodeGenome knowledge graph (MCP) — mandatory
 
-The repo contains a `.genome/` CodeGenome architectural knowledge graph. Root `AGENTS.md`, `.windsurfrules`, `.cursor/rules/watcher-knowledge-graph.mdc`, and `.github/copilot-instructions.md` all mandate:
+The repo contains a `.genome/` CodeGenome architectural knowledge graph (`watcher.db` exists in the repo root). Directives from `.cursor/rules/watcher-knowledge-graph.mdc`, `.windsurfrules`, and `.github/copilot-instructions.md`:
 
-1. When `.genome/watcher.db` exists, **MUST use CodeGenome MCP tools** for codebase/architecture/dependency/symbol queries whenever available (this session has no CodeGenome MCP tools connected — if you have them, use them instead of grep).
-2. Fallback order: native MCP tools → local HTTP endpoint `http://127.0.0.1:7331/mcp` → `.genome/graph.json` or `.genome/exports/*.md` → standard text search.
-3. After modifying code files, remind the user to run `codegenome analyze` (or `codegenome evolve --live`) to keep the graph fresh.
+1. When `.genome/watcher.db` exists, **MUST use CodeGenome MCP access** for codebase/architecture/dependency/symbol queries whenever available.
+2. Fallback order: native CodeGenome MCP tools → local HTTP MCP endpoint `http://127.0.0.1:7331/mcp` → `.genome/graph.json` or `.genome/exports/*.md` → standard text search.
+3. After modifying code files, remind the user to run `codegenome analyze` or start `codegenome evolve --live` to keep the graph fresh.
 
 ## Frontend commands (`cd frontend`)
 
 ```bash
-npm install                          # install deps
-npm run dev                          # next dev on :3000
-npm run lint                         # eslint (flat config + eslint-config-next)
-npm run test                         # vitest (jsdom, globals)
-npm run test -- src/lib/utils.test.ts  # run a single test file
-npm run test -- -t "fetchJson"       # run tests matching a name
-npm run coverage                     # vitest run --coverage (text/json/html)
-npm run build                        # next build (Vercel target)
-npm run preview                      # OpenNext Cloudflare build + local preview
-npm run deploy                       # OpenNext Cloudflare build + deploy to Workers
-npm run cf-typegen                   # regenerate cloudflare-env.d.ts from wrangler.jsonc
+npm install                                        # install deps
+npm run dev                                        # next dev on :3000
+npx eslint src                                     # lint src (avoids OOM from root unbundled scripts)
+npm run test                                       # run all tests with vitest
+npm run test -- src/app/api/preview-proxy/route.test.ts # run a single test file
+npm run test -- -t "fetchJson"                     # run tests matching test name
+npm run coverage                                   # vitest run --coverage
+npm run build                                      # production build (Turbopack + Vercel target)
+npm run preview                                    # OpenNext Cloudflare build + local preview
+npm run deploy                                     # OpenNext Cloudflare build + deploy to Workers
+npm run cf-typegen                                 # regenerate cloudflare-env.d.ts from wrangler.jsonc
 ```
+
+*Note on linting:* Root contains unbundled artifacts; run `npx eslint src` (or `npm run lint -- src`) to avoid Node.js JavaScript heap out-of-memory errors.
 
 ## Backend commands (`cd backend`)
 
 ```bash
-./mvnw spring-boot:run               # dev server (see port note below)
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev   # show-sql + DEBUG logging
-./mvnw test                          # tests use H2 in-memory — no MySQL needed
-./mvnw clean package -DskipTests     # build jar
+./mvnw spring-boot:run                             # dev server on :8080
+PORT=8082 ./mvnw spring-boot:run                   # dev server on :8082 (matches frontend dev rewrite proxy)
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev # show-sql + DEBUG logging
+./mvnw clean test                                  # run tests (clean prevents stale target/ compiler mismatch)
+./mvnw test -Dtest=BlogControllerTest              # run a single test class
+./mvnw test -Dtest=BlogControllerTest#getBlogBySlug_ReturnsBlog # run a single test method
+./mvnw clean package -DskipTests                   # build jar
 ```
 
-MySQL only needed for full-stack local dev (`docker run -d --name portfolio-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=portfolio_db -p 3307:3306 mysql:8.0`).
-
-**Port note:** backend defaults to `:8080`, but the frontend dev proxy targets `:8082` — start the backend on 8082 for dev (`PORT=8082 ./mvnw spring-boot:run`) or set `BACKEND_URL=http://localhost:8080`.
+*Database note:* Tests run on in-memory H2 — no MySQL required. For local full-stack dev with MySQL:
+`docker run -d --name portfolio-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=portfolio_db -p 3307:3306 mysql:8.0`
 
 ## API proxy (frontend → backend)
 
-`src/app/` proxies `/api/v1/*` to Spring Boot via Next.js rewrites (`frontend/next.config.ts:34-41`):
-
-- Dev: `http://localhost:8082` (note **8082**, not 8080)
+`next.config.ts` rewrites `/api/v1/:path*` to Spring Boot:
+- Dev default: `http://localhost:8082` (override by running backend with `PORT=8082` or setting `BACKEND_URL`)
 - Prod (Docker): `http://portfolio-backend:8080`
-- Override with `BACKEND_URL` env var
+- Override with `BACKEND_URL` environment variable (no trailing slash)
 
-`/api/gallery` and `/api/health` in `src/app/api/` are Next.js route handlers, not proxied.
+`/api/gallery`, `/api/health`, and `/api/preview-proxy` are Next.js App Router route handlers, not proxied.
 
-## Frontend architecture
+## Architecture & data flow
 
-### App Router pages (`src/app/`)
+### App Router routes (`frontend/src/app/`)
 
-- `layout.tsx` — root layout: fonts (Inter + Plus Jakarta Sans), JSON-LD Person/WebSite/WebPage schemas, Google AdSense script, ThemeProvider, Navbar, Footer slot, WebMCPProvider, CookieConsent, cursor follower.
-- `page.tsx` — home: server component, fetches blogs + projects, dynamically imports below-the-fold sections with `next/dynamic` + `<SectionSkeleton />` fallbacks.
-- Route segments: `about-me/`, `blog/`, `blog/[slug]/`, `projects/`, `gallery/`, `resume/`, `links/`.
-- Route handlers: `api/gallery/route.ts` (Google Drive proxy), `api/health/route.ts`.
-- Special files: `robots.ts` (Content Signals), `sitemap.ts`, `opengraph-image.tsx`, `error.tsx`, `global-error.tsx`, `loading.tsx`, `not-found.tsx`.
+- `layout.tsx` — root layout: fonts (Inter + Plus Jakarta Sans), unified Schema.org JSON-LD `@graph` (Person, WebSite, WebPage, SiteNavigation), ThemeProvider (`next-themes`), Navbar with animated avatar logo, CookieConsent, and WebMCPProvider.
+- `page.tsx` — home page composing Hero, About, TechnicalExpertise, ProjectsShowcase, JourneyTimeline, RecentBlogs, ClosingSection, and Footer.
+- `projects/`, `projects/[slug]` — projects directory and detailed case studies with Mermaid architecture diagrams.
+- `blog/`, `blog/[slug]` — technical articles rendered with `react-markdown`, `remark-gfm`, `react-syntax-highlighter`, and Mermaid diagrams.
+- `about-me/`, `gallery/`, `resume/`, `links/` — dedicated route pages.
+- `api/gallery/route.ts` — Google Drive photos proxy with pagination (`pageToken`).
+- `api/health/route.ts` — synthetic health check probing `.well-known` endpoints, `auth.md`, and gallery API.
+- `api/preview-proxy/route.ts` — secure server-side preview proxy:
+  - Fetches target external URLs and overrides framing restrictions (`frame-ancestors 'self'`).
+  - Injects `<base href>` for relative assets.
+  - Automatically detects broken Vercel deployments, SSO login walls, and network timeouts.
+  - Returns tailored high-fidelity responsive mock previews for featured showcase apps (`DevForge`, `StayMate`, `TakaTrack`, `ShelfToTales`).
 
-### Components (`src/components/`)
+### Showcase & live hover previews (`frontend/src/components/showcase/`)
 
-- `navbar.tsx`, `footer.tsx` — top-level chrome.
-- `theme-provider.tsx` — wraps `next-themes` with `attribute="class"` + system default.
-- `webmcp-provider.tsx` — browser-side MCP tool registration (navigator.modelContext).
-- `seo/` — JSON-LD helpers and SEO components.
-- `gallery/` — gallery-specific UI (lightbox, grid).
-- `sections/` — one file per home-page section (`hero.tsx`, `about.tsx`, `technical-expertise.tsx`, `selected-work.tsx`, `certifications.tsx`, `recent-blogs.tsx`, `github-activity.tsx`, `journey-timeline.tsx`, `closing-section.tsx`, `contact.tsx`, plus hero sub-panels).
-- `ui/` — shadcn-style primitives (Radix UI + cva) and bespoke animations (`glowing-effect.tsx`, `gooey-text-morphing.tsx`, `scramble-text.tsx`, `typing-animation.tsx`, `cursor-follower.tsx`, `mermaid-diagram.tsx`, etc.).
-- `ads/` — Adsterra monetization components (social bar, popunder).
+- `projects-showcase.tsx` — interactive showcase with compact row layout, category tabs, and live status badges.
+- `cursor-floating-preview.tsx` — portal-based floating iframe tracking mouse cursor position on hover.
+- `live-preview-iframe.tsx` & `blocked-embed-card.tsx` — iframe loader with fallback cards for sites blocking standard embedding.
+- Floating cursor previews are active across Projects Showcase, Recent Blogs (Technical Writing & Insights), Footer links, and Social Directory.
 
-### Data fetching (`src/lib/`)
+### Agent readiness & middleware (`frontend/src/middleware.ts`)
 
-- `api.ts` — typed wrapper around `/api/v1/blogs*` (pagination + DTO→domain mapping). Exposes `getBlogs`, `getBlogSummaries`, `getBlogBySlug`, plus `STATIC_BLOG_SLUGS` for `generateStaticParams` fallback when the backend is down.
-- `projects.ts` — project list (currently static).
-- `gallery.ts` — Google Drive API client (`GOOGLE_DRIVE_API_KEY` + `GOOGLE_DRIVE_FOLDER_ID`).
-- `github.ts` — GitHub contribution graph fetch.
-- `seo.ts` — `constructMetadata()` and JSON-LD builders.
-- `site.ts` — `siteConfig`, `SOCIAL_PROFILES`, `SITE_NAVIGATION`, `absoluteUrl()`, `SITE_URL` (from `NEXT_PUBLIC_SITE_URL`, fallback `https://www.puspo.online`).
-- `utils.ts` — `cn()` (clsx + tailwind-merge), `fetchJson()` (Next fetch with ISR revalidate), `calculateReadTime()`.
-- `animations.ts`, `tech-icons.tsx`, `blur.ts` — UI helpers.
-- `data/skills.tsx` — categorized skill data (Languages / Backend / Database / Frontend / DevOps / Tools).
+Edge middleware running on all page requests:
+1. **Canonical Hostname Redirect**: 301 redirects non-WWW `puspo.online` to `www.puspo.online`.
+2. **RFC 9727 API Catalog**: `/.well-known/api-catalog` (`application/linkset+json`).
+3. **OAuth & Identity Discovery**: `/.well-known/openid-configuration`, `/.well-known/oauth-authorization-server`, and `/.well-known/oauth-protected-resource` (RFC 9728).
+4. **SEP-1649 MCP Server Card**: `/.well-known/mcp/server-card.json`.
+5. **Agent Skills Index**: `/.well-known/agent-skills/index.json`.
+6. **Robots Content Signals**: `/robots.txt` declaring `Content-Signal: ai-train=no, ai-input=no, search=yes`.
+7. **Agent Registration**: `/auth.md`.
+8. **Markdown Negotiation**: Returns clean markdown when incoming request specifies `Accept: text/markdown` for any page route.
+9. **RFC 8288 Link Headers**: Appends discovery `Link` headers to all page responses.
+10. **In-Browser WebMCP**: `src/components/webmcp-provider.tsx` registers client-side tools (`getProfileInfo`, `getProjects`, `getBlogPosts`, `getGalleryPhotos`, `getResume`, `sendContactMessage`, `getSocialLinks`, `getNavigationLinks`) into `navigator.modelContext`.
 
-### Middleware (`src/middleware.ts`)
+### Data fetching & resilience (`frontend/src/lib/`)
 
-Single middleware handling agent-readiness surfaces on every request:
+- `api.ts` — typed wrapper for `/api/v1/blogs*` with pagination. Provides `STATIC_BLOGS` and `STATIC_BLOG_SLUGS` fallback if backend is unreachable at build time.
+- `projects.ts` — fetches `/api/v1/projects*`, merges with `STATIC_RICH_DATA`, and gracefully falls back to `getStaticProjects()` when the backend is offline.
+- `gallery.ts` — Google Drive API client using `GOOGLE_DRIVE_API_KEY` and `GOOGLE_DRIVE_FOLDER_ID`.
+- `seo.ts` & `schema.ts` — `constructMetadata()` and structured JSON-LD builders.
+- `site.ts` — `siteConfig`, social links, and navigation constants.
+- `utils.ts` — `cn()`, `calculateReadTime()`, and `fetchJson()` with default ISR (`revalidate: 3600`).
 
-1. `/.well-known/*` — RFC 9727 API catalog (linkset+json), OpenID/OAuth discovery, RFC 9728 OAuth protected resource, MCP server card (SEP-1649), agent skills index.
-2. `/robots.txt` — overrides with Content Signals (`ai-train=no, ai-input=no, search=yes`).
-3. `/auth.md` — markdown auth metadata for agent registration.
-4. `Accept: text/markdown` negotiation — returns markdown for any page route to AI agents.
-5. RFC 8288 `Link` header — appended to all page responses.
+### Backend architecture (`backend/src/main/java/com/portfolio/backend/`)
 
-The matcher excludes `_next/static`, `_next/image`, favicon, profile/og images, ads.txt, BingSiteAuth.xml, and common static extensions.
-
-### Types and hooks
-
-- `src/types/index.ts` — single barrel export for shared interfaces (`Blog`, `Project`, etc.).
-- `src/hooks/useActiveSection.ts` — IntersectionObserver-based section tracking for nav highlighting.
-
-## Backend architecture
-
-Standard layered Spring Boot: `controller/` → `service/` → `repository/` over JPA entities (`Blog`, `Project`, `ContactMessage`). Controllers return DTOs (`BlogDTO`, `ProjectDTO`, `PagedResponse`) converted via `util/DtoConverter`. Other highlights:
-
-- `config/DataSeeder` — seeds 4 blogs + 6 projects on first startup.
-- `config/GlobalExceptionHandler` — maps validation errors / 404s to consistent error responses.
-- `config/WebConfig` — CORS.
-- `service/ContactServiceImpl` — sends email via Resend HTTP API (not SMTP).
-- Pagination shape: `{"items": [...], "total": 4, "page": 0, "size": 10, "totalPages": 1}`.
-- DB schema auto-migrated via `spring.jpa.hibernate.ddl-auto=update`.
+- Standard layered Spring Boot 4: `controller/` → `service/` → `repository/` over JPA entities (`Blog`, `Project`, `ContactMessage`).
+- `DataSeeder`: Automatically populates 4 blog posts and 6 projects on startup if database is empty.
+- `ContactServiceImpl`: Sends contact emails via Resend HTTP API (not SMTP).
+- `GlobalExceptionHandler`: Formats validation errors and 404s into standard JSON error objects.
+- DTO conversion handled via `util/DtoConverter`.
 
 ## Conventions
 
-- `@/*` path alias → `./src/*` (set in `tsconfig.json`, `vitest.config.ts`).
-- Dark mode: `class` strategy (Tailwind) driven by `next-themes`. CSS variables in `src/app/globals.css` (shadcn/ui pattern); tokens read by `tailwind.config.ts`.
-- ISR by default: `fetchJson()` uses `next: { revalidate: 3600 }` — pages cache for 1 hour.
-- Server components by default. Use `"use client"` only when needed (theme toggle, animations, intersection observers, browser APIs).
-- Below-the-fold sections are lazy-loaded via `next/dynamic` with `ssr: true` + `<SectionSkeleton />` fallback.
-- `cacheComponents: true` is set in `next.config.ts` — be aware of cache component semantics when changing data-fetching patterns.
-- `optimizePackageImports` covers `lucide-react`, `react-icons`, `framer-motion` — import from those barrels directly.
-- Test setup (`src/test/setup.tsx`) mocks `next/dynamic` and `framer-motion` (motion components → plain HTML, `useReducedMotion` → `true`). Place tests alongside source as `*.test.ts` / `*.test.tsx`.
-- Backend uses Lombok — no manual getters/setters/constructors.
+- Path alias: `@/*` maps to `./src/*` (configured in `tsconfig.json` and `vitest.config.ts`).
+- Theme: `class` strategy (Tailwind) powered by `next-themes`. CSS variables in `globals.css`.
+- Server vs Client components: Server components by default. Add `"use client"` only for interaction (Framer Motion, event handlers, observers, browser APIs).
+- Caching: ISR enabled via `next: { revalidate: 3600 }`. `cacheComponents: true` is configured in `next.config.ts`.
+- Barrel imports: `optimizePackageImports` configured for `lucide-react`, `react-icons`, `framer-motion`, `@radix-ui/*`, `react-activity-calendar`.
+- Tests: Test files colocated with source as `*.test.ts` / `*.test.tsx`. Vitest setup in `src/test/setup.tsx` mocks `framer-motion` and `next/dynamic`.
 
-## Deployment
+## Deployment & environments
 
-- **Frontend → Vercel** (`npm run build`) — `vercel.json` adds security headers (X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy) and asset caching.
-- **Frontend → Cloudflare Workers** (`npm run deploy`) — OpenNext adapter via `@opennextjs/cloudflare`. Config in `wrangler.jsonc` (Worker `puspo-portfolio`, `nodejs_compat`, assets from `.open-next/assets`). `BACKEND_URL` must be set in the Cloudflare dashboard env vars. `.open-next/` is gitignored.
-- **Backend** — Railway (recommended, free MySQL plugin) or Render, built from the `backend/` directory (Dockerfile). Full steps in `backend/README.md`.
+- **Frontend → Vercel** (`npm run build`): Production build configured with security headers in `vercel.json` and `next.config.ts`.
+- **Frontend → Cloudflare Workers** (`npm run deploy`): OpenNext adapter via `@opennextjs/cloudflare` with config in `wrangler.jsonc`.
+- **Backend → Railway / Render**: Containerized via `backend/Dockerfile`. Railway provides direct MySQL plugin; Render requires external database.
 
-## Environment variables
+### Environment variables
 
-Frontend (no `.env` is checked in; set `NEXT_PUBLIC_*` at build time):
-
+Frontend:
 | Variable | Required by | Purpose |
 |---|---|---|
-| `BACKEND_URL` | runtime | Backend proxy target (overrides dev/prod defaults) |
-| `NEXT_PUBLIC_SITE_URL` | runtime | Canonical site URL (used by `SITE_URL`, SEO, JSON-LD) |
-| `GOOGLE_DRIVE_API_KEY` | runtime | Gallery API |
-| `GOOGLE_DRIVE_FOLDER_ID` | runtime | Gallery folder |
+| `BACKEND_URL` | runtime | Spring Boot URL (e.g., `https://your-app.up.railway.app`) |
+| `NEXT_PUBLIC_SITE_URL` | runtime | Canonical site URL (fallback: `https://www.puspo.online`) |
+| `GOOGLE_DRIVE_API_KEY` | runtime | Google Drive API key for photo gallery |
+| `GOOGLE_DRIVE_FOLDER_ID` | runtime | Google Drive folder ID for photo gallery |
 
-Backend (defaults in `backend/src/main/resources/application.properties`):
-
+Backend:
 | Variable | Default | Purpose |
 |---|---|---|
-| `PORT` | `8080` | Server port |
+| `PORT` | `8080` (use `8082` for local frontend proxy) | Server port |
 | `SPRING_DATASOURCE_URL` | `jdbc:mysql://mysql:3306/portfolio_db?...` | JDBC URL |
-| `SPRING_DATASOURCE_USERNAME` | `root` | DB username |
-| `DB_PASSWORD` | `root` | DB password |
-| `RESEND_API_KEY` | — | Resend API key for contact-form email |
-| `RESEND_FROM_EMAIL` | `Portfolio Contact <onboarding@resend.dev>` | Sender address |
-| `RECIPIENT_EMAIL` | `hello@puspo.online` | Contact form recipient |
-
-## Repo-level facts
-
-- No CI/CD workflows in repo.
-- `docker-compose.yml` is gitignored — not in version control.
-- Root `AGENTS.md` is the CodeGenome MCP directive (not a command reference); `frontend/CLAUDE.md` (old, gitignored) and the per-package READMEs hold additional detail.
-- GitHub: [pacman-cli/portfolio](https://github.com/pacman-cli/portfolio). Live: [puspo.online](https://puspo.online).
+| `SPRING_DATASOURCE_USERNAME` | `root` | Database username |
+| `DB_PASSWORD` | `root` | Database password |
+| `RESEND_API_KEY` | — | Resend API key for contact form emails |
+| `RESEND_FROM_EMAIL` | `Portfolio Contact <onboarding@resend.dev>` | Email sender |
+| `RECIPIENT_EMAIL` | `hello@puspo.online` | Email recipient |

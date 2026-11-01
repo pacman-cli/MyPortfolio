@@ -29,8 +29,15 @@ describe('LivePreviewIFrame', () => {
     expect(iframe.getAttribute('loading')).toBe('lazy')
     expect(iframe.getAttribute('tabindex')).toBe('-1')
     expect(iframe.getAttribute('aria-hidden')).toBe('false')
-    expect(iframe.getAttribute('sandbox')).toBe('allow-scripts allow-same-origin allow-forms')
+    expect(iframe.getAttribute('sandbox')).toBe('allow-scripts allow-forms')
     expect(iframe.getAttribute('allow')).toBe("autoplay 'none'; camera 'none'; microphone 'none'; geolocation 'none'")
+  })
+
+  it('allows same-origin sandbox only for internal relative routes', () => {
+    const internalProject = { ...embeddableProject, url: '/projects/marketrix' }
+    render(<LivePreviewIFrame project={internalProject} isActive={true} />)
+    const iframe = screen.getByTitle(`${internalProject.title} live preview`)
+    expect(iframe.getAttribute('sandbox')).toBe('allow-scripts allow-same-origin allow-forms')
   })
 
   it('renders iframe with preview-proxy when project.canEmbed is false even if active', () => {

@@ -137,7 +137,7 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
             loading="lazy"
             tabIndex={-1}
             aria-hidden={!isActive}
-            sandbox="allow-scripts allow-same-origin allow-forms"
+            sandbox={isInternal ? 'allow-scripts allow-same-origin allow-forms' : 'allow-scripts allow-forms'}
             allow="autoplay 'none'; camera 'none'; microphone 'none'; geolocation 'none'"
             onLoad={() => setIsIframeLoaded(true)}
             className="border-0 bg-white"

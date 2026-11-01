@@ -362,6 +362,32 @@ function getTailoredFallback(url: URL): string {
 </html>`
 }
 
+function isPrivateHost(hostname: string): boolean {
+  const lower = hostname.toLowerCase()
+  if (
+    lower === 'localhost' ||
+    lower === '127.0.0.1' ||
+    lower === '::1' ||
+    lower === '0.0.0.0' ||
+    lower.endsWith('.local') ||
+    lower.endsWith('.internal') ||
+    lower.includes('portfolio-backend')
+  ) {
+    return true
+  }
+
+  // Check IPv4 private ranges: 10.0.0.0/8, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.168.0.0/16
+  const parts = lower.split('.').map(Number)
+  if (parts.length === 4 && parts.every((p) => !isNaN(p) && p >= 0 && p <= 255)) {
+    if (parts[0] === 10) return true
+    if (parts[0] === 127) return true
+    if (parts[0] === 169 && parts[1] === 254) return true
+    if (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) return true
+    if (parts[0] === 192 && parts[1] === 168) return true
+  }
+  return false
+}
+
 export async function GET(request: NextRequest) {
   const urlParam = request.nextUrl.searchParams.get('url')
 
@@ -374,6 +400,9 @@ export async function GET(request: NextRequest) {
     targetUrl = new URL(urlParam)
     if (!['http:', 'https:'].includes(targetUrl.protocol)) {
       return new NextResponse('Invalid protocol', { status: 400 })
+    }
+    if (isPrivateHost(targetUrl.hostname)) {
+      return new NextResponse('Access to private or local addresses is forbidden', { status: 403 })
     }
   } catch {
     return new NextResponse('Invalid URL', { status: 400 })
