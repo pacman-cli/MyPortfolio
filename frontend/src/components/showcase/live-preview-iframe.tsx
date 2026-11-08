@@ -39,13 +39,13 @@ export const LivePreviewIFrame: React.FC<LivePreviewIFrameProps> = ({
     setHasLoadedEver(true)
   }
 
-  // Fallback timeout: If iframe fails to fire onLoad within 8s, exit loading state
+  // Fallback timeout: If iframe fails to fire onLoad within 5s, exit loading state
   useEffect(() => {
     if (!isActive || isIframeLoaded) return
 
     const timer = setTimeout(() => {
       setIsIframeLoaded(true)
-    }, 8000)
+    }, 5000)
 
     return () => clearTimeout(timer)
   }, [isActive, isIframeLoaded])

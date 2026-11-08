@@ -417,7 +417,7 @@ export async function GET(request: NextRequest) {
           'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.9',
       },
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(3500),
       next: { revalidate: 300 },
     })
 

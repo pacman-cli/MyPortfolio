@@ -102,4 +102,18 @@ describe('Preview Proxy API Route', () => {
       expect(await res.text()).toContain('forbidden')
     }
   })
+
+  it('handles remote network timeout by serving tailored fallback HTML gracefully', async () => {
+    global.fetch = vi.fn().mockRejectedValue(new Error('Network timeout'))
+
+    const req = new NextRequest(
+      'http://localhost:3000/api/preview-proxy?url=https://devforge.puspo.online'
+    )
+    const res = await GET(req)
+
+    expect(res.status).toBe(200)
+    expect(res.headers.get('Content-Security-Policy')).toBe("frame-ancestors 'self'")
+    const body = await res.text()
+    expect(body).toContain('DevForge Studio')
+  })
 })
