@@ -60,13 +60,13 @@ describe('LivePreviewIFrame', () => {
     expect(screen.queryByText(/Connecting live site\.\.\./i)).toBeNull()
   })
 
-  it('transitions out of loading state via 8s fallback timeout if onLoad does not fire', () => {
+  it('transitions out of loading state via 5s fallback timeout if onLoad does not fire', () => {
     render(<LivePreviewIFrame project={embeddableProject} isActive={true} />)
     expect(screen.getByText(/Connecting live site\.\.\./i)).toBeDefined()
 
-    // Fast-forward 8 seconds
+    // Fast-forward 5 seconds
     act(() => {
-      vi.advanceTimersByTime(8000)
+      vi.advanceTimersByTime(5000)
     })
 
     // Fallback timer fired, so connecting state is removed
