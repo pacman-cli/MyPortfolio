@@ -75,7 +75,7 @@ export default function AboutPage() {
             </div>
 
             <div className="rounded-lg p-5 border border-border bg-card/50 flex flex-col gap-3">
-              <h3 className="font-semibold text-xs font-mono uppercase tracking-wider text-foreground">Social & Contact</h3>
+              <h2 className="font-semibold text-xs font-mono uppercase tracking-wider text-foreground">Social & Contact</h2>
               <div className="flex flex-col gap-2">
                 {SOCIAL_LINKS.map((link) => (
                   <EmailOff key={link.label}>

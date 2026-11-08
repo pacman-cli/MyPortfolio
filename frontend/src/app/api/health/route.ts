@@ -22,6 +22,9 @@ async function checkEndpoint(url: string): Promise<{ status: 'pass' | 'fail' | '
   try {
     const res = await fetch(url, {
       method: 'HEAD',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 PuspoSyntheticHealth/1.0',
+      },
       signal: AbortSignal.timeout(5000),
     })
     const latency = Date.now() - start

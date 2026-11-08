@@ -24,7 +24,7 @@ const CopyEmailButton = () => {
     <button
       onClick={handleCopy}
       className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border bg-card text-foreground text-xs font-mono hover:bg-muted transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      aria-label={copied ? "Email copied" : "Copy email address"}
+      aria-label={copied ? "Email copied to clipboard" : `Copy email address ${email}`}
     >
       <EmailOff>
         <span>{email}</span>
