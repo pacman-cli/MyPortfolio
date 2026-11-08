@@ -413,7 +413,7 @@ Visit ${SITE_URL}/blog for the full blog listing.
     markdown = `# About Me — Ashikur Rahman Puspo
 
 Backend Engineer & Software Developer from Dhaka, Bangladesh.
-Graduate of United International University.
+B.Sc. in Computer Science & Engineering from United International University (Expected 2027).
 
 ## Skills
 Spring Boot, Java, Microservices, System Design, Docker, Kubernetes, AWS, PostgreSQL, MySQL, REST APIs, Cloud Architecture, DevOps.
