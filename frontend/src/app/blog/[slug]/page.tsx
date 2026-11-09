@@ -12,6 +12,7 @@ import { ArrowLeft, Clock, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
+import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import dynamic from 'next/dynamic'
@@ -174,13 +175,14 @@ export default async function BlogPost({ params }: PageProps) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
-                img: ({ ...props }) => (
-                  <img
-                    alt={props.alt ?? ''}
+                img: ({ src, alt, title }) => (
+                  <Image
+                    src={typeof src === 'string' ? src : ''}
+                    alt={typeof alt === 'string' ? alt : ''}
+                    title={typeof title === 'string' ? title : undefined}
                     className="w-full h-auto rounded-xl aspect-[16/9] object-cover bg-muted border border-border/40 my-6"
-                    loading="lazy"
-                    decoding="async"
-                    {...props}
+                    width={800}
+                    height={450}
                   />
                 ),
                 h2: ({ ...props }) => (
