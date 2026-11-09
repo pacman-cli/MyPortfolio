@@ -9,12 +9,11 @@ export const STATIC_BLOG_SLUGS = [
   "data-cleaning-model-training",
 ]
 
-const API_BASE: string =
-  process.env.BACKEND_URL
-    ? `${process.env.BACKEND_URL}/api/v1`
-    : process.env.NEXT_PUBLIC_SITE_URL
-      ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/v1`
-      : "http://localhost:8082/api/v1"
+const API_BASE: string | null = process.env.BACKEND_URL
+  ? `${process.env.BACKEND_URL.replace(/\/+$/, '')}/api/v1`
+  : process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8082/api/v1'
+    : null
 
 interface PagedResponse<T> {
   items: T[]
@@ -740,6 +739,9 @@ async function fetchAllBlogs(): Promise<BlogDTO[]> {
 }
 
 export async function getBlogs(): Promise<Blog[]> {
+  if (!API_BASE) {
+    return STATIC_BLOGS
+  }
   try {
     const dtos = await fetchAllBlogs()
     return dtos
@@ -764,6 +766,9 @@ export async function getBlogSummaries(): Promise<Omit<Blog, "content">[]> {
 }
 
 export async function getBlogBySlug(slug: string): Promise<Blog | null> {
+  if (!API_BASE) {
+    return STATIC_BLOGS.find((b) => b.slug === slug) || null
+  }
   try {
     const dto = await fetchJson<BlogDTO>(`${API_BASE}/blogs/${slug}`)
     return toBlog(dto)

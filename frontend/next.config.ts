@@ -42,10 +42,13 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
+    if (!process.env.BACKEND_URL && process.env.NODE_ENV !== 'development') {
+      return []
+    }
     return [
       {
         source: '/api/v1/:path*',
-        destination: `${process.env.BACKEND_URL || (process.env.NODE_ENV === 'production' ? 'http://portfolio-backend:8080' : 'http://localhost:8082')}/api/v1/:path*`,
+        destination: `${process.env.BACKEND_URL || 'http://localhost:8082'}/api/v1/:path*`,
       },
     ]
   },

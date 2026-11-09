@@ -1,12 +1,11 @@
 import { Project } from "@/types"
 import { fetchJson } from "@/lib/utils"
 
-const API_BASE: string =
-  process.env.BACKEND_URL
-    ? `${process.env.BACKEND_URL}/api/v1`
-    : process.env.NEXT_PUBLIC_SITE_URL
-      ? `${process.env.NEXT_PUBLIC_SITE_URL}/api/v1`
-      : "http://localhost:8082/api/v1"
+const API_BASE: string | null = process.env.BACKEND_URL
+  ? `${process.env.BACKEND_URL.replace(/\/+$/, '')}/api/v1`
+  : process.env.NODE_ENV === 'development'
+    ? 'http://localhost:8082/api/v1'
+    : null
 
 
 interface PagedResponse<T> {
@@ -300,6 +299,9 @@ function getStaticProjects(): Project[] {
 }
 
 export async function getProjects(): Promise<Project[]> {
+  if (!API_BASE) {
+    return getStaticProjects()
+  }
   try {
     return await fetchProjectsFromApi()
   } catch (error) {
@@ -311,6 +313,21 @@ export async function getProjects(): Promise<Project[]> {
 export async function getProjectBySlug(
   slug: string,
 ): Promise<Project | null> {
+  if (!API_BASE) {
+    const rich = STATIC_RICH_DATA[slug]
+    if (!rich) return null
+    const fallbackName = slug
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase())
+    return {
+      slug,
+      name: rich.name ?? fallbackName,
+      description: rich.description ?? (rich.longDescription ?? "").slice(0, 120) + "...",
+      techStack: rich.techStack ?? [],
+      githubUrl: rich.githubUrl ?? "",
+      ...rich,
+    } as Project
+  }
   try {
     const dto = await fetchJson<ProjectDTO>(`${API_BASE}/projects/${slug}`)
     return toProject(dto)
