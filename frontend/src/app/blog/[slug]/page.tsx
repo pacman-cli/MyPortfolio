@@ -12,6 +12,7 @@ import { ArrowLeft, Clock, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
+import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import dynamic from 'next/dynamic'
@@ -179,9 +180,8 @@ export default async function BlogPost({ params }: PageProps) {
                   <img
                     alt={props.alt ?? ''}
                     className="w-full h-auto rounded-xl aspect-[16/9] object-cover bg-muted border border-border/40 my-6"
-                    loading="lazy"
-                    decoding="async"
-                    {...props}
+                    width={800}
+                    height={450}
                   />
                 ),
                 h2: ({ ...props }) => (

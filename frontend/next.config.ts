@@ -67,6 +67,10 @@ const nextConfig: NextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=0, stale-while-revalidate=86400',
           },
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' https://puspo.online https://www.puspo.online;",
+          },
         ],
       },
     ]

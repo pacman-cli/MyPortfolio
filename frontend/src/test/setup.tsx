@@ -39,6 +39,10 @@ vi.mock('framer-motion', () => ({
           delete restProps.exit
           delete restProps.transition
           delete restProps.viewport
+          delete restProps.drag
+          delete restProps.dragConstraints
+          delete restProps.dragElastic
+          delete restProps.onDragEnd
           const Tag = prop as keyof React.JSX.IntrinsicElements
           return <Tag {...(restProps as Record<string, unknown>)}>{children}</Tag>
         }
