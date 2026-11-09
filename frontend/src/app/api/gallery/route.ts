@@ -6,7 +6,11 @@ export async function GET(request: NextRequest) {
 
   try {
     const data = await fetchGalleryPhotos(pageToken)
-    return NextResponse.json(data)
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      },
+    })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     console.error('Gallery API error:', message)
